@@ -7,7 +7,7 @@ import Container from './container'
 // import dateTime from './dateTime'
 // import float from './float'
 // import integer from './integer'
-import text from './text'
+import string from './string'
 
 /**
  * Wrap a React class in with the common Container class
@@ -28,7 +28,7 @@ function wrapField (field) {
  * @type {Object}
  */
 const fields = {
-  text: wrapField(text)
+  string: wrapField(string)
 }
 
 export default fields

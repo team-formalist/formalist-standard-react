@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TextFieldStandard = React.createClass({
+const StringDisplayStandard = React.createClass({
   propTypes: {
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -15,4 +15,4 @@ const TextFieldStandard = React.createClass({
   }
 })
 
-export default TextFieldStandard
+export default StringDisplayStandard

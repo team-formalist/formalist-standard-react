@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TextFieldCode = React.createClass({
+const StringDisplayCode = React.createClass({
   propTypes: {
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -18,4 +18,4 @@ const TextFieldCode = React.createClass({
   }
 })
 
-export default TextFieldCode
+export default StringDisplayCode
