@@ -1,3 +1,4 @@
 import composeForm from 'formalist-compose'
-import components from './components'
-export default composeForm(components)
+import formComponents from './components'
+export default composeForm(formComponents)
+export let components = formComponents
