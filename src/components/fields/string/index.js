@@ -9,7 +9,7 @@ const displayTypes = {
   code: code
 }
 
-const StringFieldBase = React.createClass({
+const StringBase = React.createClass({
 
   propTypes: {
     actions: React.PropTypes.object,
@@ -45,5 +45,5 @@ const StringFieldBase = React.createClass({
   }
 })
 
-export default StringFieldBase
-export let StringFieldFactory = React.createFactory(StringFieldBase)
+export default StringBase
+export let StringFieldFactory = React.createFactory(StringBase)
