@@ -1,5 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import classNames from 'classnames'
 import { actions } from 'formalist-compose'
 const { addField, deleteField, editField } = actions
 
@@ -13,6 +14,7 @@ const FieldContainer = React.createClass({
   propTypes: {
     path: ImmutablePropTypes.list.isRequired,
     store: React.PropTypes.object.isRequired,
+    type: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     config: React.PropTypes.object,
     field: React.PropTypes.func.isRequired,
@@ -20,7 +22,7 @@ const FieldContainer = React.createClass({
   },
 
   render () {
-    let { field, path, store } = this.props
+    let { field, path, store, type } = this.props
     let Field = field
 
     // Abstract the actions so that each field doesn't have to worry about
@@ -43,14 +45,28 @@ const FieldContainer = React.createClass({
       }
     }
 
+    // Extract a few config things
+    let label = this.props.config.label || this.props.name.replace(/_/g, ' ')
+
+    // Set up standard classNames based on `type`
+    let fieldClassNames = classNames(
+      'fm-field',
+      `fm-field--${type}`
+    )
+
     return (
       // *Explicitly* pass all the props we care about down to the field
       // rather than dumping everything through
-      <Field
-        actions={ fieldActions }
-        name={this.props.name}
-        value={this.props.value}
-        config={this.props.config} />
+      <div className={fieldClassNames}>
+        <Field
+          actions={ fieldActions }
+          name={this.props.name}
+          value={this.props.value}
+          config={this.props.config}
+          errors={this.props.errors}
+          label={label}
+          hint={this.props.config.hint}/>
+      </div>
     )
   }
 })

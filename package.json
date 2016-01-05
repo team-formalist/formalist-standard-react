@@ -42,6 +42,7 @@
     "tape": "^4.2.2"
   },
   "dependencies": {
+    "classnames": "^2.2.2",
     "formalist-compose": "file:../formalist-compose",
     "react": "^0.14.3",
     "react-immutable-proptypes": "^1.5.1"

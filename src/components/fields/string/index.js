@@ -2,13 +2,26 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 
 // Import the display types
-import standard from './display-standard'
-import code from './display-code'
+import FieldErrors from '../common/errors'
+import FieldHeader from '../common/header'
+import Standard from './display-standard'
+import Select from './display-select'
 
-const displayTypes = {
-  code: code
+/**
+ * Set up an object that holds all the `display_variants` by matching key
+ * @type {Object}
+ */
+const displayVariants = {
+  select: Select
 }
 
+/**
+ * Base class for the string field
+ *
+ * Sets up any common methods and UI across _all_ string fields and then
+ * determines the `display_variant` class to include.
+ *
+ */
 const StringBase = React.createClass({
 
   propTypes: {
@@ -18,15 +31,17 @@ const StringBase = React.createClass({
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
-    ])
+    ]),
+    hint: React.PropTypes.string,
+    label: React.PropTypes.string,
+    errors: ImmutablePropTypes.list
   },
 
-  getInitialState () {
-    let fieldDisplay = (this.props.config.display_as) ?
-      displayTypes[this.props.config.display_as] : standard
-    return { fieldDisplay }
-  },
-
+  /**
+   * Common onChange handler for string fields
+   *
+   * @param  {Event} e Change event from a form input/select
+   */
   onChange (e) {
     let value = e.target.value
     this.props.actions.edit(
@@ -35,15 +50,18 @@ const StringBase = React.createClass({
   },
 
   render () {
-    let FieldDisplay = this.state.fieldDisplay
+    let { config, errors, hint, label } = this.props
+    // Determine the React class to render based on the display_variant configuration
+    let StringDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Standard
+
     return (
-      <div className='field'>
-        <h3 className='field__name'>{this.props.name.replace(/_/, ' ')}</h3>
-        <FieldDisplay onChange={this.onChange} {...this.props}/>
+      <div className='fm-field__base'>
+        <FieldHeader label={label} hint={hint}/>
+        <StringDisplay onChange={this.onChange} {...this.props}/>
+        {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )
   }
 })
 
 export default StringBase
-export let StringFieldFactory = React.createFactory(StringBase)

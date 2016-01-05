@@ -2,22 +2,37 @@ const simple = [
   [
     'field',
     [
-      'field-one-name',
+      'field_one_name',
       'string',
-      123,
+      '123',
       [
         ['label', 'Field one name'],
-        ['display_as', 'code']
+        ['display_variant', 'select'],
+        ['option_values', [
+          ['123', '123'], ['234', '234'], ['456', '456']
+        ]]
+      ],
+      [
+        [
+          ['error_name', 'error name'],
+          ['error_message', 'error message']
+        ],
+        [
+          ['error_name', 'error name two'],
+          ['error_message', 'error message two']
+        ]
       ]
     ]
   ],
   [
     'field',
     [
-      'field-two-name',
+      'field_two_name',
       'string',
       'Title goes here',
-      []
+      [
+        ['display_options', ['code']]
+      ]
     ]
   ],
   [
@@ -28,16 +43,16 @@ const simple = [
         [
           'field',
           [
-            'field-three-name',
+            'field_three_name',
             'string',
-            321,
+            '321',
             []
           ]
         ],
         [
           'field',
           [
-            'field-four-name',
+            'field_four_name',
             'string',
             'Content goes here',
             []

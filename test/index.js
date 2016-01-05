@@ -26,11 +26,12 @@ test('it should export a standard form template', (nest) => {
 
 test('it should create a standard form instance', (nest) => {
   let form = standardFormTemplate(dataSimple)
-  let wrapper = mount(<div>{form.render()}</div>)
+  let wrapper = mount(<article>{form.render()}</article>)
 
-  // nest.test('... with different display types for inputs', (assert) => {
-
-  // })
+  nest.test('... with different display types for inputs', (assert) => {
+    assert.ok(wrapper.find('input').at(0).hasClass('fm-field-string--code'))
+    assert.end()
+  })
 
   nest.test('... that updates data', (assert) => {
     assert.plan(1)
@@ -40,12 +41,13 @@ test('it should create a standard form instance', (nest) => {
     wrapper.find('input').get(0).value = expectedValue
 
     form.store.subscribe(() => {
-      let updatedValue = form.store.getState().getIn([0, 1, 2])
+      let updatedValue = form.store.getState().getIn([1, 1, 2])
       assert.equals(updatedValue, expectedValue)
       assert.end()
     })
 
     // Trigger the change
     input.simulate('change')
+    console.log(wrapper.node.innerHTML)
   })
 })
