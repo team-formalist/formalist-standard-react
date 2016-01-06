@@ -26,7 +26,7 @@ const IntDisplaySelect = React.createClass({
       <select className={intFieldClassNames} defaultValue={value} onChange={this.props.onChange}>
         {optionValues.map((option, i) => {
           let optionValue = option.get(0)
-          let optionLabel = option.get(1)
+          let optionLabel = option.get(1) || optionValue
           return (
             <option key={i} value={optionValue}>{optionLabel}</option>
           )

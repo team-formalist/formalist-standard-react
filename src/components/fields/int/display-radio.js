@@ -29,7 +29,7 @@ const IntDisplayRadio = React.createClass({
         {optionValues.map((option, i) => {
           let key = `${name}-${i}`
           let optionValue = option.get(0)
-          let optionLabel = option.get(1)
+          let optionLabel = option.get(1) || optionValue
           let checked = (value === optionValue)
 
           return (

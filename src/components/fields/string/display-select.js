@@ -32,7 +32,7 @@ const StringDisplaySelect = React.createClass({
       <select className={stringFieldClassNames} defaultValue={value} onChange={this.props.onChange}>
         {optionValues.map((option, i) => {
           let value = option.get(0)
-          let label = option.get(1)
+          let label = option.get(1) || optionValue
           return (
             <option key={i} value={value}>{label}</option>
           )
