@@ -1,6 +1,9 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 
+/**
+ * A common component for rendering errors for a field.
+ */
 const FieldErrors = React.createClass({
   propTypes: {
     errors: ImmutablePropTypes.list.isRequired

@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * A common header component for every field. Renders the label and an optional
+ * hint.
+ */
 const FieldHeader = React.createClass({
   propTypes: {
     label: React.PropTypes.string.isRequired,
