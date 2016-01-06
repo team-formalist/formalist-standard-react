@@ -5,6 +5,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Standard from './display-standard'
+import Radio from './display-radio'
 import Select from './display-select'
 
 /**
@@ -12,6 +13,7 @@ import Select from './display-select'
  * @type {Object}
  */
 const displayVariants = {
+  radio: Radio,
   select: Select
 }
 

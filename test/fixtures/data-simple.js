@@ -107,7 +107,29 @@ const simple = [
         ]]
       ]
     ]
-  ]
+  ],
+  [
+    'field',
+    [
+      'field_int_as_radio',
+      'int',
+      5,
+      [
+        ['display_variant', 'radio'],
+        ['option_values', [
+          [1, 'Top right'],
+          [2, 'Top center'],
+          [3, 'Top right'],
+          [4, 'Middle right'],
+          [5, 'Middle center'],
+          [6, 'Middle right'],
+          [7, 'Bottom right'],
+          [8, 'Bottom center'],
+          [9, 'Bottom right']
+        ]]
+      ]
+    ]
+  ],
 ]
 
 export default simple
