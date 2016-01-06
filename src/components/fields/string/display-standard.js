@@ -13,8 +13,11 @@ const StringDisplayStandard = React.createClass({
 
   render () {
     let { config } = this.props
+
     let stringFieldClassNames = classNames(
       'fm-field-string',
+      'fm-input',
+      'fm-input--text',
       optionClassNames('fm-field-string', config.display_options)
     )
 
