@@ -6,15 +6,18 @@ import React from 'react'
  */
 const FieldHeader = React.createClass({
   propTypes: {
-    label: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string,
     hint: React.PropTypes.string
   },
 
   render() {
     let { label, hint } = this.props
+    if (!label && !hint) {
+      return null
+    }
     return (
       <div className="fm-field-header">
-        <h3 className="fm-field-header__label">{label}</h3>
+        {(label) ? <h3 className="fm-field-header__label">{label}</h3> : null}
         {(hint) ? <span className="fm-field-header__hint">{hint}</span> : null}
       </div>
     )
