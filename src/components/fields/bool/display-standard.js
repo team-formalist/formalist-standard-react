@@ -2,6 +2,10 @@ import React from 'react'
 import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
 
+/**
+ * Standard display class for `bool` type fields. Shows the field as a checkbox
+ * followed by "Truthy question <label>"
+ */
 const BoolDisplayStandard = React.createClass({
   propTypes: {
     value: React.PropTypes.number,
