@@ -5,6 +5,7 @@ import Container from './container'
 // import content from './content'
 // import dateTime from './dateTime'
 import bool from './bool'
+import decimal from './decimal'
 import float from './float'
 import int from './int'
 import string from './string'
@@ -30,8 +31,7 @@ function wrapField (field) {
 const fields = {
   bool: wrapField(bool),
   int: wrapField(int),
-  // float and decimal fields are the same as far as JS is concerned
-  decimal: wrapField(float),
+  decimal: wrapField(decimal),
   float: wrapField(float),
   string: wrapField(string)
 }

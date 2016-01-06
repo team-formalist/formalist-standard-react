@@ -135,21 +135,30 @@ const simple = [
     [
       'field_float_as_radio',
       'float',
-      5,
+      0.5,
       [
         ['display_variant', 'radio'],
         ['option_values', [
-          [1, 'Top right'],
-          [2, 'Top center'],
-          [3, 'Top right'],
-          [4, 'Middle right'],
-          [5, 'Middle center'],
-          [6, 'Middle right'],
-          [7, 'Bottom right'],
-          [8, 'Bottom center'],
-          [9, 'Bottom right']
+          [0.1, 'Top right'],
+          [0.2, 'Top center'],
+          [0.3, 'Top right'],
+          [0.4, 'Middle right'],
+          [0.5, 'Middle center'],
+          [0.6, 'Middle right'],
+          [0.7, 'Bottom right'],
+          [0.8, 'Bottom center'],
+          [0.9, 'Bottom right']
         ]]
       ]
+    ]
+  ],
+  [
+    'field',
+    [
+      'field_decimal',
+      'decimal',
+      5.5,
+      []
     ]
   ],
   [
