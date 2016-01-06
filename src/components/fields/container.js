@@ -51,7 +51,8 @@ const FieldContainer = React.createClass({
     // Set up standard classNames based on `type`
     let fieldClassNames = classNames(
       'fm-field',
-      `fm-field--${type}`
+      `fm-field--${type}`,
+      {'fm-field--has-errors': (this.props.errors.count() > 0)}
     )
 
     return (
