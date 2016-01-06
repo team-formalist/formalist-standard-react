@@ -33,8 +33,8 @@ const IntDisplayRadio = React.createClass({
           let checked = (value === optionValue)
 
           return (
-            <div className='fm-radio-group__input'>
-              <input key={key} id={key} type='radio' name={name} value={optionValue} defaultChecked={checked} onChange={this.props.onChange}/>
+            <div key={key} className='fm-radio-group__input'>
+              <input id={key} type='radio' name={name} value={optionValue} defaultChecked={checked} onChange={this.props.onChange}/>
               <label htmlFor={key}>{optionLabel}</label>
             </div>
           )
