@@ -19,7 +19,7 @@ const FieldErrors = React.createClass({
         <ul className="fm-field-errors__list">
           {errors.map((error, i) => {
             return (
-              <li className="fm-field-errors__error"> key={i}>{error}</li>
+              <li className="fm-field-errors__error" key={i}>{error}</li>
             )
           })}
         </ul>
