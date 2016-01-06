@@ -152,6 +152,17 @@ const simple = [
       ]
     ]
   ],
+  [
+    'field',
+    [
+      'field_bool',
+      'bool',
+      false,
+      [
+        ['question_text', 'Is boolean?']
+      ]
+    ]
+  ]
 ]
 
 export default simple

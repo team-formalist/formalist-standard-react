@@ -2,9 +2,9 @@ import React from 'react'
 import Container from './container'
 // import array from './array'
 // import assets from './assets'
-// import boolean from './boolean'
 // import content from './content'
 // import dateTime from './dateTime'
+import bool from './bool'
 import float from './float'
 import int from './int'
 import string from './string'
@@ -28,6 +28,7 @@ function wrapField (field) {
  * @type {Object}
  */
 const fields = {
+  bool: wrapField(bool),
   int: wrapField(int),
   // float and decimal fields are the same as far as JS is concerned
   decimal: wrapField(float),
