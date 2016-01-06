@@ -59,7 +59,9 @@ const StringBase = React.createClass({
     return (
       <div className='fm-field__base'>
         <FieldHeader label={label} hint={hint}/>
-        <StringDisplay onChange={this.onChange} {...this.props}/>
+        <div className='fm-field__display'>
+          <StringDisplay onChange={this.onChange} {...this.props}/>
+        </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )

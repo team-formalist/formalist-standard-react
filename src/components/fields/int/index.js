@@ -54,7 +54,9 @@ const IntBase = React.createClass({
     return (
       <div className='fm-field__base'>
         <FieldHeader label={label} hint={hint}/>
-        <IntDisplay onChange={this.onChange} {...this.props}/>
+        <div className='fm-field__display'>
+          <IntDisplay onChange={this.onChange} {...this.props}/>
+        </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )
