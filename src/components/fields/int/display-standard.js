@@ -19,7 +19,7 @@ const IntDisplayStandard = React.createClass({
       optionClassNames('fm-field-int', config.display_options)
     )
 
-    // Configure specific number props from the config
+    // Configure specific number attributes from the config
     let numberProps = {}
     let numberConfig = ['step', 'min', 'max']
     numberConfig.forEach((option) => {
