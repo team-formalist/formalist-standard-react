@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Many = ({name, children}) => {
+const Many = ({name, children, errors}) => {
   return (
     <div className='fm-many'>
       <h3 className='fm-many__name'>{name.replace(/_/, ' ')}</h3>
