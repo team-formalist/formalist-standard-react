@@ -1,5 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import numberIsInteger from 'number-is-integer'
 
 // Import the display types
 import FieldErrors from '../common/errors'
@@ -42,10 +43,12 @@ const IntBase = React.createClass({
    * @param  {Event} e Change event from a form input/select
    */
   onChange (e) {
-    let value = parseInt(e.target.value)
-    this.props.actions.edit(
-      (val) => { return value }
-    )
+    let value = e.target.value
+    if (numberIsInteger(value)) {
+      this.props.actions.edit(
+        (val) => { return value }
+      )
+    }
   },
 
   render () {
