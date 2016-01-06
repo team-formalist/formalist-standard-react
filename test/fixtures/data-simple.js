@@ -6,14 +6,7 @@ const simple = [
       'string',
       '123',
       [
-        [
-          ['error_name', 'error name'],
-          ['error_message', 'error message']
-        ],
-        [
-          ['error_name', 'error name two'],
-          ['error_message', 'error message two']
-        ]
+        'error message one', 'error message two'
       ],
       [
         ['label', 'Field one name'],

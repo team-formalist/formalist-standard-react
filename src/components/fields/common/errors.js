@@ -11,13 +11,18 @@ const FieldErrors = React.createClass({
 
   render() {
     let { errors } = this.props
+    if (errors.count() === 0) {
+      return null
+    }
     return (
       <div className="fm-field-errors">
-        {errors.map((error) => {
-          return (
-            <li key={error.error_name}>{error.error_message}</li>
-          )
-        })}
+        <ul className="fm-field-errors__list">
+          {errors.map((error, i) => {
+            return (
+              <li className="fm-field-errors__error"> key={i}>{error}</li>
+            )
+          })}
+        </ul>
       </div>
     )
   }
