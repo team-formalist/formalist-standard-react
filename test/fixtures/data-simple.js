@@ -6,13 +6,6 @@ const simple = [
       'string',
       '123',
       [
-        ['label', 'Field one name'],
-        ['display_variant', 'select'],
-        ['option_values', [
-          ['123', '123'], ['234', '234'], ['456', '456']
-        ]]
-      ],
-      [
         [
           ['error_name', 'error name'],
           ['error_message', 'error message']
@@ -21,6 +14,13 @@ const simple = [
           ['error_name', 'error name two'],
           ['error_message', 'error message two']
         ]
+      ],
+      [
+        ['label', 'Field one name'],
+        ['display_variant', 'select'],
+        ['option_values', [
+          ['123', '123'], ['234', '234'], ['456', '456']
+        ]]
       ]
     ]
   ],
@@ -30,6 +30,7 @@ const simple = [
       'field_two_name',
       'string',
       'Title goes here',
+      [],
       [
         ['display_options', ['code']]
       ]
@@ -46,6 +47,7 @@ const simple = [
             'field_three_name',
             'string',
             '321',
+            [],
             []
           ]
         ],
@@ -55,6 +57,7 @@ const simple = [
             'field_four_name',
             'string',
             'Content goes here',
+            [],
             []
           ]
         ]
@@ -67,6 +70,7 @@ const simple = [
       'field_int_name',
       'int',
       123,
+      [],
       [
         ['step', 2]
       ]
@@ -78,6 +82,7 @@ const simple = [
       'field_int_as_select',
       'int',
       5,
+      [],
       [
         ['display_variant', 'select'],
         ['option_values', [
@@ -100,6 +105,7 @@ const simple = [
       'field_string_as_radio',
       'string',
       'left',
+      [],
       [
         ['display_variant', 'radio'],
         ['option_values', [
@@ -114,6 +120,7 @@ const simple = [
       'field_int_as_radio',
       'int',
       5,
+      [],
       [
         ['display_variant', 'radio'],
         ['option_values', [
@@ -136,6 +143,7 @@ const simple = [
       'field_float_as_radio',
       'float',
       0.5,
+      [],
       [
         ['display_variant', 'radio'],
         ['option_values', [
@@ -158,6 +166,7 @@ const simple = [
       'field_decimal',
       'decimal',
       5.5,
+      [],
       []
     ]
   ],
@@ -167,6 +176,7 @@ const simple = [
       'field_bool',
       'bool',
       false,
+      [],
       [
         ['question_text', 'Is boolean?']
       ]
