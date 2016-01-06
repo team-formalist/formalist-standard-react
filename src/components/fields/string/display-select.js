@@ -1,4 +1,6 @@
 import React from 'react'
+import classNames from 'classnames'
+import optionClassNames from '../../../utils/option-class-names'
 
 const StringDisplaySelect = React.createClass({
   propTypes: {
@@ -12,13 +14,22 @@ const StringDisplaySelect = React.createClass({
 
   render () {
     let { config, value } = this.props
+
     let optionValues = config.option_values
     // Return nothing if we have no values
     if (optionValues && optionValues.count() === 0) {
       return false
     }
+
+    let stringFieldClassNames = classNames(
+      'fm-field-string',
+      'fm-field-string--select',
+      'fm-select',
+      optionClassNames('fm-field-string', config.display_options)
+    )
+
     return (
-      <select className='fm-field-string fm-field-string--select' defaultValue={value} onChange={this.props.onChange}>
+      <select className={stringFieldClassNames} defaultValue={value} onChange={this.props.onChange}>
         {optionValues.map((option, i) => {
           let value = option.get(0)
           let label = option.get(1)
