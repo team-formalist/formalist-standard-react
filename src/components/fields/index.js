@@ -6,7 +6,7 @@ import Container from './container'
 // import content from './content'
 // import dateTime from './dateTime'
 // import float from './float'
-// import integer from './integer'
+import int from './int'
 import string from './string'
 
 /**
@@ -28,6 +28,7 @@ function wrapField (field) {
  * @type {Object}
  */
 const fields = {
+  int: wrapField(int),
   string: wrapField(string)
 }
 

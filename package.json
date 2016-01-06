@@ -44,6 +44,7 @@
   "dependencies": {
     "classnames": "^2.2.2",
     "formalist-compose": "file:../formalist-compose",
+    "number-is-integer": "^1.0.0",
     "react": "^0.14.3",
     "react-immutable-proptypes": "^1.5.1"
   }
