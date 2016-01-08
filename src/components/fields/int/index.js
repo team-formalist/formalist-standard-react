@@ -43,7 +43,7 @@ const IntBase = React.createClass({
    * @param  {Event} e Change event from a form input/select
    */
   onChange (e) {
-    let value = e.target.value
+    let value = parseInt(e.target.value, 10)
     if (numberIsInteger(value)) {
       this.props.actions.edit(
         (val) => { return value }
