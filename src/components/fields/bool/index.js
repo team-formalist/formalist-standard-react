@@ -51,7 +51,7 @@ const BoolBase = React.createClass({
       <div className='fm-field__base'>
         <FieldHeader hint={hint}/>
         <div className='fm-field__display'>
-          <BoolDisplay {...this.props}/>
+          <BoolDisplay onChange={this.onChange} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>
