@@ -25,7 +25,7 @@ const BoolBase = React.createClass({
     actions: React.PropTypes.object,
     config: React.PropTypes.object,
     name: React.PropTypes.string,
-    value: React.PropTypes.number,
+    value: React.PropTypes.bool,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list

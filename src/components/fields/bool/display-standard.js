@@ -8,8 +8,11 @@ import optionClassNames from '../../../utils/option-class-names'
  */
 const BoolDisplayStandard = React.createClass({
   propTypes: {
-    value: React.PropTypes.number,
-    config: React.PropTypes.object
+    name: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string.isRequired,
+    value: React.PropTypes.bool,
+    config: React.PropTypes.object,
+    onChange: React.PropTypes.func
   },
 
   render () {
