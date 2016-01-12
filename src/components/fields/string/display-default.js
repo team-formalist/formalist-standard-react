@@ -2,7 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
 
-const StringDisplayStandard = React.createClass({
+const StringDisplayDefault = React.createClass({
   propTypes: {
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
@@ -27,4 +27,4 @@ const StringDisplayStandard = React.createClass({
   }
 })
 
-export default StringDisplayStandard
+export default StringDisplayDefault

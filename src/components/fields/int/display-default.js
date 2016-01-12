@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import numberIsInteger from 'number-is-integer'
 import optionClassNames from '../../../utils/option-class-names'
 
-const IntDisplayStandard = React.createClass({
+const IntDisplayDefault = React.createClass({
   propTypes: {
     value: React.PropTypes.number,
     config: React.PropTypes.object
@@ -35,4 +35,4 @@ const IntDisplayStandard = React.createClass({
   }
 })
 
-export default IntDisplayStandard
+export default IntDisplayDefault

@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import isNumber from 'is-number'
 import optionClassNames from '../../../utils/option-class-names'
 
-const FloatDisplayStandard = React.createClass({
+const FloatDisplayDefault = React.createClass({
   propTypes: {
     value: React.PropTypes.number,
     config: React.PropTypes.object
@@ -35,4 +35,4 @@ const FloatDisplayStandard = React.createClass({
   }
 })
 
-export default FloatDisplayStandard
+export default FloatDisplayDefault

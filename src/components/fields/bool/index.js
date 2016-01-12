@@ -4,7 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 // Import the display types
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
-import Standard from './display-standard'
+import Default from './display-default'
 
 /**
  * Set up an object that holds all the `display_variants` by matching key
@@ -45,7 +45,7 @@ const BoolBase = React.createClass({
   render () {
     let { config, errors, hint } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let BoolDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Standard
+    let BoolDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Default
 
     return (
       <div className='fm-field__base'>

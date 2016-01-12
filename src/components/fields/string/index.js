@@ -4,7 +4,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 // Import the display types
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
-import Standard from './display-standard'
+import Default from './display-default'
 import Radio from './display-radio'
 import Select from './display-select'
 
@@ -54,7 +54,7 @@ const StringBase = React.createClass({
   render () {
     let { config, errors, hint, label } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let StringDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Standard
+    let StringDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Default
 
     return (
       <div className='fm-field__base'>

@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
 
 /**
- * Standard display class for `bool` type fields. Shows the field as a checkbox
+ * Default display class for `bool` type fields. Shows the field as a checkbox
  * followed by "Truthy question <label>"
  */
-const BoolDisplayStandard = React.createClass({
+const BoolDisplayDefault = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     label: React.PropTypes.string.isRequired,
@@ -44,4 +44,4 @@ const BoolDisplayStandard = React.createClass({
   }
 })
 
-export default BoolDisplayStandard
+export default BoolDisplayDefault
