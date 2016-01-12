@@ -1,13 +1,13 @@
-import attr from './attr'
 import fields from './fields'
-import group from './group'
-import many from './many'
-import section from './section'
+import {AttrFactory} from './attr'
+import {GroupFactory} from './group'
+import {ManyFactory} from './many'
+import {SectionFactory} from './section'
 
 export default {
-  attr,
   fields,
-  group,
-  many,
-  section
+  attr: AttrFactory,
+  group: GroupFactory,
+  many: ManyFactory,
+  section: SectionFactory
 }
