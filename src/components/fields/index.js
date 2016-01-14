@@ -4,11 +4,11 @@ import Container from './container'
 // import assets from './assets'
 // import content from './content'
 // import dateTime from './dateTime'
-import bool from './bool'
-import decimal from './decimal'
-import float from './float'
-import int from './int'
-import string from './string'
+import bool, { displayVariants as boolDisplayVariants } from './bool'
+import decimal, { displayVariants as decimalDisplayVariants } from './decimal'
+import float, { displayVariants as floatDisplayVariants } from './float'
+import int, { displayVariants as intDisplayVariants } from './int'
+import string, { displayVariants as stringDisplayVariants } from './string'
 
 /**
  * Wrap a React class in with the common Container class
@@ -22,6 +22,14 @@ function wrapField (field) {
       <Container field={field} {...fieldProps} />
     )
   }
+}
+
+export const displayVariants = {
+  bool: boolDisplayVariants,
+  int: intDisplayVariants,
+  decimal: decimalDisplayVariants,
+  float: floatDisplayVariants,
+  string: stringDisplayVariants
 }
 
 /**

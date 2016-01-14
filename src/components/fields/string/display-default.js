@@ -8,7 +8,8 @@ const StringDisplayDefault = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number
     ]),
-    config: React.PropTypes.object
+    config: React.PropTypes.object,
+    onChange: React.PropTypes.func.isRequired
   },
 
   render () {

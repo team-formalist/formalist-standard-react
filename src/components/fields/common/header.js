@@ -1,4 +1,9 @@
 import React from 'react'
+import ui from '../../ui'
+// import { Label } from '../../ui'
+
+// console.log(ui, Label)
+let Label = ui.Label
 
 /**
  * A common header component for every field. Renders the label and an optional
@@ -10,18 +15,18 @@ const FieldHeader = React.createClass({
     hint: React.PropTypes.string
   },
 
-  render() {
+  render () {
     let { label, hint } = this.props
     if (!label && !hint) {
       return null
     }
     return (
-      <div className="fm-field-header">
-        {(label) ? <h3 className="fm-field-header__label">{label}</h3> : null}
-        {(hint) ? <span className="fm-field-header__hint">{hint}</span> : null}
+      <div className='fm-field-header'>
+        {(label) ? <Label className='fm-field-header__label'>{label}</Label> : null}
+        {(hint) ? <span className='fm-field-header__hint'>{hint}</span> : null}
       </div>
     )
   }
- })
+})
 
 export default FieldHeader

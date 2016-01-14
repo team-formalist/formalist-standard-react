@@ -7,14 +7,17 @@ import FieldHeader from '../common/header'
 import Default from './display-default'
 import Radio from './display-radio'
 import Select from './display-select'
+import Textarea from './display-textarea'
 
 /**
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
  */
-const displayVariants = {
-  radio: Radio,
-  select: Select
+ export const displayVariants = {
+  'default': Default,
+  'radio': Radio,
+  'select': Select,
+  'textarea': Textarea
 }
 
 /**
@@ -54,7 +57,7 @@ const StringBase = React.createClass({
   render () {
     let { config, errors, hint, label } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let StringDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Default
+    let StringDisplay = displayVariants[config.display_variant || 'default']
 
     return (
       <div className='fm-field__base'>

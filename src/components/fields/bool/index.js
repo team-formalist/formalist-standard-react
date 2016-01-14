@@ -10,7 +10,9 @@ import Default from './display-default'
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
  */
-const displayVariants = {}
+export const displayVariants = {
+  'default': Default
+}
 
 /**
  * Base class for the float field
@@ -45,7 +47,7 @@ const BoolBase = React.createClass({
   render () {
     let { config, errors, hint } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let BoolDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Default
+    let BoolDisplay = displayVariants[config.display_variant || 'default']
 
     return (
       <div className='fm-field__base'>

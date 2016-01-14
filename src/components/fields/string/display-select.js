@@ -4,12 +4,12 @@ import optionClassNames from '../../../utils/option-class-names'
 
 const StringDisplaySelect = React.createClass({
   propTypes: {
-    onChange: React.PropTypes.func.isRequired,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
     ]),
-    config: React.PropTypes.object
+    config: React.PropTypes.object,
+    onChange: React.PropTypes.func.isRequired
   },
 
   render () {

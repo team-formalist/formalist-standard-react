@@ -13,9 +13,10 @@ import Select from './display-select'
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
  */
-const displayVariants = {
-  radio: Radio,
-  select: Select
+export const displayVariants = {
+  'default': Default,
+  'radio': Radio,
+  'select': Select
 }
 
 /**
@@ -55,7 +56,7 @@ const FloatBase = React.createClass({
   render () {
     let { config, errors, hint, label } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let FloatDisplay = (config.display_variant) ? displayVariants[config.display_variant] : Default
+    let FloatDisplay = displayVariants[config.display_variant || 'default']
 
     return (
       <div className='fm-field__base'>
