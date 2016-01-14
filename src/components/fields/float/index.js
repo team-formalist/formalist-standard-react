@@ -1,6 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import isNumber from 'is-number'
+import extractDisplayVariant from '../../../utils/extract-display-variant'
 
 // Import the display types
 import FieldErrors from '../common/errors'
@@ -56,13 +57,17 @@ const FloatBase = React.createClass({
   render () {
     let { config, errors, hint, label } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let FloatDisplay = displayVariants[config.display_variant || 'default']
+    let Display = extractDisplayVariant(
+      config.display_variant,
+      Object.assign({}, this.props.displayVariants, displayVariants),
+      'float'
+    )
 
     return (
       <div className='fm-field__base'>
         <FieldHeader label={label} hint={hint}/>
         <div className='fm-field__display'>
-          <FloatDisplay onChange={this.onChange} {...this.props}/>
+          <Display onChange={this.onChange} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>

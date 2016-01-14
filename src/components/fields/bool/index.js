@@ -1,5 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import extractDisplayVariant from '../../../utils/extract-display-variant'
 
 // Import the display types
 import FieldErrors from '../common/errors'
@@ -47,13 +48,17 @@ const BoolBase = React.createClass({
   render () {
     let { config, errors, hint } = this.props
     // Determine the React class to render based on the display_variant configuration
-    let BoolDisplay = displayVariants[config.display_variant || 'default']
+    let Display = extractDisplayVariant(
+      config.display_variant,
+      Object.assign({}, this.props.displayVariants, displayVariants),
+      'bool'
+    )
 
     return (
       <div className='fm-field__base'>
         <FieldHeader hint={hint}/>
         <div className='fm-field__display'>
-          <BoolDisplay onChange={this.onChange} {...this.props}/>
+          <Display onChange={this.onChange} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>

@@ -66,7 +66,8 @@ const FieldContainer = React.createClass({
           config={this.props.config}
           errors={this.props.errors}
           label={label}
-          hint={this.props.config.hint}/>
+          hint={this.props.config.hint}
+          displayVariants={this.props.displayVariants}/>
       </div>
     )
   }

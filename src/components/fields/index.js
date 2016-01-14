@@ -16,10 +16,11 @@ import string, { displayVariants as stringDisplayVariants } from './string'
  * @param  {Function} field A React class
  * @return {Function} A function
  */
-function wrapField (field) {
+function wrapField (field, options = {}) {
+  let { displayVariants } = options
   return (fieldProps) => {
     return (
-      <Container field={field} {...fieldProps} />
+      <Container field={field} displayVariants={displayVariants} {...fieldProps} />
     )
   }
 }
@@ -34,14 +35,17 @@ export const displayVariants = {
 
 /**
  * Wrapped fields for each type
+ * @param {Object} options Options specific to the fields.
  * @type {Object}
  */
-const fields = {
-  bool: wrapField(bool),
-  int: wrapField(int),
-  decimal: wrapField(decimal),
-  float: wrapField(float),
-  string: wrapField(string)
+function fields (options = {}) {
+  return {
+    bool: wrapField(bool, options.bool),
+    int: wrapField(int, options.int),
+    decimal: wrapField(decimal, options.decimal),
+    float: wrapField(float, options.float),
+    string: wrapField(string, options.string)
+  }
 }
 
 export default fields
