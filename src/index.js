@@ -10,6 +10,6 @@ export const fieldDisplayVariants = displayVariants
  * @return {Function} A form compose with a set of standard React component
  * (potentially augmented by the `options`)
  */
-export default function template(options = {}) {
+export default function template (options = {}) {
   return composeForm(formComponents(options))
 }
