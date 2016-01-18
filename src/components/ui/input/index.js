@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import './index.css'
+import styles from './index.css'
 
 /**
  * Input
@@ -45,11 +45,11 @@ const Input = React.createClass({
   render () {
     let textBoxClassNames = classNames(
       this.props.className,
-      'ui-input',
+      styles.input,
       {
         'ui-input--disabled': this.props.disabled,
         'ui-input--error': this.props.error,
-        'ui-input--focus': this.state.focus,
+        [`${styles.focus}`]: this.state.focus,
         'ui-input--reversed': this.props.reversed
       },
       `ui-input--size-${this.props.size}`

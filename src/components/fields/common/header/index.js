@@ -1,5 +1,6 @@
 import React from 'react'
-import Label from '../../ui/label'
+import Label from '../../../ui/label'
+import styles from './header.css'
 
 /**
  * A common header component for every field. Renders the label and an optional
@@ -17,9 +18,9 @@ const FieldHeader = React.createClass({
       return null
     }
     return (
-      <div className='fm-field-header'>
-        {(label) ? <Label className='fm-field-header__label'>{label}</Label> : null}
-        {(hint) ? <span className='fm-field-header__hint'>{hint}</span> : null}
+      <div className={styles.base}>
+        {(label) ? <Label className={styles.label}>{label}</Label> : null}
+        {(hint) ? <span className={styles.hint}>{hint}</span> : null}
       </div>
     )
   }

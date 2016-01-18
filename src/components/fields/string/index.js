@@ -10,6 +10,9 @@ import Radio from './display-radio'
 import Select from './display-select'
 import Textarea from './display-textarea'
 
+// Import styles
+import styles from './string.css'
+
 /**
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
@@ -64,9 +67,9 @@ const StringBase = React.createClass({
     )
 
     return (
-      <div className='fm-field__base'>
+      <div className={styles.base}>
         <FieldHeader label={label} hint={hint}/>
-        <div className='fm-field__display'>
+        <div className={styles.display}>
           <Display onChange={this.onChange} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}

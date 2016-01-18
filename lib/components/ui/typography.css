@@ -1,0 +1,45 @@
+/* Fonts */
+.sans {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.sansBold {
+  composes: sans;
+  font-weight: 600;
+}
+
+
+/* Sizes */
+.mini {
+  font-size: 1.2rem;
+}
+
+.small {
+  font-size: 1.4rem;
+}
+
+.normal {
+  font-size: 1.6rem;
+}
+
+.large {
+  font-size: 1.8rem;
+}
+
+.huge {
+  font-size: 2rem;
+}
+
+/* Misc */
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+
+/* Headers */
+
+.headerSmallCaps {
+  composes: sansBold mini uppercase;
+  letter-spacing: 0.12em;
+}

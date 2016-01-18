@@ -3,6 +3,9 @@ import classNames from 'classnames'
 import numberIsInteger from 'number-is-integer'
 import optionClassNames from '../../../utils/option-class-names'
 
+// Components
+import Input from '../../ui/input'
+
 const IntDisplayDefault = React.createClass({
   propTypes: {
     value: React.PropTypes.number,
@@ -30,7 +33,7 @@ const IntDisplayDefault = React.createClass({
     })
 
     return (
-      <input className={intFieldClassNames} type='number' defaultValue={this.props.value} onChange={this.props.onChange} {...numberProps}/>
+      <Input className={intFieldClassNames} type='number' defaultValue={this.props.value} onChange={this.props.onChange} {...numberProps}/>
     )
   }
 })

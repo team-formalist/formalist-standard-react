@@ -1,6 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
+import styles from './container.css'
 import { actions } from 'formalist-compose'
 const { addField, deleteField, editField } = actions
 
@@ -49,16 +50,17 @@ const FieldContainer = React.createClass({
     let label = this.props.config.label || this.props.name.replace(/_/g, ' ')
 
     // Set up standard classNames based on `type`
-    let fieldClassNames = classNames(
-      'fm-field',
-      `fm-field--${type}`,
-      {'fm-field--has-errors': (this.props.errors.count() > 0)}
+    let containerClassNames = classNames(
+      styles.base,
+      {
+        [`${styles.errors}`]: (this.props.errors.count() > 0)
+      }
     )
 
     return (
       // *Explicitly* pass all the props we care about down to the field
       // rather than dumping everything through
-      <div className={fieldClassNames}>
+      <div className={containerClassNames}>
         <Field
           actions={ fieldActions }
           name={this.props.name}

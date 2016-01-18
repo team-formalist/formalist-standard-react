@@ -1,0 +1,10 @@
+.base {
+  margin-bottom: 3rem;
+}
+
+.name {
+  composes: headerSmallCaps from './ui/typography.css';
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}

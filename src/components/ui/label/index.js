@@ -1,6 +1,8 @@
 import React from 'react'
 import classNames from 'classnames'
 
+import styles from './label.css'
+
 const Label = React.createClass({
   propTypes: {
     className: React.PropTypes.string
@@ -8,7 +10,7 @@ const Label = React.createClass({
   render () {
     let textBoxClassNames = classNames(
       this.props.className,
-      'ui-label'
+      styles.base
     )
     return (
       <label {...this.props} className={textBoxClassNames}/>

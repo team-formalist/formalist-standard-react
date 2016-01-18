@@ -1,10 +1,11 @@
 import React from 'react'
+import styles from './section.css'
 
 const Section = ({name, children}) => {
   return (
-    <section className='fm-section'>
-      <h2 className='fm-section__name'>{name.replace(/_/, ' ')}</h2>
-      <div>
+    <section className={styles.base}>
+      <h2 className={styles.name}>{name.replace(/_/, ' ')}</h2>
+      <div className={styles.children}>
         {children}
       </div>
     </section>

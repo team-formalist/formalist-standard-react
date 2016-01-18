@@ -1,0 +1,33 @@
+.primaryColor {
+  color: #333;
+}
+
+.primaryBackground {
+  background-color: #333;
+}
+
+.primaryBorder {
+  border-color: #333;
+}
+
+.darkBlendColor {
+  color: rgba(0,0,0,0.9);
+}
+
+/*
+primaryAlternate
+secondary
+secondaryAlternate
+error
+greys
+
+*/
+
+
+/*
+
+.greyLight
+.grey
+.greyDark
+
+*/
