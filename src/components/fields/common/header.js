@@ -1,9 +1,5 @@
 import React from 'react'
-import ui from '../../ui'
-// import { Label } from '../../ui'
-
-// console.log(ui, Label)
-let Label = ui.Label
+import Label from '../../ui/label'
 
 /**
  * A common header component for every field. Renders the label and an optional

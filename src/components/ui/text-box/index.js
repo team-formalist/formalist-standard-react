@@ -1,6 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
 
+/**
+ * TextBox
+ */
 const TextBox = React.createClass({
   propTypes: {
     className: React.PropTypes.string

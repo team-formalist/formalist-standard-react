@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import Input from '../../ui/input'
 import optionClassNames from '../../../utils/option-class-names'
 
 const StringDisplayDefault = React.createClass({
@@ -23,7 +24,7 @@ const StringDisplayDefault = React.createClass({
     )
 
     return (
-      <input className={stringFieldClassNames} type='text' defaultValue={this.props.value} onChange={this.props.onChange}/>
+      <Input className={stringFieldClassNames} type='text' defaultValue={this.props.value} onChange={this.props.onChange}/>
     )
   }
 })

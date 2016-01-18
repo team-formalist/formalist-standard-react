@@ -1,7 +1,8 @@
-import Button from './button'
 import ButtonGroup from './button-group'
+import Button from './button'
 import Checkbox from './checkbox'
 import DatePicker from './date-picker'
+import Input from './input'
 import Label from './label'
 import Modal from './modal'
 import Popout from './popout'
@@ -15,10 +16,11 @@ import TextBox from './text-box'
 import TimePicker from './time-picker'
 
 export default {
-  Button,
   ButtonGroup,
+  Button,
   Checkbox,
   DatePicker,
+  Input,
   Label,
   Modal,
   Popout,
