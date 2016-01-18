@@ -25,7 +25,7 @@ test('it should export a standard form template', (nest) => {
 })
 
 test('it should create a standard form instance', (nest) => {
-  let form = standardFormTemplate(dataSimple)
+  let form = standardFormTemplate()(dataSimple)
   let wrapper = mount(<article>{form.render()}</article>)
 
   nest.test('... with different display types for inputs', (assert) => {
