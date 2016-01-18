@@ -4,11 +4,15 @@
   "description": "A standard form implementation for Formalist using React",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "./node_modules/.bin/babel --presets ./node_modules/babel-preset-es2015,./node_modules/babel-preset-react src --out-dir lib",
+    "precompile": "rm -rf ./lib/*",
+    "compile": "./node_modules/.bin/babel src --out-dir lib",
+    "postcompile": "npm run copycss",
+    "watch": "./node_modules/.bin/babel --watch src --out-dir lib",
     "prepublish": "npm run compile",
-    "test": "./node_modules/.bin/babel-node --presets ./node_modules/babel-preset-es2015,./node_modules/babel-preset-react test | faucet",
+    "test": "./node_modules/.bin/babel-node test | faucet",
     "posttest": "npm run lint",
-    "lint": "eslint src/*.js src/**/*.js test/*.js test/**/*.js"
+    "lint": "eslint src/*.js src/**/*.js test/*.js test/**/*.js",
+    "copycss": "rsync -r ./src/* --include='*/' --include='*.css' --exclude='*' lib"
   },
   "repository": {
     "type": "git",
@@ -47,6 +51,7 @@
     "is-number": "^2.1.0",
     "number-is-integer": "^1.0.0",
     "react": "^0.14.3",
-    "react-immutable-proptypes": "^1.5.1"
+    "react-immutable-proptypes": "^1.5.1",
+    "scribe-editor": "^2.1.1"
   }
 }
