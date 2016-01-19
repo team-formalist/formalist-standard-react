@@ -1,6 +1,6 @@
 .input {
-  composes: sans from '../typography.css';
-  composes: primaryColor from '../colours.css';
+  composes: sans from '../typography.mcss';
+  composes: primaryColor from '../colours.mcss';
   box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
   border: none;
   border-top: 1px solid #ccc;
@@ -13,7 +13,7 @@
 }
 
 .focus {
-  composes: darkBlendColor from '../colours.css';
+  composes: darkBlendColor from '../colours.mcss';
   border-color: #7fc2ea;
   background-color: #dff1fc;
   outline: none;

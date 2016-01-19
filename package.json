@@ -13,7 +13,7 @@
     "test": "NODE_ENV=test ./node_modules/.bin/babel-node test | faucet",
     "posttest": "npm run lint",
     "clean": "rm -rf ./lib/*",
-    "copycss": "rsync -r ./src/* --include='*/' --include='*.css' --exclude='*' lib",
+    "copycss": "rsync -r ./src/* --include='*/' --include='*.mcss' --exclude='*' lib",
     "lint": "eslint src/*.js src/**/*.js test/*.js test/**/*.js"
   },
   "repository": {
@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.2",
-    "formalist-compose": "icelab/formalist-compose",
+    "formalist-compose": "file:../formalist-compose",
     "is-number": "^2.1.0",
     "number-is-integer": "^1.0.0",
     "react": "^0.14.3",

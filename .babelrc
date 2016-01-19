@@ -6,7 +6,7 @@
         "./node_modules/babel-preset-react"
       ],
       "ignore": [
-        "src/**/*.css"
+        "src/**/*.mcss"
       ]
     },
     "test": {

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-import styles from './label.css'
+import styles from './label.mcss'
 
 const Label = React.createClass({
   propTypes: {

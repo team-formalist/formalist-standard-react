@@ -1,6 +1,6 @@
 import React from 'react'
 import Label from '../../../ui/label'
-import styles from './header.css'
+import styles from './header.mcss'
 
 /**
  * A common header component for every field. Renders the label and an optional

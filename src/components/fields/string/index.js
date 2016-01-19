@@ -11,7 +11,7 @@ import Select from './display-select'
 import Textarea from './display-textarea'
 
 // Import styles
-import styles from './string.css'
+import styles from './string.mcss'
 
 /**
  * Set up an object that holds all the `display_variants` by matching key

@@ -1,0 +1,3 @@
+.base {
+  composes: sansBold from '../typography.mcss';
+}

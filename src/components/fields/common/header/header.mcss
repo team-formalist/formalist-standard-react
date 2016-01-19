@@ -1,0 +1,13 @@
+.base {
+  margin-bottom: 1rem;
+}
+
+.label {
+  margin-right: 1rem;
+}
+
+.hint {
+  composes: small from '../../../ui/typography.mcss';
+  composes: sans from '../../../ui/typography.mcss';
+  color: #999;
+}

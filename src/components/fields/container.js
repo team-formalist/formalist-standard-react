@@ -1,7 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
-import styles from './container.css'
+import styles from './container.mcss'
 import { actions } from 'formalist-compose'
 const { addField, deleteField, editField } = actions
 

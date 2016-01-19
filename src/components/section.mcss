@@ -3,7 +3,7 @@
 }
 
 .name {
-  composes: headerSmallCaps from './ui/typography.css';
+  composes: headerSmallCaps from './ui/typography.mcss';
   border-bottom: 2px solid #ccc;
   margin-bottom: 1rem;
   padding-bottom: 1rem;

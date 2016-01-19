@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './section.css'
+import styles from './section.mcss'
 
 const Section = ({name, children}) => {
   return (
