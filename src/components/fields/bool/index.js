@@ -46,10 +46,10 @@ const BoolBase = React.createClass({
   },
 
   render () {
-    let { config, errors, hint } = this.props
+    let { config, displayVariant, errors, hint } = this.props
     // Determine the React class to render based on the display_variant configuration
     let Display = extractDisplayVariant(
-      config.display_variant,
+      displayVariant,
       Object.assign({}, this.props.displayVariants, displayVariants),
       'bool'
     )

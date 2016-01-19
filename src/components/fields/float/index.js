@@ -55,10 +55,10 @@ const FloatBase = React.createClass({
   },
 
   render () {
-    let { config, errors, hint, label, name } = this.props
+    let { config, displayVariant, errors, hint, label, name } = this.props
     // Determine the React class to render based on the display_variant configuration
     let Display = extractDisplayVariant(
-      config.display_variant,
+      displayVariant,
       Object.assign({}, this.props.displayVariants, displayVariants),
       'float'
     )

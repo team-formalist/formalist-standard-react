@@ -59,9 +59,9 @@ const StringBase = React.createClass({
   },
 
   render () {
-    let { config, errors, hint, label, name } = this.props
+    let { config, displayVariant, errors, hint, label, name } = this.props
     let Display = extractDisplayVariant(
-      config.display_variant,
+      displayVariant,
       Object.assign({}, this.props.displayVariants, displayVariants),
       'string'
     )

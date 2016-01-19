@@ -19,11 +19,24 @@ const FieldContainer = React.createClass({
     name: React.PropTypes.string.isRequired,
     config: React.PropTypes.object,
     field: React.PropTypes.func.isRequired,
-    value: React.PropTypes.any.isRequired
+    value: React.PropTypes.any
   },
 
   render () {
-    let { field, path, store, type } = this.props
+    console.log(this.props);
+    let {
+      config,
+      displayVariant,
+      displayVariants,
+      errors,
+      field,
+      name,
+      path,
+      rules,
+      store,
+      type,
+      value
+    } = this.props
     let Field = field
 
     // Abstract the actions so that each field doesn't have to worry about
@@ -63,13 +76,15 @@ const FieldContainer = React.createClass({
       <div className={containerClassNames}>
         <Field
           actions={ fieldActions }
-          name={this.props.name}
-          value={this.props.value}
-          config={this.props.config}
-          errors={this.props.errors}
+          name={name}
+          displayVariant={displayVariant}
+          value={value}
+          rules={rules}
+          errors={errors}
+          config={config}
           label={label}
-          hint={this.props.config.hint}
-          displayVariants={this.props.displayVariants}/>
+          hint={config.hint}
+          displayVariants={displayVariants}/>
       </div>
     )
   }
