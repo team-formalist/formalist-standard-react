@@ -59,7 +59,7 @@ const FieldContainer = React.createClass({
     }
 
     // Extract a few config things
-    let label = this.props.config.label || this.props.name.replace(/_/g, ' ')
+    let label = config.label || this.props.name.replace(/_/g, ' ')
 
     // Set up standard classNames based on `type`
     let containerClassNames = classNames(
