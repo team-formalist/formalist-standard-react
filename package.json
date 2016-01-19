@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.2",
-    "formalist-compose": "file:../formalist-compose",
+    "formalist-compose": "icelab/formalist-compose",
     "is-number": "^2.1.0",
     "number-is-integer": "^1.0.0",
     "react": "^0.14.3",
