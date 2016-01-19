@@ -55,7 +55,7 @@ const FloatBase = React.createClass({
   },
 
   render () {
-    let { config, errors, hint, label } = this.props
+    let { config, errors, hint, label, name } = this.props
     // Determine the React class to render based on the display_variant configuration
     let Display = extractDisplayVariant(
       config.display_variant,
@@ -65,7 +65,7 @@ const FloatBase = React.createClass({
 
     return (
       <div className='fm-field__base'>
-        <FieldHeader label={label} hint={hint}/>
+        <FieldHeader id={name} label={label} hint={hint}/>
         <div className='fm-field__display'>
           <Display onChange={this.onChange} {...this.props}/>
         </div>

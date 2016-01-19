@@ -8,18 +8,19 @@ import styles from './header.css'
  */
 const FieldHeader = React.createClass({
   propTypes: {
+    id: React.PropTypes.string,
     label: React.PropTypes.string,
     hint: React.PropTypes.string
   },
 
   render () {
-    let { label, hint } = this.props
+    let { id, label, hint } = this.props
     if (!label && !hint) {
       return null
     }
     return (
       <div className={styles.base}>
-        {(label) ? <Label className={styles.label}>{label}</Label> : null}
+        {(label) ? <Label htmlFor={id} className={styles.label}>{label}</Label> : null}
         {(hint) ? <span className={styles.hint}>{hint}</span> : null}
       </div>
     )

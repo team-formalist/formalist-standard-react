@@ -16,7 +16,7 @@ const StringDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config } = this.props
+    let { config, name } = this.props
 
     let stringFieldClassNames = classNames(
       'fm-field-string',
@@ -26,7 +26,7 @@ const StringDisplayDefault = React.createClass({
     )
 
     return (
-      <Input className={stringFieldClassNames} type='text' defaultValue={this.props.value} onChange={this.props.onChange}/>
+      <Input id={name} className={stringFieldClassNames} type='text' defaultValue={this.props.value} onChange={this.props.onChange}/>
     )
   }
 })

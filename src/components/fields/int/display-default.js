@@ -13,7 +13,7 @@ const IntDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config } = this.props
+    let { config, name } = this.props
 
     let intFieldClassNames = classNames(
       'fm-field-int',
@@ -33,7 +33,7 @@ const IntDisplayDefault = React.createClass({
     })
 
     return (
-      <Input className={intFieldClassNames} type='number' defaultValue={this.props.value} onChange={this.props.onChange} {...numberProps}/>
+      <Input id={name} className={intFieldClassNames} type='number' defaultValue={this.props.value} onChange={this.props.onChange} {...numberProps}/>
     )
   }
 })
