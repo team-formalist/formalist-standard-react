@@ -1,0 +1,20 @@
+.input {
+  composes: sans from '../typography.css';
+  composes: primaryColor from '../colours.css';
+  box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
+  border: none;
+  border-top: 1px solid #ccc;
+  background-color: #efefef;
+  font-size: 1.4rem;
+  padding: 0.8rem 1rem 1rem;
+  width: 100%;
+  transition-property: border-color, background-color;
+  transition-duration: 100ms;
+}
+
+.focus {
+  composes: darkBlendColor from '../colours.css';
+  border-color: #7fc2ea;
+  background-color: #dff1fc;
+  outline: none;
+}

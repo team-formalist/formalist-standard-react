@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import styles from './index.css'
+import styles from './input.css'
 
 /**
  * Input
