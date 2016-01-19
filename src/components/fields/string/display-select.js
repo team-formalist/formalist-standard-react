@@ -1,3 +1,4 @@
+import { List } from 'immutable'
 import React from 'react'
 import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
@@ -31,8 +32,14 @@ const StringDisplaySelect = React.createClass({
     return (
       <select className={stringFieldClassNames} defaultValue={value} onChange={this.props.onChange}>
         {optionValues.map((option, i) => {
-          let value = option.get(0)
-          let label = option.get(1) || optionValue
+          let value, label
+          if (List.isList(option)) {
+            value = option.get(0)
+            label = option.get(1) || value
+          } else {
+            value = option
+            label = value
+          }
           return (
             <option key={i} value={value}>{label}</option>
           )
