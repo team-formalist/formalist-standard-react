@@ -1,13 +1,15 @@
-@value colours: './colours.mcss';
-@value error, errorLight, greyLight, greyTint from colours;
+@value styles: './styles.mcss';
+
+@value error, errorLight, greyLight, greyTint, lightBlend from styles;
 
 .inputBox {
-  composes: sans normal from './typography.mcss';
-  composes: primaryColor greyLightBorder greyTintBackground from './colours.mcss';
+  composes: sans normal from styles;
+  composes: primaryColor greyLightBorder greyTintBackground from styles;
   box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
   border-width: 0;
   border-top-width: 1px;
   border-top-style: solid;
+  border-radius: 0;
   padding: 0.6em 0.7em 0.8em;
   width: 100%;
   transition-property: border-color, background-color;
@@ -17,42 +19,40 @@
 /* States */
 
 .error {
-  composes: errorColor errorBorder errorLightBackground from './colours.mcss';
+  composes: errorColor errorBorder errorLightBackground from styles;
 }
   .error::placeholder {
     color: rgba(0,0,0,0.2);
   }
 
 .focus {
-  composes: darkBlendColor from './colours.mcss';
-  border-color: #7fc2ea;
-  background-color: #dff1fc;
+  composes: darkBlendColor highlightBorder highlightLightBackground from styles;
   outline: none;
 }
 
   .focus::placeholder {
-    color: rgba(0,0,0,0.2);
+    color: lightBlend;
   }
 
 
 /* Sizes */
 
 .mini {
-  composes: mini from './typography.mcss';
+  composes: mini from styles;
 }
 
 .small {
-  composes: small from './typography.mcss';
+  composes: small from styles;
 }
 
 .normal {
-  composes: normal from './typography.mcss';
+  composes: normal from styles;
 }
 
 .large {
-  composes: large from './typography.mcss';
+  composes: large from styles;
 }
 
 .huge {
-  composes: huge from './typography.mcss';
+  composes: huge from styles;
 }

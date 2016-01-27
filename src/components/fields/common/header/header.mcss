@@ -1,3 +1,5 @@
+@value styles: '../../../ui/styles.mcss';
+
 .base {
   margin-bottom: 1rem;
 }
@@ -7,7 +9,10 @@
 }
 
 .hint {
-  composes: small from '../../../ui/typography.mcss';
-  composes: sans from '../../../ui/typography.mcss';
-  color: #999;
+  composes: greyLightColor from styles;
+  composes: small sans from styles;
+}
+
+.error {
+  composes: errorColor from styles;
 }

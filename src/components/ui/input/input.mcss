@@ -1,5 +1,5 @@
 .input {
-  composes: inputBox from '../input-boxes.mcss'
+  composes: inputBox from '../input-boxes.mcss';
 }
 
 /* States */

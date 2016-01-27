@@ -1,5 +1,6 @@
 import React from 'react'
 import Label from '../../../ui/label'
+import classNames from 'classnames'
 import styles from './header.mcss'
 
 /**
@@ -18,10 +19,22 @@ const FieldHeader = React.createClass({
     if (!label && !hint) {
       return null
     }
+    let labelClassNames = classNames(styles.base,
+      styles.label,
+      {
+        [`${styles.error}`]: this.props.error,
+      }
+    )
+    let hintClassNames = classNames(styles.base,
+      styles.hint,
+      {
+        [`${styles.error}`]: this.props.error,
+      }
+    )
     return (
       <div className={styles.base}>
-        {(label) ? <Label htmlFor={id} className={styles.label}>{label}</Label> : null}
-        {(hint) ? <span className={styles.hint}>{hint}</span> : null}
+        {(label) ? <Label htmlFor={id} className={labelClassNames}>{label}</Label> : null}
+        {(hint) ? <span className={hintClassNames}>{hint}</span> : null}
       </div>
     )
   }
