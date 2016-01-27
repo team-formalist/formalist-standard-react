@@ -1,0 +1,16 @@
+@value styles: '../../../ui/styles.mcss';
+
+.base {
+  composes: errorColor from styles;
+  composes: sans normal lineHeightNormal from styles;
+  margin-top: 0.6em;
+}
+
+.list {
+  list-style: disc;
+  margin-left: 1.6em;
+}
+
+.item {
+  margin-bottom: 0.3rem;
+}

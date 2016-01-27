@@ -1,5 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import styles from './errors.mcss'
 
 /**
  * A common component for rendering errors for a field.
@@ -15,11 +16,11 @@ const FieldErrors = React.createClass({
       return null
     }
     return (
-      <div className="fm-field-errors">
-        <ul className="fm-field-errors__list">
+      <div className={styles.base}>
+        <ul className={styles.list}>
           {errors.map((error, i) => {
             return (
-              <li className="fm-field-errors__error" key={i}>{error}</li>
+              <li className={styles.item} key={i}>{error}</li>
             )
           })}
         </ul>

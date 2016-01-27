@@ -3,6 +3,9 @@ import React from 'react'
 import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
 
+// Components
+import Select from '../../ui/select'
+
 const StringDisplaySelect = React.createClass({
   propTypes: {
     value: React.PropTypes.oneOfType([
@@ -14,7 +17,7 @@ const StringDisplaySelect = React.createClass({
   },
 
   render () {
-    let { config, value } = this.props
+    let { config, error, name, value } = this.props
 
     let optionValues = config.option_values
     // Return nothing if we have no values
@@ -30,21 +33,26 @@ const StringDisplaySelect = React.createClass({
     )
 
     return (
-      <select className={stringFieldClassNames} defaultValue={value} onChange={this.props.onChange}>
-        {optionValues.map((option, i) => {
-          let value, label
-          if (List.isList(option)) {
-            value = option.get(0)
-            label = option.get(1) || value
-          } else {
-            value = option
-            label = value
-          }
-          return (
-            <option key={i} value={value}>{label}</option>
-          )
-        })}
-      </select>
+      <Select
+        id={name}
+        className={stringFieldClassNames}
+        defaultValue={value}
+        error={error}
+        onChange={this.props.onChange}>
+          {optionValues.map((option, i) => {
+            let value, label
+            if (List.isList(option)) {
+              value = option.get(0)
+              label = option.get(1) || value
+            } else {
+              value = option
+              label = value
+            }
+            return (
+              <option key={i} value={value}>{label}</option>
+            )
+          })}
+      </Select>
     )
   }
 })

@@ -60,6 +60,7 @@ const StringBase = React.createClass({
 
   render () {
     let { config, displayVariant, errors, hint, label, name } = this.props
+    let hasErrors = (errors.count() > 0)
     let Display = extractDisplayVariant(
       displayVariant,
       Object.assign({}, this.props.displayVariants, displayVariants),
@@ -68,9 +69,9 @@ const StringBase = React.createClass({
 
     return (
       <div className={styles.base}>
-        <FieldHeader id={name} label={label} hint={hint}/>
+        <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         <div className={styles.display}>
-          <Display onChange={this.onChange} {...this.props}/>
+          <Display onChange={this.onChange} error={hasErrors} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>

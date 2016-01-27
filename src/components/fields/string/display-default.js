@@ -11,12 +11,13 @@ const StringDisplayDefault = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number
     ]),
+    error: React.PropTypes.bool,
     config: React.PropTypes.object,
     onChange: React.PropTypes.func.isRequired
   },
 
   render () {
-    let { config, name } = this.props
+    let { config, error, name } = this.props
 
     let stringFieldClassNames = classNames(
       'fm-field-string',
@@ -26,7 +27,14 @@ const StringDisplayDefault = React.createClass({
     )
 
     return (
-      <Input id={name} className={stringFieldClassNames} type='text' placeholder={config.placeholder} defaultValue={this.props.value} onChange={this.props.onChange}/>
+      <Input
+        type='text'
+        id={name}
+        error={error}
+        className={stringFieldClassNames}
+        placeholder={config.placeholder}
+        defaultValue={this.props.value}
+        onChange={this.props.onChange}/>
     )
   }
 })
