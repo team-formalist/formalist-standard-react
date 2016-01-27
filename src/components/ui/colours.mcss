@@ -1,17 +1,73 @@
+/* Primary */
+
+@value primary: #333;
+
 .primaryColor {
-  color: #333;
+  color: primary;
 }
 
 .primaryBackground {
-  background-color: #333;
+  background-color: primary;
 }
 
 .primaryBorder {
-  border-color: #333;
+  border-color: primary;
 }
 
+/* Error */
+
+@value error: #eb4d5c;
+@value errorLight: #fff4f5;
+
+.errorColor {
+  color: error;
+}
+
+.errorBackground {
+  background-color: error;
+}
+
+.errorBorder {
+  border-color: error;
+}
+
+.errorLightBackground {
+  background-color: errorLight;
+}
+
+/* Greys */
+
+@value greyLight: #ccc;
+@value greyTint: #f1f1f1;
+
+.greyLightColor {
+  color: greyLight;
+}
+
+.greyLightBackground {
+  background-color: greyLight;
+}
+
+.greyLightBorder {
+  border-color: greyLight;
+}
+
+.greyTintBackground {
+  background-color: greyTint;
+}
+
+
+/* Blends */
+
+@value darkBlend: rgba(0,0,0,0.9);
+@value lightBlend: rgba(0,0,0,0.2);
+
 .darkBlendColor {
-  color: rgba(0,0,0,0.9);
+  color: darkBlend;
+}
+
+.lightBlendColor {
+  color: lightBlend;
 }
 
 /*

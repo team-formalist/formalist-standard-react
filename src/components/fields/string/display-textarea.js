@@ -1,7 +1,9 @@
 import React from 'react'
 import classNames from 'classnames'
-import TextBox from '../../ui/text-box'
 import optionClassNames from '../../../utils/option-class-names'
+
+// Components
+import TextBox from '../../ui/text-box'
 
 const StringDisplayDefault = React.createClass({
   propTypes: {

@@ -6,9 +6,7 @@ import styles from './input.mcss'
  * Input
  *
  * States:
- * - reversed
  * - focus
- * - disabled
  * - error
  *
  * Sizes:
@@ -20,10 +18,8 @@ import styles from './input.mcss'
 const Input = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
-    disabled: React.PropTypes.bool,
     error: React.PropTypes.bool,
-    reversed: React.PropTypes.bool,
-    size: React.PropTypes.oneOf(['small', 'normal', 'large'])
+    size: React.PropTypes.oneOf(['mini', 'small', 'normal', 'large', 'huge'])
   },
 
   getDefaultProps () {
@@ -43,21 +39,19 @@ const Input = React.createClass({
   },
 
   render () {
-    let textBoxClassNames = classNames(
+    let inputClassNames = classNames(
       this.props.className,
       styles.input,
       {
-        'ui-input--disabled': this.props.disabled,
-        'ui-input--error': this.props.error,
-        [`${styles.focus}`]: this.state.focus,
-        'ui-input--reversed': this.props.reversed
+        [`${styles.error}`]: this.props.error,
+        [`${styles.focus}`]: this.state.focus
       },
-      `ui-input--size-${this.props.size}`
+      `${styles[this.props.size]}`
     )
     return (
       <input
         {...this.props}
-        className={textBoxClassNames}
+        className={inputClassNames}
         onBlur={() => this.setState({focus: false})}
         onFocus={() => this.setState({focus: true})}/>
     )

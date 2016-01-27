@@ -62,6 +62,7 @@
     "postcss-modules-values": "^1.1.1",
     "react": "^0.14.3",
     "react-immutable-proptypes": "^1.5.1",
+    "react-textarea-autosize": "^3.3.0",
     "scribe-editor": "^2.1.1"
   }
 }

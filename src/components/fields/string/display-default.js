@@ -26,7 +26,7 @@ const StringDisplayDefault = React.createClass({
     )
 
     return (
-      <Input id={name} className={stringFieldClassNames} type='text' defaultValue={this.props.value} onChange={this.props.onChange}/>
+      <Input id={name} className={stringFieldClassNames} type='text' placeholder={config.placeholder} defaultValue={this.props.value} onChange={this.props.onChange}/>
     )
   }
 })

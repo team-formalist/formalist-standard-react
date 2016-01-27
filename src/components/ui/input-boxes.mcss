@@ -1,0 +1,58 @@
+@value colours: './colours.mcss';
+@value error, errorLight, greyLight, greyTint from colours;
+
+.inputBox {
+  composes: sans normal from './typography.mcss';
+  composes: primaryColor greyLightBorder greyTintBackground from './colours.mcss';
+  box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
+  border-width: 0;
+  border-top-width: 1px;
+  border-top-style: solid;
+  padding: 0.6em 0.7em 0.8em;
+  width: 100%;
+  transition-property: border-color, background-color;
+  transition-duration: 100ms;
+}
+
+/* States */
+
+.error {
+  composes: errorColor errorBorder errorLightBackground from './colours.mcss';
+}
+  .error::placeholder {
+    color: rgba(0,0,0,0.2);
+  }
+
+.focus {
+  composes: darkBlendColor from './colours.mcss';
+  border-color: #7fc2ea;
+  background-color: #dff1fc;
+  outline: none;
+}
+
+  .focus::placeholder {
+    color: rgba(0,0,0,0.2);
+  }
+
+
+/* Sizes */
+
+.mini {
+  composes: mini from './typography.mcss';
+}
+
+.small {
+  composes: small from './typography.mcss';
+}
+
+.normal {
+  composes: normal from './typography.mcss';
+}
+
+.large {
+  composes: large from './typography.mcss';
+}
+
+.huge {
+  composes: huge from './typography.mcss';
+}
