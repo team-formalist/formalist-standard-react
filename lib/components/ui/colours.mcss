@@ -1,3 +1,34 @@
+/* Greys */
+
+@value greyLight: #ccc;
+@value greyTint: #f1f1f1;
+
+.greyLightColor {
+  color: greyLight;
+}
+
+.greyLightBackground {
+  background-color: greyLight;
+}
+
+.greyLightBorder {
+  border-color: greyLight;
+}
+
+.greyTintBackground {
+  background-color: greyTint;
+}
+
+/*
+
+primaryAlternate
+secondary
+secondaryAlternate
+error
+greys
+
+*/
+
 /* Primary */
 
 @value primary: #333;
@@ -13,6 +44,7 @@
 .primaryBorder {
   border-color: primary;
 }
+
 
 /* Error */
 
@@ -35,27 +67,35 @@
   background-color: errorLight;
 }
 
-/* Greys */
 
-@value greyLight: #ccc;
-@value greyTint: #f1f1f1;
+/* Highlight */
 
-.greyLightColor {
-  color: greyLight;
+@value highlight: #7fc2ea;
+@value highlightLight: #dff1fc;
+
+.highlightColor {
+  color: highlight;
 }
 
-.greyLightBackground {
-  background-color: greyLight;
+.highlightBorder {
+  border-color: highlight;
 }
 
-.greyLightBorder {
-  border-color: greyLight;
+.highlightBackground {
+  background-color: highlight;
 }
 
-.greyTintBackground {
-  background-color: greyTint;
+.highlightLightColor {
+  color: highlightLight;
 }
 
+.highlightLightBorder {
+  border-color: highlightLight;
+}
+
+.highlightLightBackground {
+  background-color: highlightLight;
+}
 
 /* Blends */
 
@@ -69,21 +109,3 @@
 .lightBlendColor {
   color: lightBlend;
 }
-
-/*
-primaryAlternate
-secondary
-secondaryAlternate
-error
-greys
-
-*/
-
-
-/*
-
-.greyLight
-.grey
-.greyDark
-
-*/
