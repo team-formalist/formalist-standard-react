@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import styles from './container.mcss'
 import { actions } from 'formalist-compose'
-const { addField, deleteField, editField } = actions
+const { addField, deleteField, editField, validateField } = actions
 
 /**
  * Container class for fields.Consolidates common attributes and actions into a
@@ -52,9 +52,10 @@ const FieldContainer = React.createClass({
         )
       },
       edit: (val) => {
-        return store.dispatch(
-          editField(path, val)
-        )
+        return store.batchDispatch([
+          editField(path, val),
+          validateField(path, val)
+        ])
       }
     }
 
