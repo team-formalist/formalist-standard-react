@@ -1,6 +1,10 @@
+import { List } from 'immutable'
 import React from 'react'
 import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
+
+// Components
+import RadioButton from '../../ui/radio-button'
 
 const StringDisplayRadio = React.createClass({
   propTypes: {
@@ -13,7 +17,7 @@ const StringDisplayRadio = React.createClass({
   },
 
   render () {
-    let { config, name, value } = this.props
+    let { config, onChange, name, value } = this.props
 
     let optionValues = config.option_values
     // Return nothing if we have no values
@@ -31,16 +35,17 @@ const StringDisplayRadio = React.createClass({
     return (
       <div className={stringFieldClassNames}>
         {optionValues.map((option, i) => {
-          let key = `${name}-${i}`
-          let optionValue = option.get(0)
-          let optionLabel = option.get(1) || optionValue
-          let checked = (value === optionValue)
-
+          let optionValue, optionLabel
+          if (List.isList(option)) {
+            optionValue = option.get(0)
+            optionLabel = option.get(1) || optionValue
+          } else {
+            optionValue = option
+            optionLabel = option
+          }
+          let defaultChecked = (value && optionValue === value)
           return (
-            <div key={key} className='fm-radio-group__input'>
-              <input id={key} type='radio' name={name} value={optionValue} defaultChecked={checked} onChange={this.props.onChange}/>
-              <label htmlFor={key}>{optionLabel}</label>
-            </div>
+            <RadioButton key={i} name={name} label={optionLabel} value={optionValue} defaultChecked={defaultChecked} onChange={onChange}/>
           )
         })}
       </div>

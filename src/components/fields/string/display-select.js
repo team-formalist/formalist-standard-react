@@ -46,7 +46,7 @@ const StringDisplaySelect = React.createClass({
               label = option.get(1) || value
             } else {
               value = option
-              label = value
+              label = option
             }
             return (
               <option key={i} value={value}>{label}</option>

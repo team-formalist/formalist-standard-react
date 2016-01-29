@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import styles from './select.mcss'
 
 /**
- * Input
+ * Select
  *
  * States:
  * - focus
@@ -16,7 +16,7 @@ import styles from './select.mcss'
  * - large
  *
  */
-const Input = React.createClass({
+const Select = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
@@ -79,4 +79,4 @@ const Input = React.createClass({
   }
 })
 
-export default Input
+export default Select
