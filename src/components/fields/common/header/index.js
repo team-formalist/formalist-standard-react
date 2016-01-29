@@ -1,4 +1,5 @@
 import React from 'react'
+import shallow from 'shallow-equals'
 import Label from '../../../ui/label'
 import classNames from 'classnames'
 import styles from './header.mcss'
@@ -11,7 +12,12 @@ const FieldHeader = React.createClass({
   propTypes: {
     id: React.PropTypes.string,
     label: React.PropTypes.string,
-    hint: React.PropTypes.string
+    hint: React.PropTypes.string,
+    error: React.PropTypes.bool
+  },
+
+  shouldComponentUpdate (nextProps) {
+    return !shallow(this.props, nextProps)
   },
 
   render () {

@@ -65,6 +65,7 @@
     "react-immutable-proptypes": "^1.5.1",
     "react-textarea-autosize": "^3.3.0",
     "scribe-editor": "^2.1.1",
+    "shallow-equals": "0.0.0",
     "uid": "0.0.2"
   }
 }

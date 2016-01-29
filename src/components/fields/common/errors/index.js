@@ -1,4 +1,5 @@
 import React from 'react'
+import Immutable from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './errors.mcss'
 
@@ -10,7 +11,11 @@ const FieldErrors = React.createClass({
     errors: ImmutablePropTypes.list.isRequired
   },
 
-  render() {
+  shouldComponentUpdate (nextProps) {
+    return !Immutable.is(this.props.errors, nextProps.errors)
+  },
+
+  render () {
     let { errors } = this.props
     if (errors.count() === 0) {
       return null
