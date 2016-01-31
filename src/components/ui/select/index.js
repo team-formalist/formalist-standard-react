@@ -29,7 +29,8 @@ const Select = React.createClass({
       error: false,
       reversed: false,
       size: 'normal',
-      type: 'text'
+      type: 'text',
+      valueSeed: uid(10)
     }
   },
 
@@ -59,9 +60,8 @@ const Select = React.createClass({
 
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
-    let valueSeed = uid(10)
-    let placeholder = <option value={valueSeed} hidden={true} disabled={true}>Select an option</option>
-    let defaultValue = this.props.defaultValue || valueSeed
+    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>Select an option</option>
+    let defaultValue = this.props.defaultValue || this.props.valueSeed
 
     return (
       <label className={labelClassNames}>
