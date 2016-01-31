@@ -25,7 +25,7 @@
 /* States */
 
 .error {
-  composes: error from '../input-boxes.mcss';
+  composes: errorColor from styles;
 }
 
 .focus {

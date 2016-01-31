@@ -18,7 +18,9 @@ import styles from './radio-button.mcss'
  */
 const RadioButton = React.createClass({
   propTypes: {
+    id: React.PropTypes.string,
     className: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
     error: React.PropTypes.bool,
     size: React.PropTypes.oneOf(['mini', 'small', 'normal', 'large', 'huge'])
   },
@@ -27,14 +29,13 @@ const RadioButton = React.createClass({
     return {
       disabled: false,
       error: false,
-      reversed: false,
-      size: 'normal',
-      type: 'text'
+      size: 'normal'
     }
   },
 
   getInitialState () {
     return {
+      id: uid(10),
       focus: false
     }
   },
@@ -49,13 +50,11 @@ const RadioButton = React.createClass({
       }
     )
 
-    let id = uid(10)
-
     return (
       <div className={styles.button}>
         <input
           className={styles.input}
-          id={id}
+          id={this.state.id}
           type='radio'
           name={name}
           value={value}
@@ -65,7 +64,7 @@ const RadioButton = React.createClass({
           onChange={onChange}/>
         <label
           className={labelClassNames}
-          htmlFor={id}>
+          htmlFor={this.state.id}>
             {label}
         </label>
       </div>
