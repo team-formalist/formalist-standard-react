@@ -17,7 +17,7 @@ const StringDisplayRadio = React.createClass({
   },
 
   render () {
-    let { config, onChange, name, value } = this.props
+    let { config, error, onChange, name, value } = this.props
 
     let optionValues = config.option_values
     // Return nothing if we have no values
@@ -45,7 +45,14 @@ const StringDisplayRadio = React.createClass({
           }
           let defaultChecked = (value && optionValue === value)
           return (
-            <RadioButton key={i} name={name} label={optionLabel} value={optionValue} defaultChecked={defaultChecked} onChange={onChange}/>
+            <RadioButton
+              key={i}
+              name={name}
+              label={optionLabel}
+              error={error}
+              value={optionValue}
+              defaultChecked={defaultChecked}
+              onChange={onChange} />
           )
         })}
       </div>
