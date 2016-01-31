@@ -2,6 +2,9 @@ import React from 'react'
 import classNames from 'classnames'
 import optionClassNames from '../../../utils/option-class-names'
 
+// Components
+import Checkbox from '../../ui/checkbox'
+
 /**
  * Default display class for `bool` type fields. Shows the field as a checkbox
  * followed by "Truthy question <label>"
@@ -16,7 +19,7 @@ const BoolDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config, name, label, value } = this.props
+    let { config, error, onChange, label, name, value } = this.props
 
     let boolFieldClassNames = classNames(
       'fm-field-bool',
@@ -28,17 +31,13 @@ const BoolDisplayDefault = React.createClass({
 
     return (
       <div className={boolFieldClassNames}>
-        <input
-          type='checkbox'
-          id={name}
-          className='fm-checkbox__input'
+        <Checkbox
+          name={name}
+          label={checkboxLabel}
+          error={error}
+          value={value}
           defaultChecked={value}
-          onChange={
-            (e) => {
-              return this.props.onChange(e.target.checked)
-            }
-          } />
-        <label htmlFor={name}>{checkboxLabel}</label>
+          onChange={onChange} />
       </div>
     )
   }

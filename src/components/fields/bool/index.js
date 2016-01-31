@@ -47,6 +47,7 @@ const BoolBase = React.createClass({
 
   render () {
     let { config, displayVariant, errors, hint } = this.props
+    let hasErrors = (errors.count() > 0)
     // Determine the React class to render based on the display_variant configuration
     let Display = extractDisplayVariant(
       displayVariant,
@@ -58,7 +59,7 @@ const BoolBase = React.createClass({
       <div className='fm-field__base'>
         <FieldHeader hint={hint}/>
         <div className='fm-field__display'>
-          <Display onChange={this.onChange} {...this.props}/>
+          <Display onChange={this.onChange} error={hasErrors} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}
       </div>
