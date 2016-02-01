@@ -16,7 +16,7 @@ const Group = React.createClass({
       </div>
     )
   }
-}
+})
 
 export default Group
 export let GroupFactory = React.createFactory(Group)
