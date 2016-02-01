@@ -59,7 +59,6 @@ const Select = React.createClass({
 
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
-    console.log('placeholder', this.props.placeholder);
     let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option>
     let defaultValue = this.props.defaultValue || this.props.valueSeed
 
