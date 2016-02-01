@@ -17,7 +17,7 @@ const StringDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config, error, name } = this.props
+    let { config, error, onChange, name, value } = this.props
 
     let stringFieldClassNames = classNames(
       'fm-field-string',
@@ -26,15 +26,17 @@ const StringDisplayDefault = React.createClass({
       optionClassNames('fm-field-string', config.display_options)
     )
 
+    let type = (config.password) ? 'password' : 'text'
+
     return (
       <Input
-        type='text'
+        type={type}
         id={name}
         error={error}
         className={stringFieldClassNames}
         placeholder={config.placeholder}
-        defaultValue={this.props.value}
-        onChange={this.props.onChange}/>
+        defaultValue={value}
+        onChange={onChange} />
     )
   }
 })
