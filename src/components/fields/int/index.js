@@ -10,6 +10,9 @@ import Default from './display-default'
 import Radio from './display-radio'
 import Select from './display-select'
 
+// Import styles
+import styles from './int.mcss'
+
 /**
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
@@ -62,9 +65,9 @@ const IntBase = React.createClass({
     )
 
     return (
-      <div className='fm-field__base'>
+      <div className={styles.base}>
         <FieldHeader id={name} label={label} hint={hint}/>
-        <div className='fm-field__display'>
+        <div className={styles.display}>
           <Display onChange={this.onChange} {...this.props}/>
         </div>
         {(errors) ? <FieldErrors errors={errors}/> : null}

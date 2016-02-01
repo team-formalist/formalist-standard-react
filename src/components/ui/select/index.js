@@ -20,16 +20,15 @@ const Select = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
+    placeholder: React.PropTypes.string,
     size: React.PropTypes.oneOf(['mini', 'small', 'normal', 'large', 'huge'])
   },
 
   getDefaultProps () {
     return {
-      disabled: false,
       error: false,
-      reversed: false,
       size: 'normal',
-      type: 'text',
+      placeholder: 'Select an option',
       valueSeed: uid(10)
     }
   },
@@ -60,7 +59,8 @@ const Select = React.createClass({
 
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
-    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>Select an option</option>
+    console.log('placeholder', this.props.placeholder);
+    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option>
     let defaultValue = this.props.defaultValue || this.props.valueSeed
 
     return (

@@ -37,6 +37,7 @@ const StringDisplaySelect = React.createClass({
         id={name}
         className={stringFieldClassNames}
         defaultValue={value}
+        placeholder={config.placeholder}
         error={error}
         onChange={this.props.onChange}>
           {optionValues.map((option, i) => {
