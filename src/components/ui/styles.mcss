@@ -1,3 +1,2 @@
-@import './buttons.mcss';
 @import './colours.mcss';
 @import './typography.mcss';
