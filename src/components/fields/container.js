@@ -22,6 +22,14 @@ const FieldContainer = React.createClass({
     value: React.PropTypes.any
   },
 
+  shouldComponentUpdate (nextProps) {
+    // Use the path hash-code to determine whether or not to rerender this
+    // field. This should take account of any change to the AST.
+    // It will not account for changes to the overall form definition (but they
+    // should not change after runtime anyway)
+    return (this.props.path.hashCode() !== nextProps.path.hashCode())
+  },
+
   render () {
     let {
       config,
