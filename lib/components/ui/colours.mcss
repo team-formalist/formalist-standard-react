@@ -1,3 +1,20 @@
+/* White */
+
+@value white: #fff;
+
+.whiteColor {
+  color: white;
+}
+
+.whiteBackground {
+  background-color: white;
+}
+
+.whiteBorder {
+  border-color: white;
+}
+
+
 /* Greys */
 
 @value greyLight: #ccc;

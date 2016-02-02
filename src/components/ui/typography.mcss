@@ -1,11 +1,13 @@
 /* Fonts */
+@value sansBoldWeight: 600;
+
 .sans {
   font-family: 'Work Sans', sans-serif;
 }
 
 .sansBold {
   composes: sans;
-  font-weight: 600;
+  font-weight: sansBoldWeight;
 }
 
 
