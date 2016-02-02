@@ -1,4 +1,8 @@
 /* Fonts */
+
+/**
+ * Sans-serif: Work Sans
+ */
 @value sansBoldWeight: 600;
 
 .sans {
@@ -10,6 +14,13 @@
   font-weight: sansBoldWeight;
 }
 
+/**
+ * Monospace: Inconsolata
+ */
+
+.mono {
+  font-family: 'Inconsolata';
+}
 
 /* Line height */
 

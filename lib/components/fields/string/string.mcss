@@ -1,3 +1,9 @@
+@value styles: '../../ui/styles.mcss';
+
 .base {
   composes: base from '../shared.mcss';
+}
+
+.code {
+  composes: mono from styles;
 }
