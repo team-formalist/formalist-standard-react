@@ -5,6 +5,7 @@
 }
 
 .label {
+  cursor: pointer;
   margin-right: 1rem;
 }
 
