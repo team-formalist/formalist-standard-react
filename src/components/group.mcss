@@ -1,0 +1,15 @@
+.group {
+  display: flex;
+}
+
+.item {
+  flex: 1;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+  .item:first-child {
+    margin-left: 0;
+  }
+  .item:last-child {
+    margin-right: 0;
+  }

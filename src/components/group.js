@@ -1,5 +1,7 @@
 import React from 'react'
 
+import styles from './group.mcss'
+
 const Group = React.createClass({
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
@@ -11,8 +13,8 @@ const Group = React.createClass({
 
   render () {
     return (
-      <div className='fm-group'>
-        {children.map((child, index) => <div key={index} className='fm-group__item'>{child}</div>)}
+      <div className={styles.group}>
+        {this.props.children.map((child, index) => <div key={index} className={styles.item}>{child}</div>)}
       </div>
     )
   }
