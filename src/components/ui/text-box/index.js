@@ -58,6 +58,20 @@ const TextBox = React.createClass({
     }
   },
 
+  onFocus (e) {
+    this.setState({focus: true})
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
+  },
+
+  onBlur (e) {
+    this.setState({focus: false})
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+  },
+
   render () {
     let textBoxClassNames = classNames(
       this.props.className,
@@ -72,8 +86,8 @@ const TextBox = React.createClass({
       <Textarea {...this.props}
         {...boxSize(this.props.boxSize)}
         className={textBoxClassNames}
-        onBlur={() => this.setState({focus: false})}
-        onFocus={() => this.setState({focus: true})}/>
+        onBlur={this.onBlur}
+        onFocus={this.onFocus} />
     )
   }
 })

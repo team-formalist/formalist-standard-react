@@ -24,9 +24,7 @@ const Input = React.createClass({
 
   getDefaultProps () {
     return {
-      disabled: false,
       error: false,
-      reversed: false,
       size: 'normal',
       type: 'text'
     }
@@ -35,6 +33,20 @@ const Input = React.createClass({
   getInitialState () {
     return {
       focus: false
+    }
+  },
+
+  onFocus (e) {
+    this.setState({focus: true})
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
+  },
+
+  onBlur (e) {
+    this.setState({focus: false})
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
     }
   },
 
@@ -52,8 +64,8 @@ const Input = React.createClass({
       <input
         {...this.props}
         className={inputClassNames}
-        onBlur={() => this.setState({focus: false})}
-        onFocus={() => this.setState({focus: true})}/>
+        onBlur={this.onBlur}
+        onFocus={this.onFocus}/>
     )
   }
 })

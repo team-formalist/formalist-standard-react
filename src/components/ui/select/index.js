@@ -39,6 +39,20 @@ const Select = React.createClass({
     }
   },
 
+  onFocus (e) {
+    this.setState({focus: true})
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
+    }
+  },
+
+  onBlur (e) {
+    this.setState({focus: false})
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+  },
+
   render () {
     let labelClassNames = classNames(
       styles.label,
@@ -68,8 +82,8 @@ const Select = React.createClass({
           {...this.props}
           defaultValue={defaultValue}
           className={inputClassNames}
-          onBlur={() => this.setState({focus: false})}
-          onFocus={() => this.setState({focus: true})}>
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}>
           {placeholder}
           {this.props.children}
         </select>
