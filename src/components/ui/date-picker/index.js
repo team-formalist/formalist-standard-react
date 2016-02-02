@@ -106,7 +106,7 @@ const DatePicker = React.createClass({
   },
 
   render () {
-    let { name, error, placeholder } = this.props
+    let { id, error, placeholder } = this.props
     let { value } = this.state
     let selectedDay = moment(this.state.value, 'l', true).toDate()
 
@@ -115,7 +115,7 @@ const DatePicker = React.createClass({
         <Input
           type='text'
           ref='dateInput'
-          id={name}
+          id={id}
           error={error}
           placeholder={placeholder}
           value={value}
