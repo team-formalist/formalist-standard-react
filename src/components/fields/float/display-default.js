@@ -1,7 +1,5 @@
 import React from 'react'
-import classNames from 'classnames'
 import isNumber from 'is-number'
-import optionClassNames from '../../../utils/option-class-names'
 
 // Components
 import Input from '../../ui/input'
@@ -13,14 +11,7 @@ const FloatDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config, name } = this.props
-
-    let intFieldClassNames = classNames(
-      'fm-field-int',
-      'fm-input',
-      'fm-input--text',
-      optionClassNames('fm-field-int', config.display_options)
-    )
+    let { className, config, name } = this.props
 
     // Configure specific number attributes from the config
     let numberProps = {}
@@ -35,7 +26,7 @@ const FloatDisplayDefault = React.createClass({
     return (
       <Input
         id={name}
-        className={intFieldClassNames}
+        className={className}
         type='number'
         defaultValue={this.props.value}
         placeholder={config.placeholder}

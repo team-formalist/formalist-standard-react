@@ -17,7 +17,7 @@ const StringDisplayRadio = React.createClass({
   },
 
   render () {
-    let { config, error, onChange, name, value } = this.props
+    let { config, className, error, onChange, name, value } = this.props
 
     let optionValues = config.option_values
     // Return nothing if we have no values
@@ -25,15 +25,8 @@ const StringDisplayRadio = React.createClass({
       return false
     }
 
-    let stringFieldClassNames = classNames(
-      'fm-field-string',
-      'fm-field-string--radio',
-      'fm-radio-group',
-      optionClassNames('fm-field-string', config.display_options)
-    )
-
     return (
-      <div className={stringFieldClassNames}>
+      <div className={className}>
         {optionValues.map((option, i) => {
           let optionValue, optionLabel
           if (List.isList(option)) {

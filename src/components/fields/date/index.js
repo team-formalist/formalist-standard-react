@@ -1,5 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import classNames from 'classnames'
+import optionClassNames from '../../../utils/option-class-names'
 import extractDisplayVariant from '../../../utils/extract-display-variant'
 
 // Import the display types
@@ -64,9 +66,15 @@ const DateBase = React.createClass({
       <div className={styles.base}>
         <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         <div className={styles.display}>
-          <Display onChange={this.onChange} error={hasErrors} {...this.props}/>
+          <Display
+            onChange={this.onChange}
+            className={classNames(
+              optionClassNames(styles, config.display_options)
+            )}
+            error={hasErrors}
+            {...this.props} />
         </div>
-        {(errors) ? <FieldErrors errors={errors}/> : null}
+        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )
   }

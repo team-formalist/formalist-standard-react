@@ -1,11 +1,16 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import classNames from 'classnames'
+import optionClassNames from '../../../utils/option-class-names'
 import extractDisplayVariant from '../../../utils/extract-display-variant'
 
 // Import the display types
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Default from './display-default'
+
+// Import styles
+import styles from './bool.mcss'
 
 /**
  * Set up an object that holds all the `display_variants` by matching key
@@ -56,12 +61,18 @@ const BoolBase = React.createClass({
     )
 
     return (
-      <div className='fm-field__base'>
-        <FieldHeader hint={hint}/>
-        <div className='fm-field__display'>
-          <Display onChange={this.onChange} error={hasErrors} {...this.props}/>
+      <div className={styles.base}>
+        <FieldHeader hint={hint} error={hasErrors}/>
+        <div className={styles.display}>
+          <Display
+            onChange={this.onChange}
+            className={classNames(
+              optionClassNames(styles, config.display_options)
+            )}
+            error={hasErrors}
+            {...this.props} />
         </div>
-        {(errors) ? <FieldErrors errors={errors}/> : null}
+        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )
   }

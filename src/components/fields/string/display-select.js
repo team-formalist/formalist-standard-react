@@ -17,7 +17,7 @@ const StringDisplaySelect = React.createClass({
   },
 
   render () {
-    let { config, error, name, value } = this.props
+    let { config, className, error, name, value } = this.props
 
     let optionValues = config.option_values
     // Return nothing if we have no values
@@ -25,17 +25,10 @@ const StringDisplaySelect = React.createClass({
       return false
     }
 
-    let stringFieldClassNames = classNames(
-      'fm-field-string',
-      'fm-field-string--select',
-      'fm-select',
-      optionClassNames('fm-field-string', config.display_options)
-    )
-
     return (
       <Select
         id={name}
-        className={stringFieldClassNames}
+        className={className}
         defaultValue={value}
         placeholder={config.placeholder}
         error={error}

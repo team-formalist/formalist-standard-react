@@ -1,6 +1,8 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import numberIsInteger from 'number-is-integer'
+import classNames from 'classnames'
+import optionClassNames from '../../../utils/option-class-names'
 import extractDisplayVariant from '../../../utils/extract-display-variant'
 
 // Import the display types
@@ -58,6 +60,7 @@ const IntBase = React.createClass({
 
   render () {
     let { config, displayVariant, errors, hint, label, name } = this.props
+    let hasErrors = (errors.count() > 0)
     let Display = extractDisplayVariant(
       displayVariant,
       Object.assign({}, this.props.displayVariants, displayVariants),
@@ -66,11 +69,17 @@ const IntBase = React.createClass({
 
     return (
       <div className={styles.base}>
-        <FieldHeader id={name} label={label} hint={hint}/>
+        <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         <div className={styles.display}>
-          <Display onChange={this.onChange} {...this.props}/>
+          <Display
+            onChange={this.onChange}
+            className={classNames(
+              optionClassNames(styles, config.display_options)
+            )}
+            error={hasErrors}
+            {...this.props} />
         </div>
-        {(errors) ? <FieldErrors errors={errors}/> : null}
+        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )
   }

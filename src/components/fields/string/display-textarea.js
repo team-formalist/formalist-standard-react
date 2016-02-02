@@ -1,6 +1,4 @@
 import React from 'react'
-import classNames from 'classnames'
-import optionClassNames from '../../../utils/option-class-names'
 
 // Components
 import TextBox from '../../ui/text-box'
@@ -16,17 +14,10 @@ const StringDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config, name } = this.props
-
-    let stringFieldClassNames = classNames(
-      'fm-field-string',
-      'fm-input',
-      'fm-input--text',
-      optionClassNames('fm-field-string', config.display_options)
-    )
+    let { config, name, className } = this.props
 
     return (
-      <TextBox id={name} className={stringFieldClassNames} defaultValue={this.props.value} placeholder={config.placeholder} onChange={this.props.onChange}/>
+      <TextBox id={name} className={className} defaultValue={this.props.value} placeholder={config.placeholder} onChange={this.props.onChange}/>
     )
   }
 })

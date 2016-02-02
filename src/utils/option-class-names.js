@@ -1,8 +1,8 @@
-export default function optionClassNames (prefix, options) {
-  if (!options) {
+export default function optionClassNames (styles, options) {
+  if (!styles || !options) {
     return false
   }
   return options.toArray().map((option) => {
-    return [`${prefix}--${option}`]
+    return [`${styles[option]}`]
   })
 }
