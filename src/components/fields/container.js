@@ -13,6 +13,7 @@ const { addField, deleteField, editField, validateField } = actions
 const FieldContainer = React.createClass({
 
   propTypes: {
+    hashCode: React.PropTypes.number.isRequired,
     path: ImmutablePropTypes.list.isRequired,
     store: React.PropTypes.object.isRequired,
     type: React.PropTypes.string.isRequired,
@@ -27,7 +28,7 @@ const FieldContainer = React.createClass({
     // field. This should take account of any change to the AST.
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
-    return (this.props.path.hashCode() !== nextProps.path.hashCode())
+    return (this.props.hashCode !== nextProps.hashCode)
   },
 
   render () {

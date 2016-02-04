@@ -8,7 +8,7 @@ const Section = React.createClass({
     // section. This should take account of any change to the AST.
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
-    return (this.props.key !== nextProps.key)
+    return (this.props.hashCode !== nextProps.hashCode)
   },
 
   render () {

@@ -1,3 +1,6 @@
+@value styles: './ui/styles.mcss';
+@value breakpointSmall from styles;
+
 .group {
   display: flex;
 }
@@ -13,3 +16,14 @@
   .item:last-child {
     margin-right: 0;
   }
+
+
+@media breakpointSmall {
+  .group {
+    display: block;
+  }
+  .item {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
