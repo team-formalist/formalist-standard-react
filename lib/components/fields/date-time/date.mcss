@@ -1,0 +1,3 @@
+.base {
+  composes: base from '../shared.mcss';
+}

@@ -17,6 +17,7 @@
     margin-right: 0;
   }
 
+
 @media breakpointSmall {
   .group {
     display: block;
