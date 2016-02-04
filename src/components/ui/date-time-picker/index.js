@@ -82,24 +82,19 @@ const DateTimePicker = React.createClass({
     let timeValue = this.state.time
 
     return (
-      <div>
-        <div className={styles.base}>
-          <div className={styles.datePicker}>
-            <DatePicker
-              id={id}
-              error={error}
-              placeholder={placeholder}
-              defaultValue={dateValue}
-              onChange={this.onDateChange} />
-          </div>
-          <div className={styles.timePicker}>
-            <TimePicker
-              defaultValue={timeValue}
-              onChange={this.onTimeChange}/>
-          </div>
+      <div className={styles.base}>
+        <div className={styles.datePicker}>
+          <DatePicker
+            id={id}
+            error={error}
+            placeholder={placeholder}
+            defaultValue={dateValue}
+            onChange={this.onDateChange} />
         </div>
-        <div className={styles.foo}>
-          {this.props.defaultValue}
+        <div className={styles.timePicker}>
+          <TimePicker
+            defaultValue={timeValue}
+            onChange={this.onTimeChange}/>
         </div>
       </div>
     )
