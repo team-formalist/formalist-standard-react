@@ -1,0 +1,36 @@
+@value styles: '../styles.mcss';
+@value breakpointSmall from styles;
+
+.base {
+  display: flex;
+}
+
+.datePicker,
+.timePicker {
+  flex: 1;
+}
+  .datePicker {
+    margin-right: 1rem;
+  }
+  .timePicker {
+    margin-left: 1rem;
+  }
+
+@media breakpointSmall {
+  .base {
+    display: block
+  }
+  .datePicker,
+  .timePicker {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .datePicker {
+    margin-bottom: 1rem;
+  }
+}
+
+.foo {
+  composes: mono from styles;
+  margin-top: 1rem;
+}

@@ -16,14 +16,14 @@ import styles from './date-picker.mcss'
 const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 1})
 
 const daypickerOffset = {
-  left: 10,
+  left: 0,
   top: 0
 }
 
 const DatePicker = React.createClass({
   getInitialState () {
     return {
-      value: (this.props.value) ?  moment(this.props.value, 'YYYY-MM-DD').format('l') : '',
+      value: (this.props.defaultValue) ?  moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
       month: this.props.month || new Date(),
       daypickerPosition: {
         left: 0,
@@ -38,16 +38,16 @@ const DatePicker = React.createClass({
     }
   },
 
-  componentDidMount () {
-    this.calculateDaypickerPosition()
-  },
-
   componentWillMount () {
     window.addEventListener('resize', this.onResize)
   },
 
   componentWillUnmount () {
     window.removeEventListener('resize', this.onResize)
+  },
+
+  componentDidMount () {
+    this.calculateDaypickerPosition()
   },
 
   onInputChange (e) {
@@ -113,7 +113,6 @@ const DatePicker = React.createClass({
     return (
       <div className={className}>
         <Input
-          type='text'
           ref='dateInput'
           id={id}
           error={error}

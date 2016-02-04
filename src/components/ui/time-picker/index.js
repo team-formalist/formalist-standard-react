@@ -1,1 +1,176 @@
-export default {}
+import classNames from 'classnames'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import moment from 'moment'
+import "moment/locale/en-au"
+
+// Components
+import Portal from 'react-portal'
+import Input from '../input'
+
+// Styles
+import styles from './time-picker.mcss'
+
+const dateFormats = {
+  time: 'HH:mm:ss',
+  humanTime: 'hh:mma'
+}
+
+const timepickerOffset = {
+  left: 0,
+  top: 0
+}
+
+const TimePicker = React.createClass({
+
+  getInitialState () {
+    let inputValue
+    let parsedTime = moment(this.props.defaultValue, dateFormats.time)
+    if (parsedTime.isValid()) {
+      this.time = parsedTime
+      inputValue = parsedTime.format(dateFormats.humanTime)
+    }
+    return {
+      inputValue: inputValue,
+      timepickerPosition: {
+        left: 0,
+        top: 0
+      }
+    }
+  },
+
+  componentWillMount () {
+    window.addEventListener('resize', this.onResize)
+  },
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.onResize)
+  },
+
+  componentDidMount () {
+    this.calculateTimepickerPosition()
+  },
+
+  onResize (e) {
+    this.calculateTimepickerPosition()
+  },
+
+  onInputChange (e) {
+    let value = e.target.value
+    let time = moment(value, dateFormats.humanTime)
+    this.time = time
+    this.props.onChange(time.format(dateFormats.time))
+  },
+
+  onInputFocus () {
+    this.refs.timepickerPortal.openPortal()
+    this.calculateTimepickerPosition()
+  },
+
+  onTimeClick (time, e) {
+    e.preventDefault()
+    this.time = time
+    this.setState({
+      inputValue: time.format(dateFormats.humanTime)
+    }, () => {
+      // We have to explicitly set the value of the input
+      let inputEl = ReactDOM.findDOMNode(this.refs.timeInput)
+      inputEl.value = this.state.inputValue
+    })
+    this.props.onChange(time.format(dateFormats.time))
+  },
+
+  calculateTimepickerPosition () {
+    // Only bother if its rendered
+    let inputEl = ReactDOM.findDOMNode(this.refs.timeInput)
+    let inputPosition = inputEl.getBoundingClientRect()
+    this.setState({
+      timepickerPosition: {
+        left: inputPosition.left + timepickerOffset.left,
+        top: inputPosition.top + inputPosition.height + timepickerOffset.top
+      }
+    })
+  },
+
+  /**
+   * Render a list of human formatted times between midnight and midnight
+   * @return {ReactElement} React element containing the list
+   */
+  renderTimeList () {
+    // Get midnight
+    let date = moment().set({
+      hours: 0,
+      minutes: 0,
+      seconds: 0
+    })
+    // Get the end of the day
+    let end = moment().endOf('day')
+    return (
+      <ul>
+        {this.renderTimeItem(date, [], end, this.time)}
+      </ul>
+    )
+  },
+
+  /**
+   * Recursive function to render time items
+   * @param  {Moment} date Context date object
+   * @param  {Array} items Array of previous created elements
+   * @param  {Moment} end A moment object representing the end of the day
+   * @param  {Moment} active A moment object representing the currently selected time
+   * @return {Array} Return the array of built up items (or recurse)
+   */
+  renderTimeItem (date, items, end, active) {
+    if (end.diff(date) > 0) {
+      // Check if active. We only care about hours/minutes
+      let isActive = (active
+        && active.hours() === date.hours()
+        && active.minutes() === date.minutes()
+      )
+      let buttonClassNames = classNames(
+        styles.button,
+        {
+          [`${styles.buttonActive}`]: isActive
+        }
+      )
+      let item = <li key={date.format()} className={styles.item}>
+        <button ref={(isActive) ? 'buttonActive' : null } className={buttonClassNames} onClick={this.onTimeClick.bind(this, date.clone())}>{date.format(dateFormats.humanTime)}</button>
+      </li>
+      items.push(item)
+      date = date.add(15, 'minutes')
+      return this.renderTimeItem(date, items, end, active)
+    } else {
+      return items
+    }
+  },
+
+  onPortalOpen (e, domNode) {
+    if (this.refs.buttonActive && this.refs.timepickerContainer) {
+      let buttonEl = ReactDOM.findDOMNode(this.refs.buttonActive)
+      let containerEl = ReactDOM.findDOMNode(this.refs.timepickerContainer)
+      containerEl.scrollTop = buttonEl.offsetTop
+    }
+  },
+
+  render () {
+    let { error, placeholder, defaultValue } = this.props
+
+    return (
+      <div className={styles.base}>
+        <Input
+          ref='timeInput'
+          defaultValue={this.state.inputValue}
+          placeholder='Select or enter a time'
+          onFocus={this.onInputFocus}
+          onChange={this.onInputChange} />
+        <Portal ref='timepickerPortal' closeOnEsc closeOnOutsideClick onOpen={this.onPortalOpen}>
+          <div ref='timepickerContainer' className={styles.timepickerContainer} style={this.state.timepickerPosition}>
+            {this.renderTimeList()}
+          </div>
+        </Portal>
+      </div>
+    )
+  }
+})
+
+export default TimePicker

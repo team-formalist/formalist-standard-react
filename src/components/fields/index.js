@@ -3,9 +3,9 @@ import Container from './container'
 // import array from './array'
 // import assets from './assets'
 // import content from './content'
-// import dateTime from './dateTime'
 import bool, { displayVariants as boolDisplayVariants } from './bool'
 import date, { displayVariants as dateDisplayVariants } from './date'
+import dateTime, { displayVariants as dateTimeDisplayVariants } from './date-time'
 import decimal, { displayVariants as decimalDisplayVariants } from './decimal'
 import float, { displayVariants as floatDisplayVariants } from './float'
 import int, { displayVariants as intDisplayVariants } from './int'
@@ -30,6 +30,7 @@ export const displayVariants = {
   bool: boolDisplayVariants,
   int: intDisplayVariants,
   date: dateDisplayVariants,
+  dateTime: dateTimeDisplayVariants,
   decimal: decimalDisplayVariants,
   float: floatDisplayVariants,
   string: stringDisplayVariants
@@ -45,6 +46,7 @@ function fields (options = {}) {
     bool: wrapField(bool, options.bool),
     int: wrapField(int, options.int),
     date: wrapField(date, options.date),
+    date_time: wrapField(dateTime, options.dateTime),
     decimal: wrapField(decimal, options.decimal),
     float: wrapField(float, options.float),
     string: wrapField(string, options.string)
