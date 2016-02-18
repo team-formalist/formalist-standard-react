@@ -3,15 +3,17 @@
 /**
  * Sans-serif: Work Sans
  */
-@value sansBoldWeight: 600;
+@value fontSans: 'Work Sans', 'Helvetica', sans-serif;
+@value fontfontSansBoldWeight: 700;
+@value fontMono: 'Inconsolata', monospace;
 
 .sans {
-  font-family: 'Work Sans', sans-serif;
+  font-family: fontSans;
 }
 
 .sansBold {
   composes: sans;
-  font-weight: sansBoldWeight;
+  font-weight: fontfontSansBoldWeight;
 }
 
 /**
@@ -19,7 +21,7 @@
  */
 
 .mono {
-  font-family: 'Inconsolata';
+  font-family: fontMono;
 }
 
 /* Line height */
@@ -29,24 +31,31 @@
 }
 
 /* Sizes */
+
+@value fontSizeXSmall: 1.1rem;
+@value fontSizeSmall: 1.3rem;
+@value fontSizeNormal: 1.4rem;
+@value fontSizeLarge: 1.8rem;
+@value fontSizeXLarge: 2rem;
+
 .xsmall {
-  font-size: 1.2rem;
+  font-size: fontSizeXSmall;
 }
 
 .small {
-  font-size: 1.4rem;
+  font-size: fontSizeSmall;
 }
 
 .normal {
-  font-size: 1.6rem;
+  font-size: fontSizeNormal;
 }
 
 .large {
-  font-size: 1.8rem;
+  font-size: fontSizeLarge;
 }
 
 .xlarge {
-  font-size: 2rem;
+  font-size: fontSizeXLarge;
 }
 
 /* Misc */
