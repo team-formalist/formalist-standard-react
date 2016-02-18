@@ -1,4 +1,4 @@
-@value styles: '../styles.mcss';
+@value styles: 'formalist/theme/index.mcss';
 @value popovers: '../popovers.mcss';
 
 .base {}

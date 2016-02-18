@@ -1,8 +1,25 @@
-@value styles: '../../ui/styles.mcss';
+@value styles: 'formalist/theme/index.mcss';
 
 .base {
   composes: base from '../shared.mcss';
 }
+
+.baseInline {
+  display: flex;
+}
+
+  .baseInline .header {
+    flex: 1;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    text-align: right;
+  }
+
+  .baseInline .display {
+    flex: 2;
+  }
+
+.errors {}
 
 .code {
   composes: mono from styles;

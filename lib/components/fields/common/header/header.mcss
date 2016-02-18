@@ -1,4 +1,4 @@
-@value styles: '../../../ui/styles.mcss';
+@value styles: 'formalist/theme/index.mcss';
 
 .base {
   margin-bottom: 1rem;

@@ -14,8 +14,8 @@
 
 /* Sizes */
 
-.mini {
-  composes: mini from '../input-boxes.mcss';
+.xsmall {
+  composes: xsmall from '../input-boxes.mcss';
 }
 
 .small {
@@ -30,6 +30,6 @@
   composes: large from '../input-boxes.mcss';
 }
 
-.huge {
-  composes: huge from '../input-boxes.mcss';
+.xlarge {
+  composes: xlarge from '../input-boxes.mcss';
 }

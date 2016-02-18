@@ -1,4 +1,4 @@
-@value styles: './styles.mcss';
+@value styles: 'formalist/theme/index.mcss';
 
 @value error, errorLight, greyLight, greyTint, lightBlend from styles;
 
@@ -37,8 +37,8 @@
 
 /* Sizes */
 
-.mini {
-  composes: mini from styles;
+.xsmall {
+  composes: xsmall from styles;
 }
 
 .small {
@@ -53,6 +53,6 @@
   composes: large from styles;
 }
 
-.huge {
-  composes: huge from styles;
+.xlarge {
+  composes: xlarge from styles;
 }
