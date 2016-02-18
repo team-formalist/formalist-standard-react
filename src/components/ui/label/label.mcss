@@ -1,3 +1,5 @@
+@value styles: 'formalist/theme/index.mcss';
+
 .base {
-  composes: sansBold from '../typography.mcss';
+  composes: sansBold from styles;
 }

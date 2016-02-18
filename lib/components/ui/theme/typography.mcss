@@ -29,7 +29,7 @@
 }
 
 /* Sizes */
-.mini {
+.xsmall {
   font-size: 1.2rem;
 }
 
@@ -45,7 +45,7 @@
   font-size: 1.8rem;
 }
 
-.huge {
+.xlarge {
   font-size: 2rem;
 }
 
@@ -59,7 +59,7 @@
 /* Headers */
 
 .headerSmallCaps {
-  composes: sansBold mini uppercase;
+  composes: sansBold xsmall uppercase;
   letter-spacing: 0.12em;
 }
 

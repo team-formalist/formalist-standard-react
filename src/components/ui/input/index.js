@@ -19,7 +19,7 @@ const Input = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
-    size: React.PropTypes.oneOf(['mini', 'small', 'normal', 'large', 'huge'])
+    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
   },
 
   getDefaultProps () {

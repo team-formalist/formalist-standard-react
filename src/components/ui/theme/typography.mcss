@@ -1,0 +1,66 @@
+/* Fonts */
+
+/**
+ * Sans-serif: Work Sans
+ */
+@value sansBoldWeight: 600;
+
+.sans {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.sansBold {
+  composes: sans;
+  font-weight: sansBoldWeight;
+}
+
+/**
+ * Monospace: Inconsolata
+ */
+
+.mono {
+  font-family: 'Inconsolata';
+}
+
+/* Line height */
+
+.lineHeightNormal {
+  line-height: 1.3;
+}
+
+/* Sizes */
+.xsmall {
+  font-size: 1.2rem;
+}
+
+.small {
+  font-size: 1.4rem;
+}
+
+.normal {
+  font-size: 1.6rem;
+}
+
+.large {
+  font-size: 1.8rem;
+}
+
+.xlarge {
+  font-size: 2rem;
+}
+
+/* Misc */
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+
+/* Headers */
+
+.headerSmallCaps {
+  composes: sansBold xsmall uppercase;
+  letter-spacing: 0.12em;
+}
+
+

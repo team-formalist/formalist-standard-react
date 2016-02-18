@@ -29,7 +29,7 @@ function boxSize(size) {
       minRows: 8,
       maxRows: 16
     },
-    huge: {
+    xlarge: {
       minRows: 12
     }
   }
@@ -43,8 +43,8 @@ const TextBox = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
-    size: React.PropTypes.oneOf(['mini', 'small', 'normal', 'large', 'huge']),
-    boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'huge'])
+    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge'])
   },
 
   getDefaultProps () {

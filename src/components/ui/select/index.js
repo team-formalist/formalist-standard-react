@@ -21,7 +21,7 @@ const Select = React.createClass({
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
     placeholder: React.PropTypes.string,
-    size: React.PropTypes.oneOf(['mini', 'small', 'normal', 'large', 'huge'])
+    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
   },
 
   getDefaultProps () {

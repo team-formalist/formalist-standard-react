@@ -1,11 +1,13 @@
+@value styles: 'formalist/theme/index.mcss';
+@value greyTint from styles;
+
 .base {
   margin-bottom: 5rem;
 }
 
 .name {
-  composes: headerSmallCaps from './ui/typography.mcss';
-  border-bottom: 1px solid #ccc;
-  box-shadow: inset 0px -2px 0px 0px rgba(20,15,10,0.05);
+  composes: headerSmallCaps from styles;
+  border-bottom: 3px solid greyTint;
   margin-bottom: 1.8rem;
   padding-bottom: 1.8rem;
 }

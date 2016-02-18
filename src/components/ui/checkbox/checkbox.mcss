@@ -1,4 +1,4 @@
-@value styles: '../styles.mcss';
+@value styles: 'formalist/theme/index.mcss';
 @value highlight from styles;
 
 .button {
@@ -34,8 +34,8 @@
 
 /* Sizes */
 
-.mini {
-  composes: mini from '../input-boxes.mcss';
+.xsmall {
+  composes: xsmall from '../input-boxes.mcss';
 }
 
 .small {
@@ -50,6 +50,6 @@
   composes: large from '../input-boxes.mcss';
 }
 
-.huge {
-  composes: huge from '../input-boxes.mcss';
+.xlarge {
+  composes: xlarge from '../input-boxes.mcss';
 }

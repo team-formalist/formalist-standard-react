@@ -1,0 +1,132 @@
+/* White */
+
+@value white: #fff;
+
+.whiteColor {
+  color: white;
+}
+
+.whiteBackground {
+  background-color: white;
+}
+
+.whiteBorder {
+  border-color: white;
+}
+
+
+/* Greys */
+
+@value greyLight: #ccc;
+@value greyTint: #f1f1f1;
+
+.greyLightColor {
+  color: greyLight;
+}
+
+.greyLightBackground {
+  background-color: greyLight;
+}
+
+.greyLightBorder {
+  border-color: greyLight;
+}
+
+.greyTintBackground {
+  background-color: greyTint;
+}
+
+.greyTintBorder {
+  border-color: greyTint;
+}
+
+/*
+
+primaryAlternate
+secondary
+secondaryAlternate
+error
+greys
+
+*/
+
+/* Primary */
+
+@value primary: #333;
+
+.primaryColor {
+  color: primary;
+}
+
+.primaryBackground {
+  background-color: primary;
+}
+
+.primaryBorder {
+  border-color: primary;
+}
+
+
+/* Error */
+
+@value error: #eb4d5c;
+@value errorLight: #fff4f5;
+
+.errorColor {
+  color: error;
+}
+
+.errorBackground {
+  background-color: error;
+}
+
+.errorBorder {
+  border-color: error;
+}
+
+.errorLightBackground {
+  background-color: errorLight;
+}
+
+
+/* Highlight */
+
+@value highlight: #7fc2ea;
+@value highlightLight: #dff1fc;
+
+.highlightColor {
+  color: highlight;
+}
+
+.highlightBorder {
+  border-color: highlight;
+}
+
+.highlightBackground {
+  background-color: highlight;
+}
+
+.highlightLightColor {
+  color: highlightLight;
+}
+
+.highlightLightBorder {
+  border-color: highlightLight;
+}
+
+.highlightLightBackground {
+  background-color: highlightLight;
+}
+
+/* Blends */
+
+@value darkBlend: rgba(0,0,0,0.9);
+@value lightBlend: rgba(0,0,0,0.2);
+
+.darkBlendColor {
+  color: darkBlend;
+}
+
+.lightBlendColor {
+  color: lightBlend;
+}
