@@ -1,4 +1,4 @@
-@value styles: 'formalist/theme/index.mcss';
+@value styles: 'formalist-theme/theme/index.mcss';
 
 .base {
   composes: base from '../shared.mcss';
