@@ -1,6 +1,6 @@
 @value styles: 'formalist/theme/index.mcss';
 @value popovers: '../popovers.mcss';
-@value greyLight, highlight, highlightLight, white, sansBoldWeight from styles;
+@value greyLight, highlight, highlightLight, white, fontSansBoldWeight from styles;
 
 /* Day picker */
 
@@ -65,7 +65,7 @@
 
   .daypickerContainer :global(.DayPicker-Caption) {
     display: table-caption;
-    font-weight: sansBoldWeight;
+    font-weight: fontSansBoldWeight;
     margin-bottom: 0.8rem;
     text-align: center;
   }
