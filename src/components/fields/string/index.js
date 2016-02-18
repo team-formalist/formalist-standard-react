@@ -68,10 +68,18 @@ const StringBase = React.createClass({
       Object.assign({}, this.props.displayVariants, displayVariants),
       'string'
     )
+    let fieldClassNames = classNames(
+      styles.base,
+      {
+        [`${styles.baseInline}`]: config.inline
+      }
+    )
 
     return (
-      <div className={styles.base}>
-        <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+      <div className={fieldClassNames}>
+        <div className={styles.header}>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+        </div>
         <div className={styles.display}>
           <Display
             onChange={this.onChange}
@@ -80,8 +88,8 @@ const StringBase = React.createClass({
             )}
             error={hasErrors}
             {...this.props}/>
+          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
         </div>
-        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )
   }
