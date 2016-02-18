@@ -14,15 +14,16 @@ const StringDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config, name, className } = this.props
+    let { config, error, name, className } = this.props
 
     return (
       <TextBox
         id={name}
         className={className}
-        boxSize={config.box_size}
+        error={error}
         defaultValue={this.props.value}
         placeholder={config.placeholder}
+        boxSize={config.box_size}
         onChange={this.props.onChange} />
     )
   }

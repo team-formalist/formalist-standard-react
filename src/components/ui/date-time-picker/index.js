@@ -93,6 +93,7 @@ const DateTimePicker = React.createClass({
         </div>
         <div className={styles.timePicker}>
           <TimePicker
+            error={error}
             defaultValue={timeValue}
             onChange={this.onTimeChange}/>
         </div>

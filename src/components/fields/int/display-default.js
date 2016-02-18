@@ -11,7 +11,7 @@ const IntDisplayDefault = React.createClass({
   },
 
   render () {
-    let { className, config, name } = this.props
+    let { className, config, error, name } = this.props
 
     // Configure specific number attributes from the config
     let numberProps = {}
@@ -27,6 +27,7 @@ const IntDisplayDefault = React.createClass({
       <Input
         id={name}
         className={className}
+        error={error}
         type='number'
         defaultValue={this.props.value}
         placeholder={config.placeholder}
