@@ -1,6 +1,11 @@
 import React from 'react'
 
 const ManySet = React.createClass({
+
+  propTypes: {
+    children: React.PropTypes.array
+  },
+
   render () {
     return (
       <div>
@@ -22,6 +27,12 @@ const Many = ({name, children, errors}) => {
       ))}
     </div>
   )
+}
+
+Many.propTypes = {
+  name: React.PropTypes.string,
+  errors: React.PropTypes.array,
+  children: React.PropTypes.array
 }
 
 export default Many
