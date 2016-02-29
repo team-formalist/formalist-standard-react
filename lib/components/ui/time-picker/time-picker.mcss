@@ -1,25 +1,8 @@
 @value styles: 'formalist-theme/theme/index.mcss';
-@value popovers: '../popovers.mcss';
 
 .base {}
 
 /* Time picker */
-
-.timepickerContainer {
-  composes: normal sans whiteBackground from styles;
-  composes: popover from popovers;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  max-height: 20rem;
-  max-width: 20rem;
-  min-width: 14rem;
-  overflow-y: scroll;
-  overflow-scroll: touch;
-  position: absolute;
-}
-
-.item {
-}
 
 .button {
   composes: small sans greyTintBorder whiteBackground from styles;
