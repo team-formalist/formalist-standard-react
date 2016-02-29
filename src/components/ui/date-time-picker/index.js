@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import "moment/locale/en-au"
+import 'moment/locale/en-au'
 
 // Components
 import DatePicker from '../date-picker'
@@ -16,6 +16,13 @@ const dateFormats = {
 }
 
 const DateTimePicker = React.createClass({
+  propTypes: {
+    defaultValue: React.PropTypes.string,
+    error: React.PropTypes.bool,
+    id: React.PropTypes.string,
+    onChange: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string
+  },
 
   getInitialState () {
     if (this.props.defaultValue) {
@@ -40,8 +47,8 @@ const DateTimePicker = React.createClass({
       if (this.dateTime) {
         this.dateTime = this.dateTime.set({
           year: parsedDate.year(),
-          month:  parsedDate.month(),
-          date:  parsedDate.date()
+          month: parsedDate.month(),
+          date: parsedDate.date()
         })
       } else {
         this.dateTime = parsedDate
@@ -60,8 +67,8 @@ const DateTimePicker = React.createClass({
       if (this.dateTime) {
         this.dateTime = this.dateTime.set({
           hours: parsedTime.hours(),
-          minutes:  parsedTime.minutes(),
-          seconds:  parsedTime.seconds()
+          minutes: parsedTime.minutes(),
+          seconds: parsedTime.seconds()
         })
       } else {
         this.dateTime = parsedTime
@@ -75,7 +82,7 @@ const DateTimePicker = React.createClass({
   },
 
   render () {
-    let { className, error, id, placeholder, value } = this.props
+    let { error, id, placeholder } = this.props
 
     let dateValue = this.state.date
     let timeValue = this.state.time

@@ -2,7 +2,6 @@ import React from 'react'
 import Portal from 'react-portal'
 import styles from './popunder.mcss'
 
-
 /**
  * A "popunder" component. Creates a element that hangs under the passed
  * `reference` element.
@@ -25,6 +24,21 @@ import styles from './popunder.mcss'
  * @method getContainer
  */
 const Popunder = React.createClass({
+  propTypes: {
+    beforeClose: React.PropTypes.func,
+    children: React.PropTypes.node,
+    closeOnEsc: React.PropTypes.bool,
+    closeOnOutsideClick: React.PropTypes.bool,
+    offset: React.PropTypes.shape({
+      left: React.PropTypes.number,
+      top: React.PropTypes.number
+    }),
+    openByClickOn: React.PropTypes.node,
+    onOpen: React.PropTypes.func,
+    onClose: React.PropTypes.func,
+    onUpdate: React.PropTypes.func
+  },
+
   getDefaultProps () {
     return {
       offset: {
@@ -63,9 +77,9 @@ const Popunder = React.createClass({
     // Only bother if its rendered
     let referencePosition = this.refs.reference.getBoundingClientRect()
     let position = {
-        left: referencePosition.left + this.props.offset.left,
-        top: referencePosition.top + referencePosition.height + this.props.offset.top
-      }
+      left: referencePosition.left + this.props.offset.left,
+      top: referencePosition.top + referencePosition.height + this.props.offset.top
+    }
     this.setState({
       position
     })
@@ -108,12 +122,6 @@ const Popunder = React.createClass({
       beforeClose,
       onClose,
       onUpdate
-    } = this.props
-
-    // Extract other props
-    let {
-      className,
-      ref
     } = this.props
 
     let { position } = this.state

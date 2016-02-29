@@ -11,7 +11,7 @@ import Textarea from 'react-textarea-autosize'
  * @param  {String} size
  * @return {Object} An object describing the various row properties per-size.
  */
-function boxSize(size) {
+function boxSize (size) {
   let rows = {
     single: {
       rows: 1,
@@ -43,6 +43,8 @@ const TextBox = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
     boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge'])
   },
@@ -64,14 +66,14 @@ const TextBox = React.createClass({
   onFocus (e) {
     this.setState({focus: true})
     if (this.props.onFocus) {
-      this.props.onFocus(e);
+      this.props.onFocus(e)
     }
   },
 
   onBlur (e) {
     this.setState({focus: false})
     if (this.props.onBlur) {
-      this.props.onBlur(e);
+      this.props.onBlur(e)
     }
   },
 

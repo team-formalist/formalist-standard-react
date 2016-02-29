@@ -19,6 +19,8 @@ const Input = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
+    onBlur: React.PropTypes.func,
+    onFocus: React.PropTypes.func,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
   },
 
@@ -39,14 +41,14 @@ const Input = React.createClass({
   onFocus (e) {
     this.setState({focus: true})
     if (this.props.onFocus) {
-      this.props.onFocus(e);
+      this.props.onFocus(e)
     }
   },
 
   onBlur (e) {
     this.setState({focus: false})
     if (this.props.onBlur) {
-      this.props.onBlur(e);
+      this.props.onBlur(e)
     }
   },
 

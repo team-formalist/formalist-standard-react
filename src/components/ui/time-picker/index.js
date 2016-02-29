@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import moment from 'moment'
-import "moment/locale/en-au"
+import 'moment/locale/en-au'
 
 // Components
 import Popunder from '../popunder'
@@ -17,6 +17,13 @@ const dateFormats = {
 }
 
 const TimePicker = React.createClass({
+
+  propTypes: {
+    defaultValue: React.PropTypes.string,
+    error: React.PropTypes.bool,
+    onChange: React.PropTypes.func,
+    placeholder: React.PropTypes.string
+  },
 
   getInitialState () {
     let inputValue
@@ -85,9 +92,9 @@ const TimePicker = React.createClass({
   renderTimeItem (date, items, end, active) {
     if (end.diff(date) > 0) {
       // Check if active. We only care about hours/minutes
-      let isActive = (active
-        && active.hours() === date.hours()
-        && active.minutes() === date.minutes()
+      let isActive = (active &&
+        active.hours() === date.hours() &&
+        active.minutes() === date.minutes()
       )
       let buttonClassNames = classNames(
         styles.button,
@@ -115,7 +122,7 @@ const TimePicker = React.createClass({
   },
 
   render () {
-    let { error, placeholder, defaultValue } = this.props
+    let { error, placeholder } = this.props
 
     return (
       <div className={styles.base}>
@@ -123,7 +130,8 @@ const TimePicker = React.createClass({
           <Input
             ref='timeInput'
             defaultValue={this.state.inputValue}
-            placeholder='Select or enter a time'
+            error={error}
+            placeholder={placeholder || 'Select or enter a time'}
             onFocus={this.onInputFocus}
             onChange={this.onInputChange} />
           { this.renderTimeList() }

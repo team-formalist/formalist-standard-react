@@ -19,16 +19,21 @@ import styles from './select.mcss'
 const Select = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
+    children: React.PropTypes.node,
     error: React.PropTypes.bool,
+    defaultValue: React.PropTypes.string,
+    onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     placeholder: React.PropTypes.string,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
+    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    valueSeed: React.PropTypes.string
   },
 
   getDefaultProps () {
     return {
       error: false,
-      size: 'normal',
       placeholder: 'Select an option',
+      size: 'normal',
       valueSeed: uid(10)
     }
   },
@@ -42,14 +47,14 @@ const Select = React.createClass({
   onFocus (e) {
     this.setState({focus: true})
     if (this.props.onFocus) {
-      this.props.onFocus(e);
+      this.props.onFocus(e)
     }
   },
 
   onBlur (e) {
     this.setState({focus: false})
     if (this.props.onBlur) {
-      this.props.onBlur(e);
+      this.props.onBlur(e)
     }
   },
 
@@ -73,7 +78,7 @@ const Select = React.createClass({
 
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
-    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option>
+    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option> // eslint-disable-line react/jsx-boolean-value
     let defaultValue = this.props.defaultValue || this.props.valueSeed
 
     return (

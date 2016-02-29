@@ -5,7 +5,7 @@ import styles from './group.mcss'
 const Group = React.createClass({
 
   propTypes: {
-    hashCode: React.PropTypes.array,
+    hashCode: React.PropTypes.number.isRequired,
     children: React.PropTypes.array
   },
 

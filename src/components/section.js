@@ -4,7 +4,7 @@ import styles from './section.mcss'
 const Section = React.createClass({
 
   propTypes: {
-    hashCode: React.PropTypes.string,
+    hashCode: React.PropTypes.number.isRequired,
     config: React.PropTypes.array,
     name: React.PropTypes.string,
     children: React.PropTypes.array
