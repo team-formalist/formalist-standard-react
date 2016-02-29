@@ -1,17 +1,9 @@
 @value styles: 'formalist-theme/theme/index.mcss';
-@value popovers: '../popovers.mcss';
 @value greyLight, highlight, highlightLight, white, fontSansBoldWeight from styles;
 
 /* Day picker */
 
-.daypickerContainer {
-  composes: normal sans whiteBackground from styles;
-  composes: popover from popovers;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  padding: 0.5rem;
-  position: absolute;
-}
+.daypickerContainer {}
 
 /**
  * Base on the template from https://github.com/gpbl/react-day-picker/blob/master/src/style.css

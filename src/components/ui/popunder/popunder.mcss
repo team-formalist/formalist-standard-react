@@ -1,0 +1,15 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value popovers: '../popovers.mcss';
+
+.container {
+  composes: normal sans whiteBackground from styles;
+  composes: popover from popovers;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  max-height: 20rem;
+  max-width: 20rem;
+  min-width: 14rem;
+  overflow-y: scroll;
+  overflow-scroll: touch;
+  position: absolute;
+}

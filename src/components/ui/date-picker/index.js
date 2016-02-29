@@ -1,12 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import moment from 'moment'
 import "moment/locale/en-au"
 
 // Components
 import DayPicker, { DateUtils, LocaleUtils } from 'react-day-picker'
-import Portal from 'react-portal'
 import Input from '../input'
+import Popunder from '../popunder'
 
 // Styles
 import styles from './date-picker.mcss'
@@ -15,20 +14,11 @@ import styles from './date-picker.mcss'
 // FIXME Doesn't seem to work even though it's correct AFAICT
 const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 1})
 
-const daypickerOffset = {
-  left: 0,
-  top: 0
-}
-
 const DatePicker = React.createClass({
   getInitialState () {
     return {
       value: (this.props.defaultValue) ?  moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
-      month: this.props.month || new Date(),
-      daypickerPosition: {
-        left: 0,
-        top: 0
-      }
+      month: this.props.month || new Date()
     }
   },
 
@@ -36,18 +26,6 @@ const DatePicker = React.createClass({
     return {
       placeholder: 'Select a date'
     }
-  },
-
-  componentWillMount () {
-    window.addEventListener('resize', this.onResize)
-  },
-
-  componentWillUnmount () {
-    window.removeEventListener('resize', this.onResize)
-  },
-
-  componentDidMount () {
-    this.calculateDaypickerPosition()
   },
 
   onInputChange (e) {
@@ -74,8 +52,7 @@ const DatePicker = React.createClass({
   },
 
   onInputFocus (e) {
-    this.refs.daypickerPortal.openPortal()
-    this.calculateDaypickerPosition()
+    this.refs.popunder.openPopunder()
   },
 
   onDayClick (e, day) {
@@ -89,22 +66,6 @@ const DatePicker = React.createClass({
     this.props.onChange(storedValue)
   },
 
-  onResize (e) {
-    this.calculateDaypickerPosition()
-  },
-
-  calculateDaypickerPosition () {
-    // Only bother if its rendered
-    let inputEl = ReactDOM.findDOMNode(this.refs.dateInput)
-    let inputPosition = inputEl.getBoundingClientRect()
-    this.setState({
-      daypickerPosition: {
-        left: inputPosition.left + daypickerOffset.left,
-        top: inputPosition.top + inputPosition.height + daypickerOffset.top
-      }
-    })
-  },
-
   render () {
     let { id, className, error, placeholder } = this.props
     let { value } = this.state
@@ -112,16 +73,15 @@ const DatePicker = React.createClass({
 
     return (
       <div className={className}>
-        <Input
-          ref='dateInput'
-          id={id}
-          error={error}
-          placeholder={placeholder}
-          value={value}
-          onChange={this.onInputChange}
-          onFocus={this.onInputFocus} />
-        <Portal ref='daypickerPortal' closeOnEsc closeOnOutsideClick>
-          <div ref='daypickerContainer' className={styles.daypickerContainer} style={this.state.daypickerPosition}>
+        <Popunder ref='popunder' closeOnEsc closeOnOutsideClick>
+          <Input
+            id={id}
+            error={error}
+            placeholder={placeholder}
+            value={value}
+            onChange={this.onInputChange}
+            onFocus={this.onInputFocus} />
+          <div className={styles.daypickerContainer}>
             <DayPicker
               ref='daypicker'
               locale='en-AU'
@@ -132,7 +92,7 @@ const DatePicker = React.createClass({
               }}
               onDayClick={ this.onDayClick } />
           </div>
-        </Portal>
+        </Popunder>
       </div>
     )
   }
