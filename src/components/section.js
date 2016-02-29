@@ -1,8 +1,15 @@
 import React from 'react'
-import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './section.mcss'
 
 const Section = React.createClass({
+
+  propTypes: {
+    hashCode: React.PropTypes.string,
+    config: React.PropTypes.array,
+    name: React.PropTypes.string,
+    children: React.PropTypes.array
+  },
+
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
     // section. This should take account of any change to the AST.

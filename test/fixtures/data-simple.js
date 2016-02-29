@@ -2,44 +2,48 @@ const simple = [
   [
     'field',
     [
-      'field_one_name',
+      'string_default',
       'string',
-      '123',
-      [
-        'error message one', 'error message two'
-      ],
-      [
-        ['label', 'Field one name'],
-        ['display_variant', 'select'],
-        ['option_values', [
-          ['123', '123'], ['234', '234'], ['456', '456']
-        ]]
-      ]
+      'default',
+      null,
+      [],
+      [],
+      []
     ]
   ],
   [
     'field',
     [
-      'field_two_name',
+      'string_code',
       'string',
-      'Title goes here',
+      'default',
+      null,
+      [],
       [],
       [
-        ['display_options', ['code']]
+        [
+          'display_options',
+          [
+            'code'
+          ]
+        ]
       ]
     ]
   ],
   [
     'section',
     [
-      'Main section',
+      'string',
+      [],
       [
         [
           'field',
           [
-            'field_three_name',
+            'string_default',
             'string',
-            '321',
+            'default',
+            null,
+            [],
             [],
             []
           ]
@@ -47,9 +51,11 @@ const simple = [
         [
           'field',
           [
-            'field_four_name',
+            'string_password',
             'string',
-            'Content goes here',
+            'default',
+            null,
+            [],
             [],
             []
           ]
@@ -60,118 +66,181 @@ const simple = [
   [
     'field',
     [
-      'field_int_name',
+      'int_step',
       'int',
-      123,
+      'default',
+      null,
+      [],
       [],
       [
-        ['step', 2]
+        [
+          'step',
+          5
+        ]
       ]
     ]
   ],
   [
     'field',
     [
-      'field_int_as_select',
-      'int',
-      5,
-      [],
-      [
-        ['display_variant', 'select'],
-        ['option_values', [
-          [1, 'Top right'],
-          [2, 'Top center'],
-          [3, 'Top right'],
-          [4, 'Middle right'],
-          [5, 'Middle center'],
-          [6, 'Middle right'],
-          [7, 'Bottom right'],
-          [8, 'Bottom center'],
-          [9, 'Bottom right']
-        ]]
-      ]
-    ]
-  ],
-  [
-    'field',
-    [
-      'field_string_as_radio',
+      'string_select',
       'string',
-      'left',
+      'select',
+      null,
+      [],
       [],
       [
-        ['display_variant', 'radio'],
-        ['option_values', [
-          ['left', 'Left'], ['right', 'Right']
-        ]]
+        [
+          'label',
+          'String (select)'
+        ],
+        [
+          'placeholder',
+          'Select your favourite number'
+        ],
+        [
+          'option_values',
+          [
+            'One',
+            'Two',
+            'Three'
+          ]
+        ]
       ]
     ]
   ],
   [
     'field',
     [
-      'field_int_as_radio',
+      'string_radio',
+      'string',
+      'radio',
+      null,
+      [],
+      [],
+      [
+        [
+          'label',
+          'String (radio)'
+        ],
+        [
+          'option_values',
+          [
+            'One',
+            'Two',
+            'Three'
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    'field',
+    [
+      'int_radio',
       'int',
-      5,
+      'radio',
+      null,
+      [],
       [],
       [
-        ['display_variant', 'radio'],
-        ['option_values', [
-          [1, 'Top right'],
-          [2, 'Top center'],
-          [3, 'Top right'],
-          [4, 'Middle right'],
-          [5, 'Middle center'],
-          [6, 'Middle right'],
-          [7, 'Bottom right'],
-          [8, 'Bottom center'],
-          [9, 'Bottom right']
-        ]]
+        [
+          'label',
+          'Int (radio)'
+        ],
+        [
+          'option_values',
+          [
+            [
+              1,
+              'One'
+            ],
+            [
+              2,
+              'Two'
+            ],
+            [
+              3,
+              'Three'
+            ]
+          ]
+        ]
       ]
     ]
   ],
   [
     'field',
     [
-      'field_float_as_radio',
+      'float_radio',
       'float',
-      0.5,
+      'radio',
+      null,
+      [],
       [],
       [
-        ['display_variant', 'radio'],
-        ['option_values', [
-          [0.1, 'Top right'],
-          [0.2, 'Top center'],
-          [0.3, 'Top right'],
-          [0.4, 'Middle right'],
-          [0.5, 'Middle center'],
-          [0.6, 'Middle right'],
-          [0.7, 'Bottom right'],
-          [0.8, 'Bottom center'],
-          [0.9, 'Bottom right']
-        ]]
+        [
+          'label',
+          'Float (radio)'
+        ],
+        [
+          'option_values',
+          [
+            [
+              1.1,
+              '1.1'
+            ],
+            [
+              2.4,
+              '2.4'
+            ],
+            [
+              3.14159265359,
+              'Ï€'
+            ]
+          ]
+        ]
       ]
     ]
   ],
   [
     'field',
     [
-      'field_decimal',
+      'decimal_default',
       'decimal',
-      5.5,
+      'default',
+      null,
       [],
-      []
+      [],
+      [
+        [
+          'label',
+          'Decimal (default)'
+        ],
+        [
+          'placeholder',
+          'Default decimal input'
+        ]
+      ]
     ]
   ],
   [
     'field',
     [
-      'field_bool',
+      'bool_default',
       'bool',
-      false,
+      'default',
+      null,
+      [],
       [],
       [
-        ['question_text', 'Is boolean?']
+        [
+          'label',
+          'Bool (default)'
+        ],
+        [
+          'question_text',
+          'Do you like me?'
+        ]
       ]
     ]
   ]

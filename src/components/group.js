@@ -3,6 +3,12 @@ import React from 'react'
 import styles from './group.mcss'
 
 const Group = React.createClass({
+
+  propTypes: {
+    hashCode: React.PropTypes.array,
+    children: React.PropTypes.array
+  },
+
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
     // section. This should take account of any change to the AST.

@@ -33,6 +33,8 @@
   },
   "homepage": "https://github.com/icelab/formalist-standard-react",
   "devDependencies": {
+    "@f/is-function": "^1.1.1",
+    "autoprefixer": "^6.3.3",
     "babel-cli": "^6.3.17",
     "babel-loader": "^6.2.1",
     "babel-plugin-css-modules-transform": "0.0.4",
@@ -45,6 +47,8 @@
     "eslint-plugin-react": "^3.13.1",
     "eslint-plugin-standard": "^1.3.1",
     "faucet": "0.0.1",
+    "ignore-styles": "^1.2.0",
+    "jsdom": "^8.0.4",
     "react-addons-test-utils": "^0.14.5",
     "tape": "^4.2.2",
     "wr": "^1.3.1"
@@ -62,7 +66,6 @@
     "postcss-modules-scope": "^1.0.0",
     "postcss-modules-values": "^1.1.1",
     "react-day-picker": "^1.2.0",
-    "react-dom": "^0.14.6",
     "react-immutable-proptypes": "^1.5.1",
     "react-portal": "1.7.0",
     "react-textarea-autosize": "^3.3.0",
@@ -71,6 +74,7 @@
     "uid": "0.0.2"
   },
   "peerDependencies": {
-    "react": "^0.14.7"
+    "react": "^0.14.7",
+    "react-dom": "^0.14.6"
   }
 }

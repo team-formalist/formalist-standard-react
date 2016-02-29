@@ -1,21 +1,14 @@
 import test from 'tape'
 import { mount } from 'enzyme'
 import React from 'react'
-import jsdom from 'jsdom'
+import isFunction from '@f/is-function'
 
-// A super simple DOM ready for React to render into
-// Store this DOM and the window in global scope ready for React to access
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>')
-global.window = document.defaultView
-global.navigator = {userAgent: 'node.js'}
-
-// import { actionTypes } from 'formalist-compose'
+/* fixtures */
+import './fixtures/ignore-styles'
+import './fixtures/dom'
 import dataSimple from './fixtures/data-simple'
-import standardFormTemplate from '../src'
 
-const isFunction = function (obj) {
-  return typeof obj === 'function'
-}
+import standardFormTemplate from '../src'
 
 test('it should export a standard form template', (nest) => {
   nest.test('... returning a callable function', (assert) => {
@@ -29,20 +22,21 @@ test('it should create a standard form instance', (nest) => {
   let wrapper = mount(<article>{form.render()}</article>)
 
   nest.test('... with different display types for inputs', (assert) => {
-    assert.ok(wrapper.find('input').at(0).hasClass('fm-field-string--code'))
+    const el = wrapper.find('input').at(0).node
+    const actual = el.getAttribute('id')
+    const expected = 'string_default'
+    assert.equal(expected, actual)
     assert.end()
   })
 
   nest.test('... that updates data', (assert) => {
-    assert.plan(1)
-
-    let expectedValue = 'Data has changed'
+    let expected = 'Data has changed'
     let input = wrapper.find('input').at(0)
-    wrapper.find('input').get(0).value = expectedValue
+    wrapper.find('input').get(0).value = expected
 
     form.store.subscribe(() => {
-      let updatedValue = form.store.getState().getIn([1, 1, 2])
-      assert.equals(updatedValue, expectedValue)
+      let actual = form.store.getState().getIn([0, 1, 3])
+      assert.equals(expected, actual)
       assert.end()
     })
 
