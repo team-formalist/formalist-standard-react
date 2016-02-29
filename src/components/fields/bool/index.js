@@ -16,7 +16,7 @@ import styles from './bool.mcss'
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
  */
-export const displayVariants = {
+export const availableDisplayVariants = {
   'default': Default
 }
 
@@ -32,11 +32,13 @@ const BoolBase = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     config: React.PropTypes.object,
-    name: React.PropTypes.string,
-    value: React.PropTypes.bool,
+    displayVariant: React.PropTypes.string,
+    displayVariants: React.PropTypes.object,
+    errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    name: React.PropTypes.string,
+    value: React.PropTypes.bool
   },
 
   /**
@@ -51,12 +53,12 @@ const BoolBase = React.createClass({
   },
 
   render () {
-    let { config, displayVariant, errors, hint } = this.props
+    let { config, displayVariant, displayVariants, errors, hint } = this.props
     let hasErrors = (errors.count() > 0)
     // Determine the React class to render based on the display_variant configuration
     let Display = extractDisplayVariant(
       displayVariant,
-      Object.assign({}, this.props.displayVariants, displayVariants),
+      Object.assign({}, displayVariants, availableDisplayVariants),
       'bool'
     )
 

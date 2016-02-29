@@ -26,7 +26,7 @@ function wrapField (field, options = {}) {
   }
 }
 
-export const displayVariants = {
+export const availableDisplayVariants = {
   bool: boolDisplayVariants,
   int: intDisplayVariants,
   date: dateDisplayVariants,

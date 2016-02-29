@@ -11,11 +11,12 @@ import Checkbox from '../../ui/checkbox'
  */
 const BoolDisplayDefault = React.createClass({
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string.isRequired,
-    value: React.PropTypes.bool,
     config: React.PropTypes.object,
-    onChange: React.PropTypes.func
+    error: React.PropTypes.bool,
+    label: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func,
+    value: React.PropTypes.bool
   },
 
   render () {

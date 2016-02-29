@@ -28,13 +28,13 @@ const FieldHeader = React.createClass({
     let labelClassNames = classNames(styles.base,
       styles.label,
       {
-        [`${styles.error}`]: this.props.error,
+        [`${styles.error}`]: this.props.error
       }
     )
     let hintClassNames = classNames(styles.base,
       styles.hint,
       {
-        [`${styles.error}`]: this.props.error,
+        [`${styles.error}`]: this.props.error
       }
     )
     return (

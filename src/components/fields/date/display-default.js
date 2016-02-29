@@ -5,10 +5,12 @@ import DatePicker from '../../ui/date-picker'
 
 const StringDisplayDefault = React.createClass({
   propTypes: {
-    value: React.PropTypes.string,
-    error: React.PropTypes.bool,
+    className: React.PropTypes.string,
     config: React.PropTypes.object,
-    onChange: React.PropTypes.func.isRequired
+    error: React.PropTypes.bool,
+    name: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    value: React.PropTypes.string
   },
 
   render () {

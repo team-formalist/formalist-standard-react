@@ -4,14 +4,17 @@ import React from 'react'
 import Input from '../../ui/input'
 
 const StringDisplayDefault = React.createClass({
+
   propTypes: {
+    className: React.PropTypes.string,
+    config: React.PropTypes.object,
+    error: React.PropTypes.bool,
+    name: React.PropTypes.string.isRequired,
+    onChange: React.PropTypes.func.isRequired,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
-    ]),
-    error: React.PropTypes.bool,
-    config: React.PropTypes.object,
-    onChange: React.PropTypes.func.isRequired
+    ])
   },
 
   render () {

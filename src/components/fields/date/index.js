@@ -16,7 +16,7 @@ import styles from './date.mcss'
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
  */
- export const displayVariants = {
+export const availableDisplayVariants = {
   'default': Default
 }
 
@@ -32,14 +32,16 @@ const DateBase = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     config: React.PropTypes.object,
+    displayVariant: React.PropTypes.string,
+    displayVariants: React.PropTypes.object,
+    errors: ImmutablePropTypes.list,
+    hint: React.PropTypes.string,
+    label: React.PropTypes.string,
     name: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
-    ]),
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    ])
   },
 
   /**
@@ -54,11 +56,11 @@ const DateBase = React.createClass({
   },
 
   render () {
-    let { config, displayVariant, errors, hint, label, name } = this.props
+    let { config, displayVariant, displayVariants, errors, hint, label, name } = this.props
     let hasErrors = (errors.count() > 0)
     let Display = extractDisplayVariant(
       displayVariant,
-      Object.assign({}, this.props.displayVariants, displayVariants),
+      Object.assign({}, displayVariants, availableDisplayVariants),
       'string'
     )
 

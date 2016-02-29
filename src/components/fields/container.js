@@ -13,13 +13,17 @@ const { addField, deleteField, editField, validateField } = actions
 const FieldContainer = React.createClass({
 
   propTypes: {
+    config: React.PropTypes.object,
+    displayVariant: React.PropTypes.string,
+    displayVariants: React.PropTypes.object,
+    errors: ImmutablePropTypes.list,
+    field: React.PropTypes.func.isRequired,
     hashCode: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string.isRequired,
     path: ImmutablePropTypes.list.isRequired,
+    rules: ImmutablePropTypes.list,
     store: React.PropTypes.object.isRequired,
     type: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    config: React.PropTypes.object,
-    field: React.PropTypes.func.isRequired,
     value: React.PropTypes.any
   },
 
@@ -42,7 +46,6 @@ const FieldContainer = React.createClass({
       path,
       rules,
       store,
-      type,
       value
     } = this.props
     let Field = field
@@ -71,11 +74,11 @@ const FieldContainer = React.createClass({
     // Extract a few config things
     let label = config.label || this.props.name.replace(/_/g, ' ')
 
-    // Set up standard classNames based on `type`
+    // Set up standard classNames
     let containerClassNames = classNames(
       styles.base,
       {
-        [`${styles.errors}`]: (this.props.errors.count() > 0)
+        [`${styles.errors}`]: (errors.count() > 0)
       }
     )
 

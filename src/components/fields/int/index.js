@@ -19,7 +19,7 @@ import styles from './int.mcss'
  * Set up an object that holds all the `display_variants` by matching key
  * @type {Object}
  */
-export const displayVariants = {
+export const availableDisplayVariants = {
   'default': Default,
   'radio': Radio,
   'select': Select
@@ -37,11 +37,13 @@ const IntBase = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     config: React.PropTypes.object,
-    name: React.PropTypes.string,
-    value: React.PropTypes.number,
+    displayVariant: React.PropTypes.string,
+    displayVariants: React.PropTypes.object,
+    errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    name: React.PropTypes.string,
+    value: React.PropTypes.number
   },
 
   /**
@@ -59,11 +61,11 @@ const IntBase = React.createClass({
   },
 
   render () {
-    let { config, displayVariant, errors, hint, label, name } = this.props
+    let { config, displayVariant, displayVariants, errors, hint, label, name } = this.props
     let hasErrors = (errors.count() > 0)
     let Display = extractDisplayVariant(
       displayVariant,
-      Object.assign({}, this.props.displayVariants, displayVariants),
+      Object.assign({}, displayVariants, availableDisplayVariants),
       'int'
     )
 

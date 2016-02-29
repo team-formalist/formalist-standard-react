@@ -7,6 +7,7 @@ import styles from './errors.mcss'
  * A common component for rendering errors for a field.
  */
 const FieldErrors = React.createClass({
+
   propTypes: {
     errors: ImmutablePropTypes.list.isRequired
   },
@@ -32,6 +33,6 @@ const FieldErrors = React.createClass({
       </div>
     )
   }
- })
+})
 
 export default FieldErrors

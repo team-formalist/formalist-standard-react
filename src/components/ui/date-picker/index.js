@@ -15,9 +15,19 @@ import styles from './date-picker.mcss'
 const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 1})
 
 const DatePicker = React.createClass({
+  propTypes: {
+    className: React.PropTypes.string,
+    defaultValue: React.PropTypes.string,
+    error: React.PropTypes.bool,
+    id: React.PropTypes.string,
+    month: React.PropTypes.number,
+    onChange: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string
+  },
+
   getInitialState () {
     return {
-      value: (this.props.defaultValue) ?  moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
+      value: (this.props.defaultValue) ? moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
       month: this.props.month || new Date()
     }
   },
@@ -36,14 +46,14 @@ const DatePicker = React.createClass({
       this.setState({
         month: moment(inputValue, 'l').toDate(),
         value: inputValue
-      }, this.showCurrentDate);
+      }, this.showCurrentDate)
       // Pass the value back
       let storedValue = moment(inputValue, 'l').format('YYYY-MM-DD')
       this.props.onChange(storedValue)
     } else {
       this.setState({
         value: inputValue
-      }, this.showCurrentDate);
+      }, this.showCurrentDate)
     }
   },
 
