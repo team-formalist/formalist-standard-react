@@ -27,7 +27,11 @@ const RadioButton = React.createClass({
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    value: React.PropTypes.bool
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.bool,
+      React.PropTypes.number,
+      React.PropTypes.string
+    ])
   },
 
   getDefaultProps () {

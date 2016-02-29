@@ -1,13 +1,14 @@
 import React from 'react'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './section.mcss'
 
 const Section = React.createClass({
 
   propTypes: {
     hashCode: React.PropTypes.number.isRequired,
-    config: React.PropTypes.array,
+    config: React.PropTypes.object,
     name: React.PropTypes.string,
-    children: React.PropTypes.array
+    children: ImmutablePropTypes.list
   },
 
   shouldComponentUpdate (nextProps) {

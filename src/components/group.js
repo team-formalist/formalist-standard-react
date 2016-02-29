@@ -1,12 +1,12 @@
 import React from 'react'
-
+import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './group.mcss'
 
 const Group = React.createClass({
 
   propTypes: {
     hashCode: React.PropTypes.number.isRequired,
-    children: React.PropTypes.array
+    children: ImmutablePropTypes.list
   },
 
   shouldComponentUpdate (nextProps) {
