@@ -6,6 +6,7 @@
 @value fontSans: 'Work Sans', 'Helvetica', sans-serif;
 @value fontfontSansBoldWeight: 700;
 @value fontMono: 'Inconsolata', monospace;
+@value fontFallback: 'Helvetica', sans-serif;
 
 .sans {
   font-family: fontSans;
@@ -22,6 +23,14 @@
 
 .mono {
   font-family: fontMono;
+}
+
+/**
+ * Monospace: Inconsolata
+ */
+
+.fallback {
+  font-family: fontFallback;
 }
 
 /* Line height */
