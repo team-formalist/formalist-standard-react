@@ -123,8 +123,16 @@ greys
 @value darkBlend: rgba(0,0,0,0.9);
 @value lightBlend: rgba(0,0,0,0.2);
 
+.darkBlendBackground {
+  background-color: darkBlend;
+}
+
 .darkBlendColor {
   color: darkBlend;
+}
+
+.lightBlendBackground {
+  background-color: lightBlend;
 }
 
 .lightBlendColor {
