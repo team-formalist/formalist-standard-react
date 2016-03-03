@@ -129,7 +129,7 @@ The structure of the AST is as follows.
     // default value e.g. "hello" (for default or textarea field types)
     null,
 
-    // validation rules (RAILS SPECIFIC ?) else []
+    // validation rules
     [
       [
         "predicate",
@@ -140,8 +140,10 @@ The structure of the AST is as follows.
       ]
     ],
 
-    // error messages e.g. "This field cannot be empty"
-    [],
+    // error messages
+    [
+      "This field cannot be empty"
+    ],
 
     // field attributes and display options
     [
