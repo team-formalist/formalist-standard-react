@@ -2,7 +2,7 @@
 
 A library of standard form elements for `Formalist`.
 
-`formalist-standard-react` transforms an AST into DOM elements.
+Using [formalist-compose](https://github.com/icelab/formalist-compose) to transform an abstract syntax tree (matching the Formalist schema) into a renderable object, `formalist-standard-react` takes this object and renders form elements.
 
 #### Example
 
@@ -113,7 +113,7 @@ ReactDOM.render(<MyForm />, node);
 Each field is defined as an array of the overall AST.
 
 
-```
+```js
 [
   "field",
   [
@@ -184,7 +184,7 @@ Each field is defined as an array of the overall AST.
 | **max** | Specify the maximum value for an input | `Int` / `String` | number or date string |  [ "max", 30 ] |
 | **step** | Specify the legal number intervals for an input | `Int` / `Float` | |  [ "step", 0.25 ] |
 
-```
+```js
 [
   "field",
   [
@@ -225,7 +225,7 @@ If this rule is not met, the `String` message in the `error` array will display.
 
 In the following example, we check that the field was `filled`.
 
-```
+```js
 [
   "field",
   [
@@ -276,7 +276,7 @@ In the following example, we check that the field was `filled`.
 We can also have multiple rules that must be met.  
 In the following example the the field must be `filled` and be of `date_time`.
 
-```
+```js
 [
   "field",
   [
@@ -322,7 +322,7 @@ In the following example the the field must be `filled` and be of `date_time`.
 
 To group multiple fields you can nest them within a `section`.
 
-```
+```js
 [
   "section",
   [
