@@ -110,8 +110,8 @@ ReactDOM.render(<MyForm />, node);
 
 ## Abstract Syntax Tree (AST)
 
-Each field is defined as an array of the overall AST.
-
+Form fields are defined in a AST matching the Formalist schema.  
+The structure of the AST is as follows.
 
 ```js
 [
@@ -143,8 +143,7 @@ Each field is defined as an array of the overall AST.
     // error messages e.g. "This field cannot be empty"
     [],
 
-    // label tag and placeholder attribute
-    // option_values for select / radio elements
+    // field attributes and display options
     [
       [
         "label",
@@ -167,7 +166,9 @@ Each field is defined as an array of the overall AST.
 ]
 ```
 
-### Field display attributes
+### Field attributes and display options
+
+Include element attributes, styles or option values.
 
 | Key | Description | Type | Options  | Example |
 | --- |:--- |:---:| :--- | ---:|
