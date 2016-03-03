@@ -8,7 +8,7 @@ A library of standard form elements for `Formalist`.
 
 An example AST for a username/password login form.
 
-```
+```js
 // data.js
 
 export default  = [
@@ -83,7 +83,7 @@ export default  = [
 
 We pass the `AST` to our formalist `template` and call `render()`.
 
-```
+```js
 import template from 'formalist-standard-react'
 import ReactDOM from 'react-dom'
 import AST from './data.js'
