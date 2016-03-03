@@ -170,7 +170,7 @@ Each field is defined as an array of the overall AST.
 ### Field display attributes
 
 | Key | Description | Type | Options  | Example |
-| -- |:-- |:--:| :-- | --:|
+| --- |:--- |:---:| :--- | ---:|
 | **label** | | `String` | | [ "label", "Username" ] |
 | **placeholder** | | `String` | | [ "placeholder", "Please enter your username" ] |
 | **inline** | Render a label and input inline | `Boolean` | true, false | [ "inline", true ] |
