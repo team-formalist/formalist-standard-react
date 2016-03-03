@@ -239,7 +239,7 @@ In the following example, we check that the field was `filled`.
     [
       "predicate",
       [
-        "filled?",
+        "filled?", // Validation rule
         []
       ]
     ],
