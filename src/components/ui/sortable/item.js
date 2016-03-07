@@ -77,7 +77,7 @@ const Item = React.createClass({
   render () {
     const { canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging } = this.props
     const inline = {
-      opacity: (isDragging) ? 0.5 : 1
+      opacity: (isDragging) ? 0 : 1
     }
 
     return connectDropTarget(

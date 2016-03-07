@@ -2,7 +2,7 @@
 @value error, primary from styles;
 
 .base {
-  composes: greyLightBorder from styles;
+  composes: whiteBackground greyLightBorder from styles;
   border-style: solid;
   border-width: 1px;
   display: flex;
