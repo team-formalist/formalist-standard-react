@@ -79,21 +79,6 @@ const DateBase = React.createClass({
             {...this.props} />
         </div>
         {(hasErrors) ? <FieldErrors errors={errors}/> : null}
-
-        <div>
-          <Sortable canRemove onRemove={(index) => (console.log("removing " + index))} onSort={(newOrder) => (console.log(newOrder))}>
-            <span>
-              a
-              <ol>
-                <li>one</li>
-                <li>two</li>
-              </ol>
-            </span>
-            <span>b</span>
-            <span>c</span>
-            <span>d</span>
-          </Sortable>
-        </div>
       </div>
     )
   }
