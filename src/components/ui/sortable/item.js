@@ -4,6 +4,9 @@ import { DragSource, DropTarget } from 'react-dnd'
 
 import styles from './item.mcss'
 
+/**
+ * Item: DragSource methods
+ */
 const itemSource = {
   beginDrag (props) {
     return {
@@ -13,6 +16,9 @@ const itemSource = {
   }
 }
 
+/**
+ * Item: DragTarget methods
+ */
 const itemTarget = {
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index
@@ -60,8 +66,56 @@ const itemTarget = {
   }
 };
 
+
+/**
+ * Item
+ */
 const Item = React.createClass({
 
+  propTypes: {
+
+    /**
+     * Current index of the item in context of the sortable
+     * @type {Number}
+     */
+    index: React.PropTypes.number.isRequired,
+
+    /**
+     * The original index of the item in context of the sortable. Should only
+     * differ between data updates.
+     * @type {Number}
+     */
+    originalIndex: React.PropTypes.number.isRequired,
+
+    /**
+     * Callback: Fires when item is moved
+     * @type {Function}
+     */
+    moveItem: React.PropTypes.func,
+
+    /**
+     * Can this item be removed?
+     * @type {Boolean}
+     */
+    canRemove: React.PropTypes.bool,
+
+    /**
+     * Callback: Fired when item is removed
+     * @type {Function}
+     */
+    onRemove: React.PropTypes.func,
+
+    /**
+     * Child component we care about sorting
+     * @type {ReactElement}
+     */
+    children: React.PropTypes.node.isRequired
+  },
+
+  /**
+   * Send current `index` to the onRemove callback
+   * @param  {Event} e Click event
+   */
   onRemoveClick (e) {
     e.preventDefault()
     const { canRemove, onRemove } = this.props
@@ -70,6 +124,10 @@ const Item = React.createClass({
     }
   },
 
+  /**
+   * Stop the handle click propagating
+   * @param  {Event} e Click event
+   */
   onHandleClick (e) {
     e.preventDefault()
   },
@@ -102,14 +160,25 @@ const Item = React.createClass({
   }
 })
 
+/**
+ * DropTargetDecorator
+ * Set up items to behave as drop targets for sorting
+ */
 const DropTargetDecorator = DropTarget('item', itemTarget, (connect) => ({
   connectDropTarget: connect.dropTarget()
 }))
 
+/**
+ * DragSourceDecorator
+ * Set up items to behave as draggable UI
+ */
 const DragSourceDecorator = DragSource('item', itemSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 }))
 
+/**
+ * Export the decorated `<Item/>`
+ */
 export default DropTargetDecorator(DragSourceDecorator(Item))

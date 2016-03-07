@@ -8,6 +8,12 @@ import styles from './sortable.mcss'
 
 /**
  * Container for a sortable set of items
+ *
+ * <Sortable canRemove onRemove={(index) => ... } onSort={(newOrder) => ...}>
+ *   <item/>
+ *   <image/>
+ *   {otherItems}
+ * </Sortable>
  */
 const Sortable = React.createClass({
 
