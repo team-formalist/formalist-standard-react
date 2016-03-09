@@ -3,8 +3,7 @@
     "development": {
       "presets": [
         "babel-preset-es2015",
-        "babel-preset-react",
-        "stage-0"
+        "babel-preset-react"
       ],
       "ignore": [
         "src/**/*.mcss"
