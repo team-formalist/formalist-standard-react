@@ -1,3 +1,18 @@
 .base {
   margin-bottom: 1.6em;
 }
+
+.baseInline {
+  display: flex;
+}
+
+  .baseInline .header {
+    flex: 1;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    text-align: right;
+  }
+
+  .baseInline .display {
+    flex: 2;
+  }
