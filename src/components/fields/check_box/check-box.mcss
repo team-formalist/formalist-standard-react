@@ -1,0 +1,11 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.base {
+  composes: base from '../shared.mcss';
+}
+  .baseInline {
+    composes: baseInline from '../shared.mcss';
+  }
+  .baseInline .header {
+    padding-top: 0;
+  }

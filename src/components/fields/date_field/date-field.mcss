@@ -1,0 +1,6 @@
+.base {
+  composes: base from '../shared.mcss';
+}
+  .baseInline {
+    composes: baseInline from '../shared.mcss';
+  }

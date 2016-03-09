@@ -13,9 +13,7 @@ const { addField, deleteField, editField, validateField } = actions
 const FieldContainer = React.createClass({
 
   propTypes: {
-    config: React.PropTypes.object,
-    displayVariant: React.PropTypes.string,
-    displayVariants: React.PropTypes.object,
+    attributes: ImmutablePropTypes.map,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
     hashCode: React.PropTypes.number.isRequired,
@@ -37,9 +35,7 @@ const FieldContainer = React.createClass({
 
   render () {
     let {
-      config,
-      displayVariant,
-      displayVariants,
+      attributes,
       errors,
       field,
       name,
@@ -49,6 +45,9 @@ const FieldContainer = React.createClass({
       value
     } = this.props
     let Field = field
+
+    // Turn the attributes from an Immutable.Map into a POJO
+    attributes = attributes.toJS()
 
     // Abstract the actions so that each field doesn't have to worry about
     // the action implementation
@@ -71,8 +70,9 @@ const FieldContainer = React.createClass({
       }
     }
 
-    // Extract a few config things
-    let label = config.label || this.props.name.replace(/_/g, ' ')
+    // Extract a few things from attributes
+    let label = attributes.label || this.props.name.replace(/_/g, ' ')
+    let hint = attributes.hint
 
     // Set up standard classNames
     let containerClassNames = classNames(
@@ -89,14 +89,12 @@ const FieldContainer = React.createClass({
         <Field
           actions={ fieldActions }
           name={name}
-          displayVariant={displayVariant}
           value={value}
           rules={rules}
           errors={errors}
-          config={config}
+          attributes={attributes}
           label={label}
-          hint={config.hint}
-          displayVariants={displayVariants}/>
+          hint={hint}/>
       </div>
     )
   }
