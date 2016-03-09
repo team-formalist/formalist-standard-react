@@ -17,17 +17,19 @@ const StringDisplayDefault = React.createClass({
   },
 
   render () {
-    let { config, error, name, className } = this.props
+    let { config, error, name, className, onChange, value } = this.props
+    const { placeholder, box_size } = config
 
     return (
       <TextBox
-        id={name}
-        className={className}
-        error={error}
-        defaultValue={this.props.value}
-        placeholder={config.placeholder}
-        boxSize={config.box_size}
-        onChange={this.props.onChange} />
+        id={ name }
+        className={ className }
+        error={ error }
+        defaultValue={ value }
+        placeholder={ placeholder }
+        boxSize={ box_size }
+        onChange={ onChange }
+      />
     )
   }
 })

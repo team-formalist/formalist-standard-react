@@ -13,7 +13,7 @@ const Label = React.createClass({
       styles.base
     )
     return (
-      <label {...this.props} className={textBoxClassNames}/>
+      <label { ...this.props } className={ textBoxClassNames }/>
     )
   }
 })

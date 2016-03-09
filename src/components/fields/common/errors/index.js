@@ -22,13 +22,13 @@ const FieldErrors = React.createClass({
       return null
     }
     return (
-      <div className={styles.base}>
-        <ul className={styles.list}>
-          {errors.map((error, i) => {
+      <div className={ styles.base }>
+        <ul className={ styles.list }>
+          { errors.map((error, i) => {
             return (
-              <li className={styles.item} key={i}>{error}</li>
+              <li className={ styles.item } key={ i }>{ error }</li>
             )
-          })}
+          }) }
         </ul>
       </div>
     )

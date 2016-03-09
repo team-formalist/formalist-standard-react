@@ -75,10 +75,10 @@ const Popunder = React.createClass({
    */
   calculatePosition () {
     // Only bother if its rendered
-    let referencePosition = this.refs.reference.getBoundingClientRect()
+    let { left, top, height } = this.refs.reference.getBoundingClientRect()
     let position = {
-      left: referencePosition.left + this.props.offset.left,
-      top: referencePosition.top + referencePosition.height + this.props.offset.top
+      left: left + this.props.offset.left,
+      top: top + height + this.props.offset.top
     }
     this.setState({
       position
@@ -115,21 +115,22 @@ const Popunder = React.createClass({
   render () {
     // Extract Portal props
     let {
+      beforeClose,
+      children,
       closeOnEsc,
       closeOnOutsideClick,
-      openByClickOn,
-      onOpen,
-      beforeClose,
       onClose,
-      onUpdate
+      onOpen,
+      onUpdate,
+      openByClickOn
     } = this.props
 
     let { position } = this.state
 
     // Extract the reference element
     // AKA child.first
-    let children = React.Children.toArray(this.props.children)
-    let reference = children[0]
+    let arr = React.Children.toArray(children)
+    let reference = arr[0]
 
     return (
       <div>
@@ -138,15 +139,15 @@ const Popunder = React.createClass({
         </div>
         <Portal
           ref='portal'
-          closeOnEsc={closeOnEsc}
-          closeOnOutsideClick={closeOnOutsideClick}
-          openByClickOn={openByClickOn}
-          onOpen={onOpen}
-          beforeClose={beforeClose}
-          onClose={onClose}
-          onUpdate={onUpdate}>
-          <div ref='container' className={styles.container} style={position}>
-            {children.slice(1)}
+          closeOnEsc={ closeOnEsc }
+          closeOnOutsideClick={ closeOnOutsideClick }
+          openByClickOn={ openByClickOn }
+          onOpen={ onOpen }
+          beforeClose={ beforeClose }
+          onClose={ onClose }
+          onUpdate={ onUpdate }>
+          <div ref='container' className={ styles.container } style={ position }>
+            { arr.slice(1) }
           </div>
         </Portal>
       </div>

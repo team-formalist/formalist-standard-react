@@ -72,6 +72,7 @@ const Sortable = React.createClass({
    * @param  {Number} hoverIndex The current index of the item being hovered
    */
   moveItem (dragIndex, hoverIndex) {
+    const { onSort } = this.props
     const { items } = this.state
     const dragItem = items[dragIndex]
 
@@ -83,8 +84,8 @@ const Sortable = React.createClass({
         ]
       }
     }), () => {
-      this.props.onSort(
-        this.state.items.map((item) => (item.originalIndex))
+      onSort(
+        items.map((item) => (item.originalIndex))
       )
     })
   },
@@ -94,18 +95,18 @@ const Sortable = React.createClass({
     const { canRemove, onRemove } = this.props
 
     return (
-      <div className={styles.base}>
-        {items.map((item, index) => (
+      <div className={ styles.base }>
+        { items.map((item, index) => (
           <Item
-            key={item.originalIndex}
-            moveItem={this.moveItem}
-            index={index}
-            originalIndex={item.originalIndex}
-            canRemove={canRemove}
-            onRemove={onRemove}>
-            {item.component}
+            key={ item.originalIndex }
+            moveItem={ this.moveItem }
+            index={ index }
+            originalIndex={ item.originalIndex }
+            canRemove={ canRemove }
+            onRemove={ onRemove }>
+            { item.component }
           </Item>
-        ))}
+        )) }
       </div>
     )
   }

@@ -64,6 +64,8 @@ const FloatBase = React.createClass({
   render () {
     let { config, displayVariant, displayVariants, errors, hint, label, name } = this.props
     let hasErrors = (errors.count() > 0)
+    let { display_options } = config
+
     let Display = extractDisplayVariant(
       displayVariant,
       Object.assign({}, displayVariants, availableDisplayVariants),
@@ -71,18 +73,19 @@ const FloatBase = React.createClass({
     )
 
     return (
-      <div className={styles.base}>
-        <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
-        <div className={styles.display}>
+      <div className={ styles.base }>
+        <FieldHeader id={ name } label={ label } hint={ hint } error={ hasErrors }/>
+        <div className={ styles.display }>
           <Display
-            onChange={this.onChange}
-            className={classNames(
-              optionClassNames(styles, config.display_options)
-            )}
-            error={hasErrors}
-            {...this.props} />
+            onChange={ this.onChange }
+            className={ classNames(
+              optionClassNames(styles, display_options)
+            ) }
+            error={ hasErrors }
+            { ...this.props }
+          />
         </div>
-        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+        { (hasErrors) ? <FieldErrors errors={ errors }/> : null }
       </div>
     )
   }

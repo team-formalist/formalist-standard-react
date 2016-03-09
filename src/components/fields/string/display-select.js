@@ -18,23 +18,23 @@ const StringDisplaySelect = React.createClass({
   },
 
   render () {
-    let { config, className, error, name, value } = this.props
+    let { config, className, error, name, value, onChange } = this.props
+    let { option_values, placeholder } = config
 
-    let optionValues = config.option_values
     // Return nothing if we have no values
-    if (optionValues && optionValues.count() === 0) {
+    if (option_values && option_values.count() === 0) {
       return false
     }
 
     return (
       <Select
-        id={name}
-        className={className}
-        defaultValue={value}
-        placeholder={config.placeholder}
-        error={error}
-        onChange={this.props.onChange}>
-          {optionValues.map((option, i) => {
+        id={ name }
+        className={ className }
+        defaultValue={ value }
+        placeholder={ placeholder }
+        error={ error }
+        onChange={ onChange }>
+          { option_values.map((option, i) => {
             let value, label
             if (List.isList(option)) {
               value = option.get(0)
@@ -44,9 +44,9 @@ const StringDisplaySelect = React.createClass({
               label = option
             }
             return (
-              <option key={i} value={value}>{label}</option>
+              <option key={ i } value={ value }>{ label }</option>
             )
-          })}
+          }) }
       </Select>
     )
   }

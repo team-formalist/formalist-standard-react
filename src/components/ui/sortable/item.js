@@ -32,16 +32,16 @@ const itemTarget = {
     }
 
     // Determine rectangle on screen
-    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
+    const { bottom, top } = findDOMNode(component).getBoundingClientRect()
 
     // Get vertical middle
-    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+    const hoverMiddleY = (bottom - top) / 2
 
     // Determine mouse position
-    const clientOffset = monitor.getClientOffset()
+    const { y } = monitor.getClientOffset()
 
     // Get pixels to the top
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top
+    const hoverClientY = y - top
 
     // Only perform the move when the mouse has crossed half of the items height
     // When dragging downwards, only move when the cursor is below 50%
@@ -141,18 +141,18 @@ const Item = React.createClass({
 
     return connectDropTarget(
       connectDragPreview(
-        <div className={styles.base} style={inline}>
-          <div className={styles.inner}>
-            {children}
+        <div className={ styles.base } style={ inline }>
+          <div className={ styles.inner }>
+            { children }
           </div>
-          {canRemove ? <button className={styles.remove} onClick={this.onRemoveClick}>
-            <span className={styles.removeText}>Remove</span>
-            <div className={styles.removeX}>×</div>
+          { canRemove ? <button className={ styles.remove } onClick={ this.onRemoveClick }>
+            <span className={ styles.removeText }>Remove</span>
+            <div className={ styles.removeX }>×</div>
           </button> : null}
           {connectDragSource(
-            <button className={styles.handle} onClick={this.onHandleClick}>
-              <span className={styles.handleText}>Drag to reorder</span>
-              <div className={styles.handleLine}/>
+            <button className={ styles.handle } onClick={ this.onHandleClick }>
+              <span className={ styles.handleText }>Drag to reorder</span>
+              <div className={ styles.handleLine }/>
             </button>
           )}
         </div>

@@ -16,6 +16,7 @@
   ],
   "rules": {
     "react/jsx-curly-spacing": [0, "always"],
-    "react/jsx-no-bind": [ 0, "allowBind": true]
+    "react/jsx-no-bind": [ 0, "allowBind": true],
+    "react/jsx-boolean-value": [0, "always"],
   }
 }

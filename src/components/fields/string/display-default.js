@@ -19,17 +19,19 @@ const StringDisplayDefault = React.createClass({
 
   render () {
     let { config, error, onChange, name, value, className } = this.props
-    let type = (config.password) ? 'password' : 'text'
+    const { placeholder, password } = config
+    let type = (password) ? 'password' : 'text'
 
     return (
       <Input
-        type={type}
-        id={name}
-        error={error}
-        className={className}
-        placeholder={config.placeholder}
-        defaultValue={value}
-        onChange={onChange} />
+        type={ type }
+        id={ name }
+        error={ error }
+        className={ className }
+        placeholder={ placeholder }
+        defaultValue={ value }
+        onChange={ onChange }
+      />
     )
   }
 })

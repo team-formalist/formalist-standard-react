@@ -5,8 +5,8 @@ import styles from './group.mcss'
 const Group = React.createClass({
 
   propTypes: {
-    hashCode: React.PropTypes.number.isRequired,
-    children: ImmutablePropTypes.list
+    children: ImmutablePropTypes.list,
+    hashCode: React.PropTypes.number.isRequired
   },
 
   shouldComponentUpdate (nextProps) {
@@ -20,7 +20,9 @@ const Group = React.createClass({
   render () {
     return (
       <div className={styles.group}>
-        {this.props.children.map((child, index) => <div key={index} className={styles.item}>{child}</div>)}
+        { this.props.children.map((child, index) => {
+          <div key={index} className={styles.item}>{child}</div>
+        }) }
       </div>
     )
   }

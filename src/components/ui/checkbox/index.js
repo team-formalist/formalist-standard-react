@@ -18,11 +18,11 @@ import styles from './checkbox.mcss'
  */
 const Checkbox = React.createClass({
   propTypes: {
-    id: React.PropTypes.string,
     className: React.PropTypes.string,
     defaultChecked: React.PropTypes.bool,
     disabled: React.PropTypes.bool,
     error: React.PropTypes.bool,
+    id: React.PropTypes.string,
     label: React.PropTypes.string.isRequired,
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -46,31 +46,33 @@ const Checkbox = React.createClass({
   },
 
   render () {
-    let { defaultChecked, label, name, onChange, value } = this.props
+    let { defaultChecked, label, name, onChange, value, error } = this.props
+    const { focus, id } = this.state
+
     let labelClassNames = classNames(
       styles.label,
       {
-        [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.error}`]: error,
+        [`${styles.focus}`]: focus
       }
     )
 
     return (
-      <div className={styles.button}>
+      <div className={ styles.button }>
         <input
-          className={styles.input}
-          id={this.state.id}
+          className={ styles.input }
+          id={ id }
           type='checkbox'
-          name={name}
-          value={value}
-          defaultChecked={defaultChecked}
-          onBlur={ () => this.setState({focus: false}) }
-          onFocus={ () => this.setState({focus: true}) }
+          name={ name }
+          value={ value }
+          defaultChecked={ defaultChecked }
+          onBlur={ () => this.setState({ focus: false }) }
+          onFocus={ () => this.setState({ focus: true }) }
           onChange={ (e) => onChange(e.target.checked) } />
         <label
-          className={labelClassNames}
-          htmlFor={this.state.id}>
-            {label}
+          className={ labelClassNames }
+          htmlFor={ id }>
+            { label }
         </label>
       </div>
     )

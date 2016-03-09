@@ -58,39 +58,49 @@ const Select = React.createClass({
     }
   },
 
+  /**
+   * generatePlaceholder
+   * Generate a placeholder with a fake value seed to trick our <select>
+   */
+
+  generatePlaceholder (valueSeed, placeholder) {
+    return (
+      <option value={ valueSeed } hidden={ true } disabled={ true }>{ placeholder }</option>
+    )
+  },
+
   render () {
+    let { error, className, valueSeed, placeholder, defaultValue, children } = this.props
+    let { focus } = this.state
+    let value = defaultValue || valueSeed
+
     let labelClassNames = classNames(
       styles.label,
       {
-        [`${styles.labelError}`]: this.props.error,
-        [`${styles.labelFocus}`]: this.state.focus
+        [`${styles.labelError}`]: error,
+        [`${styles.labelFocus}`]: focus
       }
     )
     let inputClassNames = classNames(
-      this.props.className,
+      className,
       styles.select,
       {
-        [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.error}`]: error,
+        [`${styles.focus}`]: focus
       },
       `${styles[this.props.size]}`
     )
 
-    // Generate a placeholder with a fake value seed to trick our <select>
-    // into appearing to show it correctly
-    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option> // eslint-disable-line react/jsx-boolean-value
-    let defaultValue = this.props.defaultValue || this.props.valueSeed
-
     return (
-      <label className={labelClassNames}>
+      <label className={ labelClassNames }>
         <select
-          {...this.props}
-          defaultValue={defaultValue}
-          className={inputClassNames}
-          onBlur={this.onBlur}
-          onFocus={this.onFocus}>
-          {placeholder}
-          {this.props.children}
+          { ...this.props }
+          defaultValue={ value }
+          className={ inputClassNames }
+          onBlur={ this.onBlur }
+          onFocus={ this.onFocus }>
+          { this.generatePlaceholder(valueSeed, placeholder) }
+          { children }
         </select>
       </label>
     )
