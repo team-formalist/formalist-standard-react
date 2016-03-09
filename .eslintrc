@@ -1,0 +1,21 @@
+{
+  parserOptions: {
+    ecmaVersion: 6,
+    ecmaFeatures: {
+      jsx: true
+    },
+    sourceType: "module"
+  },
+  "extends": [
+    "standard",
+    "standard-react"
+  ],
+  "plugins": [
+    "standard",
+    "react"
+  ],
+  "rules": {
+    "react/jsx-curly-spacing": [0, "always"],
+    "react/jsx-no-bind": [ 0, "allowBind": true]
+  }
+}
