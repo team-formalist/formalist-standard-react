@@ -53,21 +53,24 @@ const Input = React.createClass({
   },
 
   render () {
+    let { error, className } = this.props
+    let { focus } = this.state
+
     let inputClassNames = classNames(
-      this.props.className,
+      className,
       styles.input,
       {
-        [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.error}`]: error,
+        [`${styles.focus}`]: focus
       },
       `${styles[this.props.size]}`
     )
     return (
       <input
-        {...this.props}
-        className={inputClassNames}
-        onBlur={this.onBlur}
-        onFocus={this.onFocus}/>
+        { ...this.props }
+        className={ inputClassNames }
+        onBlur={ this.onBlu }
+        onFocus={ this.onFocus }/>
     )
   }
 })

@@ -48,6 +48,8 @@ const FieldContainer = React.createClass({
       store,
       value
     } = this.props
+
+    let { label, hint } = config
     let Field = field
 
     // Abstract the actions so that each field doesn't have to worry about
@@ -71,9 +73,6 @@ const FieldContainer = React.createClass({
       }
     }
 
-    // Extract a few config things
-    let label = config.label || this.props.name.replace(/_/g, ' ')
-
     // Set up standard classNames
     let containerClassNames = classNames(
       styles.base,
@@ -85,18 +84,18 @@ const FieldContainer = React.createClass({
     return (
       // *Explicitly* pass all the props we care about down to the field
       // rather than dumping everything through
-      <div className={containerClassNames}>
+      <div className={ containerClassNames }>
         <Field
           actions={ fieldActions }
-          name={name}
-          displayVariant={displayVariant}
-          value={value}
-          rules={rules}
-          errors={errors}
-          config={config}
-          label={label}
-          hint={config.hint}
-          displayVariants={displayVariants}/>
+          name={ name }
+          displayVariant={ displayVariant }
+          value={ value }
+          rules={ rules }
+          errors={ errors }
+          config={ config }
+          label={ label || name.replace(/_/g, ' ') }
+          hint={ hint }
+          displayVariants={ displayVariants }/>
       </div>
     )
   }

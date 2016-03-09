@@ -25,8 +25,10 @@ const DateTimePicker = React.createClass({
   },
 
   getInitialState () {
-    if (this.props.defaultValue) {
-      let parsedDateTime = moment(this.props.defaultValue, dateFormats.utc)
+    const { defaultValue } = this.props
+
+    if (defaultValue) {
+      let parsedDateTime = moment(defaultValue, dateFormats.utc)
       if (parsedDateTime.isValid()) {
         this.dateTime = parsedDateTime
         return {
@@ -43,15 +45,17 @@ const DateTimePicker = React.createClass({
 
   onDateChange (date) {
     let parsedDate = moment(date, dateFormats.date)
+    let dateTime = this.dateTime
+
     if (parsedDate.isValid()) {
-      if (this.dateTime) {
-        this.dateTime = this.dateTime.set({
+      if (dateTime) {
+        dateTime = dateTime.set({
           year: parsedDate.year(),
           month: parsedDate.month(),
           date: parsedDate.date()
         })
       } else {
-        this.dateTime = parsedDate
+        dateTime = parsedDate
       }
     }
     this.onChange()
@@ -63,15 +67,17 @@ const DateTimePicker = React.createClass({
    */
   onTimeChange (time) {
     let parsedTime = moment(time, dateFormats.time)
+    let dateTime = this.dateTime
+
     if (parsedTime.isValid()) {
-      if (this.dateTime) {
-        this.dateTime = this.dateTime.set({
+      if (dateTime) {
+        dateTime = dateTime.set({
           hours: parsedTime.hours(),
           minutes: parsedTime.minutes(),
           seconds: parsedTime.seconds()
         })
       } else {
-        this.dateTime = parsedTime
+        dateTime = parsedTime
       }
     }
     this.onChange()
@@ -83,25 +89,25 @@ const DateTimePicker = React.createClass({
 
   render () {
     let { error, id, placeholder } = this.props
-
-    let dateValue = this.state.date
-    let timeValue = this.state.time
+    let { date, time } = this.state
 
     return (
-      <div className={styles.base}>
-        <div className={styles.datePicker}>
+      <div className={ styles.base }>
+        <div className={ styles.datePicker }>
           <DatePicker
-            id={id}
-            error={error}
-            placeholder={placeholder}
-            defaultValue={dateValue}
-            onChange={this.onDateChange} />
+            id={ id }
+            error={ error }
+            placeholder={ placeholder }
+            defaultValue={ date }
+            onChange={ this.onDateChange }
+          />
         </div>
-        <div className={styles.timePicker}>
+        <div className={ styles.timePicker }>
           <TimePicker
-            error={error}
-            defaultValue={timeValue}
-            onChange={this.onTimeChange}/>
+            error={ error }
+            defaultValue={ time }
+            onChange={ this.onTimeChange }
+          />
         </div>
       </div>
     )

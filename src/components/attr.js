@@ -1,11 +1,17 @@
 import React from 'react'
+import ImmutablePropTypes from 'react-immutable-proptypes'
 
 const Attr = ({errors, children}) => {
   return (
     <div className='fm-attr'>
-      {children}
+      { children }
     </div>
   )
+}
+
+Attr.propTypes = {
+  children: ImmutablePropTypes.list,
+  errors: ImmutablePropTypes.list
 }
 
 export default Attr

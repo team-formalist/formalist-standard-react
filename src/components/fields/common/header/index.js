@@ -38,9 +38,9 @@ const FieldHeader = React.createClass({
       }
     )
     return (
-      <div className={styles.base}>
-        {(label) ? <Label htmlFor={id} className={labelClassNames}>{label}</Label> : null}
-        {(hint) ? <span className={hintClassNames}>{hint}</span> : null}
+      <div className={ styles.base }>
+        { (label) ? <Label htmlFor={ id } className={ labelClassNames }>{ label }</Label> : null }
+        { (hint) ? <span className={ hintClassNames }>{ hint }</span> : null}
       </div>
     )
   }

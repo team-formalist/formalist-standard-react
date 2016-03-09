@@ -5,10 +5,10 @@ import styles from './section.mcss'
 const Section = React.createClass({
 
   propTypes: {
-    hashCode: React.PropTypes.number.isRequired,
+    children: ImmutablePropTypes.list,
     config: React.PropTypes.object,
-    name: React.PropTypes.string,
-    children: ImmutablePropTypes.list
+    hashCode: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string
   },
 
   shouldComponentUpdate (nextProps) {
@@ -20,12 +20,14 @@ const Section = React.createClass({
   },
 
   render () {
-    let label = this.props.config.label || this.props.name.replace(/_/, ' ')
+    let { children, config, name } = this.props
+    let label = config.label || name.replace(/_/, ' ')
+
     return (
-      <section className={styles.base}>
-        <h2 className={styles.name}>{label}</h2>
-        <div className={styles.children}>
-          {this.props.children}
+      <section className={ styles.base }>
+        <h2 className={ styles.name }>{label}</h2>
+        <div className={ children }>
+          { children }
         </div>
       </section>
     )

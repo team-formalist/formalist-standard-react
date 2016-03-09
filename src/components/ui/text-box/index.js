@@ -11,7 +11,7 @@ import Textarea from 'react-textarea-autosize'
  * @param  {String} size
  * @return {Object} An object describing the various row properties per-size.
  */
-function boxSize (size) {
+function getBoxSize (size) {
   let rows = {
     single: {
       rows: 1,
@@ -64,35 +64,42 @@ const TextBox = React.createClass({
   },
 
   onFocus (e) {
+    let { onFocus } = this.props
     this.setState({focus: true})
-    if (this.props.onFocus) {
-      this.props.onFocus(e)
+    if (onFocus) {
+      onFocus(e)
     }
   },
 
   onBlur (e) {
+    let { onBlur } = this.props
     this.setState({focus: false})
-    if (this.props.onBlur) {
-      this.props.onBlur(e)
+    if (onBlur) {
+      onBlur(e)
     }
   },
 
   render () {
+    let { className, error, size, boxSize } = this.props
+    let { focus } = this.state
+
     let textBoxClassNames = classNames(
-      this.props.className,
+      className,
       styles.textBox,
       {
-        [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.error}`]: error,
+        [`${styles.focus}`]: focus
       },
-      `${styles[this.props.size]}`
+      `${styles[size]}`
     )
+
     return (
       <Textarea {...this.props}
-        {...boxSize(this.props.boxSize)}
-        className={textBoxClassNames}
-        onBlur={this.onBlur}
-        onFocus={this.onFocus} />
+        {...getBoxSize(boxSize)}
+        className={ textBoxClassNames }
+        onBlur={ this.onBlur }
+        onFocus={ this.onFocus }
+      />
     )
   }
 })

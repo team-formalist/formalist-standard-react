@@ -26,9 +26,10 @@ const DatePicker = React.createClass({
   },
 
   getInitialState () {
+    const { defaultValue, month } = this.props
     return {
-      value: (this.props.defaultValue) ? moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
-      month: this.props.month || new Date()
+      value: (defaultValue) ? moment(defaultValue, 'YYYY-MM-DD').format('l') : '',
+      month: month || new Date()
     }
   },
 
@@ -78,29 +79,31 @@ const DatePicker = React.createClass({
 
   render () {
     let { id, className, error, placeholder } = this.props
-    let { value } = this.state
-    let selectedDay = moment(this.state.value, 'l', true).toDate()
+    let { value, month } = this.state
+    let selectedDay = moment(value, 'l', true).toDate()
 
     return (
-      <div className={className}>
+      <div className={ className }>
         <Popunder ref='popunder' closeOnEsc closeOnOutsideClick>
           <Input
-            id={id}
-            error={error}
-            placeholder={placeholder}
-            value={value}
-            onChange={this.onInputChange}
-            onFocus={this.onInputFocus} />
-          <div className={styles.daypickerContainer}>
+            id={ id }
+            error={ error }
+            placeholder={ placeholder }
+            value={ value }
+            onChange={ this.onInputChange }
+            onFocus={ this.onInputFocus }
+          />
+          <div className={ styles.daypickerContainer }>
             <DayPicker
               ref='daypicker'
               locale='en-AU'
-              localeUtils={localeUtils}
-              initialMonth={this.state.month}
-              modifiers={{
+              localeUtils={ localeUtils }
+              initialMonth={ month }
+              modifiers={ {
                 selected: (day) => DateUtils.isSameDay(selectedDay, day)
-              }}
-              onDayClick={ this.onDayClick } />
+              } }
+              onDayClick={ this.onDayClick }
+            />
           </div>
         </Popunder>
       </div>

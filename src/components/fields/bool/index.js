@@ -54,7 +54,9 @@ const BoolBase = React.createClass({
 
   render () {
     let { config, displayVariant, displayVariants, errors, hint } = this.props
+    const { display_options } = config
     let hasErrors = (errors.count() > 0)
+
     // Determine the React class to render based on the display_variant configuration
     let Display = extractDisplayVariant(
       displayVariant,
@@ -63,18 +65,18 @@ const BoolBase = React.createClass({
     )
 
     return (
-      <div className={styles.base}>
-        <FieldHeader hint={hint} error={hasErrors}/>
-        <div className={styles.display}>
+      <div className={ styles.base }>
+        <FieldHeader hint={ hint } error={ hasErrors }/>
+        <div className={ styles.display }>
           <Display
-            onChange={this.onChange}
-            className={classNames(
-              optionClassNames(styles, config.display_options)
-            )}
-            error={hasErrors}
+            onChange={ this.onChange }
+            className={ classNames(
+              optionClassNames(styles, display_options)
+            ) }
+            error={ hasErrors }
             {...this.props} />
         </div>
-        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+        { (hasErrors) ? <FieldErrors errors={ errors }/> : null }
       </div>
     )
   }

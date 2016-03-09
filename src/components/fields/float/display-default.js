@@ -15,7 +15,8 @@ const FloatDisplayDefault = React.createClass({
   },
 
   render () {
-    let { className, config, error, name } = this.props
+    let { className, config, error, name, value, onChange } = this.props
+    const { placeholder } = config
 
     // Configure specific number attributes from the config
     let numberProps = {}
@@ -29,14 +30,15 @@ const FloatDisplayDefault = React.createClass({
 
     return (
       <Input
-        id={name}
-        className={className}
-        error={error}
+        id={ name }
+        className={ className }
+        error={ error }
         type='number'
-        defaultValue={this.props.value}
-        placeholder={config.placeholder}
-        onChange={this.props.onChange}
-        {...numberProps}/>
+        defaultValue={ value }
+        placeholder={ placeholder}
+        onChange={ onChange }
+        { ...numberProps }
+      />
     )
   }
 })

@@ -15,15 +15,17 @@ const StringDisplayDefault = React.createClass({
 
   render () {
     let { className, config, error, onChange, name, value } = this.props
+    let { placeholder } = config
 
     return (
       <DatePicker
-        id={name}
-        className={className}
-        error={error}
-        placeholder={config.placeholder}
-        defaultValue={value}
-        onChange={onChange} />
+        id={ name }
+        className={ className }
+        error={ error }
+        placeholder={ placeholder }
+        defaultValue={ value }
+        onChange={ onChange }
+      />
     )
   }
 })

@@ -9,7 +9,7 @@ const ManySet = React.createClass({
   render () {
     return (
       <div>
-        {this.props.children}
+        { this.props.children }
       </div>
     )
   }
@@ -18,21 +18,23 @@ const ManySet = React.createClass({
 const Many = ({name, children, errors}) => {
   return (
     <div className='fm-many'>
-      <h3 className='fm-many__name'>{name.replace(/_/, ' ')}</h3>
-      <div className='fm-many__controls'><button>Add new {name.replace(/_/, ' ')}</button></div>
-      {children.map((setChildren) => (
+      <h3 className='fm-many__name'>{ name.replace(/_/, ' ') }</h3>
+      <div className='fm-many__controls'>
+        <button>Add new { name.replace(/_/, ' ') }</button>
+      </div>
+      { children.map((setChildren) => (
         <ManySet>
-          {setChildren}
+          { setChildren }
         </ManySet>
-      ))}
+      )) }
     </div>
   )
 }
 
 Many.propTypes = {
-  name: React.PropTypes.string,
+  children: React.PropTypes.array,
   errors: React.PropTypes.array,
-  children: React.PropTypes.array
+  name: React.PropTypes.string
 }
 
 export default Many

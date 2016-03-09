@@ -3,7 +3,7 @@ import Portal from 'react-portal'
 import styles from './modal.mcss'
 
 /**
- * A "modal" component.
+ * A 'modal' component.
  *
  * Exposes:
  *
@@ -46,22 +46,24 @@ const Modal = React.createClass({
   },
 
   onOpen (portalEl) {
-    document.body.style.overflow = "hidden"
-    document.body.style.position = "fixed"
-    document.body.style.left = "0"
-    document.body.style.right = "0"
-    if (this.props.onOpen) {
-      this.props.onOpen(portalEl)
+    let { onOpen } = this.props
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.left = '0'
+    document.body.style.right = '0'
+    if (onOpen) {
+      onOpen(portalEl)
     }
   },
 
   onClose (portalEl) {
-    document.body.style.overflow = ""
-    document.body.style.position = ""
-    document.body.style.left = ""
-    document.body.style.right = ""
-    if (this.props.onClose) {
-      this.props.onClose(portalEl)
+    let { onClose } = this.props
+    document.body.style.overflow = ''
+    document.body.style.position = ''
+    document.body.style.left = ''
+    document.body.style.right = ''
+    if (onClose) {
+      onClose(portalEl)
     }
   },
 
@@ -78,33 +80,34 @@ const Modal = React.createClass({
   render () {
     // Extract Portal props
     let {
+      beforeClose,
+      children,
       closeOnEsc,
       closeOnOutsideClick,
-      openByClickOn,
-      onOpen,
-      beforeClose,
       onClose,
+      onOpen,
       onUpdate,
+      openByClickOn
     } = this.props
 
     return (
       <Portal
         ref='portal'
-        closeOnEsc={closeOnEsc}
-        closeOnOutsideClick={closeOnOutsideClick}
-        openByClickOn={openByClickOn}
-        onOpen={this.onOpen}
-        beforeClose={beforeClose}
-        onClose={this.onClose}
-        onUpdate={onUpdate}>
-        <div ref='container' className={styles.container}>
-          <button className={styles.close}  onClick={this.onCloseClick}>
-            <span className={styles.closeText}>Close</span>
-            <div className={styles.closeX}>&times;</div>
+        closeOnEsc={ closeOnEsc }
+        closeOnOutsideClick={ closeOnOutsideClick }
+        openByClickOn={ openByClickOn }
+        onOpen={ onOpen }
+        beforeClose={ beforeClose }
+        onClose={ onClose }
+        onUpdate={ onUpdate }>
+        <div ref='container' className={ styles.container }>
+          <button className={ styles.close } onClick={ this.onCloseClick }>
+            <span className={ styles.closeText }>Close</span>
+            <div className={ styles.closeX }>&times;</div>
           </button>
-          <button className={styles.overlay} onClick={this.onOverlayClick}/>
-          <div className={styles.content}>
-            {this.props.children}
+          <button className={ styles.overlay } onClick={ this.onOverlayClick }/>
+          <div className={ styles.content }>
+            { children }
           </div>
         </div>
       </Portal>

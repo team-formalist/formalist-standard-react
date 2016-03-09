@@ -21,24 +21,25 @@ const BoolDisplayDefault = React.createClass({
 
   render () {
     let { config, error, onChange, label, name, value } = this.props
-
+    let { display_options, question_text } = config
     let boolFieldClassNames = classNames(
       'fm-field-bool',
       'fm-checkbox',
-      optionClassNames('fm-field-bool', config.display_options)
+      optionClassNames('fm-field-bool', display_options)
     )
 
-    let checkboxLabel = config.question_text || label
+    let checkboxLabel = question_text || label
 
     return (
-      <div className={boolFieldClassNames}>
+      <div className={ boolFieldClassNames }>
         <Checkbox
-          name={name}
-          label={checkboxLabel}
-          error={error}
-          value={value}
-          defaultChecked={value}
-          onChange={onChange} />
+          defaultChecked={ value }
+          error={ error }
+          label={ checkboxLabel }
+          name={ name }
+          onChange={ onChange }
+          value={ value }
+        />
       </div>
     )
   }

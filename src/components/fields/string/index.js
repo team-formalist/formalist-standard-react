@@ -64,6 +64,7 @@ const StringBase = React.createClass({
 
   render () {
     let { config, displayVariant, displayVariants, errors, hint, label, name } = this.props
+    const { inline, display_options } = config
     let hasErrors = (errors.count() > 0)
     let Display = extractDisplayVariant(
       displayVariant,
@@ -73,24 +74,25 @@ const StringBase = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: config.inline
+        [`${styles.baseInline}`]: inline
       }
     )
 
     return (
-      <div className={fieldClassNames}>
-        <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+      <div className={ fieldClassNames }>
+        <div className={ styles.header} >
+          <FieldHeader id={ name } label={ label } hint={ hint } error={ hasErrors }/>
         </div>
-        <div className={styles.display}>
+        <div className={ styles.display }>
           <Display
-            onChange={this.onChange}
-            className={classNames(
-              optionClassNames(styles, config.display_options)
-            )}
-            error={hasErrors}
-            {...this.props}/>
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+            onChange={ this.onChange }
+            className={ classNames(
+              optionClassNames(styles, display_options)
+            ) }
+            error={ hasErrors }
+            { ...this.props }
+          />
+          { (hasErrors) ? <FieldErrors errors={ errors }/> : null }
         </div>
       </div>
     )

@@ -41,7 +41,8 @@ const Popout = React.createClass({
     openByClickOn: React.PropTypes.node,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func
+    onUpdate: React.PropTypes.func,
+    placement: React.PropTypes.string
   },
 
   getDefaultProps () {
@@ -81,37 +82,37 @@ const Popout = React.createClass({
   calculatePosition () {
     // Only bother if its rendered
     let position
-    let { placement } = this.props
-    let referencePosition = this.refs.reference.getBoundingClientRect()
-    let horzOffset = this.props.offset.horz
-    let vertOffset = this.props.offset.vert
+    let { placement, offset } = this.props
+    let { top, left, height, width } = this.refs.reference.getBoundingClientRect()
+    let { horz, vert } = offset
+
     if (placement === 'left') {
-      horzOffset = horzOffset || this.props.offset.default
-      vertOffset = vertOffset || 0
+      horz = horz || offset.default
+      vert = vert || 0
       position = {
-        left: referencePosition.left - horzOffset,
-        top: referencePosition.top + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
+        left: left - horz,
+        top: top + vert + (height / 2 - arrowVertPosition)
       }
     } else if (placement === 'right') {
-      horzOffset = horzOffset || this.props.offset.default
-      vertOffset = vertOffset || 0
+      horz = horz || offset.default
+      vert = vert || 0
       position = {
-        left: referencePosition.left + referencePosition.width + horzOffset,
-        top: referencePosition.top + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
+        left: left + width + horz,
+        top: top + vert + (height / 2 - arrowVertPosition)
       }
     } else if (placement === 'top') {
-      horzOffset = horzOffset || 0
-      vertOffset = vertOffset || this.props.offset.default
+      horz = horz || 0
+      vert = vert || offset.default
       position = {
-        left: referencePosition.left + (referencePosition.width / 2) + horzOffset,
-        top: referencePosition.top - vertOffset
+        left: left + (width / 2) + horz,
+        top: top - vert
       }
     } else if (placement === 'bottom') {
-      horzOffset = horzOffset || 0
-      vertOffset = vertOffset || this.props.offset.default
+      horz = horz || 0
+      vert = vert || offset.default
       position = {
-        left: referencePosition.left + (referencePosition.width / 2) + horzOffset,
-        top: referencePosition.top + referencePosition.height + vertOffset
+        left: left + (width / 2) + horz,
+        top: top + height + vert
       }
     }
 
@@ -156,7 +157,7 @@ const Popout = React.createClass({
       onOpen,
       beforeClose,
       onClose,
-      onUpdate,
+      onUpdate
     } = this.props
 
     let { placement } = this.props
@@ -183,17 +184,17 @@ const Popout = React.createClass({
         </div>
         <Portal
           ref='portal'
-          closeOnEsc={closeOnEsc}
-          closeOnOutsideClick={closeOnOutsideClick}
-          openByClickOn={openByClickOn}
-          onOpen={onOpen}
-          beforeClose={beforeClose}
-          onClose={onClose}
-          onUpdate={onUpdate}>
-          <div className={styles.positioner} style={position}>
-            <div className={arrowClassNames}/>
-            <div ref='container' className={containerClassNames}>
-              {children.slice(1)}
+          closeOnEsc={ closeOnEsc }
+          closeOnOutsideClick={ closeOnOutsideClick }
+          openByClickOn={ openByClickOn }
+          onOpen={ onOpen }
+          beforeClose={ beforeClose }
+          onClose={ onClose }
+          onUpdate={ onUpdate }>
+          <div className={ styles.positioner } style={ position }>
+            <div className={ arrowClassNames }/>
+            <div ref='container' className={ containerClassNames }>
+              { children.slice(1) }
             </div>
           </div>
         </Portal>

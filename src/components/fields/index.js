@@ -21,18 +21,18 @@ function wrapField (field, options = {}) {
   let { displayVariants } = options
   return (fieldProps) => {
     return (
-      <Container field={field} displayVariants={displayVariants} {...fieldProps} />
+      <Container field={ field } displayVariants={ displayVariants } { ...fieldProps } />
     )
   }
 }
 
 export const availableDisplayVariants = {
   bool: boolDisplayVariants,
-  int: intDisplayVariants,
   date: dateDisplayVariants,
   dateTime: dateTimeDisplayVariants,
   decimal: decimalDisplayVariants,
   float: floatDisplayVariants,
+  int: intDisplayVariants,
   string: stringDisplayVariants
 }
 
@@ -44,11 +44,11 @@ export const availableDisplayVariants = {
 function fields (options = {}) {
   return {
     bool: wrapField(bool, options.bool),
-    int: wrapField(int, options.int),
-    date: wrapField(date, options.date),
     date_time: wrapField(dateTime, options.dateTime),
+    date: wrapField(date, options.date),
     decimal: wrapField(decimal, options.decimal),
     float: wrapField(float, options.float),
+    int: wrapField(int, options.int),
     string: wrapField(string, options.string)
   }
 }

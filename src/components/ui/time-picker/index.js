@@ -49,6 +49,9 @@ const TimePicker = React.createClass({
   },
 
   onTimeClick (time, e) {
+    let { onChange } = this.props
+    let { inputValue } = this.state
+
     e.preventDefault()
     this.time = time
     this.setState({
@@ -56,9 +59,9 @@ const TimePicker = React.createClass({
     }, () => {
       // We have to explicitly set the value of the input
       let inputEl = ReactDOM.findDOMNode(this.refs.timeInput)
-      inputEl.value = this.state.inputValue
+      inputEl.value = inputValue
     })
-    this.props.onChange(time.format(dateFormats.time))
+    onChange(time.format(dateFormats.time))
   },
 
   /**
@@ -76,7 +79,7 @@ const TimePicker = React.createClass({
     let end = moment().endOf('day')
     return (
       <ul>
-        {this.renderTimeItem(date, [], end, this.time)}
+        { this.renderTimeItem(date, [], end, this.time) }
       </ul>
     )
   },
@@ -96,15 +99,23 @@ const TimePicker = React.createClass({
         active.hours() === date.hours() &&
         active.minutes() === date.minutes()
       )
+
       let buttonClassNames = classNames(
         styles.button,
         {
           [`${styles.buttonActive}`]: isActive
         }
       )
-      let item = <li key={date.format()} className={styles.item}>
-        <button ref={(isActive) ? 'buttonActive' : null } className={buttonClassNames} onClick={this.onTimeClick.bind(this, date.clone())}>{date.format(dateFormats.humanTime)}</button>
+
+      let item = <li key={ date.format() } className={ styles.item }>
+        <button
+          ref={ (isActive) ? 'buttonActive' : null }
+          className={ buttonClassNames }
+          onClick={ this.onTimeClick.bind(this, date.clone()) }>
+          { date.format(dateFormats.humanTime) }
+        </button>
       </li>
+
       items.push(item)
       date = date.add(15, 'minutes')
       return this.renderTimeItem(date, items, end, active)
@@ -123,17 +134,18 @@ const TimePicker = React.createClass({
 
   render () {
     let { error, placeholder } = this.props
-
+    let { inputValue } = this.state
     return (
-      <div className={styles.base}>
-        <Popunder ref='popunder' closeOnEsc closeOnOutsideClick onOpen={this.onPopunderOpen}>
+      <div className={ styles.base }>
+        <Popunder ref='popunder' closeOnEsc closeOnOutsideClick onOpen={ this.onPopunderOpen }>
           <Input
             ref='timeInput'
-            defaultValue={this.state.inputValue}
-            error={error}
-            placeholder={placeholder || 'Select or enter a time'}
-            onFocus={this.onInputFocus}
-            onChange={this.onInputChange} />
+            defaultValue={ inputValue }
+            error={ error }
+            placeholder={ placeholder || 'Select or enter a time' }
+            onFocus={ this.onInputFocus }
+            onChange={ this.onInputChange }
+          />
           { this.renderTimeList() }
         </Popunder>
       </div>
