@@ -10,7 +10,7 @@ import FieldHeader from '../common/header'
 import Default from './display-default'
 
 // TEMP
-import Sortable from '../../ui/sortable'
+import '../../ui/sortable'
 
 // Import styles
 import styles from './date-time.mcss'
