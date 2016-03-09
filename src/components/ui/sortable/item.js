@@ -9,10 +9,11 @@ import styles from './item.mcss'
  */
 const itemSource = {
   beginDrag (props) {
+    let { index, originalIndex } = props
     return {
-      index: props.index,
-      originalIndex: props.originalIndex
-    };
+      index,
+      originalIndex
+    }
   }
 }
 
@@ -20,9 +21,10 @@ const itemSource = {
  * Item: DragTarget methods
  */
 const itemTarget = {
-  hover(props, monitor, component) {
+  hover (props, monitor, component) {
+    let { index } = props
     const dragIndex = monitor.getItem().index
-    const hoverIndex = props.index
+    const hoverIndex = index
 
     // Don't replace items with themselves
     if (dragIndex === hoverIndex) {
@@ -64,8 +66,7 @@ const itemTarget = {
     // to avoid expensive index searches.
     monitor.getItem().index = hoverIndex
   }
-};
-
+}
 
 /**
  * Item
@@ -118,9 +119,9 @@ const Item = React.createClass({
    */
   onRemoveClick (e) {
     e.preventDefault()
-    const { canRemove, onRemove } = this.props
+    const { canRemove, onRemove, index } = this.props
     if (canRemove && onRemove) {
-      onRemove(this.props.index)
+      onRemove(index)
     }
   },
 
