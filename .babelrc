@@ -2,8 +2,9 @@
   "env": {
     "development": {
       "presets": [
-        "./node_modules/babel-preset-es2015",
-        "./node_modules/babel-preset-react"
+        "babel-preset-es2015",
+        "babel-preset-react",
+        "stage-0"
       ],
       "ignore": [
         "src/**/*.mcss"
@@ -11,8 +12,9 @@
     },
     "test": {
       "presets": [
-        "./node_modules/babel-preset-es2015",
-        "./node_modules/babel-preset-react"
+        "babel-preset-es2015",
+        "babel-preset-react",
+        "stage-0"
       ],
       "plugins": [
           ["./node_modules/babel-plugin-css-modules-transform", { "generateScopedName": "[name]__[local]___[hash:base64:5]" }]
