@@ -2,3 +2,6 @@ node_modules/
 npm-debug.log
 npm-debug.log.*
 .DS_Store
+example/bundle.js
+example/main.css
+.node-version

@@ -3,7 +3,7 @@ import Portal from 'react-portal'
 import styles from './modal.mcss'
 
 /**
- * A "modal" component.
+ * A 'modal' component.
  *
  * Exposes:
  *
@@ -46,20 +46,20 @@ const Modal = React.createClass({
   },
 
   onOpen (portalEl) {
-    document.body.style.overflow = "hidden"
-    document.body.style.position = "fixed"
-    document.body.style.left = "0"
-    document.body.style.right = "0"
+    document.body.style.overflow = 'hidden'
+    document.body.style.position = 'fixed'
+    document.body.style.left = '0'
+    document.body.style.right = '0'
     if (this.props.onOpen) {
       this.props.onOpen(portalEl)
     }
   },
 
   onClose (portalEl) {
-    document.body.style.overflow = ""
-    document.body.style.position = ""
-    document.body.style.left = ""
-    document.body.style.right = ""
+    document.body.style.overflow = ''
+    document.body.style.position = ''
+    document.body.style.left = ''
+    document.body.style.right = ''
     if (this.props.onClose) {
       this.props.onClose(portalEl)
     }
@@ -84,7 +84,7 @@ const Modal = React.createClass({
       onOpen,
       beforeClose,
       onClose,
-      onUpdate,
+      onUpdate
     } = this.props
 
     return (
@@ -93,12 +93,12 @@ const Modal = React.createClass({
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
         openByClickOn={openByClickOn}
-        onOpen={this.onOpen}
+        onOpen={onOpen}
         beforeClose={beforeClose}
-        onClose={this.onClose}
+        onClose={onClose}
         onUpdate={onUpdate}>
         <div ref='container' className={styles.container}>
-          <button className={styles.close}  onClick={this.onCloseClick}>
+          <button className={styles.close} onClick={this.onCloseClick}>
             <span className={styles.closeText}>Close</span>
             <div className={styles.closeX}>&times;</div>
           </button>

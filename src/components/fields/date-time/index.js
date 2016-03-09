@@ -9,6 +9,9 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Default from './display-default'
 
+// TEMP
+import '../../ui/sortable'
+
 // Import styles
 import styles from './date-time.mcss'
 
