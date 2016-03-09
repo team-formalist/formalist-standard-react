@@ -37,7 +37,7 @@ const Sortable = React.createClass({
      * Callback. Fired when the sort change is effected
      * @type {Function}
      */
-    onSort: React.PropTypes.func,
+    onSort: React.PropTypes.func
   },
 
   getInitialState () {
