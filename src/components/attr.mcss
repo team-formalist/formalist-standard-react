@@ -1,0 +1,3 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.base {}

@@ -1,8 +1,10 @@
 import React from 'react'
 
+import styles from './attr.mcss'
+
 const Attr = ({errors, children}) => {
   return (
-    <div className='fm-attr'>
+    <div className={styles.base}>
       {children}
     </div>
   )
