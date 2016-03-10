@@ -27,7 +27,11 @@ const SelectBox = React.createClass({
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    errors: ImmutablePropTypes.list,
+    value: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ])
   },
 
   /**

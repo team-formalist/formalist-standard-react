@@ -4,7 +4,7 @@ import styles from './many.mcss'
 
 const ManySet = React.createClass({
   propTypes: {
-    children: React.PropTypes.array
+    children: ImmutablePropTypes.list
   },
 
   render () {
@@ -44,8 +44,8 @@ const Many = React.createClass({
       <div className={styles.base}>
         <h3 className={styles.label}>{label}</h3>
         <div className={styles.controls}><button>Add new {name.replace(/_/, ' ')}</button></div>
-        {children.map((setChildren) => (
-          <ManySet>
+        {children.map((setChildren, i) => (
+          <ManySet key={i}>
             {setChildren}
           </ManySet>
         ))}

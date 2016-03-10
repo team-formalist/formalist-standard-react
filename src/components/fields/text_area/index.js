@@ -29,7 +29,8 @@ const TextField = React.createClass({
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    errors: ImmutablePropTypes.list,
+    value: React.PropTypes.string
   },
 
   /**

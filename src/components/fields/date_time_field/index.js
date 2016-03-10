@@ -41,7 +41,7 @@ const DateTimeField = React.createClass({
   },
 
   render () {
-    let { attributes, displayVariant, displayVariants, errors, hint, label, name, value } = this.props
+    let { attributes, errors, hint, label, name, value } = this.props
     let hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -53,7 +53,7 @@ const DateTimeField = React.createClass({
     )
 
     return (
-      <div className={styles.base}>
+      <div className={fieldClassNames}>
         <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         <div className={styles.display}>
           <DateTimePicker
