@@ -6,6 +6,8 @@ const Group = React.createClass({
 
   propTypes: {
     hashCode: React.PropTypes.number.isRequired,
+    type: React.PropTypes.string,
+    attributes: ImmutablePropTypes.map,
     children: ImmutablePropTypes.list
   },
 
@@ -18,9 +20,15 @@ const Group = React.createClass({
   },
 
   render () {
+    let { attributes, children } = this.props
+    let label = attributes.get('label')
+
     return (
       <div className={styles.group}>
-        {this.props.children.map((child, index) => <div key={index} className={styles.item}>{child}</div>)}
+        { (label) ? <h2 className={styles.label}>{label}</h2> : null }
+        <div className={styles.groupItems}>
+          {children.map((child, index) => <div key={index} className={styles.item}>{child}</div>)}
+        </div>
       </div>
     )
   }

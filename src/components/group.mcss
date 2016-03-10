@@ -1,7 +1,14 @@
 @value styles: 'formalist-theme/theme/index.mcss';
 @value breakpointSmall from styles;
 
-.group {
+.group {}
+
+.label {
+  composes: headerSmallCaps from styles;
+  margin-bottom: 1.8rem;
+}
+
+.groupItems {
   display: flex;
 }
 
@@ -19,7 +26,7 @@
 
 
 @media breakpointSmall {
-  .group {
+  .groupItems {
     display: block;
   }
   .item {
