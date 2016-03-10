@@ -8,7 +8,7 @@ import FieldHeader from '../common/header'
 import DateTimePicker from '../../ui/date-time-picker'
 
 // Import styles
-import styles from './date-time.mcss'
+import styles from './date-time-field.mcss'
 
 /**
  * Date Time field
