@@ -6,6 +6,7 @@ const Section = React.createClass({
 
   propTypes: {
     hashCode: React.PropTypes.number.isRequired,
+    type: React.PropTypes.string,
     attributes: ImmutablePropTypes.map,
     name: React.PropTypes.string,
     children: ImmutablePropTypes.list
@@ -23,7 +24,7 @@ const Section = React.createClass({
     let label = this.props.attributes.get('label') || this.props.name.replace(/_/, ' ')
     return (
       <section className={styles.base}>
-        <h2 className={styles.name}>{label}</h2>
+        <h2 className={styles.label}>{label}</h2>
         <div className={styles.children}>
           {this.props.children}
         </div>
