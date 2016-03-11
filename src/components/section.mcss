@@ -5,7 +5,7 @@
   margin-bottom: 5rem;
 }
 
-.name {
+.label {
   composes: headerSmallCaps from styles;
   border-bottom: 3px solid greyTint;
   margin-bottom: 1.8rem;

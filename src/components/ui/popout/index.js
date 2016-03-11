@@ -41,7 +41,8 @@ const Popout = React.createClass({
     openByClickOn: React.PropTypes.node,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func
+    onUpdate: React.PropTypes.func,
+    placement: React.PropTypes.string
   },
 
   getDefaultProps () {
@@ -156,7 +157,7 @@ const Popout = React.createClass({
       onOpen,
       beforeClose,
       onClose,
-      onUpdate,
+      onUpdate
     } = this.props
 
     let { placement } = this.props

@@ -6,7 +6,7 @@ import isFunction from '@f/is-function'
 /* fixtures */
 import './fixtures/ignore-styles'
 import './fixtures/dom'
-import dataSimple from './fixtures/data-simple'
+import data from './fixtures/data'
 
 import standardFormTemplate from '../src'
 
@@ -18,13 +18,13 @@ test('it should export a standard form template', (nest) => {
 })
 
 test('it should create a standard form instance', (nest) => {
-  let form = standardFormTemplate()(dataSimple)
+  let form = standardFormTemplate()(data)
   let wrapper = mount(<article>{form.render()}</article>)
 
   nest.test('... with different display types for inputs', (assert) => {
     const el = wrapper.find('input').at(0).node
     const actual = el.getAttribute('id')
-    const expected = 'string_default'
+    const expected = 'text_field'
     assert.equal(expected, actual)
     assert.end()
   })
@@ -35,7 +35,7 @@ test('it should create a standard form instance', (nest) => {
     wrapper.find('input').get(0).value = expected
 
     form.store.subscribe(() => {
-      let actual = form.store.getState().getIn([0, 1, 3])
+      let actual = form.store.getState().getIn([0, 1, 2])
       assert.equals(expected, actual)
       assert.end()
     })

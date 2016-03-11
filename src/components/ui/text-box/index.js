@@ -45,14 +45,14 @@ const TextBox = React.createClass({
     error: React.PropTypes.bool,
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    textSize: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
     boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge'])
   },
 
   getDefaultProps () {
     return {
       error: false,
-      size: 'normal',
+      textSize: 'normal',
       boxSize: 'normal'
     }
   },
@@ -85,7 +85,7 @@ const TextBox = React.createClass({
         [`${styles.error}`]: this.props.error,
         [`${styles.focus}`]: this.state.focus
       },
-      `${styles[this.props.size]}`
+      `${styles[this.props.textSize]}`
     )
     return (
       <Textarea {...this.props}
