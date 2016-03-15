@@ -1,7 +1,8 @@
-/**
- * Generated from this reference form
+/*
 
-input = {
+Generated from this form and input values
+
+{
   text_field: "Text field value",
   number_field: "Number field value",
   check_box: "Check box value",
@@ -15,7 +16,7 @@ input = {
   group_text_field: "Group text field value",
   group_number_field: 123,
   attr: {
-    attr_text_field: "Attr text field value",
+    attr_text_field: "Attr text field",
     attr_date_field: "2016-03-10"
   },
   many: [
@@ -29,7 +30,7 @@ input = {
     }
   ],
   compound_field_text_field: "Compound text field value",
-  compound_field_date_field: Date.today
+  compound_field_date_field: "2016-03-10"
 }
 
 text_field :text_field,
@@ -101,17 +102,16 @@ compound_field do
     label: "Compound date field"
 end
 
-*/
+ */
 
 /*eslint-disable */
-module.exports = [
+export default [
   [
     "field",
     [
       "text_field",
       "text_field",
       "Text field value",
-      [],
       [],
       [
         "object",
@@ -153,7 +153,6 @@ module.exports = [
       "number_field",
       "number_field",
       "Number field value",
-      [],
       [],
       [
         "object",
@@ -214,7 +213,6 @@ module.exports = [
       "check_box",
       "Check box value",
       [],
-      [],
       [
         "object",
         [
@@ -246,7 +244,6 @@ module.exports = [
       "select_box",
       "select_box",
       "3",
-      [],
       [],
       [
         "object",
@@ -338,7 +335,6 @@ module.exports = [
       "radio_buttons",
       "2",
       [],
-      [],
       [
         "object",
         [
@@ -429,7 +425,6 @@ module.exports = [
       "text_area",
       "Text area value",
       [],
-      [],
       [
         "object",
         [
@@ -480,7 +475,6 @@ module.exports = [
       "date_field",
       "2016-03-10",
       [],
-      [],
       [
         "object",
         [
@@ -503,7 +497,6 @@ module.exports = [
       "date_time_field",
       "date_time_field",
       "2016-03-10 17:00:00 +1100",
-      [],
       [],
       [
         "object",
@@ -548,7 +541,6 @@ module.exports = [
             "text_field",
             "Section text field value",
             [],
-            [],
             [
               "object",
               [
@@ -571,7 +563,6 @@ module.exports = [
             "section_number_field",
             "number_field",
             123,
-            [],
             [],
             [
               "object",
@@ -618,7 +609,6 @@ module.exports = [
             "text_field",
             "Group text field value",
             [],
-            [],
             [
               "object",
               [
@@ -641,7 +631,6 @@ module.exports = [
             "group_number_field",
             "number_field",
             123,
-            [],
             [],
             [
               "object",
@@ -667,7 +656,6 @@ module.exports = [
     [
       "many",
       "many",
-      [],
       [],
       [
         "object",
@@ -718,7 +706,6 @@ module.exports = [
             "text_field",
             null,
             [],
-            [],
             [
               "object",
               [
@@ -741,7 +728,6 @@ module.exports = [
             "many_date_field",
             "date_field",
             null,
-            [],
             [],
             [
               "object",
@@ -769,7 +755,6 @@ module.exports = [
               "text_field",
               "Many text field 1",
               [],
-              [],
               [
                 "object",
                 [
@@ -792,7 +777,6 @@ module.exports = [
               "many_date_field",
               "date_field",
               "2016-03-10",
-              [],
               [],
               [
                 "object",
@@ -819,7 +803,6 @@ module.exports = [
               "text_field",
               "Many text field 2",
               [],
-              [],
               [
                 "object",
                 [
@@ -842,7 +825,6 @@ module.exports = [
               "many_date_field",
               "date_field",
               "2016-03-09",
-              [],
               [],
               [
                 "object",
@@ -870,7 +852,6 @@ module.exports = [
       "attr",
       "attr",
       [],
-      [],
       [
         "object",
         []
@@ -882,7 +863,6 @@ module.exports = [
             "attr_text_field",
             "text_field",
             "Attr text field value",
-            [],
             [],
             [
               "object",
@@ -906,7 +886,6 @@ module.exports = [
             "attr_date_field",
             "date_field",
             "2016-03-10",
-            [],
             [],
             [
               "object",
@@ -943,7 +922,6 @@ module.exports = [
             "text_field",
             "Compound text field value",
             [],
-            [],
             [
               "object",
               [
@@ -966,7 +944,6 @@ module.exports = [
             "compound_field_date_field",
             "date_field",
             "2016-03-10",
-            [],
             [],
             [
               "object",
