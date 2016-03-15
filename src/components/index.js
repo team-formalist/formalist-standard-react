@@ -5,8 +5,8 @@ import {GroupFactory} from './group'
 import {ManyFactory} from './many'
 import {SectionFactory} from './section'
 
-export default function components (options = {}) {
-  return {
+export default function components (customComponents = {}, options = {}) {
+  const base = {
     fields: fields(options.fields),
     attr: AttrFactory,
     compoundField: CompoundFieldFactory,
@@ -14,4 +14,5 @@ export default function components (options = {}) {
     many: ManyFactory,
     section: SectionFactory
   }
+  return Object.assign(base, customComponents)
 }
