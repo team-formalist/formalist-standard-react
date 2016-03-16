@@ -5,15 +5,16 @@ import shallowRenderComponent from '../fixtures/shallow-render.js'
 // local module
 import Input from '../../src/components/fields/file-upload'
 
-const name = 'File Upload'
-
 const props = {
   hint: 'foo',
   label: 'bar',
-  name: 'baz'
+  name: 'baz',
+  errors: {
+    count: () => { return 0 }
+  }
 }
 
-test(name + ':', (nest) => {
+test('File Upload:', (nest) => {
   nest.test('...is a valid component', (t) => {
     const component = shallowRenderComponent(Input, props)
     t.ok(React.isValidElement(component), 'component is valid')
