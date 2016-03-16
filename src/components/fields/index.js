@@ -8,6 +8,7 @@ import RadioButtons from './radio-buttons'
 import SelectBox from './select-box'
 import TextField from './text-field'
 import TextArea from './text-area'
+import FileUpload from './file-upload'
 
 /**
  * Wrap a React class in with the common Container class
@@ -37,7 +38,8 @@ function fields (options = {}) {
     radioButtons: wrapField(RadioButtons, options.radioButtons),
     selectBox: wrapField(SelectBox, options.selectBox),
     textArea: wrapField(TextArea, options.textArea),
-    textField: wrapField(TextField, options.textField)
+    textField: wrapField(TextField, options.textField),
+    fileUpload: wrapField(FileUpload, options.fileUpload)
   }
 }
 

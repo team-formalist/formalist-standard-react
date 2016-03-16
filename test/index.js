@@ -10,6 +10,9 @@ import data from './fixtures/data'
 
 import standardFormTemplate from '../src'
 
+import './ui'
+import './fields'
+
 test('it should export a standard form template', (nest) => {
   nest.test('... returning a callable function', (assert) => {
     assert.ok(isFunction(standardFormTemplate), 'compose form is a function')
