@@ -18,6 +18,7 @@
 /* Greys */
 
 @value greyLight: #ccc;
+@value greyMid: #999;
 @value greyTint: #f1f1f1;
 
 .greyLightColor {
@@ -30,6 +31,18 @@
 
 .greyLightBorder {
   border-color: greyLight;
+}
+
+.greyMidColor {
+  color: greyMid;
+}
+
+.greyMidBackground {
+  background-color: greyMid;
+}
+
+.greyMidBorder {
+  border-color: greyMid;
 }
 
 .greyTintBackground {

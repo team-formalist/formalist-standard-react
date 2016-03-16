@@ -6,6 +6,7 @@ import DateTimeField from './date-time-field'
 import NumberField from './number-field'
 import RadioButtons from './radio-buttons'
 import SelectBox from './select-box'
+import SelectionField from './selection-field'
 import TextField from './text-field'
 import TextArea from './text-area'
 
@@ -36,6 +37,7 @@ function fields (options = {}) {
     numberField: wrapField(NumberField, options.numberField),
     radioButtons: wrapField(RadioButtons, options.radioButtons),
     selectBox: wrapField(SelectBox, options.selectBox),
+    selectionField: wrapField(SelectionField, options.selectionField),
     textArea: wrapField(TextArea, options.textArea),
     textField: wrapField(TextField, options.textField)
   }
