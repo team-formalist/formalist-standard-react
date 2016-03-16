@@ -12,12 +12,6 @@
   composes: normal sans whiteBackground from styles;
   composes: popover from popovers;
   border-radius: 3px;
-  max-height: 40rem;
-  max-width: 100vh;
-  min-height: 14rem;
-  min-width: 14rem;
-  overflow-y: scroll;
-  overflow-scroll: touch;
   position: absolute;
 }
 
