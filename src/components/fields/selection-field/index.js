@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import { List } from 'immutable'
 import fuzzy from 'fuzzy'
+import extractComponent from '../../../utils/extract-component'
 
 // Import components
 import FieldErrors from '../common/errors'
@@ -12,15 +13,6 @@ import Popout from '../../ui/popout'
 // Import styles
 import styles from './selection-field.mcss'
 
-function extractComponent (components, name) {
-  let component = false
-  components.forEach((c) => {
-    if (c.name === name) {
-      component = c.component
-    }
-  })
-  return component
-}
 
 // DefaultSelected
 const SelectedDefault = ({option}) => (
