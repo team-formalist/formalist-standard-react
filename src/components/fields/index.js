@@ -16,30 +16,30 @@ import TextArea from './text-area'
  * @param  {Function} field A React class
  * @return {Function} A function
  */
-function wrapField (field, options = {}) {
+function wrapField (field, config = {}) {
   return (fieldProps) => {
     return (
-      <Container field={field} options={options} {...fieldProps} />
+      <Container field={field} config={config} {...fieldProps} />
     )
   }
 }
 
 /**
  * Wrapped fields for each type
- * @param {Object} options Options specific to the fields.
+ * @param {Object} config Config specific to the fields.
  * @type {Object}
  */
-function fields (options = {}) {
+function fields (config = {}) {
   return {
-    checkBox: wrapField(CheckBox, options.checkBox),
-    dateField: wrapField(DateField, options.dateField),
-    dateTimeField: wrapField(DateTimeField, options.dateTimeField),
-    numberField: wrapField(NumberField, options.numberField),
-    radioButtons: wrapField(RadioButtons, options.radioButtons),
-    selectBox: wrapField(SelectBox, options.selectBox),
-    selectionField: wrapField(SelectionField, options.selectionField),
-    textArea: wrapField(TextArea, options.textArea),
-    textField: wrapField(TextField, options.textField)
+    checkBox: wrapField(CheckBox, config.checkBox),
+    dateField: wrapField(DateField, config.dateField),
+    dateTimeField: wrapField(DateTimeField, config.dateTimeField),
+    numberField: wrapField(NumberField, config.numberField),
+    radioButtons: wrapField(RadioButtons, config.radioButtons),
+    selectBox: wrapField(SelectBox, config.selectBox),
+    selectionField: wrapField(SelectionField, config.selectionField),
+    textArea: wrapField(TextArea, config.textArea),
+    textField: wrapField(TextField, config.textField)
   }
 }
 
