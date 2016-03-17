@@ -36,6 +36,7 @@ const FieldContainer = React.createClass({
   render () {
     let {
       attributes,
+      config,
       errors,
       field,
       name,
@@ -87,7 +88,8 @@ const FieldContainer = React.createClass({
       // rather than dumping everything through
       <div className={containerClassNames}>
         <Field
-          actions={ fieldActions }
+          actions={fieldActions}
+          config={config}
           name={name}
           value={value}
           rules={rules}
