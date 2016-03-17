@@ -1,5 +1,5 @@
 @value styles: 'formalist-theme/theme/index.mcss';
-@value error, highlightLight: from styles;
+@value error, fontSansBoldWeight, highlightLight: from styles;
 
 .base {
   composes: base from '../shared.mcss';
@@ -26,7 +26,7 @@
     outline: none;
   }
 
-.selection {
+.selected {
   align-items: center;
   display: flex;
   flex: 1;
@@ -35,7 +35,7 @@
 }
 
 .selectionPlaceholder {
-  composes: selection;
+  composes: selected;
   composes: greyMidColor normal sans from styles;
 }
 
@@ -111,19 +111,25 @@
   }
 
 .selectionButton {
-  composes: greyTintBorder whiteBackground from styles;
-  border-style: solid;
+  composes: small sans greyTintBorder whiteBackground from styles;
   border-width: 0;
   border-bottom-width: 1px;
+  border-style: solid;
   cursor: pointer;
   display: block;
+  padding: 0.7rem 1rem;
+  text-align: left;
   width: 100%;
 }
-  .selectionDefault {
-    composes: small sans from styles;
-    padding: 0.7rem 1rem;
-    text-align: left;
+  .selectionButton:hover {
+    text-decoration: underline;
   }
-    .selectionButton:hover .selectionDefault {
-      text-decoration: underline;
-    }
+
+.selected strong,
+.selectionButton strong {
+  font-weight: fontSansBoldWeight;
+}
+.selected em,
+.selectionButton em {
+  font-style: italic;
+}
