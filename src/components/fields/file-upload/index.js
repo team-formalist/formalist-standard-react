@@ -38,6 +38,17 @@ export default React.createClass({
   },
 
   /**
+   * getInitialState
+   * @return {Object}
+   */
+
+  getInitialState () {
+    return {
+      inProgress: false
+    }
+  },
+
+  /**
    * onChange
    * @param  {Event} e
    * @return {[type]}   [description]
@@ -46,17 +57,35 @@ export default React.createClass({
   onChange (e) {
     const file = e.target.files[0]
     if (!file) return
+
+    const self = this
     const { presign_url } = this.props.attributes
 
-    validate(file)
+    // validate the file
+    // then => request a presign to upload file
+    // then => update the component state
+    // then => upload the file
+    // then => update the component state again
+    // then => do something useful like show a preview
+
+    validate(file) // 1
       .then(preSign(file, presign_url, 'token'))
       .then((data) => {
+        self.setState({
+          inProgress: true
+        })
         upload(data, file, 'token')
       })
       .then((res) => {
+        self.setState({
+          inProgress: false
+        })
         console.log('res', res)
       })
       .catch((err) => {
+        self.setState({
+          inProgress: false
+        })
         console.log('err', err)
       })
   },
@@ -66,12 +95,20 @@ export default React.createClass({
    * @return {vnode}
    */
 
+  renderLoadingMessage () {
+    return (
+      <div>I'm Loading</div>
+    )
+  },
+
   render () {
     const { errors, hint, label, name } = this.props
     const hasErrors = errors.count() > 0
+    const { inProgress } = this.state
 
     return (
       <div className=''>
+        { inProgress ? this.renderLoadingMessage() : null }
         <div className=''>
           <FieldHeader
             error={ hasErrors }
