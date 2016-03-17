@@ -13,20 +13,29 @@ import Popout from '../../ui/popout'
 import styles from './selection-field.mcss'
 
 
+function extractComponent(components, name) {
+  let component = false
+  components.forEach((c) => {
+    if (c.name === name) {
+      component = c.component
+    }
+  })
+  return component
+}
+
 // DefaultSelected
 const SelectedDefault = ({option}) => (
-  <div className={styles.selectedDefault}>
+  <div>
     {option.label}
   </div>
 )
 
 // DefaultSelector
 const SelectionDefault = ({option}) => (
-  <div className={styles.selectionDefault}>
+  <div>
     {option.label}
   </div>
 )
-
 
 /**
  * Selection field
@@ -42,7 +51,9 @@ const SelectionField = React.createClass({
       placeholder: React.PropTypes.string,
       options: React.PropTypes.array,
       inline: React.PropTypes.bool,
-      select_label: React.PropTypes.string
+      select_button_text: React.PropTypes.string,
+      selected_component: React.PropTypes.string,
+      selection_component: React.PropTypes.string
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -51,6 +62,13 @@ const SelectionField = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number
     ])
+  },
+
+  getDefaultProps () {
+    return {
+      placeholder: 'Make a selection',
+      select_button_text: 'Select'
+    }
   },
 
   getInitialState () {
@@ -69,7 +87,7 @@ const SelectionField = React.createClass({
   },
 
   /**
-   * Common onChange handler for string fields
+   * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
@@ -122,9 +140,9 @@ const SelectionField = React.createClass({
   },
 
   render () {
-    const { attributes, errors, hint, label, name, value } = this.props
+    const { attributes, config, errors, hint, label, name, value } = this.props
     const { options, search } = this.state
-    const { placeholder, select_label } = attributes
+    const { placeholder, select_button_text, selected_component, selection_component } = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -134,6 +152,20 @@ const SelectionField = React.createClass({
         [`${styles.baseInline}`]: attributes.inline
       }
     )
+
+    // Determine the selection/selected display components
+    let Selected = SelectedDefault
+    let Selection = SelectionDefault
+
+    // Extract them from the passed `config.components` if it exists
+    if (config.components) {
+      if (selected_component) {
+        Selected = extractComponent(config.components, selected_component) || Selected
+      }
+      if (selection_component) {
+        Selection = extractComponent(config.components, selection_component) || Selection
+      }
+    }
 
     // Determine selected option
     const selectedOption = options.find((option) => (
@@ -148,22 +180,22 @@ const SelectionField = React.createClass({
           String(option[key])
         ))
         const results = fuzzy.filter(search, values)
-        return (results && results.count() > 0)
+        return (results && results.length > 0)
       })
     }
 
     // Build the set of options
     const selections = filteredOptions.map((option) => (
       <button
+        key={option.id}
         className={styles.selectionButton}
         onClick={(e) => {
           e.preventDefault()
           this.onSelection(option.id)
         }}>
-        <SelectionDefault option={option}/>
+        <Selection option={option}/>
       </button>
     ))
-
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
@@ -172,8 +204,8 @@ const SelectionField = React.createClass({
         <div className={styles.display}>
           { (selectedOption) ?
             <div className={styles.wrapper}>
-              <div className={styles.selection}>
-                <SelectedDefault option={selectedOption}/>
+              <div className={styles.selected}>
+                <Selected option={selectedOption}/>
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>
@@ -185,11 +217,11 @@ const SelectionField = React.createClass({
               className={styles.wrapper}
               onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
-                { placeholder || 'Make a selection' }
+                { placeholder }
               </div>
               <Popout ref='selector' placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
                 <div className={styles.openSelectionsButton}>
-                  { select_label || 'Select' }
+                  { select_button_text }
                 </div>
                 <div className={styles.selections}>
                   <input
