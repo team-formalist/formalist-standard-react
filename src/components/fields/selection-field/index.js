@@ -13,16 +13,19 @@ import Popout from '../../ui/popout'
 // Import styles
 import styles from './selection-field.mcss'
 
-
-// DefaultSelected
-const SelectedDefault = ({option}) => (
-  <div>
-    {option.label}
-  </div>
-)
-
-// DefaultSelector
-const SelectionDefault = ({option}) => (
+/**
+ * Default component for representing a "selected/selection" item
+ * @param  {Object} props Taking the shape of:
+ *
+ * {
+ *   option: { label: 'foo'}
+ *  }
+ *
+ * I.e., expecting the option to have a `label` key with a string value.
+ *
+ * @return {ReactElement}
+ */
+const SelectDefault = ({option}) => (
   <div>
     {option.label}
   </div>
@@ -30,6 +33,9 @@ const SelectionDefault = ({option}) => (
 
 /**
  * Selection field
+ *
+ * Handles a singular select of a set of pre-supplied options.
+ *
  */
 const SelectionField = React.createClass({
 
@@ -56,6 +62,10 @@ const SelectionField = React.createClass({
     ])
   },
 
+  /**
+   * Set the default props
+   * @return {Object} Props with defaults
+   */
   getDefaultProps () {
     return {
       placeholder: 'Make a selection',
@@ -63,18 +73,13 @@ const SelectionField = React.createClass({
     }
   },
 
+  /**
+   * Default state, blank search
+   * @return {Object}
+   */
   getInitialState () {
     return {
-      search: null,
-      options: List(this.props.attributes.options)
-    }
-  },
-
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.attributes.options) {
-      this.setState({
-        options: List(nextProps.attributes.options)
-      })
+      search: null
     }
   },
 
@@ -91,39 +96,73 @@ const SelectionField = React.createClass({
     )
   },
 
+  /**
+   * On choose click, open selector
+   * @return {Null}
+   */
   onChooseClick (e) {
     e.preventDefault()
     this.openSelector()
   },
 
+  /**
+   * When selected item is removed
+   * @return {Null}
+   */
   onRemoveClick (e) {
     e.preventDefault()
     this.onChange(null)
   },
 
+  /**
+   * When a selection is made, trigger change and close the selector
+   * @return {Null}
+   */
   onSelection (id) {
     this.closeSelector()
     this.onChange(id)
   },
 
+  /**
+   * Open the selector popout
+   * @return {Null}
+   */
   openSelector () {
     this.refs.selector.openPopout()
   },
 
+  /**
+   * Close the selector popout
+   * @return {Null}
+   */
   closeSelector () {
     this.refs.selector.closePopout()
   },
 
+  /**
+   * On popout close, reset the search
+   * @return {Null}
+   */
   onPopoutClose () {
     this.setState({
       search: null
     })
   },
 
+  /**
+   * On popout open, focus the search input
+   * @return {Null}
+   */
   onPopoutOpen () {
     this.refs.search.focus()
   },
 
+  /**
+   * Fired when search input is `change`d.
+   * Set this.state.search to the value of the input
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
   onSearchChange (e) {
     const search = e.target.value
     this.setState({
@@ -133,8 +172,8 @@ const SelectionField = React.createClass({
 
   render () {
     const { attributes, config, errors, hint, label, name, value } = this.props
-    const { options, search } = this.state
-    const { placeholder, select_button_text, selected_component, selection_component } = attributes
+    const { search } = this.state
+    const { options, placeholder, select_button_text, selected_component, selection_component } = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -146,8 +185,8 @@ const SelectionField = React.createClass({
     )
 
     // Determine the selection/selected display components
-    let Selected = SelectedDefault
-    let Selection = SelectionDefault
+    let Selected = SelectDefault
+    let Selection = SelectDefault
 
     // Extract them from the passed `config.components` if it exists
     if (config.components) {
@@ -188,6 +227,7 @@ const SelectionField = React.createClass({
         <Selection option={option}/>
       </button>
     ))
+
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
@@ -222,7 +262,7 @@ const SelectionField = React.createClass({
                     placeholder='Type to filter'
                     onChange={this.onSearchChange} />
                   <div className={styles.selectionsList}>
-                    { selections.count() > 0 ? selections : <p className={styles.noResults}>No matching results</p> }
+                    { selections.length > 0 ? selections : <p className={styles.noResults}>No matching results</p> }
                   </div>
                 </div>
               </Popout>
