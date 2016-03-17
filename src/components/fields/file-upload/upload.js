@@ -45,7 +45,7 @@ function formData (res, file) {
   const { as, fields } = res
   const { name } = file
 
-  var data = new FormData()
+  var data = new window.FormData()
 
   if (fields) {
     Object.keys(fields).forEach((key) => {
@@ -58,71 +58,94 @@ function formData (res, file) {
 }
 
 /**
- * uploadImage
- * Return a promise that posts to S3
- * rejects on error, resolves on success
- * Build data to post from formData() and file object
- *
- * @param  {Object} res: response from preSign()
- * @param  {String} token: csrf-token
- * @param  {Object} file: file object
+ * uploadToS3Request
+ * Perform an XHR request and Resolve or Reject
+ * @param  {Object} res - the response from preSignXHR()
+ * @param  {File Object} file
+ * @param  {String} token
+ * @param  {Resolve, Reject} functions passed in from uploadToS3
+ * @param  {Promise}
  */
 
-function uploadToS3 (res, file, token) {
+function uploadToS3Request (res, file, token, resolve, reject) {
   const { url, id } = res
   const data = formData(res, file)
 
-  return new Promise((resolve, reject) => {
-    fetch(url, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': token
-      },
-      body: JSON.stringify(data)
+  fetch(url, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': token
+    },
+    body: JSON.stringify(data)
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((res) => {
+      res.original_path = id
+      resolve(res)
     })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then((res) => {
-        res.original_path = id
-        resolve(res)
-      })
-      .catch((err) => {
-        reject(err)
-      })
+    .catch((err) => {
+      reject(err)
+    })
+}
+
+/**
+ * uploadToS3
+ * return a promise after calling uploadToS3Request()
+ * @param  {Object} res - the response from preSignRequest()
+ * @param  {File Object} file
+ * @param  {String} token
+ * @param  {Function} fn - XHR request
+ * @return {Promise}
+ */
+
+function uploadToS3 (res, file, token, fn) {
+  return new Promise((resolve, reject) => {
+    fn(res, file, token, resolve, reject)
   })
 }
 
 /**
- * preSign
+ * preSignRequest
+ * Perform an XHR request and Resolve or Reject
+ * @param  {File Object} file
+ * @param  {String} presignUrl
+ * @param  {String} token
+ * @param  {Resolve, Reject} functions passed in from uploadToS3
+ * @param  {Promise}
  */
 
-function preSign (file, presignUrl, token) {
+function preSignRequest (file, presignUrl, token, resolve, reject) {
   const { name, type } = file
   const data = {
     'file_name': name,
     'content_type': type
   }
 
-  return new Promise((resolve, reject) => {
-    fetch(presignUrl, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': token
-      },
-      body: JSON.stringify(data)
+  fetch(presignUrl, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': token
+    },
+    body: JSON.stringify(data)
+  })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((res) => {
+      resolve(res)
     })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((err) => {
-        reject(err)
-      })
+    .catch((err) => {
+      reject(err)
+    })
+}
+
+function preSign (file, presignUrl, token, fn) {
+  return new Promise((resolve, reject) => {
+    fn(file, presignUrl, token, resolve, reject)
   })
 }
 
@@ -150,11 +173,11 @@ function preSign (file, presignUrl, token) {
  * @return {Promise} provide resolve/reject methods when initialised
  */
 
-export default (file, presignUrl, token = '') => {
+function upload (file, presignUrl, token = '') {
   return new Promise((resolve, reject) => {
-    preSign(file, presignUrl, token)
+    preSign(file, presignUrl, token, preSignRequest)
       .then((res) => {
-        return uploadToS3(res, file, token)
+        return uploadToS3(res, file, token, uploadToS3Request)
       })
       .then((res) => {
         resolve(res)
@@ -163,4 +186,11 @@ export default (file, presignUrl, token = '') => {
         reject(err)
       })
   })
+}
+
+
+export {
+  upload,
+  preSign,
+  uploadToS3
 }

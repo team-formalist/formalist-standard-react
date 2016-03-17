@@ -7,7 +7,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import FileInput from '../../ui/file-input'
 import { validate } from './validation.js'
-import upload from './upload.js'
+import { upload } from './upload.js'
 
 // Import styles
 // import styles from './index.mcss'
