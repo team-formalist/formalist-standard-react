@@ -45,6 +45,7 @@ const SelectionField = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
+    config: React.PropTypes.object,
     attributes: React.PropTypes.shape({
       label: React.PropTypes.string,
       hint: React.PropTypes.string,

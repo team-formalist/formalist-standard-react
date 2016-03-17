@@ -14,6 +14,7 @@ const FieldContainer = React.createClass({
 
   propTypes: {
     attributes: ImmutablePropTypes.map,
+    config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
     hashCode: React.PropTypes.number.isRequired,
