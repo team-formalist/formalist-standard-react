@@ -6,6 +6,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import FileInput from '../../ui/file-input'
+import { validate } from './validation.js'
+import upload from './upload.js'
 
 // Import styles
 // import styles from './index.mcss'
@@ -23,10 +25,12 @@ export default React.createClass({
    */
 
   propTypes: {
-    name: React.PropTypes.string,
+    errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    name: React.PropTypes.string,
+    presign_url: React.PropTypes.string,
+    token: React.PropTypes.string
   },
 
   /**
@@ -36,8 +40,18 @@ export default React.createClass({
    */
 
   onChange (e) {
-    e.preventDefualt
-    console.log('test')
+    const file = e.target.files[0]
+    if (!file) return
+    const { presign_url, token } = this.props
+
+    validate(file, (status) => {
+      console.log(status)
+
+      upload(file, 'https://api.myjson.com/bins/1aceb', token)
+        .then(function (res) {
+          debugger
+        })
+    })
   },
 
   /**
@@ -48,6 +62,7 @@ export default React.createClass({
   render () {
     const { errors, hint, label, name } = this.props
     const hasErrors = errors.count() > 0
+
     return (
       <div className=''>
         <div className=''>
