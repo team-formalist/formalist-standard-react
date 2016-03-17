@@ -17,7 +17,6 @@ function validate (file) {
   }
 
   return new Promise((resolve, reject) => {
-
     // validate file type (render error)
     if (!file.type.match(FILETYPE)) {
       status.result = false

@@ -58,7 +58,7 @@ function formData (res, file) {
 }
 
 /**
- * uploadToS3Request
+ * uploadRequest
  * Perform an XHR request and Resolve or Reject
  * @param  {Object} res - the response from preSignXHR()
  * @param  {File Object} file
@@ -97,11 +97,11 @@ function uploadRequest (res, file, token, resolve, reject) {
  * @param  {Object} res - the response from preSignRequest()
  * @param  {File Object} file
  * @param  {String} token
- * @param  {Function} fn - XHR request
+ * @param  {Function} fn - defaults to uploadToS3Request()
  * @return {Promise}
  */
 
-function upload (res, file, token, fn = uploadToS3Request) {
+function upload (res, file, token, fn = uploadRequest) {
   return new Promise((resolve, reject) => {
     fn(res, file, token, resolve, reject)
   })
@@ -142,6 +142,16 @@ function preSignRequest (file, presignUrl, token, resolve, reject) {
       reject(err)
     })
 }
+
+/**
+ * preSign
+ * Take a file, url and pass it to an XHR request
+ * @param  {File Object} file
+ * @param  {String} presignUrl
+ * @param  {String} token
+ * @param  {Function} defaults to preSignRequest()
+ * @param  {Promise}
+ */
 
 function preSign (file, presignUrl, token, fn = preSignRequest) {
   return new Promise((resolve, reject) => {

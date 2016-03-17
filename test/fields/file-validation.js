@@ -19,24 +19,20 @@ test('File Validation', (nest) => {
 
   nest.test('...should fail', (t) => {
     return t.shouldFail(validate(file).then(() => {
-      throw new Error("Failed!");
+      throw new Error('Failed!')
     }))
   })
 
   nest.test('...should be successful', (t) => {
-    return t.shouldFail(validate(file).then((res) => {
-      t.ok(status.result, 'valid')
+    validate(file).then((res) => {
+      t.equal(res.result, true)
       t.end()
-    }))
+    })
   })
 
   nest.test('...should be unsuccessful', (t) => {
     const file = Object.assign({}, file)
     file.type = 'foo'
-
-    return t.shouldFail(validate(file).then((res) => {
-      t.notOk(status.result, 'invalid')
-      t.end()
-    }))
+    return t.shouldFail(validate(file))
   })
 })

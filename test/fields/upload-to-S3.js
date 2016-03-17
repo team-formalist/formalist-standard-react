@@ -23,14 +23,14 @@ test('presign:', (nest) => {
 
   nest.test('...should fail', (t) => {
     return t.shouldFail(preSign(file, url, token, noOp).then(() => {
-      throw new Error("Failed!");
+      throw new Error('Failed!')
     }))
   })
 })
 
 test('upload:', (nest) => {
   const response = {
-    url: "foo",
+    url: 'foo',
     id: 1
   }
 
@@ -40,13 +40,7 @@ test('upload:', (nest) => {
 
   nest.test('...should fail', (t) => {
     return t.shouldFail(upload(response, file, token, noOp).then(() => {
-      throw new Error("Failed!");
-    }))
-  })
-
-  nest.test('...should fail', (t) => {
-    return t.shouldFail(upload(response, file, token, noOp).then(() => {
-      throw new Error("Failed!");
+      throw new Error('Failed!')
     }))
   })
 })

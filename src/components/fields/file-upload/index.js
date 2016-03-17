@@ -25,6 +25,10 @@ export default React.createClass({
    */
 
   propTypes: {
+    attributes: React.PropTypes.shape({
+      label: React.PropTypes.string,
+      presign_url: React.PropTypes.string
+    }),
     errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
