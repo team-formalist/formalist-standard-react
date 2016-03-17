@@ -35,7 +35,7 @@ const SelectBox = React.createClass({
   },
 
   /**
-   * Common onChange handler for string fields
+   * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */

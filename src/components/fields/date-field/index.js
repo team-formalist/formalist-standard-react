@@ -31,7 +31,7 @@ const DateField = React.createClass({
   },
 
   /**
-   * Common onChange handler for string fields
+   * onChange handler
    *
    * @param  {String} date Date as a dd/mm/yyyy formatted string
    */
