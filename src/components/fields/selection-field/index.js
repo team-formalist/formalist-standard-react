@@ -12,8 +12,7 @@ import Popout from '../../ui/popout'
 // Import styles
 import styles from './selection-field.mcss'
 
-
-function extractComponent(components, name) {
+function extractComponent (components, name) {
   let component = false
   components.forEach((c) => {
     if (c.name === name) {
@@ -203,8 +202,8 @@ const SelectionField = React.createClass({
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         </div>
         <div className={styles.display}>
-          { (selectedOption) ?
-            <div className={styles.wrapper}>
+          { (selectedOption)
+            ? <div className={styles.wrapper}>
               <div className={styles.selected}>
                 <Selected option={selectedOption}/>
               </div>
@@ -213,10 +212,9 @@ const SelectionField = React.createClass({
                 <div className={styles.removeX}>×</div>
               </button>
             </div>
-            :
-            <button
-              className={styles.wrapper}
-              onClick={this.onChooseClick}>
+            : <button
+                className={styles.wrapper}
+                onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
                 { placeholder }
               </div>
@@ -229,7 +227,7 @@ const SelectionField = React.createClass({
                     ref='search'
                     type='search'
                     className={styles.search}
-                    placeholder="Type to filter"
+                    placeholder='Type to filter'
                     onChange={this.onSearchChange} />
                   <div className={styles.selectionsList}>
                     { selections.count() > 0 ? selections : <p className={styles.noResults}>No matching results</p> }
