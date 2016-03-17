@@ -26,6 +26,7 @@ const DateTimeField = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     name: React.PropTypes.string,
+    config: React.PropTypes.object,
     value: React.PropTypes.string
   },
 

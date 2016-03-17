@@ -28,6 +28,7 @@ const NumberField = React.createClass({
       max: React.PropTypes.number
     }),
     name: React.PropTypes.string,
+    config: React.PropTypes.object,
     value: React.PropTypes.number,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
