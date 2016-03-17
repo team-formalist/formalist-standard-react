@@ -67,7 +67,7 @@ function formData (res, file) {
  * @param  {Promise}
  */
 
-function uploadToS3Request (res, file, token, resolve, reject) {
+function uploadRequest (res, file, token, resolve, reject) {
   const { url, id } = res
   const data = formData(res, file)
 
@@ -101,7 +101,7 @@ function uploadToS3Request (res, file, token, resolve, reject) {
  * @return {Promise}
  */
 
-function uploadToS3 (res, file, token, fn) {
+function upload (res, file, token, fn = uploadToS3Request) {
   return new Promise((resolve, reject) => {
     fn(res, file, token, resolve, reject)
   })
@@ -143,54 +143,13 @@ function preSignRequest (file, presignUrl, token, resolve, reject) {
     })
 }
 
-function preSign (file, presignUrl, token, fn) {
+function preSign (file, presignUrl, token, fn = preSignRequest) {
   return new Promise((resolve, reject) => {
     fn(file, presignUrl, token, resolve, reject)
   })
 }
 
-/**
- * exports
- * get the `csrf-token` and pass it through to all XHR requests.
- * call `preSign()` passing in a file, token & optional block.
- * call `uploadToS3()` passing in response from `preSign()`, file, token & block
- * call `uploadToMercuryDB()` passing in response from `uploadToS3()`, file, token & block
- * if all was successful call resolve()
- * else call reject()
- *
- * usage example:
- *
- * uploadImageToS3(imageFile, Block)
- * 	.then(function(res) {
- *  	 // do something on success
- *   })
- *   .catch(function(err){
- *   	 // do something on error
- *   })
- *
- * @param {Object} file object - optional
- * @param {Object} an image blockType
- * @return {Promise} provide resolve/reject methods when initialised
- */
-
-function upload (file, presignUrl, token = '') {
-  return new Promise((resolve, reject) => {
-    preSign(file, presignUrl, token, preSignRequest)
-      .then((res) => {
-        return uploadToS3(res, file, token, uploadToS3Request)
-      })
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((err) => {
-        reject(err)
-      })
-  })
-}
-
-
 export {
-  upload,
   preSign,
-  uploadToS3
+  upload
 }

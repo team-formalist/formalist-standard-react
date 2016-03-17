@@ -7,7 +7,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import FileInput from '../../ui/file-input'
 import { validate } from './validation.js'
-import { upload } from './upload.js'
+import { upload, preSign } from './upload-to-S3.js'
 
 // Import styles
 // import styles from './index.mcss'
@@ -42,16 +42,19 @@ export default React.createClass({
   onChange (e) {
     const file = e.target.files[0]
     if (!file) return
-    const { presign_url, token } = this.props
+    const { presign_url } = this.props.attributes
 
-    validate(file, (status) => {
-      console.log(status)
-
-      upload(file, 'https://api.myjson.com/bins/1aceb', token)
-        .then(function (res) {
-          debugger
-        })
-    })
+    validate(file)
+      .then(preSign(file, presign_url, 'token'))
+      .then((data) => {
+        upload(data, file, 'token')
+      })
+      .then((res) => {
+        console.log('res', res)
+      })
+      .catch((err) => {
+        console.log('err', err)
+      })
   },
 
   /**

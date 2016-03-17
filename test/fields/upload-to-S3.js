@@ -1,6 +1,6 @@
 
 import test from 'blue-tape'
-import { upload, preSign, uploadToS3 } from '../../src/components/fields/file-upload/upload.js'
+import { upload, preSign } from '../../src/components/fields/file-upload/upload-to-S3'
 
 const token = ''
 const url = 'www.foo.com'
@@ -28,24 +28,24 @@ test('presign:', (nest) => {
   })
 })
 
-test('uploadToS3:', (nest) => {
+test('upload:', (nest) => {
   const response = {
     url: "foo",
     id: 1
   }
 
   nest.test('...returns a promise', (t) => {
-    return uploadToS3(response, file, token, noOp)
+    return upload(response, file, token, noOp)
   })
 
   nest.test('...should fail', (t) => {
-    return t.shouldFail(uploadToS3(response, file, token, noOp).then(() => {
+    return t.shouldFail(upload(response, file, token, noOp).then(() => {
       throw new Error("Failed!");
     }))
   })
 
   nest.test('...should fail', (t) => {
-    return t.shouldFail(uploadToS3(response, file, token, noOp).then(() => {
+    return t.shouldFail(upload(response, file, token, noOp).then(() => {
       throw new Error("Failed!");
     }))
   })

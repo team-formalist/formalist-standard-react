@@ -1,7 +1,7 @@
-import test from 'tape'
+import test from 'blue-tape'
 
 // local module
-import { validate } from '../../src/components/fields/file-upload/validation.js'
+import { validate } from '../../src/components/fields/file-upload/validation'
 
 const file = {
   name: 'W1004855.jpg',
@@ -13,20 +13,30 @@ const file = {
 }
 
 test('File Validation', (nest) => {
-  nest.test('...successful file validation', (t) => {
-    validate(file, (status) => {
-      t.ok(status.result, 'valid')
-      t.end()
-    })
+  nest.test('...returns a promise', (t) => {
+    return validate(file)
   })
 
-  nest.test('...unsuccessful file validation', (t) => {
+  nest.test('...should fail', (t) => {
+    return t.shouldFail(validate(file).then(() => {
+      throw new Error("Failed!");
+    }))
+  })
+
+  nest.test('...should be successful', (t) => {
+    return t.shouldFail(validate(file).then((res) => {
+      t.ok(status.result, 'valid')
+      t.end()
+    }))
+  })
+
+  nest.test('...should be unsuccessful', (t) => {
     const file = Object.assign({}, file)
     file.type = 'foo'
 
-    validate(file, (status) => {
+    return t.shouldFail(validate(file).then((res) => {
       t.notOk(status.result, 'invalid')
       t.end()
-    })
+    }))
   })
 })
