@@ -63,10 +63,37 @@ const Sortable = React.createClass({
   },
 
   /**
-   * moveItem
+   * onDrop
    *
    * Updates the internal representation of the list, and propagates that data
-   * changes upward through `onSort`
+   * changes upward through `this.props.onDrop`
+   */
+  onDrop () {
+    if (this.props.onDrop) {
+      this.props.onDrop(
+        this.state.items.map((item) => (item.originalIndex))
+      )
+    }
+  },
+
+  /**
+   * onSort
+   *
+   * Updates the internal representation of the list, and propagates that data
+   * changes upward through `this.props.onSort`
+   */
+  onSort () {
+    if (this.props.onSort) {
+      this.props.onSort(
+        this.state.items.map((item) => (item.originalIndex))
+      )
+    }
+  },
+
+  /**
+   * moveItem
+   *
+   * Updates the internal representation of the list
    *
    * @param  {Number} dragIndex The current index of the item being dragged
    * @param  {Number} hoverIndex The current index of the item being hovered
@@ -74,7 +101,6 @@ const Sortable = React.createClass({
   moveItem (dragIndex, hoverIndex) {
     const { items } = this.state
     const dragItem = items[dragIndex]
-
     this.setState(update(this.state, {
       items: {
         $splice: [
@@ -82,16 +108,13 @@ const Sortable = React.createClass({
           [hoverIndex, 0, dragItem]
         ]
       }
-    }), () => {
-      this.props.onSort(
-        this.state.items.map((item) => (item.originalIndex))
-      )
-    })
+    }))
   },
 
   render () {
     const { items } = this.state
     const { canRemove, onRemove } = this.props
+    const canSort = (items.length > 1)
 
     return (
       <div className={styles.base}>
@@ -99,6 +122,7 @@ const Sortable = React.createClass({
           <Item
             key={item.originalIndex}
             moveItem={this.moveItem}
+            onDrop={this.onDrop}
             index={index}
             originalIndex={item.originalIndex}
             canRemove={canRemove}

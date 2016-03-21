@@ -20,7 +20,11 @@ const itemSource = {
  * Item: DragTarget methods
  */
 const itemTarget = {
-  hover(props, monitor, component) {
+  drop (props, monitor) {
+    props.onDrop()
+  },
+
+  hover (props, monitor, component) {
     const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
 
