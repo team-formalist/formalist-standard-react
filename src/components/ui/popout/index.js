@@ -64,7 +64,7 @@ const Popout = React.createClass({
   },
 
   componentDidMount () {
-    this.calculatePosition()
+    requestAnimationFrame(this.calculatePosition)
   },
 
   componentWillMount () {
@@ -82,37 +82,39 @@ const Popout = React.createClass({
   calculatePosition () {
     // Only bother if its rendered
     let position
-    let { placement } = this.props
-    let referencePosition = this.refs.reference.getBoundingClientRect()
+    const { placement } = this.props
+    const referencePosition = this.refs.reference.getBoundingClientRect()
+    const scrollX = window.scrollX
+    const scrollY = window.scrollY
     let horzOffset = this.props.offset.horz
     let vertOffset = this.props.offset.vert
     if (placement === 'left') {
       horzOffset = horzOffset || this.props.offset.default
       vertOffset = vertOffset || 0
       position = {
-        left: referencePosition.left - horzOffset,
-        top: referencePosition.top + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
+        left: referencePosition.left + scrollX - horzOffset,
+        top: referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
       }
     } else if (placement === 'right') {
       horzOffset = horzOffset || this.props.offset.default
       vertOffset = vertOffset || 0
       position = {
-        left: referencePosition.left + referencePosition.width + horzOffset,
-        top: referencePosition.top + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
+        left: referencePosition.left + scrollX + referencePosition.width + horzOffset,
+        top: referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
       }
     } else if (placement === 'top') {
       horzOffset = horzOffset || 0
       vertOffset = vertOffset || this.props.offset.default
       position = {
-        left: referencePosition.left + (referencePosition.width / 2) + horzOffset,
-        top: referencePosition.top - vertOffset
+        left: referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset,
+        top: referencePosition.top + scrollY - vertOffset
       }
     } else if (placement === 'bottom') {
       horzOffset = horzOffset || 0
       vertOffset = vertOffset || this.props.offset.default
       position = {
-        left: referencePosition.left + (referencePosition.width / 2) + horzOffset,
-        top: referencePosition.top + referencePosition.height + vertOffset
+        left: referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset,
+        top: referencePosition.top + scrollY + referencePosition.height + vertOffset
       }
     }
 
