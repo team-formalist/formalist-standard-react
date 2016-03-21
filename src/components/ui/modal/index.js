@@ -96,7 +96,7 @@ const Modal = React.createClass({
 
   render () {
     // Extract Portal props
-    let {
+    const {
       closeOnEsc,
       closeOnOutsideClick,
       openByClickOn,
@@ -104,9 +104,12 @@ const Modal = React.createClass({
       onUpdate
     } = this.props
 
+    const { isOpened } = this.state
+
     return (
       <Portal
         ref='portal'
+        isOpened={isOpened}
         closeOnEsc={closeOnEsc}
         closeOnOutsideClick={closeOnOutsideClick}
         openByClickOn={openByClickOn}

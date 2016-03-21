@@ -138,7 +138,7 @@ const Popunder = React.createClass({
       onUpdate
     } = this.props
 
-    let { position } = this.state
+    let { isOpened, position } = this.state
 
     // Extract the reference element
     // AKA child.first
