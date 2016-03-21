@@ -127,14 +127,27 @@ const Popout = React.createClass({
    */
   openPopout () {
     this.calculatePosition()
-    return this.refs.portal.openPortal()
+    this.setState({
+      isOpened: true
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopout () {
-    return this.refs.portal.closePortal()
+    this.setState({
+      isOpened: false
+    })
+  },
+
+  /**
+   * Public: Toggle the `Portal`
+   */
+  togglePopout () {
+    this.setState({
+      isOpened: !this.state.isOpened
+    })
   },
 
   /**
@@ -161,7 +174,7 @@ const Popout = React.createClass({
     } = this.props
 
     let { placement } = this.props
-    let { position } = this.state
+    let { isOpened, position } = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -184,6 +197,7 @@ const Popout = React.createClass({
         </div>
         <Portal
           ref='portal'
+          isOpened={isOpened}
           closeOnEsc={closeOnEsc}
           closeOnOutsideClick={closeOnOutsideClick}
           openByClickOn={openByClickOn}

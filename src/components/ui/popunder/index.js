@@ -50,6 +50,7 @@ const Popunder = React.createClass({
 
   getInitialState () {
     return {
+      isOpened: false,
       position: {
         left: 0,
         top: 0
@@ -91,14 +92,27 @@ const Popunder = React.createClass({
    */
   openPopunder () {
     this.calculatePosition()
-    return this.refs.portal.openPortal()
+    this.setState({
+      isOpened: true
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopunder () {
-    return this.refs.portal.closePortal()
+    this.setState({
+      isOpened: false
+    })
+  },
+
+  /**
+   * Public: Toggle the `Portal`
+   */
+  togglePopunder () {
+    this.setState({
+      isOpened: !this.state.isOpened
+    })
   },
 
   /**
@@ -138,6 +152,7 @@ const Popunder = React.createClass({
         </div>
         <Portal
           ref='portal'
+          isOpened={isOpened}
           closeOnEsc={closeOnEsc}
           closeOnOutsideClick={closeOnOutsideClick}
           openByClickOn={openByClickOn}

@@ -24,18 +24,37 @@ const Modal = React.createClass({
     onUpdate: React.PropTypes.func
   },
 
+  getInitialState () {
+    return {
+      isOpened: false
+    }
+  },
+
   /**
    * Public interface: Opens the `Portal`
    */
   openModal () {
-    return this.refs.portal.openPortal()
+    this.setState({
+      isOpened: true
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closeModal () {
-    return this.refs.portal.closePortal()
+    this.setState({
+      isOpened: false
+    })
+  },
+
+  /**
+   * Public: Toggle the `Portal`
+   */
+  toggleModal () {
+    this.setState({
+      isOpened: !this.state.isOpened
+    })
   },
 
   /**
