@@ -62,17 +62,6 @@ const SelectionField = React.createClass({
   },
 
   /**
-   * Set the default props
-   * @return {Object} Props with defaults
-   */
-  getDefaultProps () {
-    return {
-      placeholder: 'Make a selection',
-      select_button_text: 'Select'
-    }
-  },
-
-  /**
    * Default state, blank search
    * @return {Object}
    */
@@ -274,13 +263,13 @@ const SelectionField = React.createClass({
               onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
                 <div>
-                  { placeholder }
+                  { placeholder || 'Make a selection' }
                   { (numberOfSelectedOptions > 0) ? ` (${numberOfSelectedOptions} selected)` : null}
                 </div>
               </div>
               <Popout ref='selector' placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
                 <div className={styles.openSelectionsButton}>
-                  { select_button_text }
+                  { select_button_text || 'Select' }
                 </div>
                 <div className={styles.selections}>
                   <input
