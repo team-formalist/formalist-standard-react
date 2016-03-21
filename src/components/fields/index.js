@@ -3,6 +3,7 @@ import Container from './container'
 import CheckBox from './check-box'
 import DateField from './date-field'
 import DateTimeField from './date-time-field'
+import MultiSelectionField from './multi-selection-field'
 import NumberField from './number-field'
 import RadioButtons from './radio-buttons'
 import SelectBox from './select-box'
@@ -34,6 +35,7 @@ function fields (config = {}) {
     checkBox: wrapField(CheckBox, config.checkBox),
     dateField: wrapField(DateField, config.dateField),
     dateTimeField: wrapField(DateTimeField, config.dateTimeField),
+    multiSelectionField: wrapField(MultiSelectionField, config.multiSelectionField),
     numberField: wrapField(NumberField, config.numberField),
     radioButtons: wrapField(RadioButtons, config.radioButtons),
     selectBox: wrapField(SelectBox, config.selectBox),
