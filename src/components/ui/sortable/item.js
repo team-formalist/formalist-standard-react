@@ -137,7 +137,7 @@ const Item = React.createClass({
   },
 
   render () {
-    const { canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging } = this.props
+    const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging } = this.props
     const inline = {
       opacity: (isDragging) ? 0 : 1
     }
@@ -152,12 +152,12 @@ const Item = React.createClass({
               <span className={styles.removeText}>Remove</span>
               <div className={styles.removeX}>×</div>
             </button> : null}
-          {connectDragSource(
+          {canSort ? connectDragSource(
             <button className={styles.handle} onClick={this.onHandleClick}>
               <span className={styles.handleText}>Drag to reorder</span>
               <div className={styles.handleLine}/>
             </button>
-          )}
+          ) : null}
         </div>
       )
     )

@@ -125,6 +125,7 @@ const Sortable = React.createClass({
             onDrop={this.onDrop}
             index={index}
             originalIndex={item.originalIndex}
+            canSort={canSort}
             canRemove={canRemove}
             onRemove={onRemove}>
             {item.component}
