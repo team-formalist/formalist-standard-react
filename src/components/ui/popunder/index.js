@@ -59,7 +59,7 @@ const Popunder = React.createClass({
   },
 
   componentDidMount () {
-    this.calculatePosition()
+    requestAnimationFrame(this.calculatePosition)
   },
 
   componentWillMount () {
@@ -76,10 +76,12 @@ const Popunder = React.createClass({
    */
   calculatePosition () {
     // Only bother if its rendered
-    let referencePosition = this.refs.reference.getBoundingClientRect()
+    const referencePosition = this.refs.reference.getBoundingClientRect()
+    const scrollX = window.scrollX
+    const scrollY = window.scrollY
     let position = {
-      left: referencePosition.left + this.props.offset.left,
-      top: referencePosition.top + referencePosition.height + this.props.offset.top
+      left: referencePosition.left + scrollX + this.props.offset.left,
+      top: referencePosition.top + scrollY + referencePosition.height + this.props.offset.top
     }
     this.setState({
       position
