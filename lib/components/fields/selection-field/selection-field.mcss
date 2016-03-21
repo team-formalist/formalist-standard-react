@@ -26,7 +26,7 @@
     outline: none;
   }
 
-.selected {
+.selection {
   align-items: center;
   display: flex;
   flex: 1;
@@ -35,11 +35,11 @@
 }
 
 .selectionPlaceholder {
-  composes: selected;
+  composes: selection;
   composes: greyMidColor normal sans from styles;
 }
 
-.openSelectionsButton {
+.openSelectorButton {
   composes: small buttonHighlight from '../../ui/buttons.mcss';
   margin-right: -0.3rem;
   margin-top: -0.2rem;
@@ -77,11 +77,11 @@
  * Selections
  */
 
-.selections {
+.options {
   min-width: 30rem;
 }
 
-.selectionsList {
+.optionsList {
   max-height: 40rem;
   overflow-y: scroll;
   overflow-scroll: touch;
@@ -110,7 +110,7 @@
     outline: none;
   }
 
-.selectionButton {
+.optionButton {
   composes: small sans greyTintBorder whiteBackground from styles;
   border-width: 0;
   border-bottom-width: 1px;
@@ -121,15 +121,15 @@
   text-align: left;
   width: 100%;
 }
-  .selectionButton:hover {
+  .optionButton:hover {
     text-decoration: underline;
   }
 
-.selected strong,
-.selectionButton strong {
+.selection strong,
+.optionButton strong {
   font-weight: fontSansBoldWeight;
 }
-.selected em,
-.selectionButton em {
+.selection em,
+.optionButton em {
   font-style: italic;
 }

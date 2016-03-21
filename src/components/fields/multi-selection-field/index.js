@@ -50,9 +50,9 @@ const SelectionField = React.createClass({
       placeholder: React.PropTypes.string,
       options: React.PropTypes.array,
       inline: React.PropTypes.bool,
-      select_button_text: React.PropTypes.string,
-      selected_component: React.PropTypes.string,
-      selection_component: React.PropTypes.string
+      selector_label: React.PropTypes.string,
+      render_option_as: React.PropTypes.string,
+      render_selection_as: React.PropTypes.string
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -184,7 +184,7 @@ const SelectionField = React.createClass({
   render () {
     const { attributes, config, errors, hint, label, name, value } = this.props
     const { search } = this.state
-    const { options, placeholder, select_button_text, selected_component, selection_component } = attributes
+    const { options, placeholder, selector_label, render_selection_as, render_option_as } = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -196,27 +196,27 @@ const SelectionField = React.createClass({
     )
 
     // Determine the selection/selected display components
-    let Selected = SelectDefault
+    let Option = SelectDefault
     let Selection = SelectDefault
 
     // Extract them from the passed `config.components` if it exists
     if (config.components) {
-      if (selected_component) {
-        Selected = extractComponent(config.components, selected_component) || Selected
+      if (render_option_as) {
+        Option = extractComponent(config.components, render_option_as) || Option
       }
-      if (selection_component) {
-        Selection = extractComponent(config.components, selection_component) || Selection
+      if (render_selection_as) {
+        Selection = extractComponent(config.components, render_selection_as) || Selection
       }
     }
 
     // Determine selected options
-    let selectedOptions = List()
+    let selections = List()
     if (value) {
-      selectedOptions = value.map((id) => (
+      selections = value.map((id) => (
         options.find((option) => (option.id === id))
       ))
     }
-    const numberOfSelectedOptions = selectedOptions.count()
+    const numberOfSelections = selections.count()
 
     // Remove any selected options
     let filteredOptions = options.filter((option) => {
@@ -238,15 +238,15 @@ const SelectionField = React.createClass({
     }
 
     // Build the set of options
-    const selections = filteredOptions.map((option) => (
+    const renderedOptions = filteredOptions.map((option) => (
       <button
         key={option.id}
-        className={styles.selectionButton}
+        className={styles.optionButton}
         onClick={(e) => {
           e.preventDefault()
           this.onSelection(option.id)
         }}>
-        <Selection option={option}/>
+        <Option option={option}/>
       </button>
     ))
 
@@ -263,32 +263,32 @@ const SelectionField = React.createClass({
               <div className={styles.selectionPlaceholder}>
                 <div>
                   { placeholder || 'Make a selection' }
-                  { (numberOfSelectedOptions > 0) ? ` (${numberOfSelectedOptions} selected)` : null}
+                  { (numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
               <Popout ref='selector' placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
-                <div className={styles.openSelectionsButton}>
-                  { select_button_text || 'Select' }
+                <div className={styles.openSelectorButton}>
+                  { selector_label || 'Select' }
                 </div>
-                <div className={styles.selections}>
+                <div className={styles.options}>
                   <input
                     ref='search'
                     type='search'
                     className={styles.search}
                     placeholder='Type to filter'
                     onChange={this.onSearchChange} />
-                  <div className={styles.selectionsList}>
-                    { selections.length > 0 ? selections : <p className={styles.noResults}>No matching results</p> }
+                  <div className={styles.optionsList}>
+                    { renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p> }
                   </div>
                 </div>
               </Popout>
             </button>
           </div>
           {
-            (numberOfSelectedOptions > 0)
+            (numberOfSelections > 0)
             ? <div className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
-                {selectedOptions.map((option, index) => <Selected key={`${index}_${option.id}`} option={option}/>)}
+                {selections.map((option, index) => <Selection key={`${index}_${option.id}`} option={option}/>)}
               </Sortable>
             </div>
             : null

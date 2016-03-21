@@ -48,9 +48,9 @@ const SelectionField = React.createClass({
       placeholder: React.PropTypes.string,
       options: React.PropTypes.array,
       inline: React.PropTypes.bool,
-      select_button_text: React.PropTypes.string,
-      selected_component: React.PropTypes.string,
-      selection_component: React.PropTypes.string
+      selector_label: React.PropTypes.string,
+      render_option_as: React.PropTypes.string,
+      render_selection_as: React.PropTypes.string
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -169,7 +169,7 @@ const SelectionField = React.createClass({
   render () {
     const { attributes, config, errors, hint, label, name, value } = this.props
     const { search } = this.state
-    const { options, placeholder, select_button_text, selected_component, selection_component } = attributes
+    const { options, placeholder, selector_label, render_option_as, render_selection_as } = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -181,21 +181,23 @@ const SelectionField = React.createClass({
     )
 
     // Determine the selection/selected display components
-    let Selected = SelectDefault
+    let Option = SelectDefault
     let Selection = SelectDefault
 
     // Extract them from the passed `config.components` if it exists
     if (config.components) {
-      if (selected_component) {
-        Selected = extractComponent(config.components, selected_component) || Selected
+      if (render_option_as) {
+        Option = extractComponent(config.components, render_option_as) || Option
       }
-      if (selection_component) {
-        Selection = extractComponent(config.components, selection_component) || Selection
+      if (render_selection_as) {
+        Selection = extractComponent(config.components, render_selection_as) || Selection
       }
     }
+    console.log('option', Option)
+    console.log('Selection', Selection)
 
-    // Determine selected option
-    const selectedOption = options.find((option) => (
+    // Determine selection
+    const selection = options.find((option) => (
       option.id === value
     ))
 
@@ -212,15 +214,15 @@ const SelectionField = React.createClass({
     }
 
     // Build the set of options
-    const selections = filteredOptions.map((option) => (
+    const renderedOptions = filteredOptions.map((option) => (
       <button
         key={option.id}
-        className={styles.selectionButton}
+        className={styles.optionButton}
         onClick={(e) => {
           e.preventDefault()
           this.onSelection(option.id)
         }}>
-        <Selection option={option}/>
+        <Option option={option}/>
       </button>
     ))
 
@@ -230,10 +232,10 @@ const SelectionField = React.createClass({
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         </div>
         <div className={styles.display}>
-          { (selectedOption)
+          { (selection)
             ? <div className={styles.wrapper}>
-              <div className={styles.selected}>
-                <Selected option={selectedOption}/>
+              <div className={styles.selection}>
+                <Selection option={selection}/>
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>
@@ -247,18 +249,18 @@ const SelectionField = React.createClass({
                 { placeholder || 'Make a selection' }
               </div>
               <Popout ref='selector' placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
-                <div className={styles.openSelectionsButton}>
-                  { select_button_text || 'Select' }
+                <div className={styles.openSelectorButton}>
+                  { selector_label || 'Select' }
                 </div>
-                <div className={styles.selections}>
+                <div className={styles.options}>
                   <input
                     ref='search'
                     type='search'
                     className={styles.search}
                     placeholder='Type to filter'
                     onChange={this.onSearchChange} />
-                  <div className={styles.selectionsList}>
-                    { selections.length > 0 ? selections : <p className={styles.noResults}>No matching results</p> }
+                  <div className={styles.optionsList}>
+                    { renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p> }
                   </div>
                 </div>
               </Popout>
