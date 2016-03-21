@@ -59,7 +59,7 @@ const Popunder = React.createClass({
   },
 
   componentDidMount () {
-    requestAnimationFrame(this.calculatePosition)
+    window.requestAnimationFrame(this.calculatePosition)
   },
 
   componentWillMount () {

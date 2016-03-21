@@ -64,7 +64,7 @@ const Popout = React.createClass({
   },
 
   componentDidMount () {
-    requestAnimationFrame(this.calculatePosition)
+    window.requestAnimationFrame(this.calculatePosition)
   },
 
   componentWillMount () {
