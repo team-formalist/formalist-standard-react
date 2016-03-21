@@ -14,6 +14,7 @@ const FieldContainer = React.createClass({
 
   propTypes: {
     attributes: ImmutablePropTypes.map,
+    config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
     hashCode: React.PropTypes.number.isRequired,
@@ -36,6 +37,7 @@ const FieldContainer = React.createClass({
   render () {
     let {
       attributes,
+      config,
       errors,
       field,
       name,
@@ -87,7 +89,8 @@ const FieldContainer = React.createClass({
       // rather than dumping everything through
       <div className={containerClassNames}>
         <Field
-          actions={ fieldActions }
+          actions={fieldActions}
+          config={config}
           name={name}
           value={value}
           rules={rules}

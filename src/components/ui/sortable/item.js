@@ -12,7 +12,7 @@ const itemSource = {
     return {
       index: props.index,
       originalIndex: props.originalIndex
-    };
+    }
   }
 }
 
@@ -20,7 +20,11 @@ const itemSource = {
  * Item: DragTarget methods
  */
 const itemTarget = {
-  hover(props, monitor, component) {
+  drop (props, monitor) {
+    props.onDrop()
+  },
+
+  hover (props, monitor, component) {
     const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
 
@@ -64,8 +68,7 @@ const itemTarget = {
     // to avoid expensive index searches.
     monitor.getItem().index = hoverIndex
   }
-};
-
+}
 
 /**
  * Item
@@ -106,6 +109,26 @@ const Item = React.createClass({
     onRemove: React.PropTypes.func,
 
     /**
+     * Can this item be sorted?
+     * @type {Boolean}
+     */
+    canSort: React.PropTypes.bool,
+
+    /**
+     * Is the item being dragged?
+     * @type {Boolean}
+     */
+    isDragging: React.PropTypes.bool,
+
+    /**
+     * React DnD provided decorators
+     * @type {Function}
+     */
+    connectDragPreview: React.PropTypes.func,
+    connectDragSource: React.PropTypes.func,
+    connectDropTarget: React.PropTypes.func,
+
+    /**
      * Child component we care about sorting
      * @type {ReactElement}
      */
@@ -133,7 +156,7 @@ const Item = React.createClass({
   },
 
   render () {
-    const { canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging } = this.props
+    const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging } = this.props
     const inline = {
       opacity: (isDragging) ? 0 : 1
     }
@@ -148,12 +171,12 @@ const Item = React.createClass({
               <span className={styles.removeText}>Remove</span>
               <div className={styles.removeX}>×</div>
             </button> : null}
-          {connectDragSource(
+          {canSort ? connectDragSource(
             <button className={styles.handle} onClick={this.onHandleClick}>
               <span className={styles.handleText}>Drag to reorder</span>
               <div className={styles.handleLine}/>
             </button>
-          )}
+          ) : null}
         </div>
       )
     )

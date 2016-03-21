@@ -18,6 +18,7 @@ const SelectBox = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
+    config: React.PropTypes.object,
     attributes: React.PropTypes.shape({
       label: React.PropTypes.string,
       hint: React.PropTypes.string,
@@ -35,7 +36,7 @@ const SelectBox = React.createClass({
   },
 
   /**
-   * Common onChange handler for string fields
+   * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */

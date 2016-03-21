@@ -28,6 +28,7 @@ const NumberField = React.createClass({
       max: React.PropTypes.number
     }),
     name: React.PropTypes.string,
+    config: React.PropTypes.object,
     value: React.PropTypes.number,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -35,7 +36,7 @@ const NumberField = React.createClass({
   },
 
   /**
-   * Common onChange handler for string fields
+   * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */

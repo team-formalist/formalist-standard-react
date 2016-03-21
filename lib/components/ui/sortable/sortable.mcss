@@ -1,7 +1,5 @@
 @value styles: 'formalist-theme/theme/index.mcss';
 
 .base {
-  composes: greyLightBorder from styles;
-  border-style: solid;
-  border-width: 1px;
+  composes: inputBox from '../input-boxes.mcss';
 }

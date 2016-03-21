@@ -5,9 +5,9 @@ import {GroupFactory} from './group'
 import {ManyFactory} from './many'
 import {SectionFactory} from './section'
 
-export default function components (customComponents = {}, options = {}) {
+export default function components (customComponents = {}, config = {}) {
   const base = {
-    fields: fields(options.fields),
+    fields: fields(config.fields),
     attr: AttrFactory,
     compoundField: CompoundFieldFactory,
     group: GroupFactory,

@@ -1,0 +1,137 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value error, fontSansBoldWeight, highlightLight: from styles;
+
+.base {
+  composes: base from '../shared.mcss';
+}
+  .baseInline {
+    composes: baseInline from '../shared.mcss';
+  }
+
+.display {
+  composes: inputBox from '../../ui/input-boxes.mcss';
+}
+
+/**
+ *
+ */
+
+.wrapper {
+  align-items: center;
+  display: flex;
+  padding: 0;
+  width: 100%;
+}
+  .wrapper:focus {
+    outline: none;
+  }
+
+.selectionItems {
+  composes: normal sans from styles;
+  margin-top: 1px;
+}
+
+.selectionPlaceholder {
+  align-items: center;
+  display: flex;
+  flex: 1;
+  text-align: left;
+  min-height: 2rem;
+  composes: greyMidColor normal sans from styles;
+}
+
+.openSelectorButton {
+  composes: small buttonHighlight from '../../ui/buttons.mcss';
+  margin-right: -0.3rem;
+  margin-top: -0.2rem;
+  margin-bottom: -0.4rem;
+}
+
+/* Selection exists */
+
+.remove {
+  composes: primaryColor from styles;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.17em;
+  margin-top: -0.3rem;
+  margin-bottom: -0.3rem;
+  transition-property: color;
+  transition-duration: 100ms;
+}
+  .remove:focus,
+  .remove:hover {
+    color: error;
+  }
+
+.removeText {
+  display: none;
+}
+
+.removeX {
+  composes: fallback large from styles;
+}
+
+/**
+ * Selections
+ */
+
+.options {
+  min-width: 30rem;
+}
+
+.optionsList {
+  max-height: 40rem;
+  overflow-y: scroll;
+  overflow-scroll: touch;
+  padding-top: 0.5rem;
+}
+
+.noResults {
+  composes: normal sans from styles;
+  padding: 0.5em 1rem 0.7em;
+}
+
+.search {
+  composes: normal sans greyTintBorder from styles;
+  appearance: none;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  box-sizing: border-box;
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.02);
+  padding: 0.5em 0.5em 0.7em 0.5em;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+  .search:focus {
+    outline: none;
+  }
+
+.optionButton {
+  composes: normal sans greyTintBorder whiteBackground from styles;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+  display: block;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  width: 100%;
+}
+  .optionButton:hover {
+    text-decoration: underline;
+  }
+
+.selection strong,
+.optionButton strong {
+  font-weight: fontSansBoldWeight;
+}
+.selection em,
+.optionButton em {
+  font-style: italic;
+}
+

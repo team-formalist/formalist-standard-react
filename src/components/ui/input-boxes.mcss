@@ -10,6 +10,7 @@
   border-top-width: 1px;
   border-top-style: solid;
   border-radius: 0;
+  box-sizing: border-box;
   padding: 0.6em 0.7em 0.8em;
   width: 100%;
   transition-property: border-color, background-color;
