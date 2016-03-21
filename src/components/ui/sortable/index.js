@@ -26,6 +26,12 @@ const Sortable = React.createClass({
     canRemove: React.PropTypes.bool,
     children: React.PropTypes.node,
     /**
+     * onDrop
+     * Callback. Fired _after_ the sort is effected
+     * @type {Function}
+     */
+    onDrop: React.PropTypes.func,
+    /**
      * onRemove
      * Callback. Fired when the remove button is clicked. Is passed the
      * *current* index of the item to be removed
@@ -37,7 +43,7 @@ const Sortable = React.createClass({
      * Callback. Fired when the sort change is effected
      * @type {Function}
      */
-    onSort: React.PropTypes.func,
+    onSort: React.PropTypes.func
   },
 
   getInitialState () {

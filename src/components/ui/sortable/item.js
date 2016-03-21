@@ -12,7 +12,7 @@ const itemSource = {
     return {
       index: props.index,
       originalIndex: props.originalIndex
-    };
+    }
   }
 }
 
@@ -68,8 +68,7 @@ const itemTarget = {
     // to avoid expensive index searches.
     monitor.getItem().index = hoverIndex
   }
-};
-
+}
 
 /**
  * Item
@@ -108,6 +107,26 @@ const Item = React.createClass({
      * @type {Function}
      */
     onRemove: React.PropTypes.func,
+
+    /**
+     * Can this item be sorted?
+     * @type {Boolean}
+     */
+    canSort: React.PropTypes.bool,
+
+    /**
+     * Is the item being dragged?
+     * @type {Boolean}
+     */
+    isDragging: React.PropTypes.bool,
+
+    /**
+     * React DnD provided decorators
+     * @type {Function}
+     */
+    connectDragPreview: React.PropTypes.func,
+    connectDragSource: React.PropTypes.func,
+    connectDropTarget: React.PropTypes.func,
 
     /**
      * Child component we care about sorting

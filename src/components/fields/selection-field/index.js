@@ -1,7 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
-import { List } from 'immutable'
 import fuzzy from 'fuzzy'
 import extractComponent from '../../../utils/extract-component'
 
