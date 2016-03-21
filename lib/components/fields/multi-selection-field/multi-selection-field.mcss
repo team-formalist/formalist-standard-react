@@ -26,16 +26,17 @@
     outline: none;
   }
 
-.selected {
+.selectedItems {
+  composes: normal sans from styles;
+  margin-top: 1px;
+}
+
+.selectionPlaceholder {
   align-items: center;
   display: flex;
   flex: 1;
   text-align: left;
   min-height: 2rem;
-}
-
-.selectionPlaceholder {
-  composes: selected;
   composes: greyMidColor normal sans from styles;
 }
 
@@ -111,7 +112,7 @@
   }
 
 .selectionButton {
-  composes: small sans greyTintBorder whiteBackground from styles;
+  composes: normal sans greyTintBorder whiteBackground from styles;
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;
@@ -133,3 +134,4 @@
 .selectionButton em {
   font-style: italic;
 }
+
