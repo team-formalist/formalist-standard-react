@@ -89,12 +89,12 @@
 }
 
 .noResults {
-  composes: small sans from styles;
+  composes: normal sans from styles;
   padding: 0.5em 1rem 0.7em;
 }
 
 .search {
-  composes: small sans greyTintBorder from styles;
+  composes: normal sans greyTintBorder from styles;
   appearance: none;
   border-width: 0;
   border-bottom-width: 1px;
