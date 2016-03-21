@@ -102,7 +102,7 @@ const SelectionField = React.createClass({
    */
   onChooseClick (e) {
     e.preventDefault()
-    this.openSelector()
+    this.toggleSelector()
   },
 
   /**
@@ -147,6 +147,14 @@ const SelectionField = React.createClass({
     this.setState({
       search: null
     })
+  },
+
+  /**
+   * Toggle the selector popout
+   * @return {Null}
+   */
+  toggleSelector () {
+    this.refs.selector.togglePopout()
   },
 
   /**
