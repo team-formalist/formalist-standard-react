@@ -12,4 +12,5 @@
   overflow-y: scroll;
   overflow-scroll: touch;
   position: absolute;
+  z-index: 10000;
 }
