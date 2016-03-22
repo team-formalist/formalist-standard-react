@@ -9,6 +9,9 @@ import FileInput from '../../ui/file-input'
 import { validate } from './validation.js'
 import { upload, preSign } from './upload-to-S3.js'
 
+import bus from './bus'
+
+
 // Import styles
 // import styles from './index.mcss'
 
@@ -37,6 +40,12 @@ export default React.createClass({
     token: React.PropTypes.string
   },
 
+  getDefaultProps () {
+    return {
+      token: ''
+    }
+  },
+
   /**
    * getInitialState
    * @return {Object}
@@ -44,8 +53,61 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      inProgress: false
+      showProgress: false,
+      progressValue: 0,
+      clearInput: false,
+      uploadURL: null
     }
+  },
+
+  /**
+   * abortRequest
+   * abort the upload request and reset state
+   * emit a custom event out to the XHR in upload-to-S3.js
+   * @param  {Event} e - click
+   */
+
+   abortUploadRequest (e) {
+     e.preventDefault()
+     this.resetState()
+     bus.emit('abortUploadRequest')
+   },
+
+  /**
+   * onProgress
+   * set the upload percentage to `progressValue`
+   * @param  {Event} e - XHR progress
+   */
+
+  onProgress (e) {
+    this.setState({
+      progressValue: e.percent
+    })
+  },
+
+  /**
+   * showProgress
+   * set `showProgress` to true
+   */
+
+  showProgress () {
+    this.setState({
+      showProgress: true
+    })
+  },
+
+  /**
+   * resetState
+   * reset the original state
+   */
+
+  resetState () {
+    this.setState({
+      progressValue: 0,
+      showProgress: false,
+      uploadUrl: null,
+      clearInput: true
+    })
   },
 
   /**
@@ -58,36 +120,62 @@ export default React.createClass({
     const file = e.target.files[0]
     if (!file) return
 
-    const self = this
     const { presign_url } = this.props.attributes
+    const { token } = this.props
+    const self = this
 
     // validate the file
-    // then => request a presign to upload file
-    // then => update the component state
-    // then => upload the file
-    // then => update the component state again
-    // then => do something useful like show a preview
+    //  => request a presign to upload file
+    //  => show progress
+    //     pass presignResponse and onProgress handler to 'upload'
+    //  => set the uploadResponse to state
 
-    validate(file) // 1
-      .then(preSign(file, presign_url, 'token'))
-      .then((data) => {
-        self.setState({
-          inProgress: true
-        })
-        upload(data, file, 'token')
+    validate(file)
+      .then(() => {
+        return preSign(file, presign_url, token)
       })
-      .then((res) => {
+      .then((presignResponse) => {
+        self.showProgress()
+        return upload(presignResponse, file, token, self.onProgress)
+      })
+      .then((uploadResponse) => {
         self.setState({
-          inProgress: false
-        })
-        console.log('res', res)
+          uploadURL: uploadResponse.upload_url
+        });
       })
       .catch((err) => {
-        self.setState({
-          inProgress: false
-        })
         console.log('err', err)
       })
+  },
+
+  /**
+   * closeProgressIndicator
+   * reset state
+   * @param  {Event} e - click
+   */
+
+  closeProgressIndicator (e) {
+    e.preventDefault()
+    this.resetState()
+  },
+
+  /**
+   * renderProgressIndicator
+   * display the upload progress or final URL of uploaded file
+   * @param  {Number} val - XHR progress event
+   * @param  {null / String} uploadURL - the file's url
+   * @return {vnode}
+   */
+
+  renderProgressIndicator (val, uploadURL) {
+    let text = uploadURL != null ? uploadURL : "Uploading"
+    let action = uploadURL == null ? this.abortUploadRequest : this.closeProgressIndicator
+    return (
+      <div>
+        { text } { !uploadURL ? val + "%" : null }
+        <button onClick={ action }>x</button>
+      </div>
+    )
   },
 
   /**
@@ -95,20 +183,13 @@ export default React.createClass({
    * @return {vnode}
    */
 
-  renderLoadingMessage () {
-    return (
-      <div>I'm Loading</div>
-    )
-  },
-
   render () {
     const { errors, hint, label, name } = this.props
     const hasErrors = errors.count() > 0
-    const { inProgress } = this.state
-
+    const { progressValue, clearInput, uploadURL, showProgress } = this.state
+    console.log('render', showProgress ? 'true' : 'false')
     return (
       <div className=''>
-        { inProgress ? this.renderLoadingMessage() : null }
         <div className=''>
           <FieldHeader
             error={ hasErrors }
@@ -118,7 +199,9 @@ export default React.createClass({
           />
         </div>
         <div className=''>
+          { showProgress ? this.renderProgressIndicator(progressValue, uploadURL) : null }
           <FileInput
+            clearInput={ clearInput }
             error={ hasErrors }
             id={ name }
             name={ name }
