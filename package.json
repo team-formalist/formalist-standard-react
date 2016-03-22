@@ -42,6 +42,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "blue-tape": "^0.2.0",
+    "component-emitter": "^1.2.0",
     "enzyme": "^1.2.0",
     "es6-promise": "^3.1.2",
     "eslint": "^1.10.3",
@@ -54,6 +55,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^8.0.4",
     "react-addons-test-utils": "^0.14.7",
+    "superagent": "^1.8.1",
     "tape": "^4.2.2",
     "wr": "^1.3.1"
   },
