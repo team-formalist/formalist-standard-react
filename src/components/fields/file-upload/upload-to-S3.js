@@ -1,5 +1,24 @@
 require('es6-promise').polyfill()
-var fetch = require('isomorphic-fetch')
+const request = require('superagent')
+import bus from './bus'
+
+/**
+ * noOp
+ * Default param value
+ * @return {Function}
+ */
+
+const noOp = function () {}
+
+/**
+ * req
+ * on 'abortUploadRequest' get access to the latest XHR request and about()
+ */
+
+let req;
+bus.on('abortUploadRequest', () => {
+  req.abort()
+})
 
 /**
  * checkStatus
@@ -27,8 +46,8 @@ function checkStatus (res) {
  * @return {Object}
  */
 
-function parseJSON (res) {
-  return res.json()
+function parseJSON (res, url) {
+  return JSON.parse(res.text)
 }
 
 /**
@@ -63,47 +82,58 @@ function formData (res, file) {
  * @param  {Object} res - the response from preSignXHR()
  * @param  {File Object} file
  * @param  {String} token
- * @param  {Resolve, Reject} functions passed in from uploadToS3
- * @param  {Promise}
+ * @param  {Function} on progress event handler
+ * @return  {Promise}
  */
 
-function uploadRequest (res, file, token, resolve, reject) {
-  const { url, id } = res
+function uploadRequest (res, file, token, showProgress) {
+  const { url } = res
   const data = formData(res, file)
 
-  fetch(url, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': token
-    },
-    body: JSON.stringify(data)
+  return new Promise((resolve, reject) => {
+    req = request
+      .post(url)
+      .send(data)
+      .set({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': token
+      })
+      .on('progress', (e) => {
+        showProgress(e)
+      })
+      .end((err, res) => {
+        if (err) reject(err)
+        resolve(res)
+      })
+
+
   })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then((res) => {
-      res.original_path = id
-      resolve(res)
-    })
-    .catch((err) => {
-      reject(err)
-    })
 }
 
 /**
- * uploadToS3
- * return a promise after calling uploadToS3Request()
+ * upload
+ * Take a response object (from preSignRequest) a file and a token
+ * and return a Promise that makes an uploadRequest()
  * @param  {Object} res - the response from preSignRequest()
  * @param  {File Object} file
  * @param  {String} token
- * @param  {Function} fn - defaults to uploadToS3Request()
+ * @param  {Function} showProgress - progress event handler
+ * @param  {Function} fn - defaults to uploadRequest()
  * @return {Promise}
  */
 
-function upload (res, file, token, fn = uploadRequest) {
+function upload (res, file, token, showProgress = noOp, fn = uploadRequest) {
   return new Promise((resolve, reject) => {
-    fn(res, file, token, resolve, reject)
+    fn(res, file, token, showProgress)
+      .then(checkStatus)
+      .then(parseJSON)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
 
@@ -113,39 +143,37 @@ function upload (res, file, token, fn = uploadRequest) {
  * @param  {File Object} file
  * @param  {String} presignUrl
  * @param  {String} token
- * @param  {Resolve, Reject} functions passed in from uploadToS3
  * @param  {Promise}
  */
 
-function preSignRequest (file, presignUrl, token, resolve, reject) {
+function preSignRequest (file, presignUrl, token) {
   const { name, type } = file
   const data = {
     'file_name': name,
     'content_type': type
   }
 
-  fetch(presignUrl, {
-    method: 'post',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': token
-    },
-    body: JSON.stringify(data)
+  return new Promise((resolve, reject) => {
+    req = request
+      .post(presignUrl)
+      .send(data)
+      .set({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': token
+      })
+      .end((err, res) => {
+        if (err) reject(err)
+        console.log('presign res', res)
+        resolve(res)
+      })
   })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then((res) => {
-      resolve(res)
-    })
-    .catch((err) => {
-      reject(err)
-    })
 }
 
 /**
  * preSign
- * Take a file, url and pass it to an XHR request
+ * Take a file, url and
+ * return a Promise that makes a preSignRequest()
  * @param  {File Object} file
  * @param  {String} presignUrl
  * @param  {String} token
@@ -155,7 +183,15 @@ function preSignRequest (file, presignUrl, token, resolve, reject) {
 
 function preSign (file, presignUrl, token, fn = preSignRequest) {
   return new Promise((resolve, reject) => {
-    fn(file, presignUrl, token, resolve, reject)
+    fn(file, presignUrl, token)
+      .then(checkStatus)
+      .then(parseJSON)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
 }
 
