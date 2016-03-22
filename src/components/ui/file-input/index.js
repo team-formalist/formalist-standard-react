@@ -21,6 +21,36 @@ export default React.createClass({
   },
 
   /**
+   * getDefaultProps
+   */
+
+  getDefaultProps () {
+    return {
+      resetInput: false
+    }
+  },
+
+  /**
+   * clearInput
+   * reset teh value of the file input
+   */
+
+  clearInput() {
+    this.refs.fileInput.value = ""
+  },
+
+  /**
+   * componentWillReceiveProps
+   * Check if we need to reset the file input
+   */
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.clearInput) {
+      this.clearInput()
+    }
+  },
+
+  /**
    * render
    * @return {vnode}
    */
@@ -31,6 +61,7 @@ export default React.createClass({
     return (
       <div className={ className }>
         <input
+          ref="fileInput"
           type='file'
           className={ className }
           name={ name }
