@@ -15,7 +15,7 @@ const noOp = function () {}
  * on 'abortUploadRequest' get access to the latest XHR request and about()
  */
 
-let req;
+let req
 bus.on('abortUploadRequest', () => {
   req.abort()
 })
@@ -60,11 +60,9 @@ function parseJSON (res, url) {
  * @return {Object} FormData
  */
 
-function formData (res, file) {
+function formData (res, files) {
   const { as, fields } = res
-  const { name } = file
-
-  var data = new window.FormData()
+  let data = new window.FormData()
 
   if (fields) {
     Object.keys(fields).forEach((key) => {
@@ -72,7 +70,10 @@ function formData (res, file) {
     })
   }
 
-  data.append(as, file, name)
+  files.map((file) => {
+    data.append(as, file, file.name)
+  })
+
   return data
 }
 
@@ -86,9 +87,9 @@ function formData (res, file) {
  * @return  {Promise}
  */
 
-function uploadRequest (res, file, token, showProgress) {
+function uploadRequest (res, files, token, showProgress) {
   const { url } = res
-  const data = formData(res, file)
+  const data = formData(res, files)
 
   return new Promise((resolve, reject) => {
     req = request
@@ -106,8 +107,6 @@ function uploadRequest (res, file, token, showProgress) {
         if (err) reject(err)
         resolve(res)
       })
-
-
   })
 }
 
@@ -123,9 +122,9 @@ function uploadRequest (res, file, token, showProgress) {
  * @return {Promise}
  */
 
-function upload (res, file, token, showProgress = noOp, fn = uploadRequest) {
+function upload (res, files, token, showProgress = noOp, fn = uploadRequest) {
   return new Promise((resolve, reject) => {
-    fn(res, file, token, showProgress)
+    fn(res, files, token, showProgress)
       .then(checkStatus)
       .then(parseJSON)
       .then((res) => {
@@ -146,12 +145,15 @@ function upload (res, file, token, showProgress = noOp, fn = uploadRequest) {
  * @param  {Promise}
  */
 
-function preSignRequest (file, presignUrl, token) {
-  const { name, type } = file
-  const data = {
-    'file_name': name,
-    'content_type': type
-  }
+function preSignRequest (files, presignUrl, token) {
+  const data = []
+
+  files.map((file) => {
+    data.push({
+      'file_name': file.name,
+      'content_type': file.type
+    })
+  })
 
   return new Promise((resolve, reject) => {
     req = request
@@ -164,7 +166,6 @@ function preSignRequest (file, presignUrl, token) {
       })
       .end((err, res) => {
         if (err) reject(err)
-        console.log('presign res', res)
         resolve(res)
       })
   })
@@ -181,9 +182,9 @@ function preSignRequest (file, presignUrl, token) {
  * @param  {Promise}
  */
 
-function preSign (file, presignUrl, token, fn = preSignRequest) {
+function preSign (files, presignUrl, token, fn = preSignRequest) {
   return new Promise((resolve, reject) => {
-    fn(file, presignUrl, token)
+    fn(files, presignUrl, token)
       .then(checkStatus)
       .then(parseJSON)
       .then((res) => {

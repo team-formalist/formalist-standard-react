@@ -5,15 +5,11 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 // Import components
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
-import FileInput from '../../ui/file-input'
+import Dropzone from '../../ui/dropzone'
 import { validate } from './validation.js'
 import { upload, preSign } from './upload-to-S3.js'
-
 import bus from './bus'
-
-
-// Import styles
-// import styles from './index.mcss'
+import styles from './index.mcss'
 
 export default React.createClass({
 
@@ -37,13 +33,10 @@ export default React.createClass({
     label: React.PropTypes.string,
     name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
-    token: React.PropTypes.string
-  },
-
-  getDefaultProps () {
-    return {
-      token: ''
-    }
+    token: React.PropTypes.string,
+    fileType: React.PropTypes.object,
+    maxFileSize: React.PropTypes.number,
+    value: React.PropTypes.string
   },
 
   /**
@@ -53,10 +46,10 @@ export default React.createClass({
 
   getInitialState () {
     return {
-      showProgress: false,
       progressValue: 0,
-      clearInput: false,
-      uploadURL: null
+      uploadURL: null,
+      XHRErrorMessage: null,
+      files: []
     }
   },
 
@@ -67,11 +60,11 @@ export default React.createClass({
    * @param  {Event} e - click
    */
 
-   abortUploadRequest (e) {
-     e.preventDefault()
-     this.resetState()
-     bus.emit('abortUploadRequest')
-   },
+  abortUploadRequest (e) {
+    e.preventDefault()
+    this.resetState()
+    bus.emit('abortUploadRequest')
+  },
 
   /**
    * onProgress
@@ -104,9 +97,9 @@ export default React.createClass({
   resetState () {
     this.setState({
       progressValue: 0,
-      showProgress: false,
-      uploadUrl: null,
-      clearInput: true
+      uploadURL: null,
+      XHRErrorMessage: null,
+      files: []
     })
   },
 
@@ -116,13 +109,23 @@ export default React.createClass({
    * @return {[type]}   [description]
    */
 
-  onChange (e) {
-    const file = e.target.files[0]
-    if (!file) return
+  // onDrop: function(files){
+  //   var req = request.post('/upload');
+    // files.forEach((file)=> {
+    //   req.attach(file.name, file);
+    // });
+  //   req.end(callback);
+  // }
 
+  onChange (files) {
+    if (!files.length) return
     const { presign_url } = this.props.attributes
-    const { token } = this.props
+    const { token, fileType, maxFileSize } = this.props
     const self = this
+
+    this.setState({
+      files: files
+    })
 
     // validate the file
     //  => request a presign to upload file
@@ -130,50 +133,87 @@ export default React.createClass({
     //     pass presignResponse and onProgress handler to 'upload'
     //  => set the uploadResponse to state
 
-    validate(file)
+    validate(files, fileType, maxFileSize)
       .then(() => {
-        return preSign(file, presign_url, token)
+        return preSign(files, presign_url, token)
       })
       .then((presignResponse) => {
-        self.showProgress()
-        return upload(presignResponse, file, token, self.onProgress)
+        return upload(presignResponse, files, token, self.onProgress)
       })
       .then((uploadResponse) => {
         self.setState({
           uploadURL: uploadResponse.upload_url
-        });
+        })
       })
       .catch((err) => {
-        console.log('err', err)
+        self.setState({
+          XHRErrorMessage: err.message
+        })
       })
   },
 
   /**
-   * closeProgressIndicator
+   * close
    * reset state
    * @param  {Event} e - click
    */
 
-  closeProgressIndicator (e) {
+  close (e) {
     e.preventDefault()
     this.resetState()
   },
 
   /**
-   * renderProgressIndicator
-   * display the upload progress or final URL of uploaded file
-   * @param  {Number} val - XHR progress event
-   * @param  {null / String} uploadURL - the file's url
+   * renderResult
+   * Render the URL for the uploaded asset
+   * @param  {String} url
    * @return {vnode}
    */
 
-  renderProgressIndicator (val, uploadURL) {
-    let text = uploadURL != null ? uploadURL : "Uploading"
-    let action = uploadURL == null ? this.abortUploadRequest : this.closeProgressIndicator
+  renderResult (url, error) {
+    let result = error || url
     return (
-      <div>
-        { text } { !uploadURL ? val + "%" : null }
-        <button onClick={ action }>x</button>
+      <div className={ styles.result }>
+        <span
+          className={ styles.close }
+          onClick={ this.close }>x</span>
+        <div className={ styles.message }>
+          { result }
+        </div>
+      </div>
+    )
+  },
+
+  /**
+   * renderProgress
+   * display the upload progress of uploaded asset
+   * @param  {Number} val - XHR progress event
+   * @return {vnode}
+   */
+
+  renderProgress (val, files) {
+    let inlineStyleWidth = {
+      width: val + '%'
+    }
+
+    let filesNames = files.map((file) => {
+      return file.name
+    })
+
+    return (
+      <div className={ styles.progress }>
+        <span
+          className={ styles.progress_bar }
+          style={ inlineStyleWidth }></span>
+        <span
+          className={ styles.close }
+          onClick={ this.abortUploadRequest }>x</span>
+        <div className={ styles.message }>
+          Uploading { filesNames.join(', ')}
+          <span className={ styles.percentage }>
+            { val + '%' }
+          </span>
+        </div>
       </div>
     )
   },
@@ -186,10 +226,15 @@ export default React.createClass({
   render () {
     const { errors, hint, label, name } = this.props
     const hasErrors = errors.count() > 0
-    const { progressValue, clearInput, uploadURL, showProgress } = this.state
-    console.log('render', showProgress ? 'true' : 'false')
+    const {
+      progressValue,
+      uploadURL,
+      XHRErrorMessage,
+      files
+    } = this.state
+
     return (
-      <div className=''>
+      <div>
         <div className=''>
           <FieldHeader
             error={ hasErrors }
@@ -198,13 +243,13 @@ export default React.createClass({
             label={ label }
           />
         </div>
-        <div className=''>
-          { showProgress ? this.renderProgressIndicator(progressValue, uploadURL) : null }
-          <FileInput
-            clearInput={ clearInput }
-            error={ hasErrors }
-            id={ name }
-            name={ name }
+        <div className ={ styles.field }>
+          { progressValue > 0 && !uploadURL ? this.renderProgress(progressValue, files) : null }
+          { uploadURL || XHRErrorMessage ? this.renderResult(uploadURL, XHRErrorMessage) : null }
+
+          <Dropzone
+            className=''
+            text={ label }
             onChange={ this.onChange }
           />
           { (hasErrors) ? <FieldErrors errors={errors}/> : null }

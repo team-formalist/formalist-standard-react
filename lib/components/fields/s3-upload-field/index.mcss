@@ -1,0 +1,74 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.base {
+  composes: base from '../shared.mcss';
+}
+  .baseInline {
+    composes: baseInline from '../shared.mcss';
+  }
+
+.hidden {
+  composes: hidden from '../shared.mcss';
+}
+
+.field {
+  position: relative;
+}
+
+.progress_bar {
+  background: blue;
+  display: inline-block;
+  height: 3px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 0;
+  z-index: 5;
+}
+
+.percentage {
+  float: right;
+}
+
+.close {
+  -webkit-font-smoothing: antialiased;
+  border: none;
+  box-sizing: border-box;
+  color: #666;
+  cursor: pointer;
+  display: inline-block;
+  float: right;
+  font-weight: bold;
+  margin-left: 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  text-shadow: none;
+}
+
+.result,
+.progress,
+.trigger {
+  background: #eee;
+  box-sizing: border-box;
+  color: #666;
+  cursor: pointer;
+  display: block;
+  font-size: 1.2em;
+  line-height: 1.5;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.result,
+.progress {
+  position: absolute;
+  text-align: left;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
