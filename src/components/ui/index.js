@@ -15,6 +15,7 @@ import Slider from './slider'
 import TextBox from './text-box'
 import TimePicker from './time-picker'
 import FileInput from './file-input'
+import Dropzone from './dropzone'
 
 export default {
   ButtonGroup,
@@ -33,5 +34,6 @@ export default {
   Slider,
   TextBox,
   TimePicker,
-  FileInput
+  FileInput,
+  Dropzone
 }
