@@ -1,0 +1,14 @@
+.trigger {
+  background: #eee;
+  box-sizing: border-box;
+  color: #666;
+  cursor: pointer;
+  display: block;
+  font-size: 1.2em;
+  line-height: 1.5;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
