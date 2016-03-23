@@ -1,9 +1,9 @@
 import test from 'tape'
 import React from 'react'
-import shallowRenderComponent from '../fixtures/shallow-render.js'
+import shallowRenderComponent from '../../fixtures/shallow-render.js'
 
 // local module
-import Input from '../../src/components/fields/file-upload'
+import Input from '../../../src/components/fields/s3-upload-field'
 
 const props = {
   hint: 'foo',

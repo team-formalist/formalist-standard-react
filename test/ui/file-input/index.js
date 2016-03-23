@@ -1,9 +1,9 @@
 import test from 'tape'
 import React from 'react'
-import shallowRenderComponent from '../fixtures/shallow-render.js'
+import shallowRenderComponent from '../../fixtures/shallow-render.js'
 
 // local module
-import Input from '../../src/components/ui/file-input'
+import Input from '../../../src/components/ui/file-input'
 
 const props = {
   className: 'foo',
