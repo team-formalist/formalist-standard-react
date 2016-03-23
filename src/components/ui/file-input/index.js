@@ -1,4 +1,6 @@
 import React from 'react'
+import triggerEvent from 'trigger-event'
+
 // import classNames from 'classnames'
 // import styles from './index.mcss'
 
@@ -31,12 +33,21 @@ export default React.createClass({
   },
 
   /**
-   * clearInput
+   * onClearInput
    * reset teh value of the file input
    */
 
-  clearInput() {
-    this.refs.fileInput.value = ""
+  onClearInput () {
+    this.refs.fileInput.value = ''
+  },
+
+  /**
+   * triggerClickEvent
+   * Clear the input
+   */
+
+  triggerClickEvent () {
+    triggerEvent(this.refs.fileInput, 'click')
   },
 
   /**
@@ -46,7 +57,11 @@ export default React.createClass({
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.clearInput) {
-      this.clearInput()
+      this.onClearInput()
+    }
+
+    if (nextProps.triggerClick) {
+      this.triggerClickEvent()
     }
   },
 
@@ -61,7 +76,7 @@ export default React.createClass({
     return (
       <div className={ className }>
         <input
-          ref="fileInput"
+          ref='fileInput'
           type='file'
           className={ className }
           name={ name }
