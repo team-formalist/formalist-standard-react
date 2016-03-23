@@ -7,10 +7,6 @@
     composes: baseInline from '../shared.mcss';
   }
 
-.hidden {
-  composes: hidden from '../shared.mcss';
-}
-
 .field {
   position: relative;
 }
@@ -48,8 +44,7 @@
 }
 
 .result,
-.progress,
-.trigger {
+.progress {
   background: #eee;
   box-sizing: border-box;
   color: #666;
