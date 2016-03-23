@@ -70,9 +70,19 @@ export default React.createClass({
     const { files } = this.state
     const { text, renderPreview } = this.props
 
+    let foo = {
+       background: 'red', // note the capital 'W' here
+       padding: '30px',
+       marginTop: '-10px'
+    }
+
     return (
       <div className='dropzone'>
-        <Dropzone onDrop={ this.onDrop } className={ styles.trigger } style={{}}>
+        <Dropzone
+          onDrop={ this.onDrop }
+          className={ styles.trigger }
+          style={{}}
+          activeClassName={ styles.pulse }>
           { text }
         </Dropzone>
         { renderPreview && files.length > 0 ? this.renderPreview(files) : null }

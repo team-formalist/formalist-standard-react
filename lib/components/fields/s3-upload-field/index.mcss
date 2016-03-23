@@ -12,14 +12,14 @@
 }
 
 .progress_bar {
-  background: blue;
+  background: #50c5e9;
   display: inline-block;
-  height: 3px;
   left: 0;
   position: absolute;
   top: 0;
+  bottom: 0;
   width: 0;
-  z-index: 5;
+  z-index: 0;
 }
 
 .percentage {
@@ -43,27 +43,51 @@
   text-shadow: none;
 }
 
-.result,
-.progress {
-  background: #eee;
+.close__white {
+  -webkit-font-smoothing: antialiased;
+  border: none;
   box-sizing: border-box;
-  color: #666;
+  color: #fff;
   cursor: pointer;
-  display: block;
-  font-size: 1.2em;
-  line-height: 1.5;
-  overflow: hidden;
-  padding: 20px;
+  display: inline-block;
+  float: right;
+  font-weight: bold;
+  margin-left: 20px;
   position: relative;
   text-align: center;
-  width: 100%;
+  text-decoration: none;
+  text-rendering: optimizeLegibility;
+  text-shadow: none;
+}
+
+.result {
+  background: #eee;
+  color: #666;
+}
+
+.progress {
+  color: #fff;
+}
+
+.body {
+  position: relative;
+  z-index: 10;
 }
 
 .result,
 .progress {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  font-size: 1.2em;
+  left: 0;
+  line-height: 1.5;
+  overflow: hidden;
+  padding: 20px;
   position: absolute;
+  text-align: center;
   text-align: left;
   top: 0;
-  left: 0;
+  width: 100%;
   z-index: 10;
 }

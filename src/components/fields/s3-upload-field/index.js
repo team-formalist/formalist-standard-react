@@ -202,18 +202,20 @@ export default React.createClass({
 
     return (
       <div className={ styles.progress }>
+        <div className={ styles.body }>
+          <span
+            className={ styles.close__white }
+            onClick={ this.abortUploadRequest }>x</span>
+          <div className={ styles.message }>
+            Uploading { filesNames.join(', ')}
+            <span className={ styles.percentage }>
+              { val + '%' }
+            </span>
+          </div>
+        </div>
         <span
           className={ styles.progress_bar }
           style={ inlineStyleWidth }></span>
-        <span
-          className={ styles.close }
-          onClick={ this.abortUploadRequest }>x</span>
-        <div className={ styles.message }>
-          Uploading { filesNames.join(', ')}
-          <span className={ styles.percentage }>
-            { val + '%' }
-          </span>
-        </div>
       </div>
     )
   },
@@ -248,10 +250,10 @@ export default React.createClass({
           { uploadURL || XHRErrorMessage ? this.renderResult(uploadURL, XHRErrorMessage) : null }
 
           <Dropzone
-            className=''
             text={ label }
             onChange={ this.onChange }
           />
+
           { (hasErrors) ? <FieldErrors errors={errors}/> : null }
         </div>
       </div>
