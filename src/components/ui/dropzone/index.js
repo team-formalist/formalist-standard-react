@@ -80,7 +80,7 @@ export default React.createClass({
       <div className='dropzone'>
         <Dropzone
           onDrop={ this.onDrop }
-          className={ styles.trigger }
+          className={ styles.dropzone }
           style={{}}
           activeClassName={ styles.pulse }>
           { text }

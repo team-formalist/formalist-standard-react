@@ -1,36 +1,44 @@
-.trigger {
-  background: #eee;
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.dropzone {
+  composes: sans normal from styles;
+  composes: primaryColor greyTintBackground from styles;
   box-sizing: border-box;
-  color: #666;
   cursor: pointer;
   display: block;
-  font-size: 1.2em;
+  font-size: 1.1em;
   line-height: 1.5;
   overflow: hidden;
   padding: 20px;
   position: relative;
   text-align: center;
   width: 100%;
-  transform: width 1s, height 1s;
 }
 
-/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
+.dropzone:before {
+  border: 1px dashed #CCC;
+  bottom: 1px;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  left: 1px;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+}
 
 @keyframes pulse {
   from {
     transform: scale3d(1, 1, 1);
   }
-
-  50% {
-    transform: scale3d(1.05, 1.05, 1.05);
-  }
-
   to {
-    transform: scale3d(1, 1, 1);
+    transform: scale3d(1.05, 1.05, 1.05);
   }
 }
 
 .pulse {
   animation-name: pulse;
-  animation-duration: 0.3s;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+  color: #666;
 }
