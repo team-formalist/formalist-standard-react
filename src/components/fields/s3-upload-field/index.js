@@ -36,7 +36,8 @@ export default React.createClass({
     token: React.PropTypes.string,
     fileType: React.PropTypes.object,
     maxFileSize: React.PropTypes.number,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
+    multiple: React.PropTypes.bool
   },
 
   /**
@@ -226,8 +227,9 @@ export default React.createClass({
    */
 
   render () {
-    const { errors, hint, label, name } = this.props
+    const { errors, hint, label, name, multiple } = this.props
     const hasErrors = errors.count() > 0
+
     const {
       progressValue,
       uploadURL,
@@ -249,6 +251,7 @@ export default React.createClass({
           { progressValue > 0 && !uploadURL ? this.renderProgress(progressValue, files) : null }
           { uploadURL || XHRErrorMessage ? this.renderResult(uploadURL, XHRErrorMessage) : null }
           <Dropzone
+            multiple={ (multiple === false) ? false : true }
             text={ label }
             onChange={ this.onChange }
           />

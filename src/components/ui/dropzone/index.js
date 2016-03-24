@@ -17,7 +17,8 @@ export default React.createClass({
   propTypes: {
     text: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    renderPreview: React.PropTypes.bool
+    renderPreview: React.PropTypes.bool,
+    multiple: React.PropTypes.bool
   },
 
   /**
@@ -68,7 +69,7 @@ export default React.createClass({
 
   render () {
     const { files } = this.state
-    const { text, renderPreview } = this.props
+    const { text, renderPreview, multiple } = this.props
 
     let foo = {
        background: 'red', // note the capital 'W' here
@@ -79,6 +80,7 @@ export default React.createClass({
     return (
       <div className='dropzone'>
         <Dropzone
+          multiple={ multiple }
           onDrop={ this.onDrop }
           className={ styles.dropzone }
           style={{}}
