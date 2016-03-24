@@ -11,6 +11,69 @@
   position: relative;
 }
 
+.close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.closeText {
+  display: none;
+}
+
+.closeX {
+  composes: fallback large primaryColor from styles;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.closeX:focus {
+  outline:0;
+}
+
+.closeX__white {
+  composes: closeX;
+  color: #fff;
+}
+
+.message {
+  padding-right: 3rem;
+  font-size: 1.2em;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+.result,
+.progress {
+  composes: sans normal from styles;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  left: 0;
+  overflow: hidden;
+  padding: 20px;
+  position: absolute;
+  text-align: center;
+  text-align: left;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.result {
+  composes: greyTint greyTintBackground from styles;
+}
+
+.progress {
+  color: #fff;
+}
+
 .progress_bar {
   background: #50c5e9;
   display: inline-block;
@@ -24,70 +87,4 @@
 
 .percentage {
   float: right;
-}
-
-.close {
-  -webkit-font-smoothing: antialiased;
-  border: none;
-  box-sizing: border-box;
-  color: #666;
-  cursor: pointer;
-  display: inline-block;
-  float: right;
-  font-weight: bold;
-  margin-left: 20px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  text-rendering: optimizeLegibility;
-  text-shadow: none;
-}
-
-.close__white {
-  -webkit-font-smoothing: antialiased;
-  border: none;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  float: right;
-  font-weight: bold;
-  margin-left: 20px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  text-rendering: optimizeLegibility;
-  text-shadow: none;
-}
-
-.result {
-  background: #eee;
-  color: #666;
-}
-
-.progress {
-  color: #fff;
-}
-
-.body {
-  position: relative;
-  z-index: 10;
-}
-
-.result,
-.progress {
-  box-sizing: border-box;
-  cursor: pointer;
-  display: block;
-  font-size: 1.2em;
-  left: 0;
-  line-height: 1.5;
-  overflow: hidden;
-  padding: 20px;
-  position: absolute;
-  text-align: center;
-  text-align: left;
-  top: 0;
-  width: 100%;
-  z-index: 10;
 }

@@ -174,9 +174,10 @@ export default React.createClass({
     let result = error || url
     return (
       <div className={ styles.result }>
-        <span
-          className={ styles.close }
-          onClick={ this.close }>x</span>
+        <button className={ styles.close } onClick={ this.close }>
+          <span className={ styles.closeText }>Close</span>
+          <div className={ styles.closeX }>{ String.fromCharCode(215) }</div>
+        </button>
         <div className={ styles.message }>
           { result }
         </div>
@@ -202,16 +203,15 @@ export default React.createClass({
 
     return (
       <div className={ styles.progress }>
-        <div className={ styles.body }>
-          <span
-            className={ styles.close__white }
-            onClick={ this.abortUploadRequest }>x</span>
-          <div className={ styles.message }>
-            Uploading { filesNames.join(', ')}
-            <span className={ styles.percentage }>
-              { val + '%' }
-            </span>
-          </div>
+        <button className={ styles.close } onClick={ this.abortUploadRequest }>
+          <span className={ styles.closeText }>Close</span>
+          <div className={ styles.closeX__white }>{ String.fromCharCode(215) }</div>
+        </button>
+        <div className={ styles.message }>
+          Uploading { filesNames.join(', ')}
+          <span className={ styles.percentage }>
+            { val + '%' }
+          </span>
         </div>
         <span
           className={ styles.progress_bar }
@@ -248,7 +248,6 @@ export default React.createClass({
         <div className ={ styles.field }>
           { progressValue > 0 && !uploadURL ? this.renderProgress(progressValue, files) : null }
           { uploadURL || XHRErrorMessage ? this.renderResult(uploadURL, XHRErrorMessage) : null }
-
           <Dropzone
             text={ label }
             onChange={ this.onChange }
