@@ -11,13 +11,26 @@ import bus from './bus'
 const noOp = function () {}
 
 /**
- * req
- * on 'abortUploadRequest' get access to the latest XHR request and about()
+ * reqs
+ * a hash of existing XHR requests
  */
 
-let req
-bus.on('abortUploadRequest', () => {
-  req.abort()
+let reqs = {}
+
+/**
+ * abortUploadRequest
+ * Fired from a preview elements `x` button, passing in it's data-uid attribute value
+ * Search the `reqs` hash for an existing request of the same name and
+ * abort() and delete it
+ */
+
+
+bus.on('abortUploadRequest', (uid) => {
+  if (reqs.hasOwnProperty(uid)) {
+    if (!reqs[uid]) return
+    reqs[uid].abort()
+    delete reqs[uid]
+  }
 })
 
 /**
@@ -60,9 +73,11 @@ function parseJSON (res, url) {
  * @return {Object} FormData
  */
 
-function formData (res, files) {
+function formData (res, file) {
   const { as, fields } = res
+
   let data = new window.FormData()
+  data.append(as, file, file.name)
 
   if (fields) {
     Object.keys(fields).forEach((key) => {
@@ -70,16 +85,12 @@ function formData (res, files) {
     })
   }
 
-  files.map((file) => {
-    data.append(as, file, file.name)
-  })
-
   return data
 }
 
 /**
  * uploadRequest
- * Perform an XHR request and Resolve or Reject
+ * Assign an XHR request to the `reqs` hash using the `uid`.
  * @param  {Object} res - the response from preSignXHR()
  * @param  {File Object} file
  * @param  {String} token
@@ -87,12 +98,13 @@ function formData (res, files) {
  * @return  {Promise}
  */
 
-function uploadRequest (res, files, token, showProgress) {
+function uploadRequest (res, file, token, showProgress) {
   const { url } = res
-  const data = formData(res, files)
+  const { uid } = file
+  const data = formData(res, file)
 
   return new Promise((resolve, reject) => {
-    req = request
+    reqs[uid] = request
       .post(url)
       .send(data)
       .set({
@@ -101,9 +113,12 @@ function uploadRequest (res, files, token, showProgress) {
         'X-CSRF-Token': token
       })
       .on('progress', (e) => {
-        showProgress(e)
+        // send the `uid` back so we can assign it to
+        // the preview's `x` button for aborting requests
+        showProgress(e, file)
       })
       .end((err, res) => {
+        delete reqs[uid]
         if (err) reject(err)
         resolve(res)
       })
@@ -122,9 +137,9 @@ function uploadRequest (res, files, token, showProgress) {
  * @return {Promise}
  */
 
-function upload (res, files, token, showProgress = noOp, fn = uploadRequest) {
+function upload (res, file, token, showProgress = noOp, fn = uploadRequest) {
   return new Promise((resolve, reject) => {
-    fn(res, files, token, showProgress)
+    fn(res, file, token, showProgress)
       .then(checkStatus)
       .then(parseJSON)
       .then((res) => {
@@ -145,18 +160,14 @@ function upload (res, files, token, showProgress = noOp, fn = uploadRequest) {
  * @param  {Promise}
  */
 
-function preSignRequest (files, presignUrl, token) {
-  const data = []
-
-  files.map((file) => {
-    data.push({
-      'file_name': file.name,
-      'content_type': file.type
-    })
-  })
+function preSignRequest (file, presignUrl, token) {
+  const data = [{
+    'file_name': file.name,
+    'content_type': file.type
+  }]
 
   return new Promise((resolve, reject) => {
-    req = request
+    request
       .post(presignUrl)
       .send(data)
       .set({
@@ -182,9 +193,9 @@ function preSignRequest (files, presignUrl, token) {
  * @param  {Promise}
  */
 
-function preSign (files, presignUrl, token, fn = preSignRequest) {
+function preSign (file, presignUrl, token, fn = preSignRequest) {
   return new Promise((resolve, reject) => {
-    fn(files, presignUrl, token)
+    fn(file, presignUrl, token)
       .then(checkStatus)
       .then(parseJSON)
       .then((res) => {

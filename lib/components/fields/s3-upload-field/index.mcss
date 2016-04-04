@@ -43,8 +43,6 @@
 
 .message {
   padding-right: 3rem;
-  font-size: 1.2em;
-  line-height: 1.5;
   position: relative;
   z-index: 1;
 }
@@ -55,11 +53,12 @@
   box-sizing: border-box;
   cursor: pointer;
   display: block;
+  font-size: 1.1em;
   left: 0;
+  line-height: 1.5;
   overflow: hidden;
   padding: 20px;
   position: absolute;
-  text-align: center;
   text-align: left;
   top: 0;
   width: 100%;
@@ -68,6 +67,8 @@
 
 .result {
   composes: greyTint greyTintBackground from styles;
+  font-size: 1.1em;
+  line-height: 1.5;
 }
 
 .progress {
@@ -87,4 +88,56 @@
 
 .percentage {
   float: right;
+}
+
+.previewItems {
+  background: #F7F7F7;
+  margin-bottom: 20px;
+}
+
+
+.uploadedItems {
+  background: #C6CCD0;
+  color: #fff;
+}
+
+.previewItem {
+  composes: sans large lineHeightNormal from styles;
+  border-top: 1px solid #fff;
+  box-sizing: border-box;
+  display: table;
+  padding: 10px;
+  width: 100%;
+  position: relative;
+}
+
+.previewItem__body {
+  position: relative;
+  z-index: 1;
+}
+
+.previewImg {
+  background: #fff;
+  padding: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+  float: left;
+  box-shadow: 0 2px 2px 0px rgba(0,0,0,0.08)
+}
+
+.previewImg img {
+  display: inline-block;
+  height: 50px;
+  width: auto;
+}
+
+.previewTitle {
+  box-sizing: border-box;
+  display: table-cell;
+  margin-top: -2px;
+  overflow: hidden;
+  padding-left: 20px;
+  text-align: left;
+  vertical-align: middle;
+  width: 100%;
 }

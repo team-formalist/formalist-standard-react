@@ -71,22 +71,20 @@ export default React.createClass({
     const { files } = this.state
     const { text, renderPreview, multiple } = this.props
 
-    let foo = {
-       background: 'red', // note the capital 'W' here
-       padding: '30px',
-       marginTop: '-10px'
-    }
-
     return (
-      <div className='dropzone'>
-        <Dropzone
-          multiple={ multiple }
-          onDrop={ this.onDrop }
-          className={ styles.dropzone }
-          style={{}}
-          activeClassName={ styles.pulse }>
-          { text }
-        </Dropzone>
+      <div>
+        <div className='dropzone__container'>
+          <Dropzone
+            activeClassName={ styles.dropzone__active }
+            className={ styles.dropzone }
+            multiple={ multiple }
+            onDrop={ this.onDrop }
+            ref="dropzone"
+            style={{}}
+          >
+            <span className={ styles.dropzone__button }>{ text }</span>
+          </Dropzone>
+        </div>
         { renderPreview && files.length > 0 ? this.renderPreview(files) : null }
       </div>
     )

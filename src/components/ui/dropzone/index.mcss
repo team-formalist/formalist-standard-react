@@ -1,31 +1,16 @@
 @value styles: 'formalist-theme/theme/index.mcss';
 
+.dropzone__container {
+
+}
+
 .dropzone {
-  composes: sans normal from styles;
-  composes: primaryColor greyTintBackground from styles;
-  box-sizing: border-box;
   cursor: pointer;
-  display: block;
-  font-size: 1.1em;
-  line-height: 1.5;
-  overflow: hidden;
-  padding: 20px;
   position: relative;
-  text-align: center;
+  height: 70px;
   width: 100%;
 }
 
-.dropzone:before {
-  border: 1px dashed #CCC;
-  bottom: 1px;
-  box-sizing: border-box;
-  content: "";
-  display: block;
-  left: 1px;
-  position: absolute;
-  right: 1px;
-  top: 1px;
-}
 
 @keyframes pulse {
   from {
@@ -36,9 +21,37 @@
   }
 }
 
-.pulse {
-  animation-name: pulse;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-  color: #666;
+.dropzone__active {}
+
+@-webkit-keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
+
+.dropzone__active:before {
+  border: 3px dashed #C6CCD0;
+  bottom: 1px;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  left: 1px;
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  animation: dash 30s linear infinite;
+}
+
+.dropzone__button {
+  background: #7fc2ea;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #fff;
+  composes: sans normal lineHeightNormal from styles;
+  display: inline-block;
+  left: 50%;
+  padding: 9px;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }

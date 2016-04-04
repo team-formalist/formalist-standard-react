@@ -1,15 +1,24 @@
 import React from 'react'
-// import classNames from 'classnames'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import uid from 'uid'
 
 // Import components
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
-import { validate } from './validation.js'
+import validate from './validation.js'
 import { upload, preSign } from './upload-to-S3.js'
 import bus from './bus'
 import styles from './index.mcss'
+
+/**
+ * generateUniqueID
+ * @return {[type]} [description]
+ */
+
+function generateUniqueID (file_name) {
+  return uid(10) + '_' + file_name
+}
 
 export default React.createClass({
 
@@ -48,34 +57,65 @@ export default React.createClass({
   getInitialState () {
     return {
       progressValue: 0,
-      uploadURL: null,
       XHRErrorMessage: null,
-      files: []
+      uploadedFiles: this.props.uploadedFiles || [],
+      previewFiles: []
     }
   },
 
   /**
+   * [removePreviewItem description]
+   * @param  {[type]} uid [description]
+   * @return {[type]}     [description]
+   */
+
+  removePreviewItem (uid) {
+    const previewFiles = this.state.previewFiles.filter(file => {
+      return file.uid !== uid
+    })
+
+    this.setState({
+      previewFiles
+    })
+  },
+
+  /**
    * abortRequest
-   * abort the upload request and reset state
-   * emit a custom event out to the XHR in upload-to-S3.js
+   * Get the `data-uid` from the clicked preview element.
+   * Emit abortUploadRequest() along with the uid
    * @param  {Event} e - click
    */
 
   abortUploadRequest (e) {
     e.preventDefault()
+    const uid = e.target.getAttribute('data-uid')
+    bus.emit('abortUploadRequest', uid)
+    this.removePreviewItem(uid)
     this.resetState()
-    bus.emit('abortUploadRequest')
   },
 
   /**
    * onProgress
-   * set the upload percentage to `progressValue`
+   * Clone any existing preview files
+   * Iterate the existing file and assign the progress value and uid to a file
+   * matching the same name
+   * Update the state of the previewFiles
    * @param  {Event} e - XHR progress
+   * @param  {Object} file - the uploaded file
    */
 
-  onProgress (e) {
+  onProgress (e, file) {
+    const { name, uid } = file
+    let previewFiles = this.state.previewFiles.slice(0)
+
+    previewFiles.map(file => {
+      if (file.name === name) {
+        file.progress = e.percent
+      }
+    })
+
     this.setState({
-      progressValue: e.percent
+      previewFiles
     })
   },
 
@@ -98,59 +138,97 @@ export default React.createClass({
   resetState () {
     this.setState({
       progressValue: 0,
-      uploadURL: null,
       XHRErrorMessage: null,
       files: []
     })
   },
 
   /**
-   * onChange
-   * @param  {Event} e
-   * @return {[type]}   [description]
+   * uploadFile
+   * Create a new uid for this XHR request of this file
+   * Take a file and call `preSign` passing it's response to `upload`
+   * On completion of 'upload' save the file to `uploadedFiles`
+   * Otherwise throw and error
+   * @param {Object} file
    */
 
-  // onDrop: function(files){
-  //   var req = request.post('/upload');
-    // files.forEach((file)=> {
-    //   req.attach(file.name, file);
-    // });
-  //   req.end(callback);
-  // }
-
-  onChange (files) {
-    if (!files.length) return
+  uploadFile (obj) {
+    if (!obj) return
     const { presign_url } = this.props.attributes
-    const { token, fileType, maxFileSize } = this.props
+    const { token } = this.props
+    const { file } = obj
     const self = this
 
-    this.setState({
-      files: files
-    })
-
-    // validate the file
-    //  => request a presign to upload file
-    //  => show progress
-    //     pass presignResponse and onProgress handler to 'upload'
-    //  => set the uploadResponse to state
-
-    validate(files, fileType, maxFileSize)
-      .then(() => {
-        return preSign(files, presign_url, token)
-      })
+    preSign(file, presign_url, token)
       .then((presignResponse) => {
-        return upload(presignResponse, files, token, self.onProgress)
+        return upload(presignResponse, file, token, self.onProgress)
       })
       .then((uploadResponse) => {
+        let uploadedFiles = self.state.uploadedFiles.slice(0)
+        uploadedFiles.push(file)
         self.setState({
-          uploadURL: uploadResponse.upload_url
+          uploadedFiles
         })
       })
       .catch((err) => {
-        self.setState({
-          XHRErrorMessage: err.message
-        })
+        let error = new Error(err)
+        throw error
       })
+  },
+
+  /**
+   * onChange
+   * Iterate and validate each file spliting valid and invalid file up.
+   * For any valid file, call this.uploadFile()
+   * @param  {Array} - dropped files
+   */
+
+  onChange (files) {
+    if (!files.length) return
+
+    let status
+    let validFiles = []
+    let invalidFiles = []
+
+    // iterate and validate
+    files.map(file => {
+      status = validate(file)
+      if (!status.success) {
+        invalidFiles.push(status)
+      } else {
+        validFiles.push(file)
+      }
+    })
+
+    // Save invalid files
+    if (invalidFiles.length) {
+      this.setState({
+        invalidFiles
+      })
+    }
+
+    // Save valid files
+    if (!validFiles.length) return
+    let previewFiles = validFiles.map(file => {
+      const { name } = file
+      const uid = generateUniqueID(name)
+      file.uid = uid
+
+      return {
+        name,
+        file,
+        uid
+      }
+    })
+
+    this.setState({
+      previewFiles
+    })
+
+    // upload each valid file
+    previewFiles.map(file => {
+      this.uploadFile(file)
+    })
   },
 
   /**
@@ -166,7 +244,7 @@ export default React.createClass({
 
   /**
    * renderResult
-   * Render the URL for the uploaded asset
+   * Render the URL for the uploaded file
    * @param  {String} url
    * @return {vnode}
    */
@@ -187,8 +265,56 @@ export default React.createClass({
   },
 
   /**
+   * renderPreviewItem
+   * Take a file object and an index value
+   * @param  {Object} file
+   * @param  {Number} idx
+   * @return {vNode}
+   */
+
+  renderPreviewItem (file, idx) {
+    const { preview, name, progress, uid } = file
+    let inlineStyleWidth = {
+      width: progress + '%'
+    }
+
+    return (
+      <div className={ styles.previewItem } key={ idx }>
+        <div className={ styles.previewItem__body }>
+          <div className={ styles.previewImg }>
+            <img src={ preview } alt={ name }/>
+          </div>
+          <span className={ styles.previewTitle }>{ name }</span>
+        </div>
+        <button className={ styles.close } onClick={ this.abortUploadRequest }>
+          <span className={ styles.closeText }>Close</span>
+          <div className={ styles.closeX__white } data-uid={ uid }>{ String.fromCharCode(215) }</div>
+        </button>
+        <span
+          className={ styles.progress_bar }
+          style={ inlineStyleWidth }></span>
+      </div>
+    )
+  },
+
+  /**
+   * renderPreview
+   * Take an array of file objects, iterate & pass to renderPreviewItem()
+   * @param  {Array} files
+   * @return {vNode}
+   */
+
+  renderPreview (files) {
+    return (
+      <div className={ styles.previewItems }>
+        { files.map(this.renderPreviewItem)}
+      </div>
+    )
+  },
+
+  /**
    * renderProgress
-   * display the upload progress of uploaded asset
+   * display the upload progress of uploaded file
    * @param  {Number} val - XHR progress event
    * @return {vnode}
    */
@@ -209,14 +335,33 @@ export default React.createClass({
           <div className={ styles.closeX__white }>{ String.fromCharCode(215) }</div>
         </button>
         <div className={ styles.message }>
-          Uploading { filesNames.join(', ')}
-          <span className={ styles.percentage }>
-            { val + '%' }
-          </span>
+          Uploading <span className={ styles.percentage }>{ val + '%' }</span>
         </div>
         <span
           className={ styles.progress_bar }
           style={ inlineStyleWidth }></span>
+      </div>
+    )
+  },
+
+  renderValidationMessage (error, i) {
+    const { message, file } = error
+    const { name } = file
+    return <div key={ i }>{ name }: { message }</div>
+  },
+
+  renderValidationErrors (errors) {
+    return (
+      <div className="validationMessages">
+        { errors.map(this.renderValidationMessage) }
+      </div>
+    )
+  },
+
+  renderUploadedFiles (files) {
+    return (
+      <div className={ styles.uploadedItems }>
+        { files.map(this.renderPreviewItem)}
       </div>
     )
   },
@@ -229,14 +374,17 @@ export default React.createClass({
   render () {
     const { errors, hint, label, name, multiple } = this.props
     const hasErrors = errors.count() > 0
-
     const {
       progressValue,
       uploadURL,
       XHRErrorMessage,
-      files
+      files,
+      uploadedFiles,
+      invalidFiles,
+      previewFiles
     } = this.state
 
+    // console.log('render', uploadedFiles)
     return (
       <div>
         <div className=''>
@@ -248,15 +396,19 @@ export default React.createClass({
           />
         </div>
         <div className ={ styles.field }>
-          { progressValue > 0 && !uploadURL ? this.renderProgress(progressValue, files) : null }
-          { uploadURL || XHRErrorMessage ? this.renderResult(uploadURL, XHRErrorMessage) : null }
+          { XHRErrorMessage ? this.renderResult(XHRErrorMessage) : null }
+
           <Dropzone
             multiple={ (multiple === false) ? false : true }
             text={ label }
             onChange={ this.onChange }
           />
 
-          { (hasErrors) ? <FieldErrors errors={errors}/> : null }
+        { invalidFiles ? this.renderValidationErrors(invalidFiles) : null }
+          { previewFiles.length > 0 ? this.renderPreview(previewFiles) : null }
+          { uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
+
+          { hasErrors ? <FieldErrors errors={ errors }/> : null }
         </div>
       </div>
     )
