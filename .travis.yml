@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+- 5.8
+- 4.4
+install:
+- npm install
+- npm install react react-dom
+notifications:
+  slack:
+    secure: juqOBmPlBWAGsyuTdVxwJUg4cfKiwB7Zgzv6Xe8rfDbmZwpsQd72i1AQvxBNgUpDMkvEV8B1Ou//Umly2AO40JC6clPt8z+4FHW8rOxSWZD19UOgNwOy1xN1/vWHhQEBCAvkZUmkjkjF0y+/2J+cYVdRFjL61VLCPkhp+ZVdoaVNGAg0TJIU1qA7/aVIixLoK/TGEM/AoBwdOTsrL0U/Miy3JaXYY+rXECZk9+7C8j0yG8VKC84FavdDfG1a+HWsJgVJ7xFe/Yt31/djAtn/v5zWQeASW268iysFqUje7Sbi79X4YWHpNvQQbO/JN7P+FB6gjE0KE0y5jFLTKauOa5bGlIXf4w2zelnglm1WO/pjsSEZXzHILBUE+iQU0DwUe9Qe/jg1vtnbnZ7wM8zixyH0wRLokKxskP5YOJ4Fuglc4oyQhNDGNXPt6uIH/1QKWz0HWrq+QIHu8Qmf70nDWQGWA23PDbdCdT+ajskAJ4fTkTigh5bDZJsXi2aCsZHZoKJmLR40twKzk89Sq87pIINlna5C4DoFuQJashbXCwNTxXINMqp3i7GU/W8K8YW3fsDcN2387oijK0Y3tL/k715DDnsa/pSkjeL4inK3o36uM9FubFqt0kp/kmp0VRcFw9wWC7ncVlvkWvBy9YJSiImXGokGZwX/F9QwHaYp7bE=

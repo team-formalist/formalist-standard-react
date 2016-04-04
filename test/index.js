@@ -45,6 +45,5 @@ test('it should create a standard form instance', (nest) => {
 
     // Trigger the change
     input.simulate('change')
-    console.log(wrapper.node.innerHTML)
   })
 })

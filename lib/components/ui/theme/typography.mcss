@@ -4,7 +4,7 @@
  * Sans-serif: Work Sans
  */
 @value fontSans: 'Work Sans', 'Helvetica', sans-serif;
-@value fontfontSansBoldWeight: 700;
+@value fontSansBoldWeight: 700;
 @value fontMono: 'Inconsolata', monospace;
 @value fontFallback: 'Helvetica', sans-serif;
 
@@ -14,7 +14,7 @@
 
 .sansBold {
   composes: sans;
-  font-weight: fontfontSansBoldWeight;
+  font-weight: fontSansBoldWeight;
 }
 
 /**

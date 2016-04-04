@@ -4,19 +4,21 @@ Generated from this form and input values
 
 {
   text_field: "Text field value",
-  number_field: "Number field value",
-  check_box: "Check box value",
+  number_field: 1,
+  check_box: true,
   select_box: "3",
   radio_buttons: "2",
   text_area: "Text area value",
   date_field: "2016-03-10",
   date_time_field: "2016-03-10 17:00:00 +1100",
+  selection_field: 1,
+  multi_selection_field: [1],
   section_text_field: "Section text field value",
   section_number_field: 123,
   group_text_field: "Group text field value",
   group_number_field: 123,
   attr: {
-    attr_text_field: "Attr text field",
+    attr_text_field: "Attr text field value",
     attr_date_field: "2016-03-10"
   },
   many: [
@@ -66,6 +68,26 @@ date_field :date_field,
 
 date_time_field :date_time_field,
   label: "Date-time field"
+
+selection_field :selection_field,
+  label: "Selection field",
+  options: [{
+    id: 1,
+    label: "Option 1"
+  }, {
+    id: 2,
+    label: "Option 2"
+  }]
+
+multi_selection_field :multi_selection_field,
+  label: "Multi selection field",
+  options: [{
+    id: 1,
+    label: "Option 1"
+  }, {
+    id: 2,
+    label: "Option 2"
+  }]
 
 section :section, label: "Section label" do
   text_field :section_text_field,
@@ -152,7 +174,7 @@ export default [
     [
       "number_field",
       "number_field",
-      "Number field value",
+      1,
       [],
       [
         "object",
@@ -211,7 +233,7 @@ export default [
     [
       "check_box",
       "check_box",
-      "Check box value",
+      true,
       [],
       [
         "object",
@@ -263,60 +285,52 @@ export default [
               "array",
               [
                 [
+                  "array",
                   [
-                    "array",
                     [
+                      "value",
                       [
-                        [
-                          "value",
-                          [
-                            "1"
-                          ]
-                        ],
-                        [
-                          "value",
-                          [
-                            "One"
-                          ]
-                        ]
+                        "1"
+                      ]
+                    ],
+                    [
+                      "value",
+                      [
+                        "One"
                       ]
                     ]
-                  ],
+                  ]
+                ],
+                [
+                  "array",
                   [
-                    "array",
                     [
+                      "value",
                       [
-                        [
-                          "value",
-                          [
-                            "2"
-                          ]
-                        ],
-                        [
-                          "value",
-                          [
-                            "Two"
-                          ]
-                        ]
+                        "2"
+                      ]
+                    ],
+                    [
+                      "value",
+                      [
+                        "Two"
                       ]
                     ]
-                  ],
+                  ]
+                ],
+                [
+                  "array",
                   [
-                    "array",
                     [
+                      "value",
                       [
-                        [
-                          "value",
-                          [
-                            "3"
-                          ]
-                        ],
-                        [
-                          "value",
-                          [
-                            "Three"
-                          ]
-                        ]
+                        "3"
+                      ]
+                    ],
+                    [
+                      "value",
+                      [
+                        "Three"
                       ]
                     ]
                   ]
@@ -353,60 +367,52 @@ export default [
               "array",
               [
                 [
+                  "array",
                   [
-                    "array",
                     [
+                      "value",
                       [
-                        [
-                          "value",
-                          [
-                            "1"
-                          ]
-                        ],
-                        [
-                          "value",
-                          [
-                            "One"
-                          ]
-                        ]
+                        "1"
+                      ]
+                    ],
+                    [
+                      "value",
+                      [
+                        "One"
                       ]
                     ]
-                  ],
+                  ]
+                ],
+                [
+                  "array",
                   [
-                    "array",
                     [
+                      "value",
                       [
-                        [
-                          "value",
-                          [
-                            "2"
-                          ]
-                        ],
-                        [
-                          "value",
-                          [
-                            "Two"
-                          ]
-                        ]
+                        "2"
+                      ]
+                    ],
+                    [
+                      "value",
+                      [
+                        "Two"
                       ]
                     ]
-                  ],
+                  ]
+                ],
+                [
+                  "array",
                   [
-                    "array",
                     [
+                      "value",
                       [
-                        [
-                          "value",
-                          [
-                            "3"
-                          ]
-                        ],
-                        [
-                          "value",
-                          [
-                            "Three"
-                          ]
-                        ]
+                        "3"
+                      ]
+                    ],
+                    [
+                      "value",
+                      [
+                        "Three"
                       ]
                     ]
                   ]
@@ -507,6 +513,162 @@ export default [
               "value",
               [
                 "Date-time field"
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "field",
+    [
+      "selection_field",
+      "selection_field",
+      1,
+      [],
+      [
+        "object",
+        [
+          [
+            "label",
+            [
+              "value",
+              [
+                "Selection field"
+              ]
+            ]
+          ],
+          [
+            "options",
+            [
+              "array",
+              [
+                [
+                  "object",
+                  [
+                    [
+                      "id",
+                      [
+                        "value",
+                        [
+                          1
+                        ]
+                      ]
+                    ],
+                    [
+                      "label",
+                      [
+                        "value",
+                        [
+                          "Option 1"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "object",
+                  [
+                    [
+                      "id",
+                      [
+                        "value",
+                        [
+                          2
+                        ]
+                      ]
+                    ],
+                    [
+                      "label",
+                      [
+                        "value",
+                        [
+                          "Option 2"
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ],
+  [
+    "field",
+    [
+      "multi_selection_field",
+      "multi_selection_field",
+      [
+        1
+      ],
+      [],
+      [
+        "object",
+        [
+          [
+            "label",
+            [
+              "value",
+              [
+                "Multi selection field"
+              ]
+            ]
+          ],
+          [
+            "options",
+            [
+              "array",
+              [
+                [
+                  "object",
+                  [
+                    [
+                      "id",
+                      [
+                        "value",
+                        [
+                          1
+                        ]
+                      ]
+                    ],
+                    [
+                      "label",
+                      [
+                        "value",
+                        [
+                          "Option 1"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                [
+                  "object",
+                  [
+                    [
+                      "id",
+                      [
+                        "value",
+                        [
+                          2
+                        ]
+                      ]
+                    ],
+                    [
+                      "label",
+                      [
+                        "value",
+                        [
+                          "Option 2"
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
               ]
             ]
           ]

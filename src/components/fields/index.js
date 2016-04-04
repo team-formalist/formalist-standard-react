@@ -3,9 +3,11 @@ import Container from './container'
 import CheckBox from './check-box'
 import DateField from './date-field'
 import DateTimeField from './date-time-field'
+import MultiSelectionField from './multi-selection-field'
 import NumberField from './number-field'
 import RadioButtons from './radio-buttons'
 import SelectBox from './select-box'
+import SelectionField from './selection-field'
 import TextField from './text-field'
 import TextArea from './text-area'
 import s3UploadField from './s3-upload-field'
@@ -16,29 +18,31 @@ import s3UploadField from './s3-upload-field'
  * @param  {Function} field A React class
  * @return {Function} A function
  */
-function wrapField (field, options = {}) {
+function wrapField (field, config = {}) {
   return (fieldProps) => {
     return (
-      <Container field={field} options={options} {...fieldProps} />
+      <Container field={field} config={config} {...fieldProps} />
     )
   }
 }
 
 /**
  * Wrapped fields for each type
- * @param {Object} options Options specific to the fields.
+ * @param {Object} config Config specific to the fields.
  * @type {Object}
  */
-function fields (options = {}) {
+function fields (config = {}) {
   return {
-    checkBox: wrapField(CheckBox, options.checkBox),
-    dateField: wrapField(DateField, options.dateField),
-    dateTimeField: wrapField(DateTimeField, options.dateTimeField),
-    numberField: wrapField(NumberField, options.numberField),
-    radioButtons: wrapField(RadioButtons, options.radioButtons),
-    selectBox: wrapField(SelectBox, options.selectBox),
-    textArea: wrapField(TextArea, options.textArea),
-    textField: wrapField(TextField, options.textField),
+    checkBox: wrapField(CheckBox, config.checkBox),
+    dateField: wrapField(DateField, config.dateField),
+    dateTimeField: wrapField(DateTimeField, config.dateTimeField),
+    multiSelectionField: wrapField(MultiSelectionField, config.multiSelectionField),
+    numberField: wrapField(NumberField, config.numberField),
+    radioButtons: wrapField(RadioButtons, config.radioButtons),
+    selectBox: wrapField(SelectBox, config.selectBox),
+    selectionField: wrapField(SelectionField, config.selectionField),
+    textArea: wrapField(TextArea, config.textArea),
+    textField: wrapField(TextField, config.textField),
     s3UploadField: wrapField(s3UploadField, options.s3UploadField)
   }
 }

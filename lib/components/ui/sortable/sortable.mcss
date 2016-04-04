@@ -1,0 +1,5 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.base {
+  composes: inputBox from '../input-boxes.mcss';
+}

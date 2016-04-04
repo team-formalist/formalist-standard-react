@@ -1,6 +1,8 @@
 import React from 'react'
+import { List } from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
+import validation from 'formalist-validation'
 import styles from './container.mcss'
 import { actions } from 'formalist-compose'
 const { addField, deleteField, editField, validateField } = actions
@@ -14,6 +16,7 @@ const FieldContainer = React.createClass({
 
   propTypes: {
     attributes: ImmutablePropTypes.map,
+    config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
     hashCode: React.PropTypes.number.isRequired,
@@ -36,6 +39,7 @@ const FieldContainer = React.createClass({
   render () {
     let {
       attributes,
+      config,
       errors,
       field,
       name,
@@ -48,6 +52,13 @@ const FieldContainer = React.createClass({
 
     // Turn the attributes from an Immutable.Map into a POJO
     attributes = attributes.toJS()
+
+    // Extract a few things from attributes
+    let label = attributes.label || this.props.name.replace(/_/g, ' ')
+    let { hint } = attributes
+
+    // Curry with the form validation schema
+    let validate = validation(attributes.validation)
 
     // Abstract the actions so that each field doesn't have to worry about
     // the action implementation
@@ -63,16 +74,18 @@ const FieldContainer = React.createClass({
         )
       },
       edit: (val) => {
+        let editedValue = val()
+        // Ensure we're not passing Immutable stuff through
+        // to the validator
+        if (List.isList(editedValue)) {
+          editedValue = editedValue.toJS()
+        }
         return store.batchDispatch([
           editField(path, val),
-          validateField(path, val)
+          validateField(path, validate(editedValue))
         ])
       }
     }
-
-    // Extract a few things from attributes
-    let label = attributes.label || this.props.name.replace(/_/g, ' ')
-    let hint = attributes.hint
 
     // Set up standard classNames
     let containerClassNames = classNames(
@@ -87,7 +100,8 @@ const FieldContainer = React.createClass({
       // rather than dumping everything through
       <div className={containerClassNames}>
         <Field
-          actions={ fieldActions }
+          actions={fieldActions}
+          config={config}
           name={name}
           value={value}
           rules={rules}

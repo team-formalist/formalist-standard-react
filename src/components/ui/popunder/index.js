@@ -50,6 +50,7 @@ const Popunder = React.createClass({
 
   getInitialState () {
     return {
+      isOpened: false,
       position: {
         left: 0,
         top: 0
@@ -58,7 +59,7 @@ const Popunder = React.createClass({
   },
 
   componentDidMount () {
-    this.calculatePosition()
+    window.requestAnimationFrame(this.calculatePosition)
   },
 
   componentWillMount () {
@@ -75,10 +76,12 @@ const Popunder = React.createClass({
    */
   calculatePosition () {
     // Only bother if its rendered
-    let referencePosition = this.refs.reference.getBoundingClientRect()
+    const referencePosition = this.refs.reference.getBoundingClientRect()
+    const scrollX = window.scrollX
+    const scrollY = window.scrollY
     let position = {
-      left: referencePosition.left + this.props.offset.left,
-      top: referencePosition.top + referencePosition.height + this.props.offset.top
+      left: referencePosition.left + scrollX + this.props.offset.left,
+      top: referencePosition.top + scrollY + referencePosition.height + this.props.offset.top
     }
     this.setState({
       position
@@ -91,14 +94,27 @@ const Popunder = React.createClass({
    */
   openPopunder () {
     this.calculatePosition()
-    return this.refs.portal.openPortal()
+    this.setState({
+      isOpened: true
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopunder () {
-    return this.refs.portal.closePortal()
+    this.setState({
+      isOpened: false
+    })
+  },
+
+  /**
+   * Public: Toggle the `Portal`
+   */
+  togglePopunder () {
+    this.setState({
+      isOpened: !this.state.isOpened
+    })
   },
 
   /**
@@ -124,7 +140,7 @@ const Popunder = React.createClass({
       onUpdate
     } = this.props
 
-    let { position } = this.state
+    let { isOpened, position } = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -138,6 +154,7 @@ const Popunder = React.createClass({
         </div>
         <Portal
           ref='portal'
+          isOpened={isOpened}
           closeOnEsc={closeOnEsc}
           closeOnOutsideClick={closeOnOutsideClick}
           openByClickOn={openByClickOn}
