@@ -43,7 +43,7 @@ function fields (config = {}) {
     selectionField: wrapField(SelectionField, config.selectionField),
     textArea: wrapField(TextArea, config.textArea),
     textField: wrapField(TextField, config.textField),
-    s3UploadField: wrapField(s3UploadField, options.s3UploadField)
+    s3UploadField: wrapField(s3UploadField, config.s3UploadField)
   }
 }
 

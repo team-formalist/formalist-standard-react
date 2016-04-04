@@ -79,7 +79,7 @@ export default React.createClass({
             className={ styles.dropzone }
             multiple={ multiple }
             onDrop={ this.onDrop }
-            ref="dropzone"
+            ref='dropzone'
             style={{}}
           >
             <span className={ styles.dropzone__button }>{ text }</span>

@@ -24,7 +24,6 @@ let reqs = {}
  * abort() and delete it
  */
 
-
 bus.on('abortUploadRequest', (uid) => {
   if (reqs.hasOwnProperty(uid)) {
     if (!reqs[uid]) return

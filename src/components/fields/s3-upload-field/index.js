@@ -46,7 +46,8 @@ export default React.createClass({
     fileType: React.PropTypes.object,
     maxFileSize: React.PropTypes.number,
     value: React.PropTypes.string,
-    multiple: React.PropTypes.bool
+    multiple: React.PropTypes.bool,
+    uploadedFiles: React.PropTypes.array
   },
 
   /**
@@ -105,7 +106,7 @@ export default React.createClass({
    */
 
   onProgress (e, file) {
-    const { name, uid } = file
+    const { name } = file
     let previewFiles = this.state.previewFiles.slice(0)
 
     previewFiles.map(file => {
@@ -164,11 +165,7 @@ export default React.createClass({
         return upload(presignResponse, file, token, self.onProgress)
       })
       .then((uploadResponse) => {
-        let uploadedFiles = self.state.uploadedFiles.slice(0)
-        uploadedFiles.push(file)
-        self.setState({
-          uploadedFiles
-        })
+        console.log('uploadResponse: ', uploadResponse)
       })
       .catch((err) => {
         let error = new Error(err)
@@ -207,7 +204,13 @@ export default React.createClass({
       })
     }
 
-    // Save valid files
+    // Create objects of valid files and assign to `previewFiles`
+    // each 'file' object looks something like:
+    // {
+    //   name: small.jpg,
+    //   file: {file},
+    //   uid: "wyertyiopdop_small.jpg"
+    // }
     if (!validFiles.length) return
     let previewFiles = validFiles.map(file => {
       const { name } = file
@@ -324,10 +327,6 @@ export default React.createClass({
       width: val + '%'
     }
 
-    let filesNames = files.map((file) => {
-      return file.name
-    })
-
     return (
       <div className={ styles.progress }>
         <button className={ styles.close } onClick={ this.abortUploadRequest }>
@@ -352,7 +351,7 @@ export default React.createClass({
 
   renderValidationErrors (errors) {
     return (
-      <div className="validationMessages">
+      <div className='validationMessages'>
         { errors.map(this.renderValidationMessage) }
       </div>
     )
@@ -375,10 +374,7 @@ export default React.createClass({
     const { errors, hint, label, name, multiple } = this.props
     const hasErrors = errors.count() > 0
     const {
-      progressValue,
-      uploadURL,
       XHRErrorMessage,
-      files,
       uploadedFiles,
       invalidFiles,
       previewFiles
@@ -399,7 +395,7 @@ export default React.createClass({
           { XHRErrorMessage ? this.renderResult(XHRErrorMessage) : null }
 
           <Dropzone
-            multiple={ (multiple === false) ? false : true }
+            multiple={ multiple }
             text={ label }
             onChange={ this.onChange }
           />
@@ -407,7 +403,6 @@ export default React.createClass({
         { invalidFiles ? this.renderValidationErrors(invalidFiles) : null }
           { previewFiles.length > 0 ? this.renderPreview(previewFiles) : null }
           { uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
-
           { hasErrors ? <FieldErrors errors={ errors }/> : null }
         </div>
       </div>
