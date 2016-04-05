@@ -1,16 +1,11 @@
 @value styles: 'formalist-theme/theme/index.mcss';
 
-.dropzone__container {
-
-}
-
 .dropzone {
   cursor: pointer;
   position: relative;
   height: 70px;
   width: 100%;
 }
-
 
 @keyframes pulse {
   from {
@@ -21,16 +16,9 @@
   }
 }
 
-.dropzone__active {}
-
-@-webkit-keyframes dash {
-  to {
-    stroke-dashoffset: 1000;
-  }
-}
-
 .dropzone__active:before {
-  border: 3px dashed #C6CCD0;
+  animation: pulse 0.2s ease-in-out forwards;
+  border: 2px dashed #e6e6e6;
   bottom: 1px;
   box-sizing: border-box;
   content: "";
@@ -39,7 +27,6 @@
   position: absolute;
   right: 1px;
   top: 1px;
-  animation: dash 30s linear infinite;
 }
 
 .dropzone__button {

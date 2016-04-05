@@ -12,33 +12,25 @@
 }
 
 .close {
+  composes: greyLightColor from styles;
   background: transparent;
   border: none;
-  cursor: pointer;
+  outline: none;
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
   z-index: 2;
+  padding: 0;
+  width: 20px;
 }
 
-.closeText {
-  display: none;
-}
-
-.closeX {
-  composes: fallback large primaryColor from styles;
-  cursor: pointer;
-  padding: 1rem;
-}
-
-.closeX:focus {
+.close:focus {
   outline:0;
 }
 
-.closeX__white {
-  composes: closeX;
-  color: #fff;
+.close:hover {
+  color: #999;
 }
 
 .message {
@@ -84,6 +76,7 @@
   bottom: 0;
   width: 0;
   z-index: 0;
+  transition: width 1s ease-in-out;
 }
 
 .percentage {
@@ -91,47 +84,53 @@
 }
 
 .previewItems {
-  background: #F7F7F7;
+  background: #e6e6e6;
   margin-bottom: 20px;
-}
-
-
-.uploadedItems {
-  background: #C6CCD0;
   color: #fff;
 }
 
-.previewItem {
+.uploadedItems {
+  composes: greyMidColor greyTintBackground from styles;
+}
+
+.listItem {
   composes: sans large lineHeightNormal from styles;
   border-top: 1px solid #fff;
   box-sizing: border-box;
   display: table;
-  padding: 10px;
+  padding: 5px;
   width: 100%;
   position: relative;
 }
 
-.previewItem__body {
+.uploadedItems .listItem:hover {
+  background: #f8f8f8;
+  color: #666;
+}
+
+.listItem__body {
   position: relative;
   z-index: 1;
 }
 
-.previewImg {
+.listItem__img {
   background: #fff;
   padding: 2px;
+  display: table-cell;
   box-sizing: border-box;
+  margin-top: -2px;
   overflow: hidden;
-  float: left;
+  position: relative;
   box-shadow: 0 2px 2px 0px rgba(0,0,0,0.08)
 }
 
-.previewImg img {
+.listItem__img img {
   display: inline-block;
-  height: 50px;
+  height: 40px;
   width: auto;
 }
 
-.previewTitle {
+.listItem__title {
   box-sizing: border-box;
   display: table-cell;
   margin-top: -2px;

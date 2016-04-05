@@ -10,7 +10,7 @@ import SelectBox from './select-box'
 import SelectionField from './selection-field'
 import TextField from './text-field'
 import TextArea from './text-area'
-import s3UploadField from './s3-upload-field'
+import MultiUploadField from './multi-upload-field'
 
 /**
  * Wrap a React class in with the common Container class
@@ -43,7 +43,7 @@ function fields (config = {}) {
     selectionField: wrapField(SelectionField, config.selectionField),
     textArea: wrapField(TextArea, config.textArea),
     textField: wrapField(TextField, config.textField),
-    s3UploadField: wrapField(s3UploadField, config.s3UploadField)
+    multiUploadField: wrapField(MultiUploadField, config.multiUploadField)
   }
 }
 

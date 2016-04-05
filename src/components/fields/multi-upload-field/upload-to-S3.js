@@ -87,6 +87,10 @@ function formData (res, file) {
   return data
 }
 
+function buildURLParams (url, uuid, expiration, hmac, filename) {
+  return url + "?uuid=" + uuid + "&expiration=" + expiration + "&hmac=" + hmac +"&file=" + filename
+}
+
 /**
  * uploadRequest
  * Assign an XHR request to the `reqs` hash using the `uid`.
@@ -98,14 +102,14 @@ function formData (res, file) {
  */
 
 function uploadRequest (res, file, token, showProgress) {
-  const { url } = res
+  const { url, uuid, expiration, hmac } = res
   const { uid } = file
-  const data = formData(res, file)
+  const uploadURL = buildURLParams(url, uuid, expiration, hmac, file.name)
 
   return new Promise((resolve, reject) => {
     reqs[uid] = request
-      .post(url)
-      .send(data)
+      .put(uploadURL)
+      .send(file)
       .set({
         'Accept': 'application/json',
         'Content-Type': 'application/json',

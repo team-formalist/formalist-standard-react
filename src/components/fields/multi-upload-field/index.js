@@ -20,13 +20,13 @@ function generateUniqueID (file_name) {
   return uid(10) + '_' + file_name
 }
 
-export default React.createClass({
+const MultiUploadField = React.createClass({
 
   /**
    * displayName
    */
 
-  displayName: 'FileUploadField',
+  displayName: 'MultiUploadField',
 
   /**
    * propTypes
@@ -145,10 +145,32 @@ export default React.createClass({
   },
 
   /**
+   * updateUploadedFiles
+   * Take a `file`.
+   * Iterate previewFiles aand returna ll files that are not `file`
+   * Push `file` into uploadedFiles and save the state
+   * @param  {Object} file
+   */
+
+  updateUploadedFiles (file) {
+    let previewFiles = this.state.previewFiles.filter((preview) => {
+      return preview.name !== file.name
+    })
+
+    let uploadedFiles = this.state.uploadedFiles.slice(0)
+    uploadedFiles.push(file)
+
+    this.setState({
+      uploadedFiles,
+      previewFiles
+    })
+  },
+
+  /**
    * uploadFile
    * Create a new uid for this XHR request of this file
    * Take a file and call `preSign` passing it's response to `upload`
-   * On completion of 'upload' save the file to `uploadedFiles`
+   * On completion of 'upload' pass the newly uploaded file to `updateUploadedFiles()`
    * Otherwise throw and error
    * @param {Object} file
    */
@@ -165,10 +187,11 @@ export default React.createClass({
         return upload(presignResponse, file, token, self.onProgress)
       })
       .then((uploadResponse) => {
-        console.log('uploadResponse: ', uploadResponse)
+        console.log('uploadResponse', uploadResponse)
+        self.updateUploadedFiles(file)
       })
       .catch((err) => {
-        let error = new Error(err)
+        let error = new Error(err.message)
         throw error
       })
   },
@@ -270,29 +293,33 @@ export default React.createClass({
   /**
    * renderPreviewItem
    * Take a file object and an index value
-   * @param  {Object} file
+   * @param  {Object} Object containing {file, name, uid, progress}
    * @param  {Number} idx
-   * @return {vNode}
+   * @return {vnode}
    */
 
-  renderPreviewItem (file, idx) {
-    const { preview, name, progress, uid } = file
+  renderPreviewItem (obj, idx) {
+    const { progress } = obj
+    const { preview, name, uid } = obj.file
+
     let inlineStyleWidth = {
-      width: progress + '%'
+      width: progress ? (progress  + '%') : '0%'
     }
 
     return (
-      <div className={ styles.previewItem } key={ idx }>
-        <div className={ styles.previewItem__body }>
-          <div className={ styles.previewImg }>
+      <div className={ styles.listItem } key={ idx }>
+        <div className={ styles.listItem__body }>
+          <div className={ styles.listItem__img }>
             <img src={ preview } alt={ name }/>
           </div>
-          <span className={ styles.previewTitle }>{ name }</span>
+          <div className={ styles.listItem__title }>
+            Uploading: { name }
+          </div>
         </div>
-        <button className={ styles.close } onClick={ this.abortUploadRequest }>
-          <span className={ styles.closeText }>Close</span>
-          <div className={ styles.closeX__white } data-uid={ uid }>{ String.fromCharCode(215) }</div>
-        </button>
+        <button
+          className={ styles.close }
+          onClick={ this.abortUploadRequest }
+          data-uid={ uid }>{ String.fromCharCode(215) }</button>
         <span
           className={ styles.progress_bar }
           style={ inlineStyleWidth }></span>
@@ -301,13 +328,13 @@ export default React.createClass({
   },
 
   /**
-   * renderPreview
+   * renderPreviewItems
    * Take an array of file objects, iterate & pass to renderPreviewItem()
    * @param  {Array} files
-   * @return {vNode}
+   * @return {vnode}
    */
 
-  renderPreview (files) {
+  renderPreviewItems (files) {
     return (
       <div className={ styles.previewItems }>
         { files.map(this.renderPreviewItem)}
@@ -316,38 +343,25 @@ export default React.createClass({
   },
 
   /**
-   * renderProgress
-   * display the upload progress of uploaded file
-   * @param  {Number} val - XHR progress event
+   * renderValidationMessage
+   * Render a file validation message
+   * @param  {Object} error
+   * @param  {Number} i
    * @return {vnode}
    */
-
-  renderProgress (val, files) {
-    let inlineStyleWidth = {
-      width: val + '%'
-    }
-
-    return (
-      <div className={ styles.progress }>
-        <button className={ styles.close } onClick={ this.abortUploadRequest }>
-          <span className={ styles.closeText }>Close</span>
-          <div className={ styles.closeX__white }>{ String.fromCharCode(215) }</div>
-        </button>
-        <div className={ styles.message }>
-          Uploading <span className={ styles.percentage }>{ val + '%' }</span>
-        </div>
-        <span
-          className={ styles.progress_bar }
-          style={ inlineStyleWidth }></span>
-      </div>
-    )
-  },
 
   renderValidationMessage (error, i) {
     const { message, file } = error
     const { name } = file
     return <div key={ i }>{ name }: { message }</div>
   },
+
+  /**
+   * renderValidationErrors
+   * Iterate errors and call renderValidationMessage() for each object
+   * @param  {Array}
+   * @return {vnode}
+   */
 
   renderValidationErrors (errors) {
     return (
@@ -357,10 +371,65 @@ export default React.createClass({
     )
   },
 
+  /**
+   * removeUploadedFile
+   * remove the selected file from `uploadedFiles`
+   * @param  {Event} e - click
+   */
+
+  removeUploadedFile (e) {
+    e.preventDefault()
+    const name = e.target.getAttribute('data-name')
+    console.log('remove: ', name)
+
+    const uploadedFiles = this.state.uploadedFiles.filter((file) => {
+      return file.name !== name
+    })
+
+    this.setState({
+      uploadedFiles
+    })
+  },
+
+  /**
+   * renderPreviewItem
+   * Take a file object and an index value
+   * @param  {Object} file
+   * @param  {Number} idx
+   * @return {vnode}
+   */
+
+  renderUploadedFileItem (file, idx) {
+    const { name, preview } = file
+    const uid = generateUniqueID(name)
+
+    return (
+      <div className={ styles.listItem } key={ idx }>
+        <div className={ styles.listItem__body }>
+          <div className={ styles.listItem__img }>
+            <img src={ preview } alt={ name }/>
+          </div>
+          <span className={ styles.listItem__title }>{ name }</span>
+        </div>
+        <button
+          className={ styles.close }
+          onClick={ this.removeUploadedFile }
+          data-name={ name } >{ String.fromCharCode(215) }</button>
+      </div>
+    )
+  },
+
+  /**
+   * renderUploadedFiles
+   * Render existing uploaded files
+   * @param  {Array} files
+   * @return {vnode}
+   */
+
   renderUploadedFiles (files) {
     return (
       <div className={ styles.uploadedItems }>
-        { files.map(this.renderPreviewItem)}
+        { files.map(this.renderUploadedFileItem) }
       </div>
     )
   },
@@ -380,7 +449,6 @@ export default React.createClass({
       previewFiles
     } = this.state
 
-    // console.log('render', uploadedFiles)
     return (
       <div>
         <div className=''>
@@ -401,7 +469,7 @@ export default React.createClass({
           />
 
         { invalidFiles ? this.renderValidationErrors(invalidFiles) : null }
-          { previewFiles.length > 0 ? this.renderPreview(previewFiles) : null }
+          { previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null }
           { uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
           { hasErrors ? <FieldErrors errors={ errors }/> : null }
         </div>
@@ -409,3 +477,5 @@ export default React.createClass({
     )
   }
 })
+
+export default MultiUploadField
