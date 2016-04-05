@@ -58,9 +58,10 @@ const MultiUploadField = React.createClass({
   getInitialState () {
     return {
       progressValue: 0,
-      XHRErrorMessage: null,
+      XHRErrorMessages: [],
       uploadedFiles: this.props.uploadedFiles || [],
-      previewFiles: []
+      previewFiles: [],
+      invalidFiles: []
     }
   },
 
@@ -139,7 +140,7 @@ const MultiUploadField = React.createClass({
   resetState () {
     this.setState({
       progressValue: 0,
-      XHRErrorMessage: null,
+      XHRErrorMessages: null,
       files: []
     })
   },
@@ -175,6 +176,19 @@ const MultiUploadField = React.createClass({
    * @param {Object} file
    */
 
+  storeXHRErrorMessage (message) {
+    let XHRErrorMessages = this.state.XHRErrorMessages.slice(0)
+
+    XHRErrorMessages.push({
+      uid: uid(10),
+      message
+    })
+
+    this.setState({
+      XHRErrorMessages
+    })
+  },
+
   uploadFile (obj) {
     if (!obj) return
     const { presign_url } = this.props.attributes
@@ -192,6 +206,7 @@ const MultiUploadField = React.createClass({
       })
       .catch((err) => {
         let error = new Error(err.message)
+        self.storeXHRErrorMessage(err.message)
         throw error
       })
   },
@@ -208,13 +223,17 @@ const MultiUploadField = React.createClass({
 
     let status
     let validFiles = []
-    let invalidFiles = []
+    let invalidFiles = this.state.invalidFiles.slice(0)
 
     // iterate and validate
     files.map(file => {
       status = validate(file)
       if (!status.success) {
-        invalidFiles.push(status)
+        invalidFiles.push({
+          file,
+          uid: uid(10),
+          message: status.message
+        })
       } else {
         validFiles.push(file)
       }
@@ -269,28 +288,6 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * renderResult
-   * Render the URL for the uploaded file
-   * @param  {String} url
-   * @return {vnode}
-   */
-
-  renderResult (url, error) {
-    let result = error || url
-    return (
-      <div className={ styles.result }>
-        <button className={ styles.close } onClick={ this.close }>
-          <span className={ styles.closeText }>Close</span>
-          <div className={ styles.closeX }>{ String.fromCharCode(215) }</div>
-        </button>
-        <div className={ styles.message }>
-          { result }
-        </div>
-      </div>
-    )
-  },
-
-  /**
    * renderPreviewItem
    * Take a file object and an index value
    * @param  {Object} Object containing {file, name, uid, progress}
@@ -342,31 +339,103 @@ const MultiUploadField = React.createClass({
     )
   },
 
+  removeInvalidFile (e) {
+    e.preventDefault()
+
+    const uid = e.target.getAttribute('data-uid')
+
+    const invalidFiles = this.state.invalidFiles.filter((obj) => {
+      return (obj.uid !== uid)
+    })
+
+    this.setState({
+      invalidFiles
+    })
+  },
+
   /**
-   * renderValidationMessage
+   * renderXHRErrorMessage
+   * Render the URL for the uploaded file
+   * @param  {String} url
+   * @return {vnode}
+   */
+
+  removeXHRErrorMessage (e) {
+    e.preventDefault()
+    const uid = e.target.getAttribute('data-uid')
+    const XHRErrorMessages = this.state.XHRErrorMessages.filter((error) => {
+      return (error.uid !== uid)
+    })
+
+    this.setState({
+      XHRErrorMessages
+    })
+  },
+
+   renderXHRErrorMessage (error, i) {
+     const { message, uid } = error
+
+     return (
+       <div
+         key={ i }
+         className={ styles.validationMessage }>
+         Server Error: { message }
+         <button
+           className= { styles.validationMessage_close}
+           data-uid={ uid }
+           onClick={ this.removeXHRErrorMessage }>
+           { String.fromCharCode(215) }
+         </button>
+       </div>
+     )
+   },
+
+  renderXHRErrorMessages (XHRErrors) {
+    return (
+      <div className={ styles.validationMessages }>
+        { XHRErrors.map(this.renderXHRErrorMessage) }
+      </div>
+    )
+  },
+
+  /**
+   * renderInvalidFile
    * Render a file validation message
    * @param  {Object} error
    * @param  {Number} i
    * @return {vnode}
    */
 
-  renderValidationMessage (error, i) {
-    const { message, file } = error
+  renderInvalidFile (obj, i) {
+    const { message, file, uid } = obj
     const { name } = file
-    return <div key={ i }>{ name }: { message }</div>
+
+    return (
+      <div
+        key={ i }
+        className={ styles.validationMessage }>
+        <strong>{ name }</strong>: { message }
+        <button
+          className= { styles.validationMessage_close}
+          data-uid={ uid }
+          onClick={ this.removeInvalidFile }>
+          { String.fromCharCode(215) }
+        </button>
+      </div>
+    )
   },
 
   /**
-   * renderValidationErrors
-   * Iterate errors and call renderValidationMessage() for each object
+   * renderInvalidFiles
+   * Iterate errors and call renderInvalidFile() for each object
    * @param  {Array}
    * @return {vnode}
    */
 
-  renderValidationErrors (errors) {
+  renderInvalidFiles (errors) {
     return (
-      <div className='validationMessages'>
-        { errors.map(this.renderValidationMessage) }
+      <div className={ styles.validationMessages }>
+        { errors.map(this.renderInvalidFile) }
       </div>
     )
   },
@@ -442,7 +511,7 @@ const MultiUploadField = React.createClass({
     const { errors, hint, label, name, multiple } = this.props
     const hasErrors = errors.count() > 0
     const {
-      XHRErrorMessage,
+      XHRErrorMessages,
       uploadedFiles,
       invalidFiles,
       previewFiles
@@ -459,18 +528,16 @@ const MultiUploadField = React.createClass({
           />
         </div>
         <div className ={ styles.field }>
-          { XHRErrorMessage ? this.renderResult(XHRErrorMessage) : null }
-
+          { XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null }
+          { invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null }
+          { previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null }
+          { uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
+          { hasErrors ? <FieldErrors errors={ errors }/> : null }
           <Dropzone
             multiple={ multiple }
             text={ label }
             onChange={ this.onChange }
           />
-
-        { invalidFiles ? this.renderValidationErrors(invalidFiles) : null }
-          { previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null }
-          { uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
-          { hasErrors ? <FieldErrors errors={ errors }/> : null }
         </div>
       </div>
     )

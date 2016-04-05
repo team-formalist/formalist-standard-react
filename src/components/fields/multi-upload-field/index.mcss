@@ -85,7 +85,7 @@
 
 .previewItems {
   background: #e6e6e6;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   color: #fff;
 }
 
@@ -139,4 +139,21 @@
   text-align: left;
   vertical-align: middle;
   width: 100%;
+}
+
+
+.validationMessages {
+}
+
+.validationMessage {
+  composes: errorColor errorLightBackground from styles;
+  padding: 8px 30px 8px 8px;
+  margin-bottom: 5px;
+  position: relative;
+  z-index: 1;
+}
+
+.validationMessage_close {
+  composes: close;
+  composes: errorColor from styles;
 }

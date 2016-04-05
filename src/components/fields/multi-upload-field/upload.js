@@ -94,7 +94,7 @@ function buildUploadURL (url, uuid, expiration, hmac, filename) {
 function uploadRequest (res, file, token, showProgress) {
   const { url, uuid, expiration, hmac } = res
   const { uid } = file
-  const uploadURL = buildUploadURL(url, uuid, expiration, hmac, file.name)
+  const uploadURL = buildUploadURL(url, uuid, expiration, some_strange_param, file.name)
 
   return new Promise((resolve, reject) => {
     reqs[uid] = request
