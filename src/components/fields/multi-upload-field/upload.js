@@ -63,32 +63,22 @@ function parseJSON (res, url) {
 }
 
 /**
- * formData
- * Build up and return a FormData object
- *
- * @param {String} as: Define the type of form data
- * @param {Object} file: a file object
- * @param {Object} fields: key/value from preSign response
- * @return {Object} FormData
+ * buildUploadURL
+ * Construct a string using params
+ * @param  {String} url
+ * @param  {String} uuid
+ * @param  {String} expiration
+ * @param  {String} hmac
+ * @param  {String} filename
+ * @return {[String}
  */
 
-function formData (res, file) {
-  const { as, fields } = res
-
-  let data = new window.FormData()
-  data.append(as, file, file.name)
-
-  if (fields) {
-    Object.keys(fields).forEach((key) => {
-      data.append(key, fields[key])
-    })
-  }
-
-  return data
-}
-
-function buildURLParams (url, uuid, expiration, hmac, filename) {
-  return url + "?uuid=" + uuid + "&expiration=" + expiration + "&hmac=" + hmac +"&file=" + filename
+function buildUploadURL (url, uuid, expiration, hmac, filename) {
+  return url +
+    '?uuid=' + uuid +
+    '&expiration=' + expiration +
+    '&hmac=' + hmac +
+    '&file=' + filename
 }
 
 /**
@@ -104,7 +94,7 @@ function buildURLParams (url, uuid, expiration, hmac, filename) {
 function uploadRequest (res, file, token, showProgress) {
   const { url, uuid, expiration, hmac } = res
   const { uid } = file
-  const uploadURL = buildURLParams(url, uuid, expiration, hmac, file.name)
+  const uploadURL = buildUploadURL(url, uuid, expiration, hmac, file.name)
 
   return new Promise((resolve, reject) => {
     reqs[uid] = request

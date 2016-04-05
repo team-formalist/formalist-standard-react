@@ -1,6 +1,6 @@
 
 import test from 'blue-tape'
-import { upload, preSign } from '../../../src/components/fields/s3-upload-field/upload-to-S3'
+import { upload, preSign } from '../../../src/components/fields/multi-upload-field/upload'
 
 const token = ''
 const url = 'www.foo.com'

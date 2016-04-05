@@ -3,7 +3,7 @@ import React from 'react'
 import shallowRenderComponent from '../../fixtures/shallow-render.js'
 
 // local module
-import Input from '../../../src/components/fields/s3-upload-field'
+import Input from '../../../src/components/fields/multi-upload-field'
 
 const props = {
   hint: 'foo',

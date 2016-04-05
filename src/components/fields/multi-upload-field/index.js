@@ -7,7 +7,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
-import { upload, preSign } from './upload-to-S3.js'
+import { upload, preSign } from './upload.js'
 import bus from './bus'
 import styles from './index.mcss'
 
@@ -303,7 +303,7 @@ const MultiUploadField = React.createClass({
     const { preview, name, uid } = obj.file
 
     let inlineStyleWidth = {
-      width: progress ? (progress  + '%') : '0%'
+      width: progress ? (progress + '%') : '0%'
     }
 
     return (
@@ -401,7 +401,6 @@ const MultiUploadField = React.createClass({
 
   renderUploadedFileItem (file, idx) {
     const { name, preview } = file
-    const uid = generateUniqueID(name)
 
     return (
       <div className={ styles.listItem } key={ idx }>
