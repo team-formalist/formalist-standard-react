@@ -15,6 +15,9 @@
   composes: headerSmallCaps from styles;
   margin-right: auto;
 }
+  .labelErrors {
+    composes: errorColor from styles;
+  }
 
 .placeholder {
   composes: inputBox from './ui/input-boxes.mcss';

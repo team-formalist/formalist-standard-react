@@ -1,5 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import classNames from 'classnames'
 import { actions } from 'formalist-compose'
 import validation from 'formalist-validation'
 const { addManyContent, deleteManyContent, reorderManyContents, validateMany } = actions
@@ -127,14 +128,23 @@ const Many = React.createClass({
     const { attributes, children, errors, name } = this.props
     let hasErrors = (errors.count() > 0)
     const { contentsKey } = this.state
+
     // Extract attributes from Immutable.Map
     let { label, add_label, placeholder } = attributes.toJS()
     label = label || name.replace(/_/, ' ')
 
+    // Set up label classes
+    let labelClassNames = classNames(
+      styles.label,
+      {
+        [`${styles.labelErrors}`]: hasErrors
+      }
+    )
+
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          <h3 className={styles.label}>{label}</h3>
+          <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>
             <button className={styles.addButton} onClick={this.addChild}>{ add_label || 'Add item'}</button>
           </div>
