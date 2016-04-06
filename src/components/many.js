@@ -39,7 +39,7 @@ const Many = React.createClass({
     attributes: ImmutablePropTypes.mapContains({
       label: React.PropTypes.string,
       placeholder: React.PropTypes.string,
-      add_label: React.PropTypes.string
+      action_label: React.PropTypes.string
     }),
     template: React.PropTypes.object,
     children: ImmutablePropTypes.list
@@ -130,7 +130,7 @@ const Many = React.createClass({
     const { contentsKey } = this.state
 
     // Extract attributes from Immutable.Map
-    let { label, add_label, placeholder } = attributes.toJS()
+    let { label, action_label, placeholder } = attributes.toJS()
     label = label || name.replace(/_/, ' ')
 
     // Set up label classes
@@ -146,7 +146,7 @@ const Many = React.createClass({
         <div className={styles.header}>
           <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>
-            <button className={styles.addButton} onClick={this.addChild}>{ add_label || 'Add item'}</button>
+            <button className={styles.addButton} onClick={this.addChild}>{ action_label || 'Add item'}</button>
           </div>
         </div>
         {(children.count() > 0)
