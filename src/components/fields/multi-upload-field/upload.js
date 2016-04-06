@@ -1,7 +1,6 @@
 require('es6-promise').polyfill()
 const request = require('superagent')
 import bus from './bus'
-import uid from 'uid'
 
 /**
  * noOp
@@ -93,14 +92,12 @@ function buildUploadURL (url, uuid, expiration, hmac, filename) {
  */
 
 function uploadRequest (res, fileObject, token, showProgress) {
-  const { url, expiration, hmac } = res
-  const { file } = fileObject
-  const fileUID = file ? file.uid : uid(10)
-
-  const uploadURL = buildUploadURL(url, fileUID, expiration, hmac, file.name)
+  const { url, expiration, hmac, uuid } = res
+  const { file, uid } = fileObject
+  const uploadURL = buildUploadURL(url, uuid, expiration, hmac, file.name)
 
   return new Promise((resolve, reject) => {
-    reqs[fileUID] = request
+    reqs[uid] = request
       .put(uploadURL)
       .send(file)
       .set({
@@ -114,7 +111,7 @@ function uploadRequest (res, fileObject, token, showProgress) {
         showProgress(e, file)
       })
       .end((err, res) => {
-        delete reqs[fileUID]
+        delete reqs[uid]
         if (err) reject(err)
         resolve(res)
       })

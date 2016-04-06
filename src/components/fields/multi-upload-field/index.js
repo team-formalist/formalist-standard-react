@@ -170,8 +170,9 @@ const MultiUploadField = React.createClass({
   resetState () {
     this.setState({
       progressValue: 0,
-      XHRErrorMessages: null,
-      files: []
+      XHRErrorMessages: [],
+      previewFiles: [],
+      invalidFiles: []
     })
   },
 
@@ -209,6 +210,23 @@ const MultiUploadField = React.createClass({
   },
 
   /**
+   * removeFileFromPreviewFiles
+   * If an XHR error has occured while uploading a file,
+   * remove the file from the current list of previewFiles
+   * @param  {object} file object
+   */
+
+  removeFileFromPreviewFiles (fileObject) {
+    const previewFiles = this.state.previewFiles.filter((previewFileObject) => {
+      return previewFileObject.uid !== fileObject.uid
+    })
+
+    this.setState({
+      previewFiles
+    })
+  },
+
+  /**
    * storeXHRErrorMessage
    * Assign an XHR message to an array with a unique uid and save to state
    * This allows use to click and remove specific errors
@@ -234,24 +252,26 @@ const MultiUploadField = React.createClass({
    * Take a file and call `preSign` passing it's response to `upload`
    * On completion of 'upload' pass the newly uploaded file to `updateUploadedFiles()`
    * Otherwise throw and error
-   * @param {Object} file
+   * @param {object} file object
+   * @param {function} optionally show the progress of an upload. We dont show this
+   *                   for when we remove uploaded files and POST the remaining
    */
 
-  uploadFile (file, onProgress = noOp) {
-    if (!file) return
+  uploadFile (fileObject, onProgress = noOp) {
+    if (!fileObject) return
     const { presign_url } = this.props.attributes
     const { token } = this.props
     const self = this
 
-    preSign(file, presign_url, token)
+    preSign(fileObject, presign_url, token)
       .then((presignResponse) => {
-        return upload(presignResponse, file, token, onProgress)
+        return upload(presignResponse, fileObject, token, onProgress)
       })
       .then((uploadResponse) => {
-        console.log('success', uploadResponse)
-        self.updateUploadedFiles(file, uploadResponse)
+        self.updateUploadedFiles(fileObject, uploadResponse)
       })
       .catch((err) => {
+        this.removeFileFromPreviewFiles(fileObject)
         let error = new Error(err.message)
         self.storeXHRErrorMessage(err.message)
         throw error
@@ -272,7 +292,7 @@ const MultiUploadField = React.createClass({
     let validFiles = []
     let invalidFiles = this.state.invalidFiles.slice(0)
 
-    // iterate and validate
+    // iterate and validate each file
     files.map(file => {
       status = validate(file)
       if (!status.success) {
@@ -286,7 +306,7 @@ const MultiUploadField = React.createClass({
       }
     })
 
-    // Save invalid files
+    // store invalid files to `invalidFiles`
     if (invalidFiles.length) {
       this.setState({
         invalidFiles
@@ -295,19 +315,18 @@ const MultiUploadField = React.createClass({
 
     if (!validFiles.length) return
 
-    // Create objects of valid files and assign to `previewFiles`
+    // Create 'file objects' of valid files and assign to `previewFiles`
     // each 'file' object looks something like:
     //
     // {
     //   name: small.jpg,
-    //   file: {file},
+    //   file: { file },
     //   uid: "wyertyiopdop_small.jpg"
     // }
 
     let previewFiles = validFiles.map(file => {
       const { name } = file
       const uid = generateUniqueID(name)
-      file.uid = uid
       return {
         name,
         file,
@@ -319,9 +338,9 @@ const MultiUploadField = React.createClass({
       previewFiles
     })
 
-    // upload each valid file
-    previewFiles.map(file => {
-      this.uploadFile(file, this.onProgress)
+    // upload each valid file and passing in a progress event handler
+    previewFiles.map(fileObject => {
+      this.uploadFile(fileObject, this.onProgress)
     })
   },
 
@@ -344,9 +363,9 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderPreviewItem (obj, idx) {
-    const { progress } = obj
-    const { preview, name, uid } = obj.file
+  renderPreviewItem (fileObject, idx) {
+    const { progress, file, uid, name } = fileObject
+    const { preview } = file
 
     let inlineStyleWidth = {
       width: progress ? (progress + '%') : '0%'
