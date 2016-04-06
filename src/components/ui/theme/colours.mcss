@@ -106,6 +106,7 @@ greys
 
 @value highlight: #7fc2ea;
 @value highlightLight: #dff1fc;
+@value highlightDark: #3980AB;
 
 .highlightColor {
   color: highlight;
@@ -129,6 +130,18 @@ greys
 
 .highlightLightBackground {
   background-color: highlightLight;
+}
+
+.highlightDarkColor {
+  color: highlightDark;
+}
+
+.highlightDarkBorder {
+  border-color: highlightDark;
+}
+
+.highlightDarkBackground {
+  background-color: highlightDark;
 }
 
 /* Blends */
