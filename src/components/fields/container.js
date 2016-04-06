@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import validation from 'formalist-validation'
 import styles from './container.mcss'
 import { actions } from 'formalist-compose'
-const { addField, deleteField, editField, validateField } = actions
+const { deleteField, editField, validateField } = actions
 
 /**
  * Container class for fields.Consolidates common attributes and actions into a
@@ -63,11 +63,6 @@ const FieldContainer = React.createClass({
     // Abstract the actions so that each field doesn't have to worry about
     // the action implementation
     let fieldActions = {
-      add: (options) => {
-        return store.dispatch(
-          addField(options)
-        )
-      },
       delete: () => {
         return store.dispatch(
           deleteField(path)

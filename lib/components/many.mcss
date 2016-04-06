@@ -5,13 +5,45 @@
   margin-bottom: 5rem;
 }
 
-.label {
-  composes: headerSmallCaps from styles;
-  border-bottom: 3px solid greyTint;
-  margin-bottom: 1.8rem;
-  padding-bottom: 1.8rem;
+.header {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1.5rem;
 }
 
-.controls {}
+.label {
+  composes: headerSmallCaps from styles;
+  margin-right: auto;
+}
+  .labelErrors {
+    composes: errorColor from styles;
+  }
 
-.set {}
+.placeholder {
+  composes: inputBox from './ui/input-boxes.mcss';
+}
+  .placeholderText {
+    composes: greyMidColor from styles;
+    display: inline-block;
+    padding-top: 0.3rem;
+    padding-bottom: 0.4rem;
+    margin-right: 0.5rem;
+  }
+  .placeholderButton {
+    composes: highlightDarkColor from styles;
+    text-decoration: underline;
+  }
+
+.controls {
+  margin-left: auto;
+}
+
+.addButton {
+  composes: small buttonHighlight from './ui/buttons.mcss';
+}
+
+.set {
+  padding-left: 0.6rem;
+  padding-top: 1rem;
+  width: 100%;
+}

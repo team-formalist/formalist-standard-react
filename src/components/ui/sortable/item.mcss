@@ -17,6 +17,15 @@
   margin-right: 1rem;
 }
 
+.controls {
+  align-items: center;
+  display: flex;
+}
+  .controlsVertical {
+    align-self: flex-start;
+    flex-direction: column;
+  }
+
 .handle,
 .remove {
   composes: primaryColor from styles;
