@@ -20,6 +20,14 @@ function generateUniqueID (file_name) {
   return uid(10) + '_' + file_name
 }
 
+/**
+ * noOp
+ * Default param value
+ * @return {Function}
+ */
+
+const noOp = function () {}
+
 const MultiUploadField = React.createClass({
 
   /**
@@ -153,13 +161,34 @@ const MultiUploadField = React.createClass({
    * @param  {Object} file
    */
 
-  updateUploadedFiles (file) {
+  containsObject (obj, list) {
+    var x
+    for (x in list) {
+      if (list.hasOwnProperty(x) && list[x] === obj) {
+        return true
+      }
+    }
+    return false
+  },
+
+  updateUploadedFiles (file, response) {
+    const { path, geometry } = response
+
     let previewFiles = this.state.previewFiles.filter((preview) => {
       return preview.name !== file.name
     })
 
     let uploadedFiles = this.state.uploadedFiles.slice(0)
-    uploadedFiles.push(file)
+
+    if (this.containsObject(file, uploadedFiles)) {
+      uploadedFiles.filter((existingFile) => {
+        return existingFile.uid !== file.uid
+      })
+    } else {
+      file.path = path
+      file.geometry = geometry
+      uploadedFiles.push(file)
+    }
 
     this.setState({
       uploadedFiles,
@@ -189,20 +218,19 @@ const MultiUploadField = React.createClass({
     })
   },
 
-  uploadFile (obj) {
-    if (!obj) return
+  uploadFile (file, onProgress = noOp) {
+    if (!file) return
     const { presign_url } = this.props.attributes
     const { token } = this.props
-    const { file } = obj
     const self = this
 
     preSign(file, presign_url, token)
       .then((presignResponse) => {
-        return upload(presignResponse, file, token, self.onProgress)
+        return upload(presignResponse, file, token, onProgress)
       })
       .then((uploadResponse) => {
-        console.log('uploadResponse', uploadResponse)
-        self.updateUploadedFiles(file)
+        console.log('success', uploadResponse)
+        self.updateUploadedFiles(file, uploadResponse)
       })
       .catch((err) => {
         let error = new Error(err.message)
@@ -272,7 +300,7 @@ const MultiUploadField = React.createClass({
 
     // upload each valid file
     previewFiles.map(file => {
-      this.uploadFile(file)
+      this.uploadFile(file, this.onProgress)
     })
   },
 
@@ -448,15 +476,18 @@ const MultiUploadField = React.createClass({
 
   removeUploadedFile (e) {
     e.preventDefault()
-    const name = e.target.getAttribute('data-name')
-    console.log('remove: ', name)
+    const uid = e.target.getAttribute('data-uid')
 
     const uploadedFiles = this.state.uploadedFiles.filter((file) => {
-      return file.name !== name
+      return file.uid !== uid
     })
 
     this.setState({
       uploadedFiles
+    })
+
+    uploadedFiles.map((file) => {
+      this.uploadFile(file)
     })
   },
 
@@ -468,21 +499,28 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderUploadedFileItem (file, idx) {
-    const { name, preview } = file
+  buildThumbnailPreview (path) {
+    const pattern = /([^/]*)$/
+    const splitPath = path.split(pattern)
+    return 'http://attache.icelab.com.au/view/' + splitPath[0] + "50x/" + splitPath[1]
+  },
 
+  renderUploadedFileItem (fileObject, idx) {
+    const { file, uid, path } = fileObject
+    const { name } = file
+    
     return (
       <div className={ styles.listItem } key={ idx }>
         <div className={ styles.listItem__body }>
           <div className={ styles.listItem__img }>
-            <img src={ preview } alt={ name }/>
+            <img src={ this.buildThumbnailPreview(path) } alt={ name }/>
           </div>
           <span className={ styles.listItem__title }>{ name }</span>
         </div>
         <button
           className={ styles.close }
           onClick={ this.removeUploadedFile }
-          data-name={ name } >{ String.fromCharCode(215) }</button>
+          data-uid={ uid } >{ String.fromCharCode(215) }</button>
       </div>
     )
   },
