@@ -20,14 +20,14 @@ import styles from './index.mcss'
  */
 
 function containsObject (obj, list) {
-  const x
+  let x
   for (x in list) {
     if (list.hasOwnProperty(x) && list[x] === obj) {
       return true
     }
   }
   return false
-},
+}
 
 /**
  * generateUniqueID
@@ -192,7 +192,7 @@ const MultiUploadField = React.createClass({
 
     let uploadedFiles = this.state.uploadedFiles.slice(0)
 
-    if (this.containsObject(file, uploadedFiles)) {
+    if (containsObject(file, uploadedFiles)) {
       uploadedFiles.filter((existingFile) => {
         return existingFile.uid !== file.uid
       })
@@ -550,7 +550,7 @@ const MultiUploadField = React.createClass({
   buildThumbnailPreview (path) {
     const pattern = /([^/]*)$/
     const splitPath = path.split(pattern)
-    return 'http://attache.icelab.com.au/view/' + splitPath[0] + "50x/" + splitPath[1]
+    return 'http://attache.icelab.com.au/view/' + splitPath[0] + '50x/' + splitPath[1]
   },
 
   /**

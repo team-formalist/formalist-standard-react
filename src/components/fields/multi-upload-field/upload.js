@@ -93,14 +93,14 @@ function buildUploadURL (url, uuid, expiration, hmac, filename) {
  */
 
 function uploadRequest (res, fileObject, token, showProgress) {
-  const { url, uuid, expiration, hmac } = res
+  const { url, expiration, hmac } = res
   const { file } = fileObject
-  const { uid } = file ? file : uid(10)
+  const fileUID = file ? file.uid : uid(10)
 
-  const uploadURL = buildUploadURL(url, uuid, expiration, hmac, file.name)
+  const uploadURL = buildUploadURL(url, fileUID, expiration, hmac, file.name)
 
   return new Promise((resolve, reject) => {
-    reqs[uid] = request
+    reqs[fileUID] = request
       .put(uploadURL)
       .send(file)
       .set({
@@ -114,7 +114,7 @@ function uploadRequest (res, fileObject, token, showProgress) {
         showProgress(e, file)
       })
       .end((err, res) => {
-        delete reqs[uid]
+        delete reqs[fileUID]
         if (err) reject(err)
         resolve(res)
       })
