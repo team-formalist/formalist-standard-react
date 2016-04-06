@@ -32,6 +32,12 @@ const SelectDefault = ({option}) => (
   </div>
 )
 
+SelectDefault.propTypes = {
+  option: React.PropTypes.shape({
+    label: React.PropTypes.string
+  })
+}
+
 /**
  * Selection field
  *

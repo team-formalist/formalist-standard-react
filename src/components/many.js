@@ -17,7 +17,7 @@ const ManySet = React.createClass({
     children: ImmutablePropTypes.list
   },
 
-render () {
+  render () {
     return (
       <div className={styles.set}>
         {this.props.children}
