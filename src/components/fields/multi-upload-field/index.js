@@ -12,6 +12,24 @@ import bus from './bus'
 import styles from './index.mcss'
 
 /**
+ * containsObject
+ * A helper to determin if an object exists in an array
+ * @param  {object} obj
+ * @param  {array} list
+ * @return {boolean}
+ */
+
+function containsObject (obj, list) {
+  const x
+  for (x in list) {
+    if (list.hasOwnProperty(x) && list[x] === obj) {
+      return true
+    }
+  }
+  return false
+},
+
+/**
  * generateUniqueID
  * @return {[type]} [description]
  */
@@ -27,6 +45,10 @@ function generateUniqueID (file_name) {
  */
 
 const noOp = function () {}
+
+/**
+ * MultiUploadField
+ */
 
 const MultiUploadField = React.createClass({
 
@@ -161,16 +183,6 @@ const MultiUploadField = React.createClass({
    * @param  {Object} file
    */
 
-  containsObject (obj, list) {
-    var x
-    for (x in list) {
-      if (list.hasOwnProperty(x) && list[x] === obj) {
-        return true
-      }
-    }
-    return false
-  },
-
   updateUploadedFiles (file, response) {
     const { path, geometry } = response
 
@@ -197,12 +209,10 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * uploadFile
-   * Create a new uid for this XHR request of this file
-   * Take a file and call `preSign` passing it's response to `upload`
-   * On completion of 'upload' pass the newly uploaded file to `updateUploadedFiles()`
-   * Otherwise throw and error
-   * @param {Object} file
+   * storeXHRErrorMessage
+   * Assign an XHR message to an array with a unique uid and save to state
+   * This allows use to click and remove specific errors
+   * @param  {String} message
    */
 
   storeXHRErrorMessage (message) {
@@ -217,6 +227,15 @@ const MultiUploadField = React.createClass({
       XHRErrorMessages
     })
   },
+
+  /**
+   * uploadFile
+   * Create a new uid for this XHR request of this file
+   * Take a file and call `preSign` passing it's response to `upload`
+   * On completion of 'upload' pass the newly uploaded file to `updateUploadedFiles()`
+   * Otherwise throw and error
+   * @param {Object} file
+   */
 
   uploadFile (file, onProgress = noOp) {
     if (!file) return
@@ -274,19 +293,21 @@ const MultiUploadField = React.createClass({
       })
     }
 
+    if (!validFiles.length) return
+
     // Create objects of valid files and assign to `previewFiles`
     // each 'file' object looks something like:
+    //
     // {
     //   name: small.jpg,
     //   file: {file},
     //   uid: "wyertyiopdop_small.jpg"
     // }
-    if (!validFiles.length) return
+
     let previewFiles = validFiles.map(file => {
       const { name } = file
       const uid = generateUniqueID(name)
       file.uid = uid
-
       return {
         name,
         file,
@@ -367,14 +388,53 @@ const MultiUploadField = React.createClass({
     )
   },
 
-  removeInvalidFile (e) {
-    e.preventDefault()
+  /**
+   * removeItemByUID
+   * Iterate an array in state filtering out a specific uid
+   * @param  {String} arrayName
+   * @param  {Event} e
+   * @return {Array}
+   */
 
+  removeItemByUID (arrayName, e) {
     const uid = e.target.getAttribute('data-uid')
 
-    const invalidFiles = this.state.invalidFiles.filter((obj) => {
-      return (obj.uid !== uid)
+    return this.state[arrayName].filter((file) => {
+      return file.uid !== uid
     })
+  },
+
+  /**
+   * removeUploadedFile
+   * Filter out an file by uid
+   * Send the remaining files to this.uploadFile()
+   * save remaining files to state
+   * @param  {Event} e - click
+   */
+
+  removeUploadedFile (e) {
+    e.preventDefault()
+    const uploadedFiles = this.removeItemByUID('uploadedFiles', e)
+
+    this.setState({
+      uploadedFiles
+    })
+
+    uploadedFiles.map((file) => {
+      this.uploadFile(file)
+    })
+  },
+
+  /**
+   * removeInvalidFile
+   * Filter out an file by uid
+   * save remaining files to state
+   * @param  {Event} e - click
+   */
+
+  removeInvalidFile (e) {
+    e.preventDefault()
+    const invalidFiles = this.removeItemByUID('invalidFiles', e)
 
     this.setState({
       invalidFiles
@@ -382,41 +442,52 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * renderXHRErrorMessage
-   * Render the URL for the uploaded file
-   * @param  {String} url
-   * @return {vnode}
+   * removeXHRErrorMessage
+   * Filter out an error by uid
+   * save remaining errors to state
+   * @param  {Event} e - click
    */
 
   removeXHRErrorMessage (e) {
     e.preventDefault()
-    const uid = e.target.getAttribute('data-uid')
-    const XHRErrorMessages = this.state.XHRErrorMessages.filter((error) => {
-      return (error.uid !== uid)
-    })
+    const XHRErrorMessages = this.removeItemByUID('XHRErrorMessages', e)
 
     this.setState({
       XHRErrorMessages
     })
   },
 
-   renderXHRErrorMessage (error, i) {
-     const { message, uid } = error
+  /**
+   * renderXHRErrorMessage
+   * Render an element for each XHR error message
+   * @param  {object} error
+   * @param  {number} i
+   * @return {vnode}
+   */
 
-     return (
-       <div
-         key={ i }
-         className={ styles.validationMessage }>
-         Server Error: { message }
-         <button
-           className= { styles.validationMessage_close}
-           data-uid={ uid }
-           onClick={ this.removeXHRErrorMessage }>
-           { String.fromCharCode(215) }
-         </button>
-       </div>
-     )
-   },
+  renderXHRErrorMessage (error, i) {
+    const { message, uid } = error
+
+    return (
+      <div
+        key={ i }
+        className={ styles.validationMessage }>
+        Server Error: { message }
+        <button
+          className= { styles.validationMessage_close}
+          data-uid={ uid }
+          onClick={ this.removeXHRErrorMessage }>
+          { String.fromCharCode(215) }
+        </button>
+      </div>
+    )
+  },
+
+  /**
+   * [renderXHRErrorMessages description]
+   * @param  {[type]} XHRErrors [description]
+   * @return {[type]}           [description]
+   */
 
   renderXHRErrorMessages (XHRErrors) {
     return (
@@ -469,29 +540,6 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * removeUploadedFile
-   * remove the selected file from `uploadedFiles`
-   * @param  {Event} e - click
-   */
-
-  removeUploadedFile (e) {
-    e.preventDefault()
-    const uid = e.target.getAttribute('data-uid')
-
-    const uploadedFiles = this.state.uploadedFiles.filter((file) => {
-      return file.uid !== uid
-    })
-
-    this.setState({
-      uploadedFiles
-    })
-
-    uploadedFiles.map((file) => {
-      this.uploadFile(file)
-    })
-  },
-
-  /**
    * renderPreviewItem
    * Take a file object and an index value
    * @param  {Object} file
@@ -505,10 +553,18 @@ const MultiUploadField = React.createClass({
     return 'http://attache.icelab.com.au/view/' + splitPath[0] + "50x/" + splitPath[1]
   },
 
+  /**
+   * renderUploadedFileItem
+   * Render an node represeting an uploaded file
+   * @param  {Object} fileObject
+   * @param  {Number} idx
+   * @return {vnode}
+   */
+
   renderUploadedFileItem (fileObject, idx) {
     const { file, uid, path } = fileObject
     const { name } = file
-    
+
     return (
       <div className={ styles.listItem } key={ idx }>
         <div className={ styles.listItem__body }>
