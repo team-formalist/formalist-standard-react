@@ -1,6 +1,7 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
+import classNames from 'classnames'
 
 import styles from './item.mcss'
 
@@ -132,7 +133,8 @@ const Item = React.createClass({
      * Child component we care about sorting
      * @type {ReactElement}
      */
-    children: React.PropTypes.node.isRequired
+    children: React.PropTypes.node.isRequired,
+    verticalControls: React.PropTypes.bool
   },
 
   /**
@@ -156,10 +158,17 @@ const Item = React.createClass({
   },
 
   render () {
-    const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging } = this.props
+    const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging, verticalControls } = this.props
     const inline = {
       opacity: (isDragging) ? 0 : 1
     }
+
+    const controlsClasses = classNames(
+      styles.controls,
+      {
+        [`${styles.controlsVertical}`]: verticalControls
+      }
+    )
 
     return connectDropTarget(
       connectDragPreview(
@@ -167,16 +176,17 @@ const Item = React.createClass({
           <div className={styles.inner}>
             {children}
           </div>
-          {canRemove ? <button className={styles.remove} onClick={this.onRemoveClick}>
-              <span className={styles.removeText}>Remove</span>
-              <div className={styles.removeX}>×</div>
-            </button> : null}
-          {canSort ? connectDragSource(
-            <button className={styles.handle} onClick={this.onHandleClick}>
-              <span className={styles.handleText}>Drag to reorder</span>
-              <div className={styles.handleLine}/>
-            </button>
-          ) : null}
+          <div className={controlsClasses}>
+            {canRemove ? <button className={styles.remove} onClick={this.onRemoveClick}>
+                <span className={styles.removeText}>Remove</span>
+                <div className={styles.removeX}>×</div>
+              </button> : null}
+            {canSort ? connectDragSource(
+              <button className={styles.handle} onClick={this.onHandleClick}>
+                <span className={styles.handleText}>Drag to reorder</span>
+                <div className={styles.handleLine}/>
+              </button>) : null}
+          </div>
         </div>
       )
     )

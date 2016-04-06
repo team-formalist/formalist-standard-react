@@ -43,7 +43,8 @@ const Sortable = React.createClass({
      * Callback. Fired when the sort change is effected
      * @type {Function}
      */
-    onSort: React.PropTypes.func
+    onSort: React.PropTypes.func,
+    verticalControls: React.PropTypes.bool
   },
 
   getInitialState () {
@@ -119,7 +120,7 @@ const Sortable = React.createClass({
 
   render () {
     const { items } = this.state
-    const { canRemove, onRemove } = this.props
+    const { canRemove, onRemove, verticalControls } = this.props
     const canSort = (items.length > 1)
 
     return (
@@ -133,7 +134,8 @@ const Sortable = React.createClass({
             originalIndex={item.originalIndex}
             canSort={canSort}
             canRemove={canRemove}
-            onRemove={onRemove}>
+            onRemove={onRemove}
+            verticalControls={verticalControls}>
             {item.component}
           </Item>
         ))}
