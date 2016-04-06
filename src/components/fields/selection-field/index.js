@@ -193,8 +193,6 @@ const SelectionField = React.createClass({
         Selection = extractComponent(config.components, render_selection_as) || Selection
       }
     }
-    console.log('option', Option)
-    console.log('Selection', Selection)
 
     // Determine selection
     const selection = options.find((option) => (
