@@ -102,8 +102,15 @@ const TimePicker = React.createClass({
           [`${styles.buttonActive}`]: isActive
         }
       )
+
+      let onClick = this.onTimeClick.bind(this, date.clone())
       let item = <li key={date.format()} className={styles.item}>
-        <button ref={(isActive) ? 'buttonActive' : null } className={buttonClassNames} onClick={this.onTimeClick.bind(this, date.clone())}>{date.format(dateFormats.humanTime)}</button>
+        <button
+          ref={(isActive) ? 'buttonActive' : null}
+          className={buttonClassNames}
+          onClick={onClick}>
+           {date.format(dateFormats.humanTime)}
+        </button>
       </li>
       items.push(item)
       date = date.add(15, 'minutes')
@@ -134,7 +141,7 @@ const TimePicker = React.createClass({
             placeholder={placeholder || 'Select or enter a time'}
             onFocus={this.onInputFocus}
             onChange={this.onInputChange} />
-          { this.renderTimeList() }
+          {this.renderTimeList()}
         </Popunder>
       </div>
     )

@@ -32,6 +32,12 @@ const SelectDefault = ({option}) => (
   </div>
 )
 
+SelectDefault.propTypes = {
+  option: React.PropTypes.shape({
+    label: React.PropTypes.string
+  })
+}
+
 /**
  * Selection field
  *
@@ -183,7 +189,7 @@ const SelectionField = React.createClass({
 
   render () {
     const { attributes, config, errors, hint, label, name, value } = this.props
-    const { search } = this.state
+    const { instanceKey, search } = this.state
     const { options, placeholder, selector_label, render_selection_as, render_option_as } = attributes
     const hasErrors = (errors.count() > 0)
 
@@ -238,17 +244,20 @@ const SelectionField = React.createClass({
     }
 
     // Build the set of options
-    const renderedOptions = filteredOptions.map((option) => (
-      <button
-        key={option.id}
-        className={styles.optionButton}
-        onClick={(e) => {
-          e.preventDefault()
-          this.onSelection(option.id)
-        }}>
-        <Option option={option}/>
-      </button>
-    ))
+    const renderedOptions = filteredOptions.map((option) => {
+      let onClick = function (e) {
+        e.preventDefault()
+        this.onSelection(option.id)
+      }.bind(this)
+      return (
+        <button
+          key={option.id}
+          className={styles.optionButton}
+          onClick={onClick}>
+          <Option option={option}/>
+        </button>
+      )
+    })
 
     return (
       <div className={fieldClassNames}>
@@ -262,13 +271,13 @@ const SelectionField = React.createClass({
               onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
                 <div>
-                  { placeholder || 'Make a selection' }
-                  { (numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
+                  {placeholder || 'Make a selection'}
+                  {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
               <Popout ref='selector' placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
                 <div className={styles.openSelectorButton}>
-                  { selector_label || 'Select' }
+                  {selector_label || 'Select'}
                 </div>
                 <div className={styles.options}>
                   <input
@@ -278,7 +287,7 @@ const SelectionField = React.createClass({
                     placeholder='Type to filter'
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
-                    { renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p> }
+                    {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}
                   </div>
                 </div>
               </Popout>
@@ -288,7 +297,7 @@ const SelectionField = React.createClass({
             (numberOfSelections > 0)
             ? <div className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
-                {selections.map((option, index) => <Selection key={`${index}_${option.id}`} option={option}/>)}
+                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option}/>)}
               </Sortable>
             </div>
             : null

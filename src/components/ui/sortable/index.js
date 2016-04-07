@@ -1,4 +1,5 @@
 import React from 'react'
+import uid from 'uid'
 import update from 'react/lib/update'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -43,11 +44,13 @@ const Sortable = React.createClass({
      * Callback. Fired when the sort change is effected
      * @type {Function}
      */
-    onSort: React.PropTypes.func
+    onSort: React.PropTypes.func,
+    verticalControls: React.PropTypes.bool
   },
 
   getInitialState () {
     return {
+      instanceKey: uid(),
       items: React.Children.map(this.props.children, (child, index) => (
         {
           component: child,
@@ -118,22 +121,24 @@ const Sortable = React.createClass({
   },
 
   render () {
-    const { items } = this.state
-    const { canRemove, onRemove } = this.props
+    const { instanceKey, items } = this.state
+    const { canRemove, onRemove, verticalControls } = this.props
     const canSort = (items.length > 1)
 
     return (
       <div className={styles.base}>
         {items.map((item, index) => (
           <Item
-            key={item.originalIndex}
+            key={`${instanceKey}_${item.originalIndex}`}
+            instanceKey={instanceKey}
             moveItem={this.moveItem}
             onDrop={this.onDrop}
             index={index}
             originalIndex={item.originalIndex}
             canSort={canSort}
             canRemove={canRemove}
-            onRemove={onRemove}>
+            onRemove={onRemove}
+            verticalControls={verticalControls}>
             {item.component}
           </Item>
         ))}
@@ -142,4 +147,4 @@ const Sortable = React.createClass({
   }
 })
 
-module.exports = DragDropContext(HTML5Backend)(Sortable)
+export default DragDropContext(HTML5Backend)(Sortable)

@@ -100,7 +100,7 @@ const DatePicker = React.createClass({
               modifiers={{
                 selected: (day) => DateUtils.isSameDay(selectedDay, day)
               }}
-              onDayClick={ this.onDayClick } />
+              onDayClick={this.onDayClick} />
           </div>
         </Popunder>
       </div>
