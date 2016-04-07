@@ -54,8 +54,9 @@ const noOp = function () {}
  *
  * WHY?!
  * We need to give each file a unique id. Instead of jamming it
- * into the actual file object itself, we creat a wrapping objects
- * with all the specific properties we need
+ * into the actual file object itself, we create a wrapping object
+ * with all the specific properties we need - it prevents touching the
+ * file itself too
  */
 
 // const propFiles = [
@@ -616,7 +617,7 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const { file, uid, path, name } = fileObject
+    const { uid, path, name } = fileObject
 
     return (
       <div className={ styles.listItem } key={ idx }>
