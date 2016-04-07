@@ -10,6 +10,7 @@ import validate from './validation.js'
 import { upload, preSign } from './upload.js'
 import bus from './bus'
 import styles from './index.mcss'
+import Sortable from '../../ui/sortable'
 
 /**
  * containsObject
@@ -44,7 +45,7 @@ function generateUniqueID (file_name) {
  * @return {Function}
  */
 
-const noOp = function () {}
+const noOp = _ => {}
 
 /**
  * EXAMPLE PROP FILES
@@ -648,10 +649,27 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
+   /**
+    * When selected item is removed
+    * @return {Null}
+    */
+   onDrop (newOrder) {
+     return
+   },
+
+   onRemove (index) {
+     return
+    //  const { value } = this.props
+    //  this.onChange(value.delete(index))
+   },
+
+
   renderUploadedFiles (filesObjects) {
     return (
       <div className={ styles.uploadedItems }>
-        { filesObjects.map(this.renderUploadedFileItem) }
+        <Sortable onDrop={this.onDrop}>
+          { filesObjects.map(this.renderUploadedFileItem) }
+        </Sortable>
       </div>
     )
   },

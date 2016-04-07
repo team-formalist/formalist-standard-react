@@ -8,7 +8,7 @@ import bus from './bus'
  * @return {Function}
  */
 
-const noOp = function () {}
+const noOp = _ => {}
 
 /**
  * reqs
