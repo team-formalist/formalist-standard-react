@@ -1,6 +1,5 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import uid from 'uid'
 import classNames from 'classnames'
 import { List } from 'immutable'
 import fuzzy from 'fuzzy'
@@ -73,7 +72,6 @@ const SelectionField = React.createClass({
    */
   getInitialState () {
     return {
-      instanceKey: uid(),
       search: null
     }
   },

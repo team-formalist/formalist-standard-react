@@ -11,6 +11,7 @@ import styles from './item.mcss'
 const itemSource = {
   beginDrag (props) {
     return {
+      instanceKey: props.instanceKey,
       index: props.index,
       originalIndex: props.originalIndex
     }
@@ -28,9 +29,12 @@ const itemTarget = {
   hover (props, monitor, component) {
     const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
+    const dragInstanceKey = monitor.getItem().instanceKey
+    const hoverInstanceKey = props.instanceKey
 
     // Don't replace items with themselves
-    if (dragIndex === hoverIndex) {
+    // or from other instances of a sortable
+    if (dragInstanceKey !== hoverInstanceKey || dragIndex === hoverIndex) {
       return
     }
 
