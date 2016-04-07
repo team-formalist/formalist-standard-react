@@ -47,22 +47,31 @@ function generateUniqueID (file_name) {
 const noOp = function () {}
 
 /**
- * propFiles
- * And example of previously uploaded files being passed
+ * EXAMPLE PROP FILES
+ * An example of previously uploaded files being passed in via props
+ * Note: geometry is not being used as yet, but is saved to all
+ * file objects created after a successful upload
+ *
+ * WHY?!
+ * We need to give each file a unique id. Instead of jamming it
+ * into the actual file object itself, we creat a wrapping objects
+ * with all the specific properties we need
  */
 
-const propFiles = [
-  {
-    name: 'boo.jpg',
-    path: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/sagrada.jpg',
-    geometry:'300x300'
-  },
-  {
-    name: 'baz.jpg',
-    path: '49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/sunglasses.jpg',
-    geometry:'300x300'
-  }
-]
+// const propFiles = [
+//   {
+//     name: 'boo.jpg',
+//     path: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/sagrada.jpg',
+//     geometry: '300x300',
+//     uid: 'sdsads_boo.jpg'
+//   },
+//   {
+//     name: 'baz.jpg',
+//     path: '49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/sunglasses.jpg',
+//     geometry: '300x300',
+//     uid: 'sdsads_baz.jpg'
+//   }
+// ]
 
 /**
  * MultiUploadField
@@ -100,16 +109,14 @@ const MultiUploadField = React.createClass({
 
   /**
    * getInitialState
+   * Assign existing uploaded files to `uploadedFiles`
+   * See the example `propFiles` format above
    * @return {object}
    */
 
   getInitialState () {
     return {
-      progressValue: 0,
-      XHRErrorMessages: [],
-      uploadedFiles: [],
-      previewFiles: this.createFileObjects(propFiles),
-      invalidFiles: []
+      uploadedFiles: this.props.uploadedFiles || []
     }
   },
 
@@ -146,10 +153,13 @@ const MultiUploadField = React.createClass({
       })
     }
 
-    // return an array or object
-    return typeof (val) === "array" ?
-      formatObjects(val) :
-      formatObject(val)
+    if (Array.isArray(val) && val.length > 0) {
+      return formatObjects(val)
+    } else if (typeof (val) === 'object') {
+      return formatObject(val)
+    } else {
+      return
+    }
   },
 
   /**
@@ -178,7 +188,9 @@ const MultiUploadField = React.createClass({
 
   onProgress (e, file) {
     const { name } = file
-    let previewFiles = this.state.previewFiles.slice(0)
+    let previewFiles = this.state.previewFiles
+      ? this.state.previewFiles.slice(0)
+      : []
 
     previewFiles.map(file => {
       if (file.name === name) {
@@ -217,7 +229,9 @@ const MultiUploadField = React.createClass({
       return preview.name !== fileObject.name
     })
 
-    let uploadedFiles = this.state.uploadedFiles.slice(0)
+    let uploadedFiles = this.state.uploadedFiles
+      ? this.state.uploadedFiles.slice(0)
+      : []
 
     if (containsObject(fileObject, uploadedFiles)) {
       uploadedFiles.filter((existingFile) => {
@@ -261,7 +275,9 @@ const MultiUploadField = React.createClass({
    */
 
   storeXHRErrorMessage (message) {
-    let XHRErrorMessages = this.state.XHRErrorMessages.slice(0)
+    let XHRErrorMessages = this.state.XHRErrorMessages
+      ? this.state.XHRErrorMessages.slice(0)
+      : []
 
     XHRErrorMessages.push({
       uid: uid(10),
@@ -317,7 +333,9 @@ const MultiUploadField = React.createClass({
 
     let status
     let validFiles = []
-    let invalidFiles = this.state.invalidFiles.slice(0)
+    let invalidFiles = this.state.invalidFiles
+      ? this.state.invalidFiles.slice(0)
+      : []
 
     // iterate and validate each file
     files.map(file => {
@@ -598,8 +616,7 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const { file, uid, path } = fileObject
-    const { name } = file
+    const { file, uid, path, name } = fileObject
 
     return (
       <div className={ styles.listItem } key={ idx }>
@@ -658,10 +675,10 @@ const MultiUploadField = React.createClass({
           />
         </div>
         <div className ={ styles.field }>
-          { XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null }
-          { invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null }
-          { previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null }
-          { uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
+          { XHRErrorMessages && XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null }
+          { invalidFiles && invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null }
+          { previewFiles && previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null }
+          { uploadedFiles && uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
           { hasErrors ? <FieldErrors errors={ errors }/> : null }
           <Dropzone
             multiple={ multiple }
