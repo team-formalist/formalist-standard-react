@@ -178,9 +178,9 @@ const Item = React.createClass({
           </div>
           <div className={controlsClasses}>
             {canRemove ? <button className={styles.remove} onClick={this.onRemoveClick}>
-                <span className={styles.removeText}>Remove</span>
-                <div className={styles.removeX}>×</div>
-              </button> : null}
+              <span className={styles.removeText}>Remove</span>
+              <div className={styles.removeX}>×</div>
+            </button> : null}
             {canSort ? connectDragSource(
               <button className={styles.handle} onClick={this.onHandleClick}>
                 <span className={styles.handleText}>Drag to reorder</span>

@@ -146,7 +146,7 @@ const Many = React.createClass({
         <div className={styles.header}>
           <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>
-            <button className={styles.addButton} onClick={this.addChild}>{ action_label || 'Add item'}</button>
+            <button className={styles.addButton} onClick={this.addChild}>{action_label || 'Add item'}</button>
           </div>
         </div>
         {(children.count() > 0)
@@ -158,12 +158,12 @@ const Many = React.createClass({
             ))}
           </Sortable>
           : <div className={styles.placeholder}>
-              <span className={styles.placeholderText}>
-                { placeholder || 'No items have been added.' }
-                {' '}
-              </span>
-              <button className={styles.placeholderButton} onClick={this.addChild}>Add the first?</button>
-            </div>}
+            <span className={styles.placeholderText}>
+              {placeholder || 'No items have been added.'}
+              {' '}
+            </span>
+            <button className={styles.placeholderButton} onClick={this.addChild}>Add the first?</button>
+          </div>}
         {(hasErrors) ? <FieldErrors errors={errors}/> : null}
       </div>
     )

@@ -68,8 +68,8 @@ const RadioButton = React.createClass({
           name={name}
           value={value}
           defaultChecked={defaultChecked}
-          onBlur={() => this.setState({focus: false})}
-          onFocus={() => this.setState({focus: true})}
+          onBlur={function (e) { this.setState({focus: false}) }}
+          onFocus={function (e) { this.setState({focus: true}) }}
           onChange={onChange}/>
         <label
           className={labelClassNames}

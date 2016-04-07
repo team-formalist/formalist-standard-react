@@ -150,7 +150,7 @@ const Popunder = React.createClass({
     return (
       <div>
         <div ref='reference'>
-          { reference }
+          {reference}
         </div>
         <Portal
           ref='portal'
