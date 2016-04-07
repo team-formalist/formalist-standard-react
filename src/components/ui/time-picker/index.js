@@ -102,13 +102,13 @@ const TimePicker = React.createClass({
           [`${styles.buttonActive}`]: isActive
         }
       )
+
+      let onClick = this.onTimeClick.bind(this, date.clone())
       let item = <li key={date.format()} className={styles.item}>
         <button
           ref={(isActive) ? 'buttonActive' : null}
           className={buttonClassNames}
-          onClick={function () {
-            this.onTimeClick(date.clone())
-          }}>
+          onClick={onClick}>
            {date.format(dateFormats.humanTime)}
         </button>
       </li>

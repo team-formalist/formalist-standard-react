@@ -244,17 +244,20 @@ const SelectionField = React.createClass({
     }
 
     // Build the set of options
-    const renderedOptions = filteredOptions.map((option) => (
-      <button
-        key={option.id}
-        className={styles.optionButton}
-        onClick={function (e) {
-          e.preventDefault()
-          this.onSelection(option.id)
-        }}>
-        <Option option={option}/>
-      </button>
-    ))
+    const renderedOptions = filteredOptions.map((option) => {
+      let onClick = function (e) {
+        e.preventDefault()
+        this.onSelection(option.id)
+      }.bind(this)
+      return (
+        <button
+          key={option.id}
+          className={styles.optionButton}
+          onClick={onClick}>
+          <Option option={option}/>
+        </button>
+      )
+    })
 
     return (
       <div className={fieldClassNames}>
