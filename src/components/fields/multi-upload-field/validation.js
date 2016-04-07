@@ -1,5 +1,10 @@
-const FILETYPE = /image\/(jpg|jpeg|gif|png|bmp)$/
+const FILETYPE = /image\/(`jpg|jpeg|gif|png|bmp`)$/
+const FILETYPEMESSAGE = `The asset you tried to upload is a type we don\'t understand.
+  Supported image formats are JPEG, PNG, and GIF.`
+
 const MAXFILESIZE = 5000000 // 5MB
+const MAXFILESIZEMESSAGE = `The file you tried to upload exceed our limit (5MB).
+  Try uploading a smaller version.`
 
 /**
  * validate
@@ -9,14 +14,14 @@ const MAXFILESIZE = 5000000 // 5MB
  * @return {Promise}
  */
 
-export default function (file, fileType = FILETYPE, maxFileSize = MAXFILESIZE) {
+export default function (file, fileType = FILETYPE, fileTypeMessage = FILETYPEMESSAGE, maxFileSize = MAXFILESIZE, maxFileSizeMessage = MAXFILESIZEMESSAGE) {
   if (!file) return
   let success = true
 
   if (!file.type.match(fileType)) {
     return {
       file: file,
-      message: 'The asset you tried to upload is a type we don\'t understand. Supported image formats are JPEG, PNG, and GIF.',
+      message: fileTypeMessage,
       success: false
     }
   }
@@ -24,7 +29,7 @@ export default function (file, fileType = FILETYPE, maxFileSize = MAXFILESIZE) {
   if (file.size > maxFileSize) {
     return {
       file: file,
-      message: 'The file you tried to upload exceed our limit (5MB). Try uploading a smaller version.',
+      message: maxFileSizeMessage,
       success: false
     }
   }
