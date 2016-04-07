@@ -1,5 +1,6 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import uid from 'uid'
 import classNames from 'classnames'
 import { List } from 'immutable'
 import fuzzy from 'fuzzy'
@@ -72,6 +73,7 @@ const SelectionField = React.createClass({
    */
   getInitialState () {
     return {
+      instanceKey: uid(),
       search: null
     }
   },
@@ -189,7 +191,7 @@ const SelectionField = React.createClass({
 
   render () {
     const { attributes, config, errors, hint, label, name, value } = this.props
-    const { search } = this.state
+    const { instanceKey, search } = this.state
     const { options, placeholder, selector_label, render_selection_as, render_option_as } = attributes
     const hasErrors = (errors.count() > 0)
 
@@ -297,7 +299,7 @@ const SelectionField = React.createClass({
             (numberOfSelections > 0)
             ? <div className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
-                {selections.map((option, index) => <Selection key={`${index}_${option.id}`} option={option}/>)}
+                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option}/>)}
               </Sortable>
             </div>
             : null
