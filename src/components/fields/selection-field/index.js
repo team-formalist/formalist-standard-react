@@ -222,7 +222,7 @@ const SelectionField = React.createClass({
       <button
         key={option.id}
         className={styles.optionButton}
-        onClick={(e) => {
+        onClick={function (e) {
           e.preventDefault()
           this.onSelection(option.id)
         }}>
@@ -236,7 +236,7 @@ const SelectionField = React.createClass({
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         </div>
         <div className={styles.display}>
-          { (selection)
+          {(selection)
             ? <div className={styles.wrapper}>
               <div className={styles.selection}>
                 <Selection option={selection}/>
@@ -246,15 +246,13 @@ const SelectionField = React.createClass({
                 <div className={styles.removeX}>×</div>
               </button>
             </div>
-            : <button
-                className={styles.wrapper}
-                onClick={this.onChooseClick}>
+            : <button className={styles.wrapper} onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
-                { placeholder || 'Make a selection' }
+                {placeholder || 'Make a selection'}
               </div>
               <Popout ref='selector' placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
                 <div className={styles.openSelectorButton}>
-                  { selector_label || 'Select' }
+                  {selector_label || 'Select'}
                 </div>
                 <div className={styles.options}>
                   <input
@@ -264,7 +262,7 @@ const SelectionField = React.createClass({
                     placeholder='Type to filter'
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
-                    { renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p> }
+                    {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}
                   </div>
                 </div>
               </Popout>

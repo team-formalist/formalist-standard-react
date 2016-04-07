@@ -64,9 +64,9 @@ const Checkbox = React.createClass({
           name={name}
           value={value}
           defaultChecked={defaultChecked}
-          onBlur={ () => this.setState({focus: false}) }
-          onFocus={ () => this.setState({focus: true}) }
-          onChange={ (e) => onChange(e.target.checked) } />
+          onBlur={function () { this.setState({focus: false}) }}
+          onFocus={function () { this.setState({focus: true}) }}
+          onChange={function (e) { onChange(e.target.checked) }} />
         <label
           className={labelClassNames}
           htmlFor={this.state.id}>

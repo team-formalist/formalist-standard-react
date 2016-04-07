@@ -25,7 +25,7 @@ const Group = React.createClass({
 
     return (
       <div className={styles.group}>
-        { (label) ? <h2 className={styles.label}>{label}</h2> : null }
+        {(label) ? <h2 className={styles.label}>{label}</h2> : null}
         <div className={styles.groupItems}>
           {children.map((child, index) => <div key={index} className={styles.item}>{child}</div>)}
         </div>

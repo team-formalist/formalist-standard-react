@@ -248,7 +248,7 @@ const SelectionField = React.createClass({
       <button
         key={option.id}
         className={styles.optionButton}
-        onClick={(e) => {
+        onClick={function (e) {
           e.preventDefault()
           this.onSelection(option.id)
         }}>
@@ -268,13 +268,13 @@ const SelectionField = React.createClass({
               onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
                 <div>
-                  { placeholder || 'Make a selection' }
-                  { (numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
+                  {placeholder || 'Make a selection'}
+                  {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
               <Popout ref='selector' placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
                 <div className={styles.openSelectorButton}>
-                  { selector_label || 'Select' }
+                  {selector_label || 'Select'}
                 </div>
                 <div className={styles.options}>
                   <input
@@ -284,7 +284,7 @@ const SelectionField = React.createClass({
                     placeholder='Type to filter'
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
-                    { renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p> }
+                    {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}
                   </div>
                 </div>
               </Popout>
