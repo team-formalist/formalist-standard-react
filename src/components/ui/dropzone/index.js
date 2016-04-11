@@ -39,7 +39,7 @@ export default React.createClass({
    */
 
   onDrop: function (files) {
-    const { onChange } = this.props
+    const {onChange} = this.props
     if (typeof (onChange) === 'function') onChange(files)
     this.setState({
       files: files
@@ -55,9 +55,9 @@ export default React.createClass({
 
   renderPreview (files) {
     return (
-      <div ke>
-        <h2>Uploading { files.length } files...</h2>
-        <div>{ files.map((file, i) => <img key={ i } src={ file.preview } />)}</div>
+      <div>
+        <h2>Uploading {files.length} files...</h2>
+        <div>{files.map((file, i) => <img key={i} src={file.preview} />)}</div>
       </div>
     )
   },
@@ -68,24 +68,24 @@ export default React.createClass({
    */
 
   render () {
-    const { files } = this.state
-    const { text, renderPreview, multiple } = this.props
+    const {files} = this.state
+    const {text, renderPreview, multiple} = this.props
 
     return (
       <div>
         <div className='dropzone__container'>
           <Dropzone
-            activeClassName={ styles.dropzone__active }
-            className={ styles.dropzone }
-            multiple={ multiple }
-            onDrop={ this.onDrop }
+            activeClassName={styles.dropzone__active}
+            className={styles.dropzone}
+            multiple={multiple}
+            onDrop={this.onDrop}
             ref='dropzone'
             style={{}}
           >
-            <span className={ styles.dropzone__button }>{ text }</span>
+            <span className={styles.dropzone__button}>{text}</span>
           </Dropzone>
         </div>
-        { renderPreview && files.length > 0 ? this.renderPreview(files) : null }
+        {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
     )
   }

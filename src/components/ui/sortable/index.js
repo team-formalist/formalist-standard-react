@@ -126,7 +126,7 @@ const Sortable = React.createClass({
     const canSort = (items.length > 1)
 
     return (
-      <div className={styles.base} data-name="sortable-items">
+      <div className={styles.base} data-name='sortable-item'>
         {items.map((item, index) => (
           <Item
             key={`${instanceKey}_${item.originalIndex}`}

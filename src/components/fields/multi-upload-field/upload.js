@@ -1,14 +1,7 @@
 require('es6-promise').polyfill()
 const request = require('superagent')
 import bus from './bus'
-
-/**
- * noOp
- * Default param value
- * @return {Function}
- */
-
-const noOp = _ => {}
+import {noOp} from './utils'
 
 /**
  * reqs

@@ -176,7 +176,7 @@ const Item = React.createClass({
 
     return connectDropTarget(
       connectDragPreview(
-        <div className={styles.base} style={inline} data-name="sortable-item">
+        <div className={styles.base} style={inline} data-name='sortable-item'>
           <div className={styles.inner}>
             {children}
           </div>

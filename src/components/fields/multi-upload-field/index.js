@@ -7,11 +7,11 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
-import { upload, preSign } from './upload.js'
+import {upload, preSign} from './upload.js'
 import bus from './bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
-import  { previewIsImage, sortArrayByOrder, containsObject, generateUniqueID } from './utils'
+import {previewIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp} from './utils'
 
 /**
  * EXAMPLE PROP FILES
@@ -32,13 +32,13 @@ import  { previewIsImage, sortArrayByOrder, containsObject, generateUniqueID } f
 //     path: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/sagrada.jpg',
 //     geometry: '300x300',
 //     uid: 'sdsads_boo.jpg'
-//   },
+//  },
 //   {
 //     name: 'baz.jpg',
 //     path: '49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/sunglasses.jpg',
 //     geometry: '300x300',
 //     uid: 'sdsads_baz.jpg'
-//   }
+//  }
 // ]
 
 /**
@@ -68,8 +68,6 @@ const MultiUploadField = React.createClass({
     name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
     token: React.PropTypes.string,
-    fileType: React.PropTypes.object,
-    maxFileSize: React.PropTypes.number,
     value: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     uploadedFiles: React.PropTypes.array,
@@ -99,9 +97,9 @@ const MultiUploadField = React.createClass({
    *
    * {
    * 		name: small.jpg,
-   * 		file: { file },
+   * 		file: {file},
    * 		uid: "wyertyiopdop_small.jpg"
-   * }
+   *}
    *
    * @param {array || object} val - a existing file object or an array of dropped files
    * @return {array || object} an array of objects - of just an object
@@ -110,7 +108,7 @@ const MultiUploadField = React.createClass({
   createFileObjects (val) {
     // format the object
     function formatObject (file) {
-      const { name } = file
+      const {name} = file
       return {
         file,
         name,
@@ -159,12 +157,12 @@ const MultiUploadField = React.createClass({
    */
 
   onProgress (e, file) {
-    const { name } = file
+    const {name} = file
     let previewFiles = this.state.previewFiles
       ? this.state.previewFiles.slice(0)
       : []
 
-    previewFiles.map(file => {
+    previewFiles.map((file) => {
       if (file.name === name) {
         file.progress = e.percent
       }
@@ -195,7 +193,7 @@ const MultiUploadField = React.createClass({
    */
 
   updateUploadedFiles (fileObject, response) {
-    const { path, geometry } = response
+    const {path, geometry} = response
 
     let previewFiles = this.state.previewFiles.filter((preview) => {
       return preview.name !== fileObject.name
@@ -274,8 +272,8 @@ const MultiUploadField = React.createClass({
 
   uploadFile (fileObject, onProgress = noOp) {
     if (!fileObject) return
-    const { presign_url } = this.props.attributes
-    const { token } = this.props
+    const {presign_url} = this.props.attributes
+    const {token} = this.props
     const self = this
 
     preSign(fileObject, presign_url, token)
@@ -317,7 +315,7 @@ const MultiUploadField = React.createClass({
     } = this.props
 
     // iterate and validate each file
-    files.map(file => {
+    files.map((file) => {
       status = validate(file, fileTypeRegex, fileTypeRegexMessage, maxFileSize, maxFileSizeMessage)
       if (!status.success) {
         invalidFiles.push({
@@ -340,7 +338,7 @@ const MultiUploadField = React.createClass({
     if (!validFiles.length) return
 
     // Create 'file objects' of valid files and assign to `previewFiles`
-    let previewFiles = validFiles.map(file => {
+    let previewFiles = validFiles.map((file) => {
       return this.createFileObjects(file)
     })
 
@@ -349,7 +347,7 @@ const MultiUploadField = React.createClass({
     })
 
     // upload each valid file and passing in a progress event handler
-    previewFiles.map(fileObject => {
+    previewFiles.map((fileObject) => {
       this.uploadFile(fileObject, this.onProgress)
     })
   },
@@ -363,21 +361,21 @@ const MultiUploadField = React.createClass({
    */
 
   renderPreviewItem (fileObject, i) {
-    const { progress, file, uid, name } = fileObject
-    const { preview } = file
+    const {progress, file, uid, name} = fileObject
+    const {preview} = file
 
     let inlineStyleWidth = {
       width: progress ? (progress + '%') : '0%'
     }
 
     return (
-      <div className={ styles.listItem } key={ i }>
-        <div className={ styles.listItem__body }>
-          <div className={ styles.listItem__img }>
-            { previewIsImage(name) ? <img src={ preview } alt={ name }/> : null }
+      <div className={styles.listItem} key={i}>
+        <div className={styles.listItem__body}>
+          <div className={styles.listItem__img}>
+            {previewIsImage(name) ? <img src={preview} alt={name}/> : null}
           </div>
-          <div className={ styles.listItem__title }>
-            Uploading: { name }
+          <div className={styles.listItem__title}>
+            Uploading: {name}
           </div>
         </div>
         <button className={styles.remove}>
@@ -385,11 +383,11 @@ const MultiUploadField = React.createClass({
           <div
             className={styles.removeX}
             onClick={this.abortUploadRequest}
-            data-uid={ uid }>×</div>
+            data-uid={uid}>×</div>
         </button>
         <span
-          className={ styles.progress_bar }
-          style={ inlineStyleWidth }></span>
+          className={styles.progress_bar}
+          style={inlineStyleWidth}></span>
       </div>
     )
   },
@@ -403,8 +401,8 @@ const MultiUploadField = React.createClass({
 
   renderPreviewItems (fileObjects) {
     return (
-      <div className={ styles.previewItems }>
-        { fileObjects.map(this.renderPreviewItem)}
+      <div className={styles.previewItems}>
+        {fileObjects.map(this.renderPreviewItem)}
       </div>
     )
   },
@@ -448,7 +446,7 @@ const MultiUploadField = React.createClass({
     }
 
     searchParent(el)
-    return parent ? parent : null
+    return parent
   },
 
   /**
@@ -538,19 +536,19 @@ const MultiUploadField = React.createClass({
    */
 
   renderXHRErrorMessage (errorObject, i) {
-    const { message, uid } = errorObject
+    const {message, uid} = errorObject
 
     return (
       <div
-        key={ i }
-        className={ styles.validationMessage }>
-        Server Error: { message }
+        key={i}
+        className={styles.validationMessage}>
+        Server Error: {message}
         <button className={styles.remove}>
           <span className={styles.removeText}>Remove</span>
           <div
             className={styles.removeX}
             onClick={this.removeXHRErrorMessage}
-            data-uid={ uid }>×</div>
+            data-uid={uid}>×</div>
         </button>
       </div>
     )
@@ -565,8 +563,8 @@ const MultiUploadField = React.createClass({
 
   renderXHRErrorMessages (XHRErrorObjects) {
     return (
-      <div className={ styles.validationMessages }>
-        { XHRErrorObjects.map(this.renderXHRErrorMessage) }
+      <div className={styles.validationMessages}>
+        {XHRErrorObjects.map(this.renderXHRErrorMessage)}
       </div>
     )
   },
@@ -580,19 +578,19 @@ const MultiUploadField = React.createClass({
    */
 
   renderInvalidFile (errorObject, i) {
-    const { message, file, uid } = errorObject
-    const { name } = file
+    const {message, file, uid} = errorObject
+    const {name} = file
 
     return (
       <div
-        key={ i }
-        className={ styles.validationMessage }>
-        <strong>{ name }</strong>: { message }
+        key={i}
+        className={styles.validationMessage}>
+        <strong>{name}</strong>: {message}
         <button
-          className= { styles.validationMessage_close}
-          data-uid={ uid }
-          onClick={ this.removeInvalidFile }>
-          { String.fromCharCode(215) }
+          className={styles.validationMessage_close}
+          data-uid={uid}
+          onClick={this.removeInvalidFile}>
+          {String.fromCharCode(215)}
         </button>
       </div>
     )
@@ -607,8 +605,8 @@ const MultiUploadField = React.createClass({
 
   renderInvalidFiles (errorsObjects) {
     return (
-      <div className={ styles.validationMessages }>
-        { errorsObjects.map(this.renderInvalidFile) }
+      <div className={styles.validationMessages}>
+        {errorsObjects.map(this.renderInvalidFile)}
       </div>
     )
   },
@@ -636,15 +634,15 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const { uid, path, name, thumbnail_url} = fileObject
-    const thumbnailURL = thumbnail_url ? thumbnail_url : this.buildThumbnailPreview(path)
+    const {uid, path, name, thumbnail_url} = fileObject
+    const thumbnailURL = thumbnail_url != null ? thumbnail_url : this.buildThumbnailPreview(path)
     return (
-      <div className={ styles.listItem } key={ idx } data-uid={ uid }>
-        <div className={ styles.listItem__body }>
-          <div className={ styles.listItem__img }>
-            <img src={ thumbnailURL } alt={ name }/>
+      <div className={styles.listItem} key={idx} data-uid={uid}>
+        <div className={styles.listItem__body}>
+          <div className={styles.listItem__img}>
+            <img src={thumbnailURL} alt={name}/>
           </div>
-          <span className={ styles.listItem__title }>{ name }</span>
+          <span className={styles.listItem__title}>{name}</span>
         </div>
       </div>
     )
@@ -662,7 +660,7 @@ const MultiUploadField = React.createClass({
     const uploadedFiles = sortArrayByOrder(existingUploadedFiles, newOrder)
 
     this.setState({
-     uploadedFiles
+      uploadedFiles
     })
   },
 
@@ -676,9 +674,9 @@ const MultiUploadField = React.createClass({
 
   renderUploadedFiles (filesObjects) {
     return (
-      <div className={ styles.uploadedItems }>
+      <div className={styles.uploadedItems}>
         <Sortable canRemove onRemove={this.removeUploadedFile} onDrop={this.onDrop}>
-          { filesObjects.map(this.renderUploadedFileItem) }
+          {filesObjects.map(this.renderUploadedFileItem)}
         </Sortable>
       </div>
     )
@@ -690,7 +688,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const { errors, hint, label, name, multiple } = this.props
+    const {errors, hint, label, name, multiple} = this.props
     const hasErrors = errors.count() > 0
     const {
       XHRErrorMessages,
@@ -703,22 +701,22 @@ const MultiUploadField = React.createClass({
       <div>
         <div className=''>
           <FieldHeader
-            error={ hasErrors }
-            hint={ hint }
-            id={ name }
-            label={ label }
+            error={hasErrors}
+            hint={hint}
+            id={name}
+            label={label}
           />
         </div>
-        <div className ={ styles.field }>
-          { XHRErrorMessages && XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null }
-          { invalidFiles && invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null }
-          { previewFiles && previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null }
-          { uploadedFiles && uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null }
-          { hasErrors ? <FieldErrors errors={ errors }/> : null }
+        <div className={styles.field}>
+          {XHRErrorMessages && XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null}
+          {invalidFiles && invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null}
+          {previewFiles && previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null}
+          {uploadedFiles && uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null}
+          {hasErrors ? <FieldErrors errors={errors}/> : null}
           <Dropzone
-            multiple={ multiple }
-            text={ label }
-            onChange={ this.onChange }
+            multiple={multiple}
+            text={label}
+            onChange={this.onChange}
           />
         </div>
       </div>

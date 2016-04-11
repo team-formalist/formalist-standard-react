@@ -1,6 +1,5 @@
 import uid from 'uid'
 
-
 /**
  * previewIsImage
  * return a bool if the name contains a file type in the pattern
@@ -23,11 +22,11 @@ function previewIsImage (name) {
  */
 
 function sortArrayByOrder (arr, order) {
-  let sorted = [];
+  let sorted = []
   for (var i = 0; i < order.length; i++) {
-    sorted.push(arr[order[i]]);
+    sorted.push(arr[order[i]])
   }
-  return sorted;
+  return sorted
 }
 
 /**
@@ -63,7 +62,7 @@ function generateUniqueID (file_name) {
  * @return {Function}
  */
 
-const noOp = _ => {}
+const noOp = (_) => {}
 
 export {
   previewIsImage,

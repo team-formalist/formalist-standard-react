@@ -71,17 +71,17 @@ export default React.createClass({
    */
 
   render () {
-    const { name, onChange, className } = this.props
+    const {name, onChange, className} = this.props
 
     return (
-      <div className={ className }>
+      <div className={className}>
         <input
           ref='fileInput'
           type='file'
-          className={ className }
-          name={ name }
-          id={ name }
-          onChange={ onChange } />
+          className={className}
+          name={name}
+          id={name}
+          onChange={onChange} />
       </div>
     )
   }
