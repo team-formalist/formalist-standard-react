@@ -12,6 +12,25 @@ import bus from './bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
 
+
+/**
+ * sortArrayByOrder
+ * Take an array of items (arr) and an array of ordered values (order).
+ * For each order value, push that index of `arr` into `sorted`
+ * return sorted
+ * @param  {array} arr
+ * @param  {[array} order
+ * @return {array}
+ */
+
+function sortArrayByOrder (arr, order) {
+  let sorted = [];
+  for (var i = 0; i < order.length; i++) {
+    sorted.push(arr[order[i]]);
+  }
+  return sorted;
+}
+
 /**
  * containsObject
  * A helper to determin if an object exists in an array
@@ -409,10 +428,13 @@ const MultiUploadField = React.createClass({
             Uploading: { name }
           </div>
         </div>
-        <button
-          className={ styles.close }
-          onClick={ this.abortUploadRequest }
-          data-uid={ uid }>{ String.fromCharCode(215) }</button>
+        <button className={styles.remove}>
+          <span className={styles.removeText}>Remove</span>
+          <div
+            className={styles.removeX}
+            onClick={this.abortUploadRequest}
+            data-uid={ uid }>×</div>
+        </button>
         <span
           className={ styles.progress_bar }
           style={ inlineStyleWidth }></span>
@@ -532,6 +554,7 @@ const MultiUploadField = React.createClass({
    */
 
   removePreviewFile (e) {
+    e.preventDefault()
     const previewFiles = this.filterOutItemByUID('previewFiles', e)
 
     this.setState({
@@ -570,11 +593,12 @@ const MultiUploadField = React.createClass({
         key={ i }
         className={ styles.validationMessage }>
         Server Error: { message }
-        <button
-          className= { styles.validationMessage_close}
-          data-uid={ uid }
-          onClick={ this.removeXHRErrorMessage }>
-          { String.fromCharCode(215) }
+        <button className={styles.remove}>
+          <span className={styles.removeText}>Remove</span>
+          <div
+            className={styles.removeX}
+            onClick={this.removeXHRErrorMessage}
+            data-uid={ uid }>×</div>
         </button>
       </div>
     )
@@ -675,27 +699,28 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * renderUploadedFiles
-   * Render existing uploaded files
-   * @param {array} and array of file objects
-   * @return {vnode}
+   * onDrop
+   * When a sortable upload items is 'dropped' re-arrage `uploadedFiles` to
+   * match the same order and save to state
+   * @param  {Array} newOrder - an array of indexs returned from Sortable
    */
 
-   /**
-    * When selected item is removed
-    * @return {Null}
-    */
-   onDrop (newOrder) {
-     debugger
-     return
-   },
+  onDrop (newOrder) {
+    const existingUploadedFiles = this.state.uploadedFiles.slice(0)
+    const uploadedFiles = sortArrayByOrder(existingUploadedFiles, newOrder)
 
-   onRemove (index, e) {
-     return
-    //  const { value } = this.props
-    //  this.onChange(value.delete(index))
-   },
+    this.setState({
+     uploadedFiles
+    })
+  },
 
+  /**
+   * renderUploadedFiles
+   * Generate an element passing it's contents to renderUploadedFileItem().
+   * Wrap this item in a Sortable component
+   * @param  {array} filesObjects
+   * @return {vnode}
+   */
 
   renderUploadedFiles (filesObjects) {
     return (
