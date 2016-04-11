@@ -452,16 +452,52 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * removeUploadedFile
-   * Filter out an file by `uid`
-   * Send the remaining files to this.uploadFile()
-   * save remaining files to state
-   * @param {Event} e - click
+   * searchParentForAttribute
+   * search the parent element in the DOM recursivly - to find a specific
+   * attribute with a specific value
+   * @param  {node} el - initial element
+   * @param  {string} attribute name
+   * @param  {string} attribute name
+   * @return {node}
    */
 
-  removeUploadedFile (e) {
-    e.preventDefault()
-    const uploadedFiles = this.filterOutItemByUID('uploadedFiles', e)
+  searchParentForAttribute (el, attribute, value) {
+    let parent
+
+    function searchParent (el) {
+      parent = el.parentElement
+      if (parent.hasAttribute(attribute) && parent.getAttribute(attribute) === value) {
+        return parent
+      } else {
+        searchParent(parent)
+      }
+    }
+
+    searchParent(el)
+    return parent ? parent : null
+  },
+
+  /**
+   * removeUploadedFile
+   * uploaded files are wrapped in a Sortable list item.
+   * we need to get the clicked element (x)
+   * 	- search for the files parent element
+   * 	- query that parent element for a uid value
+   * 	- filter out `uploadedFiles` without that uid
+   * 	- save to state
+   * Send the remaining files to this.uploadFile()
+   * @param {number} index - sourtable item index passed back from Sortable
+   * @param {Event} e - click event passed back from Sortable
+   */
+
+  removeUploadedFile (index, e) {
+    const sortableItemChild = this.searchParentForAttribute(e.target, 'data-name', 'sortable-item')
+    const target = sortableItemChild.querySelector('[data-uid]')
+    const uid = target.getAttribute('data-uid')
+
+    const uploadedFiles = this.state.uploadedFiles.filter((file) => {
+      return file.uid !== uid
+    })
 
     this.setState({
       uploadedFiles
@@ -627,17 +663,13 @@ const MultiUploadField = React.createClass({
     const { uid, path, name } = fileObject
 
     return (
-      <div className={ styles.listItem } key={ idx }>
+      <div className={ styles.listItem } key={ idx } data-uid={ uid }>
         <div className={ styles.listItem__body }>
           <div className={ styles.listItem__img }>
             <img src={ this.buildThumbnailPreview(path) } alt={ name }/>
           </div>
           <span className={ styles.listItem__title }>{ name }</span>
         </div>
-        <button
-          className={ styles.close }
-          onClick={ this.removeUploadedFile }
-          data-uid={ uid } >{ String.fromCharCode(215) }</button>
       </div>
     )
   },
@@ -654,10 +686,11 @@ const MultiUploadField = React.createClass({
     * @return {Null}
     */
    onDrop (newOrder) {
+     debugger
      return
    },
 
-   onRemove (index) {
+   onRemove (index, e) {
      return
     //  const { value } = this.props
     //  this.onChange(value.delete(index))
@@ -667,7 +700,7 @@ const MultiUploadField = React.createClass({
   renderUploadedFiles (filesObjects) {
     return (
       <div className={ styles.uploadedItems }>
-        <Sortable onDrop={this.onDrop}>
+        <Sortable canRemove onRemove={this.removeUploadedFile} onDrop={this.onDrop}>
           { filesObjects.map(this.renderUploadedFileItem) }
         </Sortable>
       </div>
