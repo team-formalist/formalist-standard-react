@@ -11,60 +11,7 @@ import { upload, preSign } from './upload.js'
 import bus from './bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
-
-
-/**
- * sortArrayByOrder
- * Take an array of items (arr) and an array of ordered values (order).
- * For each order value, push that index of `arr` into `sorted`
- * return sorted
- * @param  {array} arr
- * @param  {[array} order
- * @return {array}
- */
-
-function sortArrayByOrder (arr, order) {
-  let sorted = [];
-  for (var i = 0; i < order.length; i++) {
-    sorted.push(arr[order[i]]);
-  }
-  return sorted;
-}
-
-/**
- * containsObject
- * A helper to determin if an object exists in an array
- * @param {object} obj
- * @param {array} list
- * @return {boolean}
- */
-
-function containsObject (obj, list) {
-  let x
-  for (x in list) {
-    if (list.hasOwnProperty(x) && list[x] === obj) {
-      return true
-    }
-  }
-  return false
-}
-
-/**
- * generateUniqueID
- * @return {[type]} [description]
- */
-
-function generateUniqueID (file_name) {
-  return uid(10) + '_' + file_name
-}
-
-/**
- * noOp
- * Default param value
- * @return {Function}
- */
-
-const noOp = _ => {}
+import  { previewIsImage, sortArrayByOrder, containsObject, generateUniqueID } from './utils'
 
 /**
  * EXAMPLE PROP FILES
@@ -127,9 +74,9 @@ const MultiUploadField = React.createClass({
     multiple: React.PropTypes.bool,
     uploadedFiles: React.PropTypes.array,
     fileTypeRegex: React.PropTypes.node,
-    fileTypeMessage: React.PropTypes.string,
-    fileSize: React.PropTypes.number,
-    fileSizeMessage: React.PropTypes.string
+    fileTypeRegexMessage: React.PropTypes.string,
+    maxFileSize: React.PropTypes.number,
+    maxFileSizeMessage: React.PropTypes.string
   },
 
   /**
@@ -270,8 +217,8 @@ const MultiUploadField = React.createClass({
     }
 
     this.setState({
-      uploadedFiles,
-      previewFiles
+      previewFiles,
+      uploadedFiles
     })
   },
 
@@ -362,11 +309,16 @@ const MultiUploadField = React.createClass({
       ? this.state.invalidFiles.slice(0)
       : []
 
-    // iterate and validate each file
-    const { fileTypeRegex, fileTypeMessage, fileSize, fileSizeMessage } = this.props
+    const {
+      fileTypeRegex,
+      fileTypeRegexMessage,
+      maxFileSize,
+      maxFileSizeMessage
+    } = this.props
 
+    // iterate and validate each file
     files.map(file => {
-      status = validate(file, fileTypeRegex, fileTypeMessage, fileSize, fileSizeMessage)
+      status = validate(file, fileTypeRegex, fileTypeRegexMessage, maxFileSize, maxFileSizeMessage)
       if (!status.success) {
         invalidFiles.push({
           file,
@@ -422,7 +374,7 @@ const MultiUploadField = React.createClass({
       <div className={ styles.listItem } key={ i }>
         <div className={ styles.listItem__body }>
           <div className={ styles.listItem__img }>
-            <img src={ preview } alt={ name }/>
+            { previewIsImage(name) ? <img src={ preview } alt={ name }/> : null }
           </div>
           <div className={ styles.listItem__title }>
             Uploading: { name }
@@ -684,13 +636,13 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const { uid, path, name } = fileObject
-
+    const { uid, path, name, thumbnail_url} = fileObject
+    const thumbnailURL = thumbnail_url ? thumbnail_url : this.buildThumbnailPreview(path)
     return (
       <div className={ styles.listItem } key={ idx } data-uid={ uid }>
         <div className={ styles.listItem__body }>
           <div className={ styles.listItem__img }>
-            <img src={ this.buildThumbnailPreview(path) } alt={ name }/>
+            <img src={ thumbnailURL } alt={ name }/>
           </div>
           <span className={ styles.listItem__title }>{ name }</span>
         </div>
