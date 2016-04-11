@@ -72,7 +72,7 @@
     "react-day-picker": "^1.2.0",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
-    "react-immutable-proptypes": "^1.5.1",
+    "react-immutable-proptypes": "^1.7.1",
     "react-portal": "1.7.0",
     "react-textarea-autosize": "^3.3.0",
     "scribe-editor": "^2.1.1",
