@@ -142,15 +142,16 @@ const Item = React.createClass({
   },
 
   /**
-   * Send current `index` to the onRemove callback
+   * Send current `index` and click event to the onRemove callback
    * @param  {Event} e Click event
    */
   onRemoveClick (e) {
     e.preventDefault()
     const { canRemove, onRemove } = this.props
     if (canRemove && onRemove) {
-      onRemove(this.props.index)
+      onRemove(this.props.index, e)
     }
+    ree
   },
 
   /**
@@ -176,7 +177,7 @@ const Item = React.createClass({
 
     return connectDropTarget(
       connectDragPreview(
-        <div className={styles.base} style={inline}>
+        <div className={styles.base} style={inline}  data-name="sortable-item">
           <div className={styles.inner}>
             {children}
           </div>
