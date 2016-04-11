@@ -149,7 +149,7 @@ const Item = React.createClass({
     e.preventDefault()
     const { canRemove, onRemove } = this.props
     if (canRemove && onRemove) {
-      onRemove(this.props.index, e)
+      onRemove(this.props.index)
     }
   },
 
@@ -176,7 +176,7 @@ const Item = React.createClass({
 
     return connectDropTarget(
       connectDragPreview(
-        <div className={styles.base} style={inline} data-name='sortable-item'>
+        <div className={styles.base} style={inline}>
           <div className={styles.inner}>
             {children}
           </div>
