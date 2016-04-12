@@ -716,7 +716,7 @@ const MultiUploadField = React.createClass({
           {hasErrors ? <FieldErrors errors={errors}/> : null}
           <Dropzone
             multiple={multiple}
-            text={buttonText ? buttonText : label}
+            text={buttonText != null ? buttonText : label}
             onChange={this.onChange}
           />
         </div>
