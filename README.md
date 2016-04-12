@@ -25,7 +25,7 @@ Here are the potential props we can have for the `multi-upload-field`.
 | Prop name              | Type   | Required | Example                                                                   | Default             | Description              |
 | :----------------------|:------:| :-------:| :------------------------------------------------------------------------ | :-------------------| :------------------------|
 | *label *               | String | `false`  | `label: 'Drop/Upload Files'`                                              | Drop/Upload File(s) | Field label and button text |
-| *presign_url*          | String | `true`   | `presign_url: 'http://localhost:3000/uploads/presign'`                    |                     | URL to XHR `presign`. `presign` should return `url`, `expiration`, `hmac` and `uuid` to perform upload. |
+| *presign_url*          | String | `true`   | `presign_url: 'http://url_to/presign'`                    |                     | URL to XHR `presign`. `presign` should return `url`, `expiration`, `hmac` and `uuid` to perform upload. |
 | *token*                | String | `false`  | `token: 'XYZ'`                                                            | `null`              | optional csrf-token |
 | *multiple*             | Bool   | `false`  | `multiple: false`                                                         | `true`              | Differentiate between multiple or singular uploads |
 | *uploadedFiles*        | Array  | `false`  | `uploadedFiles: [{name: 'boo.jpg', ...}, {name: 'baz.jpg', ...}]`         | `[]`                | An array of existing uploaded files |
