@@ -33,7 +33,7 @@ Here are the potential props we can have for the `multi-upload-field`.
 | **fileTypeRegexMessage** | String | `false`  | `fileTypeRegexMessage: 'Supported image formats are JPEG, PNG, and GIF.'` | `null`              | Supporting validation message for the `fileTypeRegex` prop |
 | **maxFileSize**          | Number | `false`  | `maxFileSize: 5000000`                                                    | `null`              | Provide an explicit maximum file size validation rule |
 | **maxFileSizeMessage**   | String | `false`  | `maxFileSizeMessage: 'The file you tried to upload exceed our limit (5MB)'` | `null`              | Supporting validation message for the `maxFileSize` prop |
-| **buttonText**           | String | `false`  | `buttonText: "Upload file"`                                               | Fallback to `label`, otherwise 'Drop/Upload File(s)' | Provide custom button text |
+| **buttonText**           | String | `false`  | `buttonText: 'Upload file'`                                               | Fallback to `label`, otherwise 'Drop/Upload File(s)' | Provide custom button text |
 
 ##### uploadedFiles
 
