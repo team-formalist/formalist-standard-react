@@ -87,10 +87,11 @@ const Many = React.createClass({
   addChild (e) {
     e.preventDefault()
     let { attributes, store, path } = this.props
+    const validationRules = attributes.get('validation') ? attributes.get('validation').toJS() : null
 
     store.batchDispatch([
       addManyContent(path),
-      validateMany(path, validation(attributes.get('validation').toJS()))
+      validateMany(path, validation(validationRules))
     ])
     this.updateContentsKey()
   },
@@ -103,10 +104,11 @@ const Many = React.createClass({
   onRemove (index) {
     let { attributes, store, contentsPath, path } = this.props
     let childPath = contentsPath.push(index)
+    const validationRules = attributes.get('validation') ? attributes.get('validation').toJS() : null
 
     store.batchDispatch([
       deleteManyContent(childPath),
-      validateMany(path, validation(attributes.get('validation').toJS()))
+      validateMany(path, validation(validationRules))
     ])
     this.updateContentsKey()
   },
@@ -117,9 +119,11 @@ const Many = React.createClass({
    */
   onDrop (newOrder) {
     const { attributes, store, path } = this.props
+    const validationRules = attributes.get('validation') ? attributes.get('validation').toJS() : null
+
     store.batchDispatch([
       reorderManyContents(path, newOrder),
-      validateMany(path, validation(attributes.get('validation').toJS()))
+      validateMany(path, validation(validationRules))
     ])
     this.updateContentsKey()
   },
