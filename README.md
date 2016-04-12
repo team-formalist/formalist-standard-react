@@ -46,6 +46,8 @@ multi_upload_field :multi_upload_field,
 ```
 
 ```js
+// ast.js
+
 [
   'field',
   [
