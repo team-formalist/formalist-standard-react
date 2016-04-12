@@ -37,7 +37,7 @@ Here are the potential props we can have for the `multi-upload-field`.
 
 ##### uploadedFiles
 
-This is the current expected format
+This is the current expected format.  
 Note: optional 'thumbnail_url' property.
 
 ```js
