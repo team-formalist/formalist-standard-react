@@ -15,7 +15,7 @@ export default React.createClass({
    */
 
   propTypes: {
-    text: React.PropTypes.string.isRequired,
+    text: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     renderPreview: React.PropTypes.bool,
     multiple: React.PropTypes.bool
@@ -71,6 +71,15 @@ export default React.createClass({
     const {files} = this.state
     const {text, renderPreview, multiple} = this.props
 
+    let label
+    if (multiple && !text) {
+      label = 'Drop/Upload Files'
+    } else if (!multiple && !text) {
+      label = 'Drop/Upload File'
+    } else {
+      label = text
+    }
+
     return (
       <div>
         <div className='dropzone__container'>
@@ -82,7 +91,7 @@ export default React.createClass({
             ref='dropzone'
             style={{}}
           >
-            <span className={styles.dropzone__button}>{text}</span>
+            <span className={styles.dropzone__button}>{label}</span>
           </Dropzone>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}

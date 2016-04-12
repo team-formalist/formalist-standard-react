@@ -74,7 +74,8 @@ const MultiUploadField = React.createClass({
     fileTypeRegex: React.PropTypes.node,
     fileTypeRegexMessage: React.PropTypes.string,
     maxFileSize: React.PropTypes.number,
-    maxFileSizeMessage: React.PropTypes.string
+    maxFileSizeMessage: React.PropTypes.string,
+    buttonText: React.PropTypes.string
   },
 
   /**
@@ -688,7 +689,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {errors, hint, label, name, multiple} = this.props
+    const {errors, hint, label, name, multiple, buttonText} = this.props
     const hasErrors = errors.count() > 0
     const {
       XHRErrorMessages,
@@ -715,7 +716,7 @@ const MultiUploadField = React.createClass({
           {hasErrors ? <FieldErrors errors={errors}/> : null}
           <Dropzone
             multiple={multiple}
-            text={label}
+            text={buttonText ? buttonText : label}
             onChange={this.onChange}
           />
         </div>
