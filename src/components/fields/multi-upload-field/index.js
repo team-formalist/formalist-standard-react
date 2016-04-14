@@ -463,14 +463,9 @@ const MultiUploadField = React.createClass({
    * @param {Event} e - click event passed back from Sortable
    */
 
-  removeUploadedFile (index, e) {
-    const sortableItemChild = this.searchParentForAttribute(e.target, 'data-name', 'sortable-item')
-    const target = sortableItemChild.querySelector('[data-uid]')
-    const uid = target.getAttribute('data-uid')
-
-    const uploadedFiles = this.state.uploadedFiles.filter((file) => {
-      return file.uid !== uid
-    })
+  removeUploadedFile (index) {
+    let uploadedFiles = this.state.uploadedFiles.slice(0)
+    uploadedFiles.splice(index, 1)
 
     this.setState({
       uploadedFiles
