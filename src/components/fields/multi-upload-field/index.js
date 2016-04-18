@@ -70,7 +70,7 @@ const MultiUploadField = React.createClass({
     token: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     uploadedFiles: React.PropTypes.array,
-    fileTypeRegex: React.PropTypes.node,
+    fileTypeRegex: React.PropTypes.object,
     fileTypeRegexMessage: React.PropTypes.string,
     maxFileSize: React.PropTypes.number,
     maxFileSizeMessage: React.PropTypes.string,
@@ -352,6 +352,181 @@ const MultiUploadField = React.createClass({
   },
 
   /**
+   * removeKeyFromState
+   * Copy and array from state, and remove a key and return array
+   * @param {string} array - a name for an array in state
+   * @param {number/string} key
+   * @return {array}
+   */
+
+  removeKeyFromState (array, key) {
+    let arr = this.state[array].slice(0)
+    if (typeof(key) === "string") {
+      key = parseInt(key)
+    }
+    arr.splice(key, 1)
+    return arr
+  },
+
+  /**
+   * removeUploadedFile
+   * uploaded files are wrapped in a Sortable list item.
+   * we need to get the clicked element (x)
+   * 	- search for the files parent element
+   * 	- query that parent element for a uid value
+   * 	- filter out `uploadedFiles` without that uid
+   * 	- save to state
+   * Send the remaining files to this.uploadFile()
+   * @param {number} index - sourtable item index passed back from Sortable
+   * @param {Event} e - click event passed back from Sortable
+   */
+
+  removeUploadedFile (index) {
+    const uploadedFiles = this.removeKeyFromState('uploadedFiles', index)
+
+    this.setState({
+      uploadedFiles
+    })
+
+    uploadedFiles.map((file) => {
+      this.uploadFile(file, noOp, false)
+    })
+  },
+
+  /**
+   * removeInvalidFile
+   * Filter out an file by uid
+   * save remaining files to state
+   * @param {event} e - click
+   */
+
+  removeInvalidFile (e) {
+    e.preventDefault()
+    const key = e.target.getAttribute('data-key');
+    const invalidFiles = this.removeKeyFromState('invalidFiles', key)
+    this.setState({
+      invalidFiles
+    })
+  },
+
+  /**
+   * removeInvalidFile
+   * Filter out an file by uid
+   * save remaining files to state
+   * @param {event} e - click
+   */
+
+  removePreviewFile (e) {
+    e.preventDefault()
+    const key = e.target.getAttribute('data-key');
+    const previewFiles = this.removeKeyFromState('previewFiles', key)
+    this.setState({
+      previewFiles
+    })
+  },
+
+  /**
+   * removeXHRErrorMessage
+   * Filter out an error by `uid`
+   * Save remaining errors back to state
+   * @param {event} e - click event
+   */
+
+  removeXHRErrorMessage (e) {
+    e.preventDefault()
+    const key = e.target.getAttribute('data-key');
+    const XHRErrorMessages = this.removeKeyFromState('XHRErrorMessages', key)
+    this.setState({
+      XHRErrorMessages
+    })
+  },
+
+  /**
+   * renderXHRErrorMessage
+   * Render an element for each XHR error object message
+   * @param {object} error object
+   * @param {number} i
+   * @return {vnode}
+   */
+
+  renderXHRErrorMessage (errorObject, i) {
+    const {message} = errorObject
+
+    return (
+      <div
+        key={i}
+        className={styles.validationMessage}>
+        Server Error: {message}
+        <button className={styles.remove}>
+          <span className={styles.removeText}>Remove</span>
+          <div
+            className={styles.removeX}
+            onClick={this.removeXHRErrorMessage}
+            data-key={i}>×</div>
+        </button>
+      </div>
+    )
+  },
+
+  /**
+   * renderXHRErrorMessages
+   * Iterate error objects and call renderXHRErrorMessage() for each object
+   * @param {array} XHRErrorObjects - an array of error objects
+   * @return {vnode}
+   */
+
+  renderXHRErrorMessages (XHRErrorObjects) {
+    return (
+      <div className={styles.validationMessages}>
+        {XHRErrorObjects.map(this.renderXHRErrorMessage)}
+      </div>
+    )
+  },
+
+  /**
+   * renderInvalidFile
+   * Render a file validation message
+   * @param {object} error object
+   * @param {number} i
+   * @return {vnode}
+   */
+
+  renderInvalidFile (errorObject, i) {
+    const {message, file} = errorObject
+    const {name} = file
+
+    return (
+      <div
+        key={i}
+        className={styles.validationMessage}>
+        <strong>{name}</strong>: {message}
+        <button className={styles.remove}>
+          <span className={styles.removeText}>Remove</span>
+          <div
+            className={styles.removeX}
+            onClick={this.removeInvalidFile}
+            data-key={i}>×</div>
+        </button>
+      </div>
+    )
+  },
+
+  /**
+   * renderInvalidFiles
+   * Iterate error objects and call renderInvalidFile() for each object
+   * @param {array} and array of error objects
+   * @return {vnode}
+   */
+
+  renderInvalidFiles (errorsObjects) {
+    return (
+      <div className={styles.validationMessages}>
+        {errorsObjects.map(this.renderInvalidFile)}
+      </div>
+    )
+  },
+
+  /**
    * renderPreviewItem
    * Take a file object and an index value
    * @param {object} an object containing {file, name, uid, progress}
@@ -382,6 +557,7 @@ const MultiUploadField = React.createClass({
           <div
             className={styles.removeX}
             onClick={this.abortUploadRequest}
+            data-key={i}
             data-uid={uid}>×</div>
         </button>
         <span
@@ -402,205 +578,6 @@ const MultiUploadField = React.createClass({
     return (
       <div className={styles.previewItems}>
         {fileObjects.map(this.renderPreviewItem)}
-      </div>
-    )
-  },
-
-  /**
-   * filterOutItemByUID
-   * Iterate an array in state, filtering out a specific `uid`
-   * @param {string} stateProperty - a name for an array in state
-   * @param {event} e - click event
-   * @return {array}
-   */
-
-  filterOutItemByUID (stateProperty, e) {
-    const uid = e.target.getAttribute('data-uid')
-
-    return this.state[stateProperty].filter((file) => {
-      return file.uid !== uid
-    })
-  },
-
-  /**
-   * searchParentForAttribute
-   * search the parent element in the DOM recursivly - to find a specific
-   * attribute with a specific value
-   * @param  {node} el - initial element
-   * @param  {string} attribute name
-   * @param  {string} attribute name
-   * @return {node}
-   */
-
-  searchParentForAttribute (el, attribute, value) {
-    let parent
-
-    function searchParent (el) {
-      parent = el.parentElement
-      if (parent.hasAttribute(attribute) && parent.getAttribute(attribute) === value) {
-        return parent
-      } else {
-        searchParent(parent)
-      }
-    }
-
-    searchParent(el)
-    return parent
-  },
-
-  /**
-   * removeUploadedFile
-   * uploaded files are wrapped in a Sortable list item.
-   * we need to get the clicked element (x)
-   * 	- search for the files parent element
-   * 	- query that parent element for a uid value
-   * 	- filter out `uploadedFiles` without that uid
-   * 	- save to state
-   * Send the remaining files to this.uploadFile()
-   * @param {number} index - sourtable item index passed back from Sortable
-   * @param {Event} e - click event passed back from Sortable
-   */
-
-  removeUploadedFile (index) {
-    let uploadedFiles = this.state.uploadedFiles.slice(0)
-    uploadedFiles.splice(index, 1)
-
-    this.setState({
-      uploadedFiles
-    })
-
-    uploadedFiles.map((file) => {
-      this.uploadFile(file, noOp, false)
-    })
-  },
-
-  /**
-   * removeInvalidFile
-   * Filter out an file by uid
-   * save remaining files to state
-   * @param {event} e - click
-   */
-
-  removeInvalidFile (e) {
-    e.preventDefault()
-    const invalidFiles = this.filterOutItemByUID('invalidFiles', e)
-
-    this.setState({
-      invalidFiles
-    })
-  },
-
-  /**
-   * removeInvalidFile
-   * Filter out an file by uid
-   * save remaining files to state
-   * @param {event} e - click
-   */
-
-  removePreviewFile (e) {
-    e.preventDefault()
-    const previewFiles = this.filterOutItemByUID('previewFiles', e)
-
-    this.setState({
-      previewFiles
-    })
-  },
-
-  /**
-   * removeXHRErrorMessage
-   * Filter out an error by `uid`
-   * Save remaining errors back to state
-   * @param {event} e - click event
-   */
-
-  removeXHRErrorMessage (e) {
-    e.preventDefault()
-    const XHRErrorMessages = this.filterOutItemByUID('XHRErrorMessages', e)
-    this.setState({
-      XHRErrorMessages
-    })
-  },
-
-  /**
-   * renderXHRErrorMessage
-   * Render an element for each XHR error object message
-   * @param {object} error object
-   * @param {number} i
-   * @return {vnode}
-   */
-
-  renderXHRErrorMessage (errorObject, i) {
-    const {message, uid} = errorObject
-
-    return (
-      <div
-        key={i}
-        className={styles.validationMessage}>
-        Server Error: {message}
-        <button className={styles.remove}>
-          <span className={styles.removeText}>Remove</span>
-          <div
-            className={styles.removeX}
-            onClick={this.removeXHRErrorMessage}
-            data-uid={uid}>×</div>
-        </button>
-      </div>
-    )
-  },
-
-  /**
-   * renderXHRErrorMessages
-   * Iterate error objects and call renderXHRErrorMessage() for each object
-   * @param {array} XHRErrorObjects - an array of error objects
-   * @return {vnode}
-   */
-
-  renderXHRErrorMessages (XHRErrorObjects) {
-    return (
-      <div className={styles.validationMessages}>
-        {XHRErrorObjects.map(this.renderXHRErrorMessage)}
-      </div>
-    )
-  },
-
-  /**
-   * renderInvalidFile
-   * Render a file validation message
-   * @param {object} error object
-   * @param {number} i
-   * @return {vnode}
-   */
-
-  renderInvalidFile (errorObject, i) {
-    const {message, file, uid} = errorObject
-    const {name} = file
-
-    return (
-      <div
-        key={i}
-        className={styles.validationMessage}>
-        <strong>{name}</strong>: {message}
-        <button
-          className={styles.validationMessage_close}
-          data-uid={uid}
-          onClick={this.removeInvalidFile}>
-          {String.fromCharCode(215)}
-        </button>
-      </div>
-    )
-  },
-
-  /**
-   * renderInvalidFiles
-   * Iterate error objects and call renderInvalidFile() for each object
-   * @param {array} and array of error objects
-   * @return {vnode}
-   */
-
-  renderInvalidFiles (errorsObjects) {
-    return (
-      <div className={styles.validationMessages}>
-        {errorsObjects.map(this.renderInvalidFile)}
       </div>
     )
   },
@@ -631,7 +608,7 @@ const MultiUploadField = React.createClass({
     const {uid, path, name, thumbnail_url} = fileObject
     const thumbnailURL = thumbnail_url != null ? thumbnail_url : this.buildThumbnailPreview(path)
     return (
-      <div className={styles.listItem} key={idx} data-uid={uid}>
+      <div className={styles.listItem} key={idx}>
         <div className={styles.listItem__body}>
           <div className={styles.listItem__img}>
             <img src={thumbnailURL} alt={name}/>

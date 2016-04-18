@@ -23,9 +23,7 @@
   box-sizing: border-box;
   cursor: pointer;
   display: block;
-  font-size: 1.1em;
   left: 0;
-  line-height: 1.5;
   overflow: hidden;
   padding: 20px;
   position: absolute;
@@ -79,11 +77,6 @@
   padding: 5px;
   width: 100%;
   position: relative;
-}
-
-.uploadedItems .listItem:hover {
-  background: #f8f8f8;
-  color: #666;
 }
 
 .listItem__body {
