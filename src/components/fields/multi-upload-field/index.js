@@ -271,24 +271,23 @@ const MultiUploadField = React.createClass({
    *                   for when we remove uploaded files and POST the remaining
    */
 
-  uploadFile (fileObject, onProgress = noOp) {
+  uploadFile (fileObject, onProgress = noOp, updateUploadedFilesStatus = true) {
     if (!fileObject) return
     const {presign_url} = this.props.attributes
     const {token} = this.props
-    const self = this
 
     preSign(fileObject, presign_url, token)
       .then((presignResponse) => {
         return upload(presignResponse, fileObject, token, onProgress)
       })
       .then((uploadResponse) => {
-        self.updateUploadedFiles(fileObject, uploadResponse)
+        if (!updateUploadedFilesStatus) return
+        return this.updateUploadedFiles(fileObject, uploadResponse)
       })
       .catch((err) => {
         this.removeFileFromPreviewFiles(fileObject)
-        let error = new Error(err.message)
-        self.storeXHRErrorMessage(err.message)
-        throw error
+        this.storeXHRErrorMessage(err.message)
+        throw new Error(err.message)
       })
   },
 
@@ -472,7 +471,7 @@ const MultiUploadField = React.createClass({
     })
 
     uploadedFiles.map((file) => {
-      this.uploadFile(file)
+      this.uploadFile(file, noOp, false)
     })
   },
 
