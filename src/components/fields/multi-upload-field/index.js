@@ -670,25 +670,28 @@ const MultiUploadField = React.createClass({
 
     return (
       <div>
-        <div className=''>
-          <FieldHeader
-            error={hasErrors}
-            hint={hint}
-            id={name}
-            label={label}
-          />
-        </div>
         <div className={styles.field}>
           {XHRErrorMessages && XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null}
           {invalidFiles && invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null}
           {previewFiles && previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null}
-          {uploadedFiles && uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null}
-          {hasErrors ? <FieldErrors errors={errors}/> : null}
+
           <Dropzone
             multiple={multiple}
             text={buttonText != null ? buttonText : label}
             onChange={this.onChange}
-          />
+            disableClick={true}
+          >
+          <div>
+            <FieldHeader
+              error={hasErrors}
+              hint={hint}
+              id={name}
+              label={label}
+            />
+          </div>
+          {uploadedFiles && uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null}
+          <span className={styles.dropzone__button}>{label}</span>
+        </Dropzone>
         </div>
       </div>
     )
