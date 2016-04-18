@@ -106,7 +106,13 @@ function uploadRequest (res, fileObject, token, showProgress) {
       .end((err, res) => {
         delete reqs[uid]
         if (err) reject(err)
-        resolve(res)
+
+        // append the `uploadURL` to the response
+        let response = Object.assign({}, res)
+        let data = JSON.parse(res.text)
+        data.uploadURL = url
+        response.text = JSON.stringify(data)
+        resolve(response)
       })
   })
 }

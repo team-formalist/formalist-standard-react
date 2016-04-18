@@ -111,6 +111,11 @@
   width: 100%;
 }
 
+.uploadeditem__title {
+  composes: listItem__title;
+  composes: highlightDarkColor from styles;
+}
+
 .validationMessages {}
 
 .validationMessage {

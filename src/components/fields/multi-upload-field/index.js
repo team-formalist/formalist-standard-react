@@ -29,15 +29,11 @@ import {previewIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp
 // const propFiles = [
 //   {
 //     name: 'boo.jpg',
-//     path: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/sagrada.jpg',
-//     geometry: '300x300',
-//     uid: 'sdsads_boo.jpg'
+//     path_to_original: 'http://attache.icelab.com.au/view/b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/original/sagrada.jpg'
 //  },
 //   {
 //     name: 'baz.jpg',
-//     path: '49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/sunglasses.jpg',
-//     geometry: '300x300',
-//     uid: 'sdsads_baz.jpg'
+//     path_to_original: 'http://attache.icelab.com.au/view/49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/original/sunglasses.jpg'
 //  }
 // ]
 
@@ -193,7 +189,7 @@ const MultiUploadField = React.createClass({
    */
 
   updateUploadedFiles (fileObject, response) {
-    const {path, geometry} = response
+    const {path, geometry, uploadURL} = response
 
     let previewFiles = this.state.previewFiles.filter((preview) => {
       return preview.name !== fileObject.name
@@ -211,6 +207,7 @@ const MultiUploadField = React.createClass({
       // same XHR response properties to file object
       fileObject.path = path
       fileObject.geometry = geometry
+      fileObject.uploadURL = uploadURL
       uploadedFiles.push(fileObject)
     }
 
@@ -352,6 +349,22 @@ const MultiUploadField = React.createClass({
   },
 
   /**
+   * onDrop
+   * When a sortable upload items is 'dropped' re-arrage `uploadedFiles` to
+   * match the same order and save to state
+   * @param  {Array} newOrder - an array of indexs returned from Sortable
+   */
+
+  onDrop (newOrder) {
+    const existingUploadedFiles = this.state.uploadedFiles.slice(0)
+    const uploadedFiles = sortArrayByOrder(existingUploadedFiles, newOrder)
+
+    this.setState({
+      uploadedFiles
+    })
+  },
+
+  /**
    * removeKeyFromState
    * Copy and array from state, and remove a key and return array
    * @param {string} array - a name for an array in state
@@ -361,7 +374,7 @@ const MultiUploadField = React.createClass({
 
   removeKeyFromState (array, key) {
     let arr = this.state[array].slice(0)
-    if (typeof(key) === "string") {
+    if (typeof (key) === 'string') {
       key = parseInt(key)
     }
     arr.splice(key, 1)
@@ -402,7 +415,7 @@ const MultiUploadField = React.createClass({
 
   removeInvalidFile (e) {
     e.preventDefault()
-    const key = e.target.getAttribute('data-key');
+    const key = e.target.getAttribute('data-key')
     const invalidFiles = this.removeKeyFromState('invalidFiles', key)
     this.setState({
       invalidFiles
@@ -418,7 +431,7 @@ const MultiUploadField = React.createClass({
 
   removePreviewFile (e) {
     e.preventDefault()
-    const key = e.target.getAttribute('data-key');
+    const key = e.target.getAttribute('data-key')
     const previewFiles = this.removeKeyFromState('previewFiles', key)
     this.setState({
       previewFiles
@@ -434,7 +447,7 @@ const MultiUploadField = React.createClass({
 
   removeXHRErrorMessage (e) {
     e.preventDefault()
-    const key = e.target.getAttribute('data-key');
+    const key = e.target.getAttribute('data-key')
     const XHRErrorMessages = this.removeKeyFromState('XHRErrorMessages', key)
     this.setState({
       XHRErrorMessages
@@ -583,17 +596,20 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * buildThumbnailPreview
-   * Take a path and split it before the file name.
-   * Insert a preview dimension and return
+   * buildFilePath
+   * Take a url, path and and optional size (defaults to 'original')
+   * Split the path before it's file name.
+   * Replace 'upload' with 'view' in the url amd return the string
+   * @param {string} url
    * @param {string} path
+   * @param {string} dimension: 'original', '50x', '100x100', '400x100', etc
    * @return {string}
    */
 
-  buildThumbnailPreview (path) {
+  buildFilePath (url, path, dimension = 'original') {
     const pattern = /([^/]*)$/
     const splitPath = path.split(pattern)
-    return 'http://attache.icelab.com.au/view/' + splitPath[0] + '50x/' + splitPath[1]
+    return url.replace('/upload', '/view') + '/' + splitPath[0] + dimension + '/' + splitPath[1]
   },
 
   /**
@@ -605,34 +621,18 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const {uid, path, name, thumbnail_url} = fileObject
-    const thumbnailURL = thumbnail_url != null ? thumbnail_url : this.buildThumbnailPreview(path)
+    const {path, name, uploadURL, path_to_original} = fileObject
+    const pathToOriginal = path_to_original != null
+      ? path_to_original
+      : this.buildFilePath(uploadURL, path)
+
     return (
       <div className={styles.listItem} key={idx}>
         <div className={styles.listItem__body}>
-          <div className={styles.listItem__img}>
-            <img src={thumbnailURL} alt={name}/>
-          </div>
-          <span className={styles.listItem__title}>{name}</span>
+          <a target='_blank' href={pathToOriginal} className={styles.uploadeditem__title}>{name}</a>
         </div>
       </div>
     )
-  },
-
-  /**
-   * onDrop
-   * When a sortable upload items is 'dropped' re-arrage `uploadedFiles` to
-   * match the same order and save to state
-   * @param  {Array} newOrder - an array of indexs returned from Sortable
-   */
-
-  onDrop (newOrder) {
-    const existingUploadedFiles = this.state.uploadedFiles.slice(0)
-    const uploadedFiles = sortArrayByOrder(existingUploadedFiles, newOrder)
-
-    this.setState({
-      uploadedFiles
-    })
   },
 
   /**
