@@ -68,7 +68,6 @@ const MultiUploadField = React.createClass({
     name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
     token: React.PropTypes.string,
-    value: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     uploadedFiles: React.PropTypes.array,
     fileTypeRegex: React.PropTypes.node,
