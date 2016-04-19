@@ -557,14 +557,10 @@ const MultiUploadField = React.createClass({
 
     return (
       <div className={styles.listItem} key={i}>
-        <div className={styles.listItem__body}>
-          <div className={styles.listItem__img}>
-            {previewIsImage(name) ? <img src={preview} alt={name}/> : null}
-          </div>
-          <div className={styles.listItem__title}>
-            Uploading: {name}
-          </div>
+        <div className={styles.listItem__img}>
+          {previewIsImage(name) ? <img src={preview} alt={name}/> : null}
         </div>
+
         <button className={styles.remove}>
           <span className={styles.removeText}>Remove</span>
           <div
@@ -573,9 +569,18 @@ const MultiUploadField = React.createClass({
             data-key={i}
             data-uid={uid}>×</div>
         </button>
+
         <span
           className={styles.progress_bar}
-          style={inlineStyleWidth}></span>
+          style={inlineStyleWidth}>
+          <div className={styles.progress__title}>
+            Uploading: {name}
+          </div>
+        </span>
+
+        <div className={styles.listItem__title}>
+          Uploading: {name}
+        </div>
       </div>
     )
   },

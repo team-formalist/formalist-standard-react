@@ -1,4 +1,8 @@
 @value styles: 'formalist-theme/theme/index.mcss';
+@value highlight: highlight from styles;
+@value highlightLight: highlightLight from styles;
+@value highlightDark: highlightDark from styles;
+@value greyTint: greyTint from styles;
 
 .base {
   composes: base from '../shared.mcss';
@@ -39,30 +43,14 @@
   line-height: 1.5;
 }
 
-.progress {
-  color: #fff;
-}
-
-.progress_bar {
-  background: #50c5e9;
-  display: inline-block;
-  left: 0;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  z-index: 0;
-  transition: width 1s ease-in-out;
-}
-
 .percentage {
   float: right;
 }
 
 .previewItems {
-  background: #e6e6e6;
-  margin-bottom: 5px;
+  background: greyTint;
   color: #fff;
+  margin-bottom: 5px;
 }
 
 .uploadedItems {
@@ -72,18 +60,13 @@
 }
 
 .listItem {
-  composes: sans large lineHeightNormal from styles;
+  composes: greyLightColor from styles;
+  composes: small sans from styles;
   border-top: 1px solid #fff;
   box-sizing: border-box;
-  display: table;
   padding: 5px;
+  position: relative;
   width: 100%;
-  position: relative;
-}
-
-.listItem__body {
-  position: relative;
-  z-index: 1;
 }
 
 .listItem__img {
@@ -101,29 +84,54 @@
   margin-right: 20px;
   padding: 2px;
   width: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .listItem__title {
-  box-sizing: border-box;
-  display: table-cell;
-  margin-top: -2px;
+  composes: lineHeightNormal from styles;
+  position: absolute;
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+  white-space: nowrap;
   overflow: hidden;
-  text-align: left;
-  vertical-align: middle;
-  width: 100%;
 }
 
 .uploadeditem__title {
   composes: listItem__title;
   composes: highlightDarkColor from styles;
+  left: 0;
+}
+
+.progress {
+  color: #fff;
+}
+
+.progress_bar {
+  background: highlight;
+  bottom: 0;
+  display: inline-block;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transition: width 1s ease-in-out;
+  width: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.progress__title {
+  composes: listItem__title;
+  color: #fff;
 }
 
 .validationMessages {}
 
 .validationMessage {
   composes: errorColor errorLightBackground from styles;
-  padding: 8px 30px 8px 8px;
   margin-bottom: 5px;
+  padding: 8px 30px 8px 8px;
   position: relative;
   z-index: 1;
 }
@@ -135,12 +143,12 @@
   border: none;
   cursor: pointer;
   padding: 1rem;
-  transition-property: color;
-  transition-duration: 100ms;
   position: absolute;
   right: 10px;
-  transform: translateY(-50%);
   top: 50%;
+  transform: translateY(-50%);
+  transition-duration: 100ms;
+  transition-property: color;
   z-index: 2;
 }
 

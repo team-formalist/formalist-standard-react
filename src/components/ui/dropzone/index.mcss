@@ -6,6 +6,7 @@
 
 .dropzone {
   composes: greyLightColor from styles;
+  composes: small sans from styles;
   cursor: pointer;
   min-height: 66px;
   position: relative;
@@ -18,8 +19,8 @@
   border: 1px dashed greyLight;
   bottom: 0;
   box-sizing: border-box;
-  display: block;
   content: "";
+  display: block;
   left: 0;
   position: absolute;
   top: 0;
