@@ -67,6 +67,8 @@
 
 .uploadedItems {
   composes: greyMidColor greyTintBackground from styles;
+  position: relative;
+  z-index: 5;
 }
 
 .listItem {
