@@ -1,17 +1,26 @@
 @value styles: 'formalist-theme/theme/index.mcss';
+@value highlight: highlight from styles;
+@value highlightLight: highlightLight from styles;
+@value highlightDark: highlightDark from styles;
 
 .dropzone {
+  composes: greyLightBorder greyLightColor from styles;
+  border-style: dashed;
+  border-width: 1px;
+  box-sizing: border-box;
   cursor: pointer;
-  position: relative;
   min-height: 66px;
-  width: 100%;
-  border: 1px dashed #e6e6e6;
   position: relative;
+  position: relative;
+  width: 100%;
   z-index: 1;
 }
 
+.dropzone:hover,
 .dropzone__highlight {
-  border-color: #666
+  background: highlightLight;
+  border-color: highlight;
+  border-width: 2px;
 }
 
 .dropzone__button {
@@ -30,6 +39,7 @@
   z-index: 0;
 }
 
+.dropzone:hover .dropzone__label,
 .dropzone__highlight .dropzone__label {
-  color: #666;
+  color: highlight;
 }
