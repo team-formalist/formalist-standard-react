@@ -552,7 +552,7 @@ const MultiUploadField = React.createClass({
     const {preview} = file
 
     let inlineStyleWidth = {
-      width: progress ? (progress + '%') : '0%'
+      width: progress > 0 ? (progress + '%') : '0%'
     }
 
     return (
