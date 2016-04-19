@@ -9,21 +9,29 @@ const props = {
   hint: 'foo',
   label: 'bar',
   name: 'baz',
-  errors: {
-    count: () => { return 0 }
+  attributes: {
+    inline: true
   }
 }
 
 test('File Upload:', (nest) => {
   nest.test('...is a valid component', (t) => {
     const component = shallowRenderComponent(Input, props)
-    t.ok(React.isValidElement(component), 'component is valid')
+    const actual = React.isValidElement(component)
+    t.ok(actual, 'component is valid')
     t.end()
   })
 
-  nest.test('...has children', (t) => {
+  nest.test('...children has children', (t) => {
+    // <FieldHeader/>
+    // null (XHRErrorMessages)
+    // null (invalidFiles)
+    // null (previewFiles)
+    // <Dropzone/>
     const component = shallowRenderComponent(Input, props)
-    t.equal(component.props.children.length, 2)
+    const actual = component.props.children.props.children.length
+    const expected = 5
+    t.equal(actual, expected)
     t.end()
   })
 })
