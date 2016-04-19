@@ -16,10 +16,14 @@ export default React.createClass({
    */
 
   propTypes: {
-    text: React.PropTypes.string,
+    buttonText: React.PropTypes.string,
+    dropzoneLabel: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     renderPreview: React.PropTypes.bool,
-    multiple: React.PropTypes.bool
+    multiple: React.PropTypes.bool,
+    children: React.PropTypes.node,
+    disableClick: React.PropTypes.bool,
+    hideDropZoneBtn: React.PropTypes.bool
   },
 
   getDefaultProps () {
@@ -40,11 +44,11 @@ export default React.createClass({
   },
 
   /**
-   * onDragEnter
+   * onDragOver
    * Set `highlight` to true
    */
 
-  onDragEnter (e) {
+  onDragOver (e) {
     e.preventDefault()
     this.setState({
       highlight: true
@@ -69,8 +73,9 @@ export default React.createClass({
    */
 
   componentDidMount () {
-    document.addEventListener('dragenter', this.onDragEnter)
+    document.addEventListener('dragover', this.onDragOver)
     document.addEventListener('dragleave', this.onDragLeave)
+    document.addEventListener('drop', this.onDragLeave)
   },
 
   /**
@@ -88,14 +93,22 @@ export default React.createClass({
     })
   },
 
-  onOpenClick (e) {
+  /**
+   * onClick
+   * Open the dropzone
+   * @param  {event} e
+   */
+
+  onClick (e) {
     e.preventDefault()
-    this.refs.dropzone.open();
+    this.refs.dropzone.open()
   },
 
   /**
    * renderPreview
-   * Optinally render a preview for any files
+   * Optionally render a preview for any files
+   * NOTE: this is mostly handled by the 'onChange' function
+   * passed in and triggered  in 'onDrop'
    * @param  {Array} files
    * @return {vnode}
    */
@@ -110,22 +123,47 @@ export default React.createClass({
   },
 
   /**
+   * renderDropzoneLabel
+   * Render a label for the dropzone
+   * @param  {string} label
+   * @return {vnode}
+   */
+
+  renderDropzoneLabel (label) {
+    return (
+      <span className={styles.dropzone__label}>
+        {label != null
+          ? label
+          : 'Drop image to upload'}
+      </span>
+    )
+  },
+
+  /**
+   * renderButton
+   * Render a button for the dropzone field
+   * @param  {string} buttonText
+   * @return {vnode}
+   */
+
+  renderButton (buttonText) {
+    return (
+      <button onClick={this.onClick} className={styles.dropzone__button}>
+        {buttonText != null
+          ? buttonText
+          : 'Upload an image'}
+      </button>
+    )
+  },
+
+  /**
    * render
    * @return {vnode}
    */
 
   render () {
     const {files, highlight} = this.state
-    const {text, renderPreview, multiple, children, disableClick, hideDropZoneBtn} = this.props
-
-    let label
-    if (multiple && !text) {
-      label = 'Drop/Upload Files'
-    } else if (!multiple && !text) {
-      label = 'Drop/Upload File'
-    } else {
-      label = text
-    }
+    const {buttonText, dropzoneLabel, renderPreview, multiple, children, disableClick, hideDropZoneBtn} = this.props
 
     let dropZoneClassNames = classNames(
       'js-dropzone',
@@ -138,9 +176,11 @@ export default React.createClass({
     return (
       <div>
         <div className='dropzone__container'>
-          {!hideDropZoneBtn ? <button onClick={this.onOpenClick}>Click me</button>: null}
+          {!hideDropZoneBtn
+            ? this.renderButton(buttonText)
+            : null}
           <Dropzone
-            disableClick={ disableClick }
+            disableClick={disableClick}
             activeClassName={styles.dropzone__active}
             className={dropZoneClassNames}
             multiple={multiple}
@@ -149,6 +189,7 @@ export default React.createClass({
             style={{}}
           >
             {children}
+            {this.renderDropzoneLabel(dropzoneLabel)}
           </Dropzone>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}

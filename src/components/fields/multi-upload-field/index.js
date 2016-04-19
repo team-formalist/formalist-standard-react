@@ -1,9 +1,9 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
+import classNames from 'classnames'
 
 // Import components
-import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
@@ -659,8 +659,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {errors, hint, label, name, multiple, buttonText} = this.props
-    const hasErrors = errors.count() > 0
+    const {attributes, hint, label, name, multiple} = this.props
     const {
       XHRErrorMessages,
       uploadedFiles,
@@ -668,30 +667,42 @@ const MultiUploadField = React.createClass({
       previewFiles
     } = this.state
 
+    // Set up field classes
+    let fieldClassNames = classNames(
+      styles.base,
+      {
+        [`${styles.baseInline}`]: attributes.inline
+      }
+    )
+
     return (
-      <div>
+      <div className={fieldClassNames}>
         <div className={styles.field}>
-          {XHRErrorMessages && XHRErrorMessages.length > 0 ? this.renderXHRErrorMessages(XHRErrorMessages) : null}
-          {invalidFiles && invalidFiles.length > 0 ? this.renderInvalidFiles(invalidFiles) : null}
-          {previewFiles && previewFiles.length > 0 ? this.renderPreviewItems(previewFiles) : null}
+
+          <div>
+            <FieldHeader hint={hint} id={name} label={label}/>
+          </div>
+
+          {XHRErrorMessages && XHRErrorMessages.length > 0
+            ? this.renderXHRErrorMessages(XHRErrorMessages)
+            : null}
+
+          {invalidFiles && invalidFiles.length > 0
+            ? this.renderInvalidFiles(invalidFiles)
+            : null}
+
+          {previewFiles && previewFiles.length > 0
+            ? this.renderPreviewItems(previewFiles)
+            : null}
 
           <Dropzone
             multiple={multiple}
-            text={buttonText != null ? buttonText : label}
             onChange={this.onChange}
-            disableClick={true}
-          >
-          <div>
-            <FieldHeader
-              error={hasErrors}
-              hint={hint}
-              id={name}
-              label={label}
-            />
-          </div>
-          {uploadedFiles && uploadedFiles.length > 0 ? this.renderUploadedFiles(uploadedFiles) : null}
-          <span className={styles.dropzone__button}>{label}</span>
-        </Dropzone>
+            disableClick={uploadedFiles.length > 0}>
+            {uploadedFiles.length > 0
+              ? this.renderUploadedFiles(uploadedFiles)
+              : null}
+          </Dropzone>
         </div>
       </div>
     )

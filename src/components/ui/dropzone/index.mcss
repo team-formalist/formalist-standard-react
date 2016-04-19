@@ -3,46 +3,33 @@
 .dropzone {
   cursor: pointer;
   position: relative;
-  height: 70px;
+  min-height: 66px;
   width: 100%;
-}
-
-@keyframes pulse {
-  from {
-    transform: scale3d(1, 1, 1);
-  }
-  to {
-    transform: scale3d(1.05, 1.05, 1.05);
-  }
-}
-
-.dropzone__active:before {
-  animation: pulse 0.2s ease-in-out forwards;
-  border: 2px dashed #e6e6e6;
-  bottom: 1px;
-  box-sizing: border-box;
-  content: "";
-  display: block;
-  left: 1px;
-  position: absolute;
-  right: 1px;
-  top: 1px;
-}
-
-.dropzone__button {
-  background: #7fc2ea;
-  border-radius: 3px;
-  box-sizing: border-box;
-  color: #fff;
-  composes: sans normal lineHeightNormal from styles;
-  display: inline-block;
-  left: 50%;
-  padding: 9px;
-  position: absolute;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  border: 1px dashed #e6e6e6;
+  position: relative;
+  z-index: 1;
 }
 
 .dropzone__highlight {
-  background: #336699;
+  border-color: #666
+}
+
+.dropzone__button {
+  composes: small buttonHighlight from '../../ui/buttons.mcss';
+  position: absolute;
+  right: 0;
+  top: -10px;
+}
+
+.dropzone__label {
+  composes: greyLightColor from styles;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
+}
+
+.dropzone__highlight .dropzone__label {
+  color: #666;
 }
