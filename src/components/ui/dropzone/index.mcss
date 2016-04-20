@@ -59,3 +59,12 @@
 .dropzone__highlight .dropzone__label {
   color: highlight;
 }
+
+.dropzone__disable_hover:before,
+.dropzone__disable_hover:hover:before{
+  border-color: transparent;
+}
+
+.dropzone__disable_hover.dropzone__highlight:before {
+  border-color: highlight;
+}

@@ -166,9 +166,9 @@ export default React.createClass({
     const {buttonText, dropzoneLabel, renderPreview, multiple, children, disableClick, hideDropZoneBtn} = this.props
 
     let dropZoneClassNames = classNames(
-      'js-dropzone',
       styles.dropzone,
       {
+        [`${styles.dropzone__disable_hover}`]: children,
         [`${styles.dropzone__highlight}`]: highlight
       }
     )
