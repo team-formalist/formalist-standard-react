@@ -7,10 +7,11 @@ import HiddenField from './hidden-field'
 import MultiSelectionField from './multi-selection-field'
 import NumberField from './number-field'
 import RadioButtons from './radio-buttons'
+import RichTextArea from './rich-text-area'
 import SelectBox from './select-box'
 import SelectionField from './selection-field'
-import TextField from './text-field'
 import TextArea from './text-area'
+import TextField from './text-field'
 
 /**
  * Wrap a React class in with the common Container class
@@ -39,6 +40,7 @@ function fields (config = {}) {
     hiddenField: wrapField(HiddenField, config.hiddenField),
     multiSelectionField: wrapField(MultiSelectionField, config.multiSelectionField),
     numberField: wrapField(NumberField, config.numberField),
+    richTextArea: wrapField(RichTextArea, config.richTextArea),
     radioButtons: wrapField(RadioButtons, config.radioButtons),
     selectBox: wrapField(SelectBox, config.selectBox),
     selectionField: wrapField(SelectionField, config.selectionField),
