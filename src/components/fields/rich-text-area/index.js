@@ -45,10 +45,10 @@ const RichTextArea = React.createClass({
    * @param  {EditorState} editorState State from the editor
    */
   onChange (editorState) {
-    console.log('!!! ONCHANGE');
-    console.log('raw', convertToRaw(
-      editorState.getCurrentContent()
-    ))
+    // console.log('!!! ONCHANGE');
+    // console.log('raw', convertToRaw(
+    //   editorState.getCurrentContent()
+    // ))
     // console.log('plain', editorState.getCurrentContent().getPlainText())
     this.setState({
       editorState
