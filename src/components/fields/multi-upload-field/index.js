@@ -183,7 +183,7 @@ const MultiUploadField = React.createClass({
   /**
    * updateUploadedFiles
    * Take a `file`.
-   * Iterate previewFiles aand returna ll files that are not `file`
+   * Iterate previewFiles and return all files that are not `file`
    * Push `file` into uploadedFiles and save the state
    * @param {object} a file object
    */
@@ -215,6 +215,19 @@ const MultiUploadField = React.createClass({
       uploadedFiles,
       previewFiles
     })
+
+    // Format data for persisting _upstream_
+    this.props.actions.edit(
+      (val) => {
+        return uploadedFiles.map((file) => {
+          return {
+            name: file.name,
+            path: file.path,
+            geometry: file.geometry,
+          }
+        })
+      }
+    )
   },
 
   /**
