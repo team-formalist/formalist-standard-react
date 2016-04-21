@@ -14,30 +14,6 @@ import Sortable from '../../ui/sortable'
 import {filenameIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp} from './utils'
 
 /**
- * EXAMPLE PROP FILES
- * An example of previously uploaded files being passed in via props
- * Note: geometry is not being used as yet, but is saved to all
- * file objects created after a successful upload
- *
- * WHY?!
- * We need to give each file a unique id. Instead of jamming it
- * into the actual file object itself, we create a wrapping object
- * with all the specific properties we need - it prevents touching the
- * file itself too
- */
-
-// const propFiles = [
-//   {
-//     name: 'boo.jpg',
-//     original_url: 'http://attache.icelab.com.au/view/b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/original/sagrada.jpg'
-//  },
-//   {
-//     name: 'baz.jpg',
-//     original_url: 'http://attache.icelab.com.au/view/49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/original/sunglasses.jpg'
-//  }
-// ]
-
-/**
  * MultiUploadField
  */
 
@@ -71,6 +47,17 @@ const MultiUploadField = React.createClass({
     maxFileSize: React.PropTypes.number,
     maxFileSizeMessage: React.PropTypes.string,
     buttonText: React.PropTypes.string
+  },
+
+  /**
+   * getDefaultProps
+   * set 'multiple' as true by default
+   */
+
+  getDefaultProps () {
+    return {
+      multiple: true
+    }
   },
 
   /**
@@ -208,6 +195,7 @@ const MultiUploadField = React.createClass({
       fileObject.path = path
       fileObject.geometry = geometry
       fileObject.uploadURL = uploadURL
+      fileObject.original_url = this.buildFilePath(uploadURL, path)
       uploadedFiles.push(fileObject)
     }
 
@@ -296,6 +284,9 @@ const MultiUploadField = React.createClass({
 
   onChange (files) {
     if (!files.length) return
+
+    const { multiple } = this.props
+    if (!multiple && this.state.uploadedFiles.length) return
 
     let status
     let validFiles = []
