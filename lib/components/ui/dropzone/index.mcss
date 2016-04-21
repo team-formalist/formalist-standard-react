@@ -4,6 +4,9 @@
 @value highlightDark: highlightDark from styles;
 @value greyLight: greyLight from styles;
 @value greyTint: greyTint from styles;
+@value greyLight: greyLight from styles;
+@value greyMid: greyMid from styles;
+
 
 .dropzone {
   composes: greyLightColor from styles;
@@ -13,6 +16,7 @@
   position: relative;
   width: 100%;
   z-index: 0;
+  transition: background-color 0.3s;
 }
 
 .dropzone:before {
@@ -28,11 +32,12 @@
   top: 0;
   width: 100%;
   z-index: 0;
+  transition: border-color 0.3s;
 }
 
 .dropzone:hover,
 .dropzone__highlight {
-  background: highlightLight;
+  background-color: highlightLight;
 }
 
 .dropzone:hover:before,
@@ -53,6 +58,7 @@
   position: absolute;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
+  transition: color 0.3s;
   z-index: 10;
 }
 
@@ -72,4 +78,17 @@
   right: -2px;
   bottom: -2px;
   left: -2px;
+}
+
+.dropzone__active {
+  background-color: greyLight;
+}
+
+.dropzone__active:before {
+  border-color: greyMid;
+}
+
+.dropzone__active .dropzone__label,
+.dropzone__active:hover .dropzone__label {
+  color: greyMid;
 }
