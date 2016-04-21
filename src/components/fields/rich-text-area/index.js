@@ -1,7 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
-import {convertToRaw, EditorState} from 'draft-js'
+import {convertToRaw, EditorState, RichUtils} from 'draft-js'
 
 // Import components
 import FieldErrors from '../common/errors'
@@ -10,6 +10,9 @@ import FieldHeader from '../common/header'
 // Import styles
 import styles from './rich-text-area.mcss'
 import RichTextEditor from '../../ui/rich-text-editor'
+
+// HTML
+import htmlExport from './tmp/htmlExport'
 
 /**
  * Text Area field
@@ -33,6 +36,10 @@ const RichTextArea = React.createClass({
     value: React.PropTypes.string
   },
 
+  componentWillMount () {
+    this.exporter = htmlExport()
+  },
+
   getInitialState () {
     return {
       editorState: EditorState.createEmpty()
@@ -50,9 +57,20 @@ const RichTextArea = React.createClass({
     //   editorState.getCurrentContent()
     // ))
     // console.log('plain', editorState.getCurrentContent().getPlainText())
+    const exportedData = this.exporter(editorState)
+
     this.setState({
-      editorState
+      editorState,
+      exportedData,
     })
+  },
+
+  onBoldClick (e) {
+    e.preventDefault()
+    const {editorState} = this.state
+    this.onChange(
+      RichUtils.toggleInlineStyle(editorState, 'BOLD')
+    )
   },
 
   render () {
@@ -79,7 +97,11 @@ const RichTextArea = React.createClass({
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         </div>
         <div className={styles.display}>
+          <button onClick={this.onBoldClick}>Bold</button>
           <RichTextEditor editorState={editorState} onChange={this.onChange}/>
+          <pre>
+            {(this.state.exportedData) ? this.state.exportedData.html : null}
+          </pre>
           {(hasErrors) ? <FieldErrors errors={errors}/> : null}
         </div>
       </div>
