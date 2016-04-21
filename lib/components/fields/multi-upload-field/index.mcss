@@ -62,17 +62,10 @@
 .listItem {
   composes: greyLightColor from styles;
   composes: small sans from styles;
-  border-top: 1px solid #fff;
   box-sizing: border-box;
-  padding: 5px;
+  margin-bottom: 1px;
   position: relative;
   width: 100%;
-}
-
-.listItem__img {
-  display: table-cell;
-  margin-top: -2px;
-  position: relative;
 }
 
 .listItem__img img {
@@ -90,29 +83,31 @@
 
 .listItem__title {
   composes: lineHeightNormal from styles;
-  position: absolute;
-  top: 50%;
-  left: 80px;
-  transform: translateY(-50%);
-  white-space: nowrap;
   overflow: hidden;
+  white-space: nowrap;
+  line-height: 40px;
 }
 
-.uploadeditem__title {
+.listItem__title a {
+  color: highlight;
+}
+
+.progress__title {
   composes: listItem__title;
-  composes: highlightDarkColor from styles;
-  left: 0;
+  color: #fff;
 }
 
-.progress {
-  color: #fff;
+.previewItem {
+  composes: listItem;
+  padding: 5px;
 }
 
 .progress_bar {
   background: highlight;
   bottom: 0;
-  display: inline-block;
   left: 0;
+  padding: 5px;
+  box-sizing: border-box;
   position: absolute;
   top: 0;
   transition: width 1s ease-in-out;
@@ -121,15 +116,10 @@
   overflow: hidden;
 }
 
-.progress__title {
-  composes: listItem__title;
-  color: #fff;
-}
-
 .validationMessages {}
 
 .validationMessage {
-  composes: errorColor errorLightBackground from styles;
+  composes: sans normal errorColor errorLightBackground from styles;
   margin-bottom: 5px;
   padding: 8px 30px 8px 8px;
   position: relative;
@@ -167,4 +157,36 @@
 
 .removeX:hover {
   color: error;
+}
+
+.align_middle {
+  display: table-cell;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+.align_middle__content {
+  display: table-cell;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+/**
+ * Fade in animation
+ * Used for stops and copy
+ */
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade_in {
+  opacity: 0;
+  animation-name: fadeIn;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }

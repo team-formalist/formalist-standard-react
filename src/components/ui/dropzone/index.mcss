@@ -18,14 +18,15 @@
 .dropzone:before {
   background: none;
   border: 2px dashed greyTint;
-  bottom: -2px;
+  bottom: 0;
   box-sizing: border-box;
   content: "";
   display: block;
-  left: -2px;
-  right: -2px;
+  left: 0;
+  right: 0;
   position: absolute;
-  top: -2px;
+  top: 0;
+  width: 100%;
   z-index: 0;
 }
 
@@ -67,4 +68,8 @@
 
 .dropzone__disable_hover.dropzone__highlight:before {
   border-color: highlight;
+  top: -2px;
+  right: -2px;
+  bottom: -2px;
+  left: -2px;
 }

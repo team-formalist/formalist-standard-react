@@ -1,14 +1,14 @@
 import uid from 'uid'
 
 /**
- * previewIsImage
+ * filenameIsImage
  * return a bool if the name contains a file type in the pattern
  * @param  {string} name
  * @return {bool}
  */
 
-function previewIsImage (name) {
-  return (/.(jpg|jpeg|gif|png|bmp|svg)$/).test(name)
+function filenameIsImage (filename) {
+  return (/.(jpg|jpeg|gif|png|bmp|svg)$/).test(filename)
 }
 
 /**
@@ -65,7 +65,7 @@ function generateUniqueID (file_name) {
 const noOp = (_) => {}
 
 export {
-  previewIsImage,
+  filenameIsImage,
   sortArrayByOrder,
   containsObject,
   generateUniqueID,

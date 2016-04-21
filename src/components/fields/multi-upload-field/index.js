@@ -11,7 +11,7 @@ import {upload, preSign} from './upload.js'
 import bus from './bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
-import {previewIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp} from './utils'
+import {filenameIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp} from './utils'
 
 /**
  * EXAMPLE PROP FILES
@@ -29,11 +29,11 @@ import {previewIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp
 // const propFiles = [
 //   {
 //     name: 'boo.jpg',
-//     path_to_original: 'http://attache.icelab.com.au/view/b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/original/sagrada.jpg'
+//     original_url: 'http://attache.icelab.com.au/view/b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/original/sagrada.jpg'
 //  },
 //   {
 //     name: 'baz.jpg',
-//     path_to_original: 'http://attache.icelab.com.au/view/49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/original/sunglasses.jpg'
+//     original_url: 'http://attache.icelab.com.au/view/49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/original/sunglasses.jpg'
 //  }
 // ]
 
@@ -212,8 +212,8 @@ const MultiUploadField = React.createClass({
     }
 
     this.setState({
-      previewFiles,
-      uploadedFiles
+      uploadedFiles,
+      previewFiles
     })
   },
 
@@ -540,26 +540,65 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * renderPreviewItem
-   * Take a file object and an index value
-   * @param {object} an object containing {file, name, uid, progress}
-   * @param {number} i
-   * @return {vnode}
+   * [renderThumbnail description]
+   * @param  {[type]} thumbnail_url [description]
+   * @param  {[type]} name          [description]
+   * @param  {[type]} uploadURL     [description]
+   * @param  {[type]} path          [description]
+   * @return {[type]}               [description]
    */
+
+  renderThumbnail (url, name, uploadURL, path) {
+    return (
+      <img src={url || this.buildFilePath(uploadURL, path, '50x')} alt={name}/>
+    )
+  },
+
+  /**
+   * [renderPreviewDetails description]
+   * @param  {[type]} name           [description]
+   * @param  {[type]} thumbnailImage [description]
+   * @return {[type]}                [description]
+   */
+
+  renderPreviewDetails (name, thumbnailImage, isProgressTitle = false) {
+    const titleClassNames = classNames(
+      {
+        [`${styles.listItem__title}`]: !isProgressTitle,
+        [`${styles.progress__title}`]: isProgressTitle
+      }
+    )
+
+    return (
+      <div className={styles.align_middle}>
+        <div className={styles.align_middle__content}>
+          <div className={styles.listItem__img}>
+            {thumbnailImage}
+          </div>
+        </div>
+        <div className={styles.align_middle__content}>
+          <div className={titleClassNames}>
+            Uploading: {name}
+          </div>
+        </div>
+      </div>
+    )
+  },
 
   renderPreviewItem (fileObject, i) {
     const {progress, file, uid, name} = fileObject
     const {preview} = file
+    const hasThumbnail = filenameIsImage(name)
+    const thumbnailImage = hasThumbnail
+      ? this.renderThumbnail(preview, name)
+      : null
 
-    let inlineStyleWidth = {
+    let currentProgress = {
       width: progress > 0 ? (progress + '%') : '0%'
     }
 
     return (
-      <div className={styles.listItem} key={i}>
-        <div className={styles.listItem__img}>
-          {previewIsImage(name) ? <img src={preview} alt={name}/> : null}
-        </div>
+      <div className={styles.previewItem} key={i}>
 
         <button className={styles.remove}>
           <span className={styles.removeText}>Remove</span>
@@ -572,15 +611,11 @@ const MultiUploadField = React.createClass({
 
         <span
           className={styles.progress_bar}
-          style={inlineStyleWidth}>
-          <div className={styles.progress__title}>
-            Uploading: {name}
-          </div>
+          style={currentProgress}>
+          {this.renderPreviewDetails(name, thumbnailImage, true)}
         </span>
 
-        <div className={styles.listItem__title}>
-          Uploading: {name}
-        </div>
+        {this.renderPreviewDetails(name, thumbnailImage)}
       </div>
     )
   },
@@ -626,15 +661,36 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const {path, name, uploadURL, path_to_original} = fileObject
-    const pathToOriginal = path_to_original != null
-      ? path_to_original
+    const {path, name, uploadURL, original_url, thumbnail_url} = fileObject
+    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(name)
+    const thumbnailImage = hasThumbnail
+      ? this.renderThumbnail(thumbnail_url, name, uploadURL, path)
+      : null
+
+    const pathToOriginal = original_url != null
+      ? original_url
       : this.buildFilePath(uploadURL, path)
+
+    const bodyClassNames = classNames(
+      styles.listItem__body,
+      styles.fade_in
+    )
 
     return (
       <div className={styles.listItem} key={idx}>
-        <div className={styles.listItem__body}>
-          <a target='_blank' href={pathToOriginal} className={styles.uploadeditem__title}>{name}</a>
+        <div className={bodyClassNames}>
+          <div className={styles.align_middle}>
+            <div className={styles.align_middle__content}>
+              <div className={styles.listItem__img}>
+                {thumbnailImage}
+              </div>
+            </div>
+            <div className={styles.align_middle__content}>
+              <div className={styles.listItem__title}>
+                <a target='_blank' href={pathToOriginal}>{name}</a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
