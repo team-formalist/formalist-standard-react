@@ -2,7 +2,7 @@ import React from 'react'
 import Editor from 'draft-js-plugins-editor'
 
 // Plugins
-import autoList from '../rte-auto-list'
+import autoListPlugin from 'draft-js-autolist-plugin'
 import './tmp.css'
 
 const RichTextEditor = React.createClass({
@@ -14,7 +14,7 @@ const RichTextEditor = React.createClass({
 
     return {
       plugins: [
-        autoList({editorState})
+        autoListPlugin()
       ]
     }
   },
