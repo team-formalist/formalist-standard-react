@@ -12,6 +12,8 @@ import SelectionField from './selection-field'
 import TextField from './text-field'
 import TextArea from './text-area'
 import MultiUploadField from './multi-upload-field'
+import UploadField from './upload-field'
+
 
 /**
  * Wrap a React class in with the common Container class
@@ -45,7 +47,8 @@ function fields (config = {}) {
     selectionField: wrapField(SelectionField, config.selectionField),
     textArea: wrapField(TextArea, config.textArea),
     textField: wrapField(TextField, config.textField),
-    multiUploadField: wrapField(MultiUploadField, config.multiUploadField)
+    multiUploadField: wrapField(MultiUploadField, config.multiUploadField),
+    uploadField: wrapField(UploadField, config.uploadField)
   }
 }
 
