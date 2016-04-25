@@ -195,7 +195,7 @@ const MultiUploadField = React.createClass({
       fileObject.path = path
       fileObject.geometry = geometry
       fileObject.uploadURL = uploadURL
-      fileObject.original_url = this.buildFilePath(uploadURL, path)
+      fileObject.original_url = this.buildPath(uploadURL, path)
       uploadedFiles.push(fileObject)
     }
 
@@ -554,7 +554,7 @@ const MultiUploadField = React.createClass({
 
   renderThumbnail (url, name, uploadURL, path) {
     return (
-      <img src={url || this.buildFilePath(uploadURL, path, '50x')} alt={name}/>
+      <img src={url || this.buildPath(uploadURL, path, '50x')} alt={name}/>
     )
   },
 
@@ -640,7 +640,7 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * buildFilePath
+   * buildPath
    * Take a url, path and and optional size (defaults to 'original')
    * Split the path before it's file name.
    * Replace 'upload' with 'view' in the url amd return the string
@@ -650,7 +650,7 @@ const MultiUploadField = React.createClass({
    * @return {string}
    */
 
-  buildFilePath (url, path, dimension = 'original') {
+  buildPath (url, path, dimension = 'original') {
     const pattern = /([^/]*)$/
     const splitPath = path.split(pattern)
     return url.replace('/upload', '/view') + '/' + splitPath[0] + dimension + '/' + splitPath[1]
@@ -671,10 +671,6 @@ const MultiUploadField = React.createClass({
       ? this.renderThumbnail(thumbnail_url, name, uploadURL, path)
       : null
 
-    const pathToOriginal = original_url != null
-      ? original_url
-      : this.buildFilePath(uploadURL, path)
-
     const bodyClassNames = classNames(
       styles.listItem__body,
       styles.fade_in
@@ -691,7 +687,7 @@ const MultiUploadField = React.createClass({
             </div>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__title}>
-                <a target='_blank' href={pathToOriginal}>{name}</a>
+                <a target='_blank' href={original_url}>{name}</a>
               </div>
             </div>
           </div>
