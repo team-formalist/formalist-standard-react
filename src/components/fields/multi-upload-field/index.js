@@ -2,12 +2,12 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
+import {upload, preSign} from 'attache-upload'
 
 // Import components
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
-import {upload, preSign} from './upload.js'
 import bus from 'bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
