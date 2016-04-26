@@ -2,7 +2,7 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
-import {upload, preSign} from 'attache-upload'
+import {upload, presign} from 'attache-upload'
 
 // Import components
 import FieldHeader from '../common/header'
@@ -267,9 +267,9 @@ const MultiUploadField = React.createClass({
     const {presign_url} = this.props.attributes
     const {token} = this.props
 
-    preSign(fileObject, presign_url, token)
+    presign(presign_url, token)
       .then((presignResponse) => {
-        return upload(presignResponse, fileObject, token, onProgress)
+        return upload(presignResponse, fileObject, onProgress)
       })
       .then((uploadResponse) => {
         if (!updateUploadedFilesStatus) return
