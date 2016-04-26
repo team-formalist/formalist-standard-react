@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
-import {upload, preSign} from './upload.js'
+import {upload, preSign} from '../upload'
 import bus from 'bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
@@ -186,18 +186,12 @@ const MultiUploadField = React.createClass({
       ? this.state.uploadedFiles.slice(0)
       : []
 
-    if (containsObject(fileObject, uploadedFiles)) {
-      uploadedFiles.filter((existingFile) => {
-        return existingFile.uid !== fileObject.uid
-      })
-    } else {
-      // same XHR response properties to file object
-      fileObject.path = path
-      fileObject.geometry = geometry
-      fileObject.uploadURL = uploadURL
-      fileObject.original_url = this.buildPath(uploadURL, path)
-      uploadedFiles.push(fileObject)
-    }
+    // apply additional properties to fileObject before saving to state
+    fileObject.path = path
+    fileObject.geometry = geometry
+    fileObject.uploadURL = uploadURL
+    fileObject.original_url = this.buildPath(uploadURL, path)
+    uploadedFiles.push(fileObject)
 
     this.setState({
       uploadedFiles,
