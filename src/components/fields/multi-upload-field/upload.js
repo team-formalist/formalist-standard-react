@@ -1,6 +1,6 @@
 require('es6-promise').polyfill()
 const request = require('superagent')
-import bus from './bus'
+import bus from 'bus'
 import {noOp} from './utils'
 
 /**
