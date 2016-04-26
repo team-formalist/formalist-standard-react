@@ -49,7 +49,6 @@ const noOp = (_) => {}
 export {
   filenameIsImage,
   sortArrayByOrder,
-  containsObject,
   generateUniqueID,
   noOp
 }
