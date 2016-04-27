@@ -50,6 +50,14 @@ const MultiUploadField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * getDefaultProps
    * set 'multiple' as true by default
    */

@@ -7,7 +7,7 @@ import {SectionFactory} from './section'
 
 export default function components (customComponents = {}, config = {}) {
   const base = {
-    fields: fields(config.fields),
+    fields: fields(config.fields, config.global),
     attr: AttrFactory,
     compoundField: CompoundFieldFactory,
     group: GroupFactory,

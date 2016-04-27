@@ -21,10 +21,10 @@ import UploadField from './upload-field'
  * @param  {Function} field A React class
  * @return {Function} A function
  */
-function wrapField (field, config = {}) {
+function wrapField (field, config = {}, globalConfig = {}) {
   return (fieldProps) => {
     return (
-      <Container field={field} config={config} {...fieldProps} />
+      <Container field={field} config={config} globalConfig={globalConfig} {...fieldProps} />
     )
   }
 }
@@ -34,21 +34,21 @@ function wrapField (field, config = {}) {
  * @param {Object} config Config specific to the fields.
  * @type {Object}
  */
-function fields (config = {}) {
+function fields (fieldsConfig = {}, globalConfig = {}) {
   return {
-    checkBox: wrapField(CheckBox, config.checkBox),
-    dateField: wrapField(DateField, config.dateField),
-    dateTimeField: wrapField(DateTimeField, config.dateTimeField),
-    hiddenField: wrapField(HiddenField, config.hiddenField),
-    multiSelectionField: wrapField(MultiSelectionField, config.multiSelectionField),
-    numberField: wrapField(NumberField, config.numberField),
-    radioButtons: wrapField(RadioButtons, config.radioButtons),
-    selectBox: wrapField(SelectBox, config.selectBox),
-    selectionField: wrapField(SelectionField, config.selectionField),
-    textArea: wrapField(TextArea, config.textArea),
-    textField: wrapField(TextField, config.textField),
-    multiUploadField: wrapField(MultiUploadField, config.multiUploadField),
-    uploadField: wrapField(UploadField, config.uploadField)
+    checkBox: wrapField(CheckBox, fieldsConfig.checkBox, globalConfig),
+    dateField: wrapField(DateField, fieldsConfig.dateField, globalConfig),
+    dateTimeField: wrapField(DateTimeField, fieldsConfig.dateTimeField, globalConfig),
+    hiddenField: wrapField(HiddenField, fieldsConfig.hiddenField, globalConfig),
+    multiSelectionField: wrapField(MultiSelectionField, fieldsConfig.multiSelectionField, globalConfig),
+    numberField: wrapField(NumberField, fieldsConfig.numberField, globalConfig),
+    radioButtons: wrapField(RadioButtons, fieldsConfig.radioButtons, globalConfig),
+    selectBox: wrapField(SelectBox, fieldsConfig.selectBox, globalConfig),
+    selectionField: wrapField(SelectionField, fieldsConfig.selectionField, globalConfig),
+    textArea: wrapField(TextArea, fieldsConfig.textArea, globalConfig),
+    textField: wrapField(TextField, fieldsConfig.textField, globalConfig),
+    multiUploadField: wrapField(MultiUploadField, fieldsConfig.multiUploadField, globalConfig),
+    uploadField: wrapField(UploadField, fieldsConfig.uploadField, globalConfig)
   }
 }
 
