@@ -205,13 +205,15 @@ const MultiUploadField = React.createClass({
       uploadedFiles,
       previewFiles
     })
+    this.onUpdate(uploadedFiles)
+  },
 
+  onUpdate (uploadedFiles) {
+    const {multiple} = this.props
     // Format data for persisting _upstream_
-    let value
-    if (multiple) {
-      value = uploadedFiles
-    } else if (uploadedFiles && uploadedFiles.length > 0) {
-      uploadedFiles[0]
+    let value = uploadedFiles
+    if (!multiple && uploadedFiles.length > 0) {
+      value = uploadedFiles[0]
     }
     this.props.actions.edit(
       (val) => value
@@ -366,6 +368,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       uploadedFiles
     })
+    this.onUpdate(uploadedFiles)
   },
 
   /**
@@ -408,6 +411,7 @@ const MultiUploadField = React.createClass({
     uploadedFiles.map((file) => {
       this.uploadFile(file, noOp, false)
     })
+    this.onUpdate(uploadedFiles)
   },
 
   /**
