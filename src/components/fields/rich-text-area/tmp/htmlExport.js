@@ -31,11 +31,6 @@ const INLINE_STYLE = {
   UNDERLINE: 'UNDERLINE',
 }
 
-// const destinations = {
-//   visitBlock (block) {
-
-//   }
-// }
 
 const schema = {
   block: {
@@ -173,6 +168,22 @@ export default htmlExport
 // curry with a config
 
 const defaultRenderer = {
+  wrapper: {
+    'unordered-list-item': (type, lastBlockType) => {
+      if (type === 'unordered-list-item') {
+        return '<ul>'
+      } else if (lastBlockType === 'unordered-list-item') {
+        return '</ul>'
+      }
+    },
+    'ordered-list-item': (type, lastBlockType) => {
+      if (type === 'ordered-list-item') {
+        return '<ol>'
+      } else if (lastBlockType === 'ordered-list-item') {
+        return '</ol>'
+      }
+    }
+  },
   // TODO
   // this should be a function call so we can fall through
   block: {
@@ -219,7 +230,7 @@ const defaultRenderer = {
     'mention': (type, mutability, data, children) => {
       // This entity type doesn’t care about its children
       return [
-        `<span data-entity-type=${type} data-entity-data=${JSON.stringify(data)}>`,
+        `<span data-entity-type='${type}' data-entity-data='${JSON.stringify(data)}'>`,
         children,
         '</span>',
       ]
@@ -232,17 +243,55 @@ function compiler (config) {
   config = config || defaultRenderer
 
   return function (ast) {
+
+    let lastBlockType = null
+
     const destinations = {
-      visitblock (node) {
+      visitblock (node, first, last) {
         const type = node[schema.block.type]
         const entity = node[schema.block.entity]
         const children = node[schema.block.children]
-        return config.block[type](
-          children.map(visit)
+
+        // Construct look-behind-wrappers
+        let output = config.block[type](
+          children.map((child) => {
+            return visit(child)
+          })
         )
+
+        // If the first item, check if we need an opening wrapper.
+        if (first && config.wrapper[type]) {
+          output.unshift(
+            config.wrapper[type](type, lastBlockType)
+          )
+        }
+        // If there’s a change in block type
+        if (lastBlockType !== type) {
+          // Try to insert an opening wrapper (unless it’s the first item)
+          if (!first && config.wrapper[type]) {
+            output.unshift(
+              config.wrapper[type](type, lastBlockType)
+            )
+          }
+          // Try to insert a closing wrapper (unless it’s the first item)
+          if (!first && config.wrapper[lastBlockType]) {
+            output.unshift(
+              config.wrapper[lastBlockType](type, lastBlockType)
+            )
+          }
+        }
+        // If the last item, check if we need a closing wrapper.
+        if (last && config.wrapper[type]) {
+          output.push(
+            config.wrapper[type](null, type)
+          )
+        }
+
+        lastBlockType = type
+        return output
       },
 
-      visitentity (node) {
+      visitentity (node, first, last) {
         const type = node[schema.entity.type]
         const mutability = node[schema.entity.mutability]
         const data = node[schema.entity.data]
@@ -251,12 +300,13 @@ function compiler (config) {
           type,
           mutability,
           data,
-          children.map(visit)
+          children.map((child) => {
+            return visit(child)
+          })
         )
       },
 
-      visitinline (node) {
-        console.log('node', node)
+      visitinline (node, first, last) {
         const styles = node[schema.inline.styles]
         const text = node[schema.inline.text]
 
@@ -269,18 +319,19 @@ function compiler (config) {
       }
     }
 
-    function visit(node) {
+    function visit(node, first, last) {
       const type = node[0]
       const content = node[1]
-      console.log('type', type)
-      return destinations['visit'+type](content)
+      return destinations['visit'+type](content, first, last)
     }
 
-    return ast.map(visit)
+    return ast.map((node, index) => {
+      const last = (index === ast.length - 1)
+      const first = (index === 0)
+      return visit(node, first, last)
+    })
   }
 }
-
-
 
 // Two step process for converting data in/out of Draft.js
 // 1. Convert to an AST
