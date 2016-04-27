@@ -128,9 +128,9 @@ const RichTextArea = React.createClass({
           <button onClick={this.onBoldClick}>Bold</button>
           <button onClick={this.onItalicClick}>Italic</button>
           <RichTextEditor editorState={editorState} onChange={this.onChange}/>
-          <pre>
+          <div className={styles.code}>
             {(this.state.exportedData) ? this.state.exportedData.html : null}
-          </pre>
+          </div>
           {(hasErrors) ? <FieldErrors errors={errors}/> : null}
         </div>
       </div>

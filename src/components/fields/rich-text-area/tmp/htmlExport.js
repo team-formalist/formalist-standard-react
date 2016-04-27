@@ -45,13 +45,13 @@ const schema = {
   },
   inline: {
     styles: 0,
-    entity: 1,
-    text: 2,
+    text: 1,
   },
   entity: {
     type: 0,
     mutability: 1,
     data: 2,
+    children: 3,
   }
 }
 
@@ -70,28 +70,32 @@ function createProcessingContext (context, blocks) {
     let entityPieces = getEntityRanges(text, charMetaList)
 
     return entityPieces.map(([entityKey, stylePieces]) => {
-      let entityData = []
+      let data = []
+      let type = 'blank'
+      let mutability = null
       let entity = entityKey ? Entity.get(entityKey) : null
       if (entity) {
-        let type = entity.getType()
-        entityData = [
-          type,
-          entity.getMutability().toLowerCase(),
-          // TODO Revisit this
-          // Seems very odd that this accessor through `type` is necessary
-          entity.getData()[type]
-        ]
+        type = entity.getType()
+        mutability = entity.getMutability().toLowerCase()
+        data = entity.getData()[type]
       }
-      return stylePieces.map(([text, style]) => {
-        return [
-          'inline',
-          [
-            style.map((s) => s.toLowerCase()),
-            entityData,
-            text
-          ]
+      return [
+        'entity',
+        [
+          type,
+          mutability,
+          data,
+          stylePieces.map(([text, style]) => {
+            return [
+              'inline',
+              [
+                style.toJS().map((s) => s.toLowerCase()),
+                text
+              ]
+            ]
+          })
         ]
-      })
+      ]
     })
   }
 
@@ -139,6 +143,9 @@ function createProcessingContext (context, blocks) {
 }
 
 function htmlExport (config) {
+
+  const htmlCompiler = compiler()
+
   return function convert (editorState) {
 
     const content = editorState.getCurrentContent()
@@ -146,24 +153,14 @@ function htmlExport (config) {
 
     let context = []
     let processBlock = createProcessingContext(context, blocks)
-
-    console.log('content', content.getBlockMap().toJS());
-
+    // Process the blocks
     blocks.forEach(processBlock)
 
-    // // let currentBlock = blocks[0]
-
-    // // while (currentBlock) {
-    // //   processBlock(currentBlock, context)
-    // // }
-
-    console.log('context', JSON.stringify(context, null, 2))
-    // content.getBlocksAsArray().map((block) => {
-    //   return console.log(block.toJS())
-    // })
+    // console.log('context', JSON.stringify(context, null, 2))
+    // console.log('compiled', JSON.stringify(htmlCompiler(context), null, 2))
 
     return {
-      html: content.getPlainText()
+      html: htmlCompiler(context)
     }
   }
 }
@@ -171,6 +168,117 @@ function htmlExport (config) {
 export default htmlExport
 
 
+
+// Like the formalist compiler
+// curry with a config
+
+const defaultRenderer = {
+  // TODO
+  // this should be a function call so we can fall through
+  block: {
+    'unstyled': (children) => {
+      return [
+        '<p>',
+        children,
+        '</p>',
+      ]
+    },
+    'unordered-list-item': (children) => {
+      return [
+        '<li>',
+        children,
+        '</li>',
+      ]
+    },
+    'ordered-list-item': (children) => {
+      return [
+        '<li>',
+        children,
+        '</li>',
+      ]
+    }
+  },
+  inline: {
+    'bold': (context) => {
+      const output = context.slice(0)
+      output.unshift('<strong>')
+      output.push('</strong>')
+      return output
+    },
+    'italic': (context) => {
+      const output = context.slice(0)
+      output.unshift('<em>')
+      output.push('</em>')
+      return output
+    }
+  },
+  entity: {
+    'blank': (type, mutability, data, children) => {
+      return children
+    },
+    'mention': (type, mutability, data, children) => {
+      // This entity type doesn’t care about its children
+      return [
+        `<span data-entity-type=${type} data-entity-data=${JSON.stringify(data)}>`,
+        children,
+        '</span>',
+      ]
+    }
+  }
+}
+
+function compiler (config) {
+
+  config = config || defaultRenderer
+
+  return function (ast) {
+    const destinations = {
+      visitblock (node) {
+        const type = node[schema.block.type]
+        const entity = node[schema.block.entity]
+        const children = node[schema.block.children]
+        return config.block[type](
+          children.map(visit)
+        )
+      },
+
+      visitentity (node) {
+        const type = node[schema.entity.type]
+        const mutability = node[schema.entity.mutability]
+        const data = node[schema.entity.data]
+        const children = node[schema.entity.children]
+        return config.entity[type](
+          type,
+          mutability,
+          data,
+          children.map(visit)
+        )
+      },
+
+      visitinline (node) {
+        console.log('node', node)
+        const styles = node[schema.inline.styles]
+        const text = node[schema.inline.text]
+
+        let output = [text]
+        styles.forEach((style) => {
+          output = config.inline[style](output)
+        })
+
+        return output
+      }
+    }
+
+    function visit(node) {
+      const type = node[0]
+      const content = node[1]
+      console.log('type', type)
+      return destinations['visit'+type](content)
+    }
+
+    return ast.map(visit)
+  }
+}
 
 
 
