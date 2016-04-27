@@ -57,8 +57,10 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "draft-js-plugins-editor": "1.0.0",
     "draft-js-autolist-plugin": "icelab/draft-js-autolist-plugin",
+    "draft-js-mention-plugin": "1.0.0",
+    "draft-js-plugins-editor": "1.0.0",
+    "draft-js-utils": "0.1.4",
     "find-with-regex": "1.0.2",
     "formalist-compose": "icelab/formalist-compose",
     "formalist-validation": "icelab/formalist-validation",

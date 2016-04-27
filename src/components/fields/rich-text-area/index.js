@@ -1,7 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
-import {convertToRaw, EditorState, RichUtils} from 'draft-js'
+import {convertToRaw, EditorState, Entity, Modifier, RichUtils} from 'draft-js'
 
 // Import components
 import FieldErrors from '../common/errors'
@@ -73,6 +73,34 @@ const RichTextArea = React.createClass({
     )
   },
 
+  onItalicClick (e) {
+    e.preventDefault()
+    const {editorState} = this.state
+    this.onChange(
+      RichUtils.toggleInlineStyle(editorState, 'ITALIC')
+    )
+  },
+
+  // onLinkClick (e) {
+  //   e.preventDefault()
+  //   const {editorState} = this.state
+  //   const contentState = editorState.getCurrentContent()
+  //   const targetRange = editorState.getSelection()
+  //   const key = Entity.create('LINK', 'MUTABLE', {href: 'http://www.zombo.com'});
+  //   const contentStateWithLink = Modifier.applyEntity(
+  //     contentState,
+  //     targetRange,
+  //     key
+  //   )
+  //   const newEditorState = EditorState.push(
+  //     editorState,
+  //     contentStateWithLink
+  //   )
+  //   this.setState({
+  //     editorState: newEditorState
+  //   })
+  // },
+
   render () {
     const {attributes, errors, hint, label, name, value} = this.props
     const {editorState} = this.state
@@ -98,6 +126,7 @@ const RichTextArea = React.createClass({
         </div>
         <div className={styles.display}>
           <button onClick={this.onBoldClick}>Bold</button>
+          <button onClick={this.onItalicClick}>Italic</button>
           <RichTextEditor editorState={editorState} onChange={this.onChange}/>
           <pre>
             {(this.state.exportedData) ? this.state.exportedData.html : null}
