@@ -39,7 +39,6 @@ const MultiUploadField = React.createClass({
     label: React.PropTypes.string,
     name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
-    token: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     uploadedFiles: React.PropTypes.array,
     fileTypeRegex: React.PropTypes.object,
@@ -273,7 +272,7 @@ const MultiUploadField = React.createClass({
   uploadFile (fileObject, onProgress = noOp, updateUploadedFilesStatus = true) {
     if (!fileObject) return
     const {presign_url} = this.props.attributes
-    const {token} = this.props
+    const {token} = this.context.globalConfig.csrfToken
 
     presign(presign_url, token)
       .then((presignResponse) => {
