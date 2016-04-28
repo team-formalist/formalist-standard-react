@@ -47,7 +47,7 @@ const RichTextEditor = React.createClass({
     const { editorState, onChange } = this.props
 
     return (
-      <div>
+      <div className={this.props.className}>
         <Editor editorState={editorState} onChange={onChange} plugins={this.state.plugins}/>
         <MentionSuggestions onSearchChange={({value}) => console.log(value)} suggestions={mentions}/>
       </div>
