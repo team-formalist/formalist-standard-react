@@ -104,7 +104,7 @@ const MultiUploadField = React.createClass({
         name,
         size,
         type,
-        lastModifiedDate,
+        lastModifiedDate: lastModifiedDate.toString(),
         uid: generateUniqueID(name)
       }
     }
