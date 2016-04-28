@@ -11,7 +11,7 @@ import validate from './validation.js'
 import bus from 'bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
-import {filenameIsImage, sortArrayByOrder, containsObject, generateUniqueID, noOp} from './utils'
+import {filenameIsImage, sortArrayByOrder, generateUniqueID, noOp} from './utils'
 
 /**
  * MultiUploadField
@@ -30,6 +30,7 @@ const MultiUploadField = React.createClass({
    */
 
   propTypes: {
+    actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
       label: React.PropTypes.string,
       presign_url: React.PropTypes.string
@@ -186,7 +187,6 @@ const MultiUploadField = React.createClass({
    */
 
   updateUploadedFiles (fileObject, response) {
-    const {multiple} = this.props
     const {path, geometry, uploadURL} = response
 
     let previewFiles = this.state.previewFiles.filter((preview) => {
@@ -208,17 +208,25 @@ const MultiUploadField = React.createClass({
       uploadedFiles,
       previewFiles
     })
+
     this.onUpdate(uploadedFiles)
   },
 
+  /**
+   * onUpdate
+   * normalise each fileObject for export upstream.
+   * If `multiple` return the array of file(s), otherwise just the first
+   * @param  {array} uploadedFiles
+   * @return {array/object}
+   */
+
   onUpdate (uploadedFiles) {
     const {multiple} = this.props
-    // Format data for persisting _upstream_
-    let value = uploadedFiles
-    uploadedFiles = uploadedFiles.map(this.normaliseFileExport)
-    if (!multiple && uploadedFiles.length > 0) {
-      value = uploadedFiles[0]
-    }
+
+    // delete `file` from each fileObject
+    uploadedFiles.map(this.normaliseFileExport)
+
+    const value = multiple ? uploadedFiles : uploadedFiles[0]
     this.props.actions.edit(
       (val) => value
     )
@@ -575,7 +583,7 @@ const MultiUploadField = React.createClass({
 
   renderThumbnail (url, name, uploadURL, path) {
     return (
-      <img src={url || this.buildPath(uploadURL, path, '50x')} alt={name}/>
+      <img src={url || this.buildPath(uploadURL, path, '50x')} alt={name} />
     )
   },
 
@@ -762,7 +770,7 @@ const MultiUploadField = React.createClass({
         <div className={styles.field}>
 
           <div>
-            <FieldHeader hint={hint} id={name} label={label}/>
+            <FieldHeader hint={hint} id={name} label={label} />
           </div>
 
           {XHRErrorMessages && XHRErrorMessages.length > 0
