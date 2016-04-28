@@ -98,10 +98,13 @@ const MultiUploadField = React.createClass({
   createFileObjects (val) {
     // format the object
     function formatObject (file) {
-      const {name} = file
+      const {name, size, type, lastModifiedDate} = file
       return {
         file,
         name,
+        size,
+        type,
+        lastModifiedDate,
         uid: generateUniqueID(name)
       }
     }
@@ -212,12 +215,26 @@ const MultiUploadField = React.createClass({
     const {multiple} = this.props
     // Format data for persisting _upstream_
     let value = uploadedFiles
+    uploadedFiles = uploadedFiles.map(this.normaliseFileExport)
     if (!multiple && uploadedFiles.length > 0) {
       value = uploadedFiles[0]
     }
     this.props.actions.edit(
       (val) => value
     )
+  },
+
+  /**
+   * normaliseFileExport
+   * Remove any values we don’t care about persisting, mostly the `file`
+   * attribute/object that we use for previewing
+   * @param {object} file object
+   */
+
+  normaliseFileExport (obj) {
+    const copy = Object.assign({}, obj)
+    delete copy.file
+    return copy
   },
 
   /**
