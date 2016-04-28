@@ -1,36 +1,6 @@
 import {Entity} from 'draft-js'
 import {getEntityRanges} from 'draft-js-utils'
-
-const BLOCK_TYPE = {
-  // This is used to represent a normal text block (paragraph).
-  UNSTYLED: 'unstyled',
-  HEADER_ONE: 'header-one',
-  HEADER_TWO: 'header-two',
-  HEADER_THREE: 'header-three',
-  HEADER_FOUR: 'header-four',
-  HEADER_FIVE: 'header-five',
-  HEADER_SIX: 'header-six',
-  UNORDERED_LIST_ITEM: 'unordered-list-item',
-  ORDERED_LIST_ITEM: 'ordered-list-item',
-  BLOCKQUOTE: 'blockquote',
-  PULLQUOTE: 'pullquote',
-  CODE: 'code-block',
-  ATOMIC: 'atomic',
-}
-
-const ENTITY_TYPE = {
-  LINK: 'LINK',
-  IMAGE: 'IMAGE',
-}
-
-const INLINE_STYLE = {
-  BOLD: 'BOLD',
-  CODE: 'CODE',
-  ITALIC: 'ITALIC',
-  STRIKETHROUGH: 'STRIKETHROUGH',
-  UNDERLINE: 'UNDERLINE',
-}
-
+import flatten from 'flatten'
 
 const schema = {
   block: {
@@ -50,112 +20,88 @@ const schema = {
   }
 }
 
-function createProcessingContext (context, blocks) {
-  let parents = []
-  let currentContext = context
-  let lastBlock = null
-  let lastProcessed = null
 
-  function processBlockContent (block) {
-    // Mostly cribbed from sstur’s implementation in draft-js-export-html
-    // https://github.com/sstur/draft-js-export-html/blob/master/src/stateToHTML.js#L222
-    let blockType = block.getType()
-    let text = block.getText()
-    let charMetaList = block.getCharacterList()
-    let entityPieces = getEntityRanges(text, charMetaList)
-
-    return entityPieces.map(([entityKey, stylePieces]) => {
-      let data = []
-      let type = 'blank'
-      let mutability = null
-      let entity = entityKey ? Entity.get(entityKey) : null
-      if (entity) {
-        type = entity.getType()
-        mutability = entity.getMutability().toLowerCase()
-        data = entity.getData()[type]
-      }
-      return [
-        'entity',
-        [
-          type,
-          mutability,
-          data,
-          stylePieces.map(([text, style]) => {
-            return [
-              'inline',
-              [
-                style.toJS().map((s) => s.toLowerCase()),
-                text
-              ]
-            ]
-          })
-        ]
-      ]
-    })
-  }
-
-  return function process (block, index) {
-    const type = block.getType()
-    let entityData = []
-    const key = block.getEntityAt(0)
-    if (type === 'atomic' && key) {
-      const entity = Entity.get(key)
-      let entityType = entity.getType()
-      entityData = [
-        entityType,
-        entity.getMutability().toLowerCase(),
-        entity.getData(),
-      ]
-    }
-
-    let output = [
-      'block',
-      [
-        type,
-        entityData,
-        processBlockContent(block)
-      ]
-    ]
-
-    // Push into context (or not) based on depth
-    // This block is deeper
-    if (lastBlock && block.getDepth() > lastBlock.getDepth()) {
-      // Extract reference object from flat context
-      parents.push(lastProcessed)
-      currentContext = lastProcessed[schema.block.children]
-    } else if (lastBlock && block.getDepth() < lastBlock.getDepth() && parents.length > 0) {
-      // This block is shallower, traverse up the parent
-      let parent = parents.pop()
-      currentContext = parent[schema.block.children]
-    }
-    if (!currentContext) {
-      currentContext = context
-    }
-    currentContext.push(output)
-    lastProcessed = output[1]
-    lastBlock = block
-  }
+const defaultConfig = {
+  allowEmptyTags: false
 }
 
-function htmlExport (config) {
 
-  const htmlCompiler = compiler()
+function processBlockContent (block) {
+  // Mostly cribbed from sstur’s implementation in draft-js-export-html
+  // https://github.com/sstur/draft-js-export-html/blob/master/src/stateToHTML.js#L222
+  let blockType = block.getType()
+  let text = block.getText()
+  let charMetaList = block.getCharacterList()
+  let entityPieces = getEntityRanges(text, charMetaList)
+
+  return entityPieces.map(([entityKey, stylePieces]) => {
+    let data = []
+    let type = 'blank'
+    let mutability = null
+    let entity = entityKey ? Entity.get(entityKey) : null
+    if (entity) {
+      type = entity.getType()
+      mutability = entity.getMutability().toLowerCase()
+      data = entity.getData()[type]
+    }
+    return [
+      'entity',
+      [
+        type,
+        mutability,
+        data,
+        stylePieces.map(([text, style]) => {
+          return [
+            'inline',
+            [
+              style.toJS().map((s) => s.toLowerCase()),
+              text
+            ]
+          ]
+        })
+      ]
+    ]
+  })
+}
+
+function processBlock (block) {
+  let entityData = []
+
+  const type = block.getType()
+  const key = block.getEntityAt(0)
+
+  if (type === 'atomic' && key) {
+    const entity = Entity.get(key)
+    let entityType = entity.getType()
+    entityData = [
+      entityType,
+      entity.getMutability().toLowerCase(),
+      entity.getData(),
+    ]
+  }
+
+  return [
+    'block',
+    [
+      type,
+      entityData,
+      processBlockContent(block)
+    ]
+  ]
+}
+
+function htmlExport (renderers, config) {
+  config = Object.assign({}, defaultConfig, config)
+  const htmlCompiler = compiler(renderers, config)
 
   return function convert (editorState) {
-
+    // Retrieve the content
     const content = editorState.getCurrentContent()
     const blocks = content.getBlocksAsArray()
 
-    let context = []
-    let processBlock = createProcessingContext(context, blocks)
-    // Process the blocks
-    blocks.forEach(processBlock)
-
-    // console.log('context', JSON.stringify(context, null, 2))
-    // console.log('compiled', JSON.stringify(htmlCompiler(context), null, 2))
-
+    // Return the processed values
     return {
-      html: htmlCompiler(context)
+      html: htmlCompiler(blocks.map(processBlock))
     }
   }
 }
@@ -167,20 +113,20 @@ export default htmlExport
 // Like the formalist compiler
 // curry with a config
 
-const defaultRenderer = {
+const defaultRenderers = {
   wrapper: {
     'unordered-list-item': (type, lastBlockType) => {
       if (type === 'unordered-list-item') {
         return '<ul>'
       } else if (lastBlockType === 'unordered-list-item') {
-        return '</ul>'
+        return '</ul>\n\n'
       }
     },
     'ordered-list-item': (type, lastBlockType) => {
       if (type === 'ordered-list-item') {
         return '<ol>'
       } else if (lastBlockType === 'ordered-list-item') {
-        return '</ol>'
+        return '</ol>\n\n'
       }
     }
   },
@@ -191,25 +137,28 @@ const defaultRenderer = {
       return [
         '<p>',
         children,
-        '</p>',
+        '</p>\n\n',
       ]
     },
     'unordered-list-item': (children) => {
       return [
         '<li>',
         children,
-        '</li>',
+        '</li>\n\n',
       ]
     },
     'ordered-list-item': (children) => {
       return [
         '<li>',
         children,
-        '</li>',
+        '</li>\n\n',
       ]
     }
   },
   inline: {
+    'default': (context) => {
+      return context
+    },
     'bold': (context) => {
       const output = context.slice(0)
       output.unshift('<strong>')
@@ -224,7 +173,7 @@ const defaultRenderer = {
     }
   },
   entity: {
-    'blank': (type, mutability, data, children) => {
+    'default': (type, mutability, data, children) => {
       return children
     },
     'mention': (type, mutability, data, children) => {
@@ -238,9 +187,30 @@ const defaultRenderer = {
   }
 }
 
-function compiler (config) {
+function getRendererForBlockType(renderers, type) {
+  let renderer = renderers.block[type]
+  return (renderer) ? renderer : renderers.block['unstyled']
+}
 
-  config = config || defaultRenderer
+function getRendererForEntityType(renderers, type) {
+  let renderer = renderers.entity[type]
+  return (renderer) ? renderer : renderers.entity['default']
+}
+
+function getRendererForInlineType(renderers, type) {
+  let renderer = renderers.inline[type]
+  return (renderer) ? renderer : renderers.inline['default']
+}
+
+function getRendererForWrapperType(renderers, type) {
+  let renderer = renderers.wrapper[type]
+  return (renderer) ? renderer : renderers.wrapper['default']
+}
+
+function compiler (renderers, config) {
+
+  // TODO deep merge these somehow?
+  renderers = renderers || defaultRenderers
 
   return function (ast) {
 
@@ -252,43 +222,54 @@ function compiler (config) {
         const entity = node[schema.block.entity]
         const children = node[schema.block.children]
 
-        // Construct look-behind-wrappers
-        let output = config.block[type](
-          children.map((child) => {
-            return visit(child)
-          })
-        )
+        // Render general block and its children first
+        const renderer = getRendererForBlockType(renderers, type)
+        const renderedChildren = children.map((child) => {
+          return visit(child)
+        })
+        const output = renderer(renderedChildren)
 
-        // If the first item, check if we need an opening wrapper.
-        if (first && config.wrapper[type]) {
+        // If there are no children
+        if (!config.allowEmptyTags) {
+          if (!renderedChildren || renderedChildren.length === 0 || renderedChildren.join('') === '') {
+            return null
+          }
+        }
+
+        // Construct look-behind-wrappers to go around the block
+        // This is super-awkward
+        // If the first item, check if we need an opening wrapper at the start
+        if (first && renderers.wrapper[type]) {
           output.unshift(
-            config.wrapper[type](type, lastBlockType)
+            renderers.wrapper[type](type, lastBlockType)
           )
         }
         // If there’s a change in block type
         if (lastBlockType !== type) {
-          // Try to insert an opening wrapper (unless it’s the first item)
-          if (!first && config.wrapper[type]) {
+          // Try to insert an opening wrapper (unless it’s the first item) at
+          // the start
+          if (!first && renderers.wrapper[type]) {
             output.unshift(
-              config.wrapper[type](type, lastBlockType)
+              renderers.wrapper[type](type, lastBlockType)
             )
           }
           // Try to insert a closing wrapper (unless it’s the first item)
-          if (!first && config.wrapper[lastBlockType]) {
+          // at the end
+          if (!first && renderers.wrapper[lastBlockType]) {
             output.unshift(
-              config.wrapper[lastBlockType](type, lastBlockType)
+              renderers.wrapper[lastBlockType](type, lastBlockType)
             )
           }
         }
-        // If the last item, check if we need a closing wrapper.
-        if (last && config.wrapper[type]) {
+        // If the last item, check if we need a closing wrapper at the end
+        if (last && renderers.wrapper[type]) {
           output.push(
-            config.wrapper[type](null, type)
+            renderers.wrapper[type](null, type)
           )
         }
 
         lastBlockType = type
-        return output
+        return flatten(output)
       },
 
       visitentity (node, first, last) {
@@ -296,14 +277,15 @@ function compiler (config) {
         const mutability = node[schema.entity.mutability]
         const data = node[schema.entity.data]
         const children = node[schema.entity.children]
-        return config.entity[type](
+        const renderer = getRendererForEntityType(renderers, type)
+        return flatten(renderer(
           type,
           mutability,
           data,
           children.map((child) => {
             return visit(child)
           })
-        )
+        ))
       },
 
       visitinline (node, first, last) {
@@ -312,10 +294,11 @@ function compiler (config) {
 
         let output = [text]
         styles.forEach((style) => {
-          output = config.inline[style](output)
+          const renderer = getRendererForInlineType(renderers, style)
+          output = renderer(output)
         })
 
-        return output
+        return flatten(output)
       }
     }
 
@@ -325,11 +308,12 @@ function compiler (config) {
       return destinations['visit'+type](content, first, last)
     }
 
-    return ast.map((node, index) => {
+    // Flatten everything
+    return flatten(ast.map((node, index) => {
       const last = (index === ast.length - 1)
       const first = (index === 0)
       return visit(node, first, last)
-    })
+    }))
   }
 }
 
