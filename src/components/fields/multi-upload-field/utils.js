@@ -34,8 +34,8 @@ function sortArrayByOrder (arr, order) {
  * @return {[type]} [description]
  */
 
-function generateUniqueID (file_name) {
-  return uid(10) + '_' + file_name
+function generateUniqueID (fileName) {
+  return uid(10) + '_' + fileName
 }
 
 /**
