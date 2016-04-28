@@ -36,7 +36,7 @@ function processBlockContent (block) {
 
   return entityPieces.map(([entityKey, stylePieces]) => {
     let data = []
-    let type = 'blank'
+    let type = 'default'
     let mutability = null
     let entity = entityKey ? Entity.get(entityKey) : null
     if (entity) {
@@ -64,30 +64,59 @@ function processBlockContent (block) {
   })
 }
 
-function processBlock (block) {
-  let entityData = []
+function processBlocks(blocks, context = []) {
+  let currentContext = context
+  let lastBlock = null
+  let lastProcessed = null
 
-  const type = block.getType()
-  const key = block.getEntityAt(0)
+  // Process individual blocks
+  blocks.forEach(processBlock)
 
-  if (type === 'atomic' && key) {
-    const entity = Entity.get(key)
-    let entityType = entity.getType()
-    entityData = [
-      entityType,
-      entity.getMutability().toLowerCase(),
-      entity.getData(),
+  function processBlock (block) {
+    let entityData = []
+
+    const type = block.getType()
+    const key = block.getEntityAt(0)
+
+    if (type === 'atomic' && key) {
+      const entity = Entity.get(key)
+      let entityType = entity.getType()
+      entityData = [
+        entityType,
+        entity.getMutability().toLowerCase(),
+        entity.getData(),
+      ]
+    }
+
+    const output = [
+      'block',
+      [
+        type,
+        entityData,
+        processBlockContent(block)
+      ]
     ]
+
+    // Push into context (or not) based on depth
+    // This block is deeper
+    if (lastBlock && block.getDepth() > lastBlock.getDepth()) {
+      // Extract reference object from flat context
+      parents.push(lastProcessed)
+      currentContext = lastProcessed[schema.block.children]
+    } else if (lastBlock && block.getDepth() < lastBlock.getDepth() && parents.length > 0) {
+      // This block is shallower, traverse up the parent
+      let parent = parents.pop()
+      currentContext = parent[schema.block.children]
+    }
+    if (!currentContext) {
+      currentContext = context
+    }
+    currentContext.push(output)
+    lastProcessed = output[1]
+    lastBlock = block
   }
 
-  return [
-    'block',
-    [
-      type,
-      entityData,
-      processBlockContent(block)
-    ]
-  ]
+  return context
 }
 
 function htmlExport (renderers, config) {
@@ -98,10 +127,11 @@ function htmlExport (renderers, config) {
     // Retrieve the content
     const content = editorState.getCurrentContent()
     const blocks = content.getBlocksAsArray()
+    const processedBlocks = processBlocks(blocks, [])
 
     // Return the processed values
     return {
-      html: htmlCompiler(blocks.map(processBlock))
+      html: htmlCompiler(processedBlocks)
     }
   }
 }
@@ -278,6 +308,7 @@ function compiler (renderers, config) {
         const data = node[schema.entity.data]
         const children = node[schema.entity.children]
         const renderer = getRendererForEntityType(renderers, type)
+
         return flatten(renderer(
           type,
           mutability,
