@@ -67,7 +67,7 @@ function getRendererForInlineType(renderers, type) {
  * @return {Function} A render function
  */
 function getRendererForWrapperType(renderers, type) {
-  let renderer = (renderers.wrapper && renderers.wrapper[type])
+  let renderer = (renderers && renderers.wrapper && renderers.wrapper[type])
     ? renderers.wrapper[type]
     : defaultRenderers.wrapper[type]
   return renderer
@@ -137,47 +137,58 @@ function compiler (renderers = {}, config = {}) {
         const renderedChildren = children.map((child) => {
           return visit(child)
         })
-        const output = renderer(renderedChildren)
+        let output = renderer(renderedChildren)
 
-        // If there are no children
-        if (!config.allowEmptyTags) {
-          if (!renderedChildren || renderedChildren.length === 0 || renderedChildren.join('') === '') {
-            return null
-          }
+        // If there are no children and we’re not allowing empty tags the
+        // reset the output to nothing
+        const isEmpty = (!renderedChildren || renderedChildren.length === 0 || renderedChildren.join('') === '')
+        if (!config.allowEmptyTags && isEmpty) {
+          output = []
         }
 
         // Construct look-behind-wrappers to go around the block
         // This is super-awkward
         // If the first item, check if we need an opening wrapper at the start
-        if (first && getRendererForWrapperType(type)) {
-          output.unshift(
-            getRendererForWrapperType(type)(type, lastBlockType)
-          )
+        let wrapperRenderer = getRendererForWrapperType(renderers, type)
+        if (first && wrapperRenderer) {
+          // And if it’s filled
+          if (!config.allowEmptyTags && !isEmpty) {
+            output.unshift(
+              getRendererForWrapperType(renderers, type)(type, lastBlockType)
+            )
+          }
         }
         // If there’s a change in block type
         if (lastBlockType !== type) {
           // Try to insert an opening wrapper (unless it’s the first item) at
           // the start
-          if (!first && getRendererForWrapperType(type)) {
-            output.unshift(
-              getRendererForWrapperType(type)(type, lastBlockType)
-            )
+          if (!first && wrapperRenderer) {
+            // And if it’s filled
+            if (!config.allowEmptyTags && !isEmpty) {
+              output.unshift(
+                wrapperRenderer(type, lastBlockType)
+              )
+            }
           }
           // Try to insert a closing wrapper (unless it’s the first item)
           // at the end
-          if (!first && getRendererForWrapperType(lastBlockType)) {
+          if (!first && getRendererForWrapperType(renderers, lastBlockType)) {
             output.unshift(
-              getRendererForWrapperType(lastBlockType)(type, lastBlockType)
+              getRendererForWrapperType(renderers, lastBlockType)(type, lastBlockType)
             )
           }
         }
         // If the last item, check if we need a closing wrapper at the end
-        if (last && getRendererForWrapperType(type)) {
-          output.push(
-            getRendererForWrapperType(type)(null, type)
-          )
+        if (last && wrapperRenderer) {
+          // Only render the last wrapper if:
+          // - The item has content or we allow empty tags
+          // - The types match
+          if ((!config.allowEmptyTags && !isEmpty) || (lastBlockType === type)) {
+            output.push(
+              wrapperRenderer(null, type)
+            )
+          }
         }
-
         lastBlockType = type
         return flatten(output)
       },
