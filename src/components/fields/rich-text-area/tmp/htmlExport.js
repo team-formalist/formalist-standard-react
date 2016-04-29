@@ -20,11 +20,9 @@ const schema = {
   }
 }
 
-
 const defaultConfig = {
   allowEmptyTags: false
 }
-
 
 function processBlockContent (block) {
   // Mostly cribbed from sstur’s implementation in draft-js-export-html
@@ -207,7 +205,6 @@ const defaultRenderers = {
       return children
     },
     'mention': (type, mutability, data, children) => {
-      // This entity type doesn’t care about its children
       return [
         `<span data-entity-type='${type}' data-entity-data='${JSON.stringify(data)}'>`,
         children,

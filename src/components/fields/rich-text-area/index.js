@@ -12,7 +12,7 @@ import styles from './rich-text-area.mcss'
 import RichTextEditor from '../../ui/rich-text-editor'
 
 // HTML
-import htmlExport from './tmp/htmlExport'
+import exporter from 'draft-js-exporter'
 
 /**
  * Text Area field
@@ -37,7 +37,18 @@ const RichTextArea = React.createClass({
   },
 
   componentWillMount () {
-    this.exporter = htmlExport()
+    const customRenderers = {
+      entity: {
+        'mention': (type, mutability, data, children) => {
+          return [
+            `<span data-entity-type='${type}' data-entity-data='${JSON.stringify(data)}'>`,
+            children,
+            '</span>',
+          ]
+        }
+      }
+    }
+    this.exporter = exporter()
   },
 
   getInitialState () {
@@ -129,7 +140,7 @@ const RichTextArea = React.createClass({
           <button onClick={this.onItalicClick}>Italic</button>
           <RichTextEditor className={styles.editor} editorState={editorState} onChange={this.onChange}/>
           <div className={styles.code}>
-            {(this.state.exportedData) ? this.state.exportedData.html : null}
+            {(this.state.exportedData) ? this.state.exportedData : null}
           </div>
           {(hasErrors) ? <FieldErrors errors={errors}/> : null}
         </div>
