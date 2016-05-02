@@ -44,6 +44,21 @@ export default React.createClass({
   },
 
   /**
+   * componentWillReceiveProps
+   * When this component receives new props, check if the dropzone is
+   * hidden and if there are `children` to render
+   * @param  {object} nextProps
+   */
+
+  componentWillReceiveProps (nextProps) {
+    if (this.state.hidden && nextProps.children) {
+      this.setState({
+        hidden: false
+      })
+    }
+  },
+
+  /**
    * onDragOver
    * Set `highlight` to true
    */
@@ -80,8 +95,9 @@ export default React.createClass({
 
   /**
    * onDrop
-   * of this.props.onChange exists - pass it files.
+   * If this.props.onChange exists - pass it files.
    * set files on this.state
+   * if there is no `children` hide the dropzone (show it on receiveing props)
    * @param  {Array} files
    */
 
@@ -89,7 +105,8 @@ export default React.createClass({
     const {onChange} = this.props
     if (typeof (onChange) === 'function') onChange(files)
     this.setState({
-      files: files
+      files: files,
+      hidden: this.props.children ? false : true
     })
   },
 
@@ -162,7 +179,7 @@ export default React.createClass({
    */
 
   render () {
-    const {files, highlight} = this.state
+    const {files, highlight, hidden} = this.state
     const {buttonText, dropzoneLabel, renderPreview, multiple, children, disableClick, hideDropZoneBtn} = this.props
 
     let dropZoneClassNames = classNames(
@@ -179,18 +196,22 @@ export default React.createClass({
           {!hideDropZoneBtn
             ? this.renderButton(buttonText)
             : null}
-          <Dropzone
-            disableClick={disableClick}
-            activeClassName={styles.dropzone__active}
-            className={dropZoneClassNames}
-            multiple={multiple}
-            onDrop={this.onDrop}
-            ref='dropzone'
-            style={{}}
-          >
-            {children}
-            {!children || highlight ? this.renderDropzoneLabel(dropzoneLabel) : null}
-          </Dropzone>
+
+          { hidden
+            ? null
+            : <Dropzone
+                disableClick={disableClick}
+                activeClassName={styles.dropzone__active}
+                className={dropZoneClassNames}
+                multiple={multiple}
+                onDrop={this.onDrop}
+                ref='dropzone'
+                style={{}}
+              >
+                {children}
+                {!children || highlight ? this.renderDropzoneLabel(dropzoneLabel) : null}
+              </Dropzone>}
+
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
