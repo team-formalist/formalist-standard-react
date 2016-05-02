@@ -79,12 +79,12 @@ const MultiUploadField = React.createClass({
    */
 
   getInitialState () {
-    const { value } = this.props
+    const {value} = this.props
     let uploadedFiles = []
 
     if (!Array.isArray(value) && (typeof (value) === 'object')) {
       uploadedFiles = [value]
-    } else if (!Array.isArray(value)) {
+    } else if (Array.isArray(value)) {
       uploadedFiles = value
     }
 
