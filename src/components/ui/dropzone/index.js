@@ -189,7 +189,7 @@ export default React.createClass({
             style={{}}
           >
             {children}
-            {this.renderDropzoneLabel(dropzoneLabel)}
+            {!children || highlight ? this.renderDropzoneLabel(dropzoneLabel) : null}
           </Dropzone>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}

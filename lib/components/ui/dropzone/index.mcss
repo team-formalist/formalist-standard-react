@@ -71,11 +71,15 @@
 }
 
 .dropzone__disable_hover.dropzone__highlight:before {
-  border-color: highlight;
-  top: -2px;
-  right: -2px;
+  border-color: greyMid;
   bottom: -2px;
   left: -2px;
+  right: -2px;
+  top: -2px;
+}
+
+.dropzone__disable_hover.dropzone__highlight.dropzone__active:before {
+  border-color: highlight;
 }
 
 .dropzone__active {

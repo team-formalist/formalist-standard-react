@@ -117,6 +117,11 @@
   width: 0;
   z-index: 1;
   overflow: hidden;
+  padding: 5px 0;
+}
+
+.progress_bar .listItem__img {
+  margin-left: 5px;
 }
 
 .validationMessages {}
