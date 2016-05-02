@@ -35,6 +35,7 @@ const MultiUploadField = React.createClass({
       label: React.PropTypes.string,
       presign_url: React.PropTypes.string
     }),
+    name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     fileTypeRegex: React.PropTypes.object,
@@ -45,7 +46,10 @@ const MultiUploadField = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: ImmutablePropTypes.list
+    value: React.PropTypes.oneOfType([
+      ImmutablePropTypes.list,
+      React.PropTypes.object
+    ])
   },
 
   /**
@@ -75,8 +79,17 @@ const MultiUploadField = React.createClass({
    */
 
   getInitialState () {
+    const { value } = this.props
+    let uploadedFiles = []
+
+    if (!Array.isArray(value) && (typeof (value) === 'object')) {
+      uploadedFiles = [value]
+    } else if (!Array.isArray(value)) {
+      uploadedFiles = value
+    }
+
     return {
-      uploadedFiles: this.props.value || []
+      uploadedFiles
     }
   },
 
