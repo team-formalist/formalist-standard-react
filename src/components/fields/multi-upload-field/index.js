@@ -3,6 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
 import {upload, presign} from 'attache-upload'
+import { List } from 'immutable'
 
 // Import components
 import FieldHeader from '../common/header'
@@ -82,10 +83,10 @@ const MultiUploadField = React.createClass({
     const {value} = this.props
     let uploadedFiles = []
 
-    if (!Array.isArray(value) && (typeof (value) === 'object')) {
+    if (value != null && typeof (value) === 'object') {
       uploadedFiles = [value]
-    } else if (Array.isArray(value)) {
-      uploadedFiles = value
+    } else if (List.isList(value)) {
+      uploadedFiles = value.slice(0)
     }
 
     return {
@@ -738,8 +739,6 @@ const MultiUploadField = React.createClass({
       styles.listItem__body,
       styles.fade_in
     )
-
-    console.log('fileObject', fileObject)
 
     return (
       <div className={styles.listItem} key={idx}>
