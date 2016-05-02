@@ -739,6 +739,8 @@ const MultiUploadField = React.createClass({
       styles.fade_in
     )
 
+    console.log('fileObject', fileObject)
+
     return (
       <div className={styles.listItem} key={idx}>
         <div className={bodyClassNames}>
