@@ -613,8 +613,13 @@ const MultiUploadField = React.createClass({
       }
     )
 
+    const wrapperClassNames = classNames(
+      styles.align_middle,
+      styles.previewItem__details
+    )
+
     return (
-      <div className={styles.align_middle}>
+      <div className={wrapperClassNames}>
         <div className={styles.align_middle__content}>
           <div className={styles.listItem__img}>
             {thumbnailImage}
