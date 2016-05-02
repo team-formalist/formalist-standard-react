@@ -9,7 +9,7 @@ import MultiUploadField from '../multi-upload-field'
 
 const UploadField = React.createClass({
   render () {
-    return <MultiUploadField {...this.props} multiple={false}/>
+    return <MultiUploadField {...this.props} multiple={false} />
   }
 })
 
