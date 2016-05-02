@@ -41,12 +41,12 @@ const MultiUploadField = React.createClass({
     name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
     multiple: React.PropTypes.bool,
-    uploadedFiles: React.PropTypes.array,
     fileTypeRegex: React.PropTypes.object,
     fileTypeRegexMessage: React.PropTypes.string,
     maxFileSize: React.PropTypes.number,
     maxFileSizeMessage: React.PropTypes.string,
-    buttonText: React.PropTypes.string
+    buttonText: React.PropTypes.string,
+    value: ImmutablePropTypes.list
   },
 
   /**
@@ -70,14 +70,14 @@ const MultiUploadField = React.createClass({
 
   /**
    * getInitialState
-   * Assign existing uploaded files to `uploadedFiles`
+   * Assign existing uploaded files (passed in by `value`) to `uploadedFiles`
    * See the example `propFiles` format above
    * @return {object}
    */
 
   getInitialState () {
     return {
-      uploadedFiles: this.props.uploadedFiles || []
+      uploadedFiles: this.props.value || []
     }
   },
 
@@ -87,7 +87,7 @@ const MultiUploadField = React.createClass({
    * A file object includes the name, the file and a uid
    *
    * {
-   * 		name: small.jpg,
+   * 		file_name: small.jpg,
    * 		file: {file},
    * 		uid: "wyertyiopdop_small.jpg"
    *}
@@ -102,7 +102,7 @@ const MultiUploadField = React.createClass({
       const {name, size, type, lastModifiedDate} = file
       return {
         file,
-        name,
+        file_name: name,
         size,
         type,
         lastModifiedDate: lastModifiedDate.toString(),
@@ -190,7 +190,7 @@ const MultiUploadField = React.createClass({
     const {path, geometry, uploadURL} = response
 
     let previewFiles = this.state.previewFiles.filter((preview) => {
-      return preview.name !== fileObject.name
+      return preview.file_name !== fileObject.file_name
     })
 
     let uploadedFiles = this.state.uploadedFiles
@@ -227,6 +227,9 @@ const MultiUploadField = React.createClass({
     uploadedFiles.map(this.normaliseFileExport)
 
     const value = multiple ? uploadedFiles : uploadedFiles[0]
+
+    console.log(value)
+
     this.props.actions.edit(
       (val) => value
     )
@@ -619,11 +622,11 @@ const MultiUploadField = React.createClass({
   },
 
   renderPreviewItem (fileObject, i) {
-    const {progress, file, uid, name} = fileObject
+    const {progress, file, uid, file_name} = fileObject
     const {preview} = file
-    const hasThumbnail = filenameIsImage(name)
+    const hasThumbnail = filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(preview, name)
+      ? this.renderThumbnail(preview, file_name)
       : null
 
     let currentProgress = {
@@ -645,10 +648,10 @@ const MultiUploadField = React.createClass({
         <span
           className={styles.progress_bar}
           style={currentProgress}>
-          {this.renderPreviewDetails(name, thumbnailImage, true)}
+          {this.renderPreviewDetails(file_name, thumbnailImage, true)}
         </span>
 
-        {this.renderPreviewDetails(name, thumbnailImage)}
+        {this.renderPreviewDetails(file_name, thumbnailImage)}
       </div>
     )
   },
@@ -694,10 +697,10 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const {path, name, uploadURL, original_url, thumbnail_url} = fileObject
-    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(name)
+    const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
+    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, name, uploadURL, path)
+      ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
       : null
 
     const bodyClassNames = classNames(
@@ -716,7 +719,7 @@ const MultiUploadField = React.createClass({
             </div>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__title}>
-                <a target='_blank' href={original_url}>{name}</a>
+                <a target='_blank' href={original_url}>{file_name}</a>
               </div>
             </div>
           </div>
@@ -749,7 +752,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {attributes, hint, label, name, multiple} = this.props
+    const {attributes, hint, label, name, multiple, value} = this.props
     const {
       XHRErrorMessages,
       uploadedFiles,
