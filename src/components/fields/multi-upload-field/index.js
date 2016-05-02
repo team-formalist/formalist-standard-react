@@ -11,7 +11,7 @@ import validate from './validation.js'
 import bus from 'bus'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
-import {filenameIsImage, sortArrayByOrder, generateUniqueID, noOp} from './utils'
+import {filenameIsImage, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
 
 /**
  * MultiUploadField
@@ -35,10 +35,6 @@ const MultiUploadField = React.createClass({
       label: React.PropTypes.string,
       presign_url: React.PropTypes.string
     }),
-    errors: ImmutablePropTypes.list,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
-    name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
     multiple: React.PropTypes.bool,
     fileTypeRegex: React.PropTypes.object,
@@ -46,6 +42,9 @@ const MultiUploadField = React.createClass({
     maxFileSize: React.PropTypes.number,
     maxFileSizeMessage: React.PropTypes.string,
     buttonText: React.PropTypes.string,
+    hint: React.PropTypes.string,
+    label: React.PropTypes.string,
+    errors: ImmutablePropTypes.list,
     value: ImmutablePropTypes.list
   },
 
@@ -79,6 +78,29 @@ const MultiUploadField = React.createClass({
     return {
       uploadedFiles: this.props.value || []
     }
+  },
+
+  /**
+   * componentWillReceiveProps
+   * Check for new uploadedFiles passed in.
+   * Also ignore this lifecycle step for a single upload field.
+   * First check the props exist and filter out any unique objects passed in.
+   * If there are unique objects, add them to uploadedFiles and update state
+   * @param {object} nextProps
+   */
+
+  componentWillReceiveProps (nextProps) {
+    if (!nextProps.multple || !nextProps.value.length) return
+
+    let uploadedFiles = this.state.uploadedFiles.slice(0)
+    let newValueProps = filterUniqueObjects(uploadedFiles, nextProps.value)
+
+    if (!newValueProps.length) return
+    uploadedFiles = uploadedFiles.concat(newValueProps)
+
+    this.setState({
+      uploadedFiles
+    })
   },
 
   /**
@@ -157,24 +179,13 @@ const MultiUploadField = React.createClass({
       : []
 
     previewFiles.map((file) => {
-      if (file.name === name) {
+      if (file.file_name === name) {
         file.progress = e.percent
       }
     })
 
     this.setState({
       previewFiles
-    })
-  },
-
-  /**
-   * showProgress
-   * set `showProgress` to true
-   */
-
-  showProgress () {
-    this.setState({
-      showProgress: true
     })
   },
 
@@ -225,10 +236,7 @@ const MultiUploadField = React.createClass({
 
     // delete `file` from each fileObject
     uploadedFiles.map(this.normaliseFileExport)
-
     const value = multiple ? uploadedFiles : uploadedFiles[0]
-
-    console.log(value)
 
     this.props.actions.edit(
       (val) => value
@@ -752,7 +760,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {attributes, hint, label, name, multiple, value} = this.props
+    const {attributes, hint, label, name, multiple} = this.props
     const {
       XHRErrorMessages,
       uploadedFiles,
