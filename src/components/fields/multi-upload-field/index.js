@@ -336,8 +336,13 @@ const MultiUploadField = React.createClass({
   onChange (files) {
     if (!files.length) return
 
+    // if it's a single upload field, remove existing uploadedFiles
     const { multiple } = this.props
-    if (!multiple && this.state.uploadedFiles.length) return
+    if (!multiple && this.state.uploadedFiles.length) {
+      this.setState({
+        uploadedFiles: []
+      })
+    }
 
     let status
     let validFiles = []
