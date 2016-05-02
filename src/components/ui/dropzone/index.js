@@ -44,21 +44,6 @@ export default React.createClass({
   },
 
   /**
-   * componentWillReceiveProps
-   * When this component receives new props, check if the dropzone is
-   * hidden and if there are `children` to render
-   * @param  {object} nextProps
-   */
-
-  componentWillReceiveProps (nextProps) {
-    if (this.state.hidden && nextProps.children) {
-      this.setState({
-        hidden: false
-      })
-    }
-  },
-
-  /**
    * onDragOver
    * Set `highlight` to true
    */
@@ -105,8 +90,7 @@ export default React.createClass({
     const {onChange} = this.props
     if (typeof (onChange) === 'function') onChange(files)
     this.setState({
-      files: files,
-      hidden: this.props.children ? false : true
+      files: files
     })
   },
 
