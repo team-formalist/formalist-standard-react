@@ -80,15 +80,16 @@ const MultiUploadField = React.createClass({
    */
 
   getInitialState () {
-    const {value} = this.props
+    let {value} = this.props
+    value = (value) ? value.toJS() : value
     let uploadedFiles = []
 
     // is not null/array but is an object
     // or is a List with a size greater than 0
     if (value != null && !Array.isArray(value) && (typeof (value) === 'object')) {
       uploadedFiles = [value]
-    } else if (List.isList(value) && value.size > 0) {
-      uploadedFiles = value.slice(0)
+    } else if (value != null) {
+      uploadedFiles = value
     }
 
     return {
@@ -731,8 +732,6 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    console.log('fileObject', fileObject)
-
     const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
     const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
