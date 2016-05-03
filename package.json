@@ -73,7 +73,7 @@
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
     "react-immutable-proptypes": "^1.7.1",
-    "react-portal": "2.1.0",
+    "react-portal": "2.1.2",
     "react-textarea-autosize": "^4.0.0",
     "scribe-editor": "^2.2.4",
     "shallow-equals": "0.0.0",
