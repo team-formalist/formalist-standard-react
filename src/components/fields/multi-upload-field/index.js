@@ -468,9 +468,6 @@ const MultiUploadField = React.createClass({
       uploadedFiles
     })
 
-    uploadedFiles.map((file) => {
-      this.uploadFile(file, noOp, false)
-    })
     this.onUpdate(uploadedFiles)
   },
 
