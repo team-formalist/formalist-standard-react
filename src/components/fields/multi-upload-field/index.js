@@ -83,6 +83,7 @@ const MultiUploadField = React.createClass({
     let {value} = this.props
     value = (value) ? value.toJS() : value
     let uploadedFiles = []
+    let previewFiles = []
 
     // is not null/array but is an object
     // or is a List with a size greater than 0
@@ -93,7 +94,8 @@ const MultiUploadField = React.createClass({
     }
 
     return {
-      uploadedFiles
+      uploadedFiles,
+      previewFiles,
     }
   },
 
