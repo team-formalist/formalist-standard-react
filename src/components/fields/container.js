@@ -28,6 +28,20 @@ const FieldContainer = React.createClass({
     value: React.PropTypes.any
   },
 
+  /**
+   * Create `context` object for each field to access
+   */
+
+  childContextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  getChildContext () {
+    return {
+      globalConfig: this.props.globalConfig
+    }
+  },
+
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
     // field. This should take account of any change to the AST.

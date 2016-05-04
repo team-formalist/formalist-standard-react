@@ -67,6 +67,14 @@ const SelectionField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * Default state, blank search
    * @return {Object}
    */

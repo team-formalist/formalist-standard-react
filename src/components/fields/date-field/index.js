@@ -32,6 +32,14 @@ const DateField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * onChange handler
    *
    * @param  {String} date Date as a dd/mm/yyyy formatted string

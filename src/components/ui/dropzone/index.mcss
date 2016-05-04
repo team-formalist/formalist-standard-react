@@ -1,0 +1,96 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value highlight: highlight from styles;
+@value highlightLight: highlightLight from styles;
+@value highlightDark: highlightDark from styles;
+@value greyLight: greyLight from styles;
+@value greyTint: greyTint from styles;
+@value greyLight: greyLight from styles;
+@value greyMid: greyMid from styles;
+
+
+.dropzone {
+  composes: greyLightColor from styles;
+  composes: small sans from styles;
+  cursor: pointer;
+  min-height: 66px;
+  position: relative;
+  width: 100%;
+  z-index: 0;
+  transition: background-color 0.3s;
+}
+
+.dropzone:before {
+  background: none;
+  border: 2px dashed greyTint;
+  bottom: 0;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  left: 0;
+  right: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+  transition: border-color 0.3s;
+}
+
+.dropzone:hover,
+.dropzone__highlight {}
+
+.dropzone:hover:before,
+.dropzone__highlight:before {
+  border-color: greyMid;
+}
+
+.dropzone__button {
+  composes: small buttonHighlight from '../../ui/buttons.mcss';
+  position: absolute;
+  right: 0;
+  top: -10px;
+}
+
+.dropzone__label {
+  composes: greyLightColor from styles;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: color 0.3s;
+  z-index: 10;
+}
+
+.dropzone:hover .dropzone__label,
+.dropzone__highlight .dropzone__label {
+  color: greyMid;
+}
+
+.dropzone__disable_hover:before,
+.dropzone__disable_hover:hover:before{
+  border-color: transparent;
+}
+
+.dropzone__disable_hover.dropzone__highlight:before {
+  border-color: greyMid;
+  bottom: -2px;
+  left: -2px;
+  right: -2px;
+  top: -2px;
+}
+
+.dropzone__disable_hover.dropzone__highlight.dropzone__active:before {
+  border-color: highlight;
+}
+
+.dropzone__active {
+  background-color: highlightLight;
+}
+
+.dropzone__active:before {
+  border-color: highlight;
+}
+
+.dropzone__active .dropzone__label,
+.dropzone__active:hover .dropzone__label {
+  color: highlight;
+}

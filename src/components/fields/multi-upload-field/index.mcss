@@ -1,0 +1,200 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value highlight: highlight from styles;
+@value highlightLight: highlightLight from styles;
+@value highlightDark: highlightDark from styles;
+@value greyTint: greyTint from styles;
+
+.base {
+  composes: base from '../shared.mcss';
+}
+  .baseInline {
+    composes: baseInline from '../shared.mcss';
+  }
+
+.field {
+  position: relative;
+}
+
+.message {
+  padding-right: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.result,
+.progress {
+  composes: sans normal from styles;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  left: 0;
+  overflow: hidden;
+  padding: 20px;
+  position: absolute;
+  text-align: left;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.result {
+  composes: greyTint greyTintBackground from styles;
+  font-size: 1.1em;
+  line-height: 1.5;
+}
+
+.percentage {
+  float: right;
+}
+
+.previewItems {
+  background: greyTint;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.uploadedItems {
+  composes: greyMidColor greyTintBackground from styles;
+  position: relative;
+  z-index: 5;
+}
+
+.listItem {
+  composes: greyLightColor from styles;
+  composes: small sans from styles;
+  box-sizing: border-box;
+  margin-bottom: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.listItem__img img {
+  background-color: #fff;
+  box-shadow: 0 2px 2px 0px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+  display: inline-block;
+  height: 40px;
+  margin-right: 20px;
+  padding: 2px;
+  width: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.listItem__title {
+  composes: lineHeightNormal from styles;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 40px;
+}
+
+.listItem__title a {
+  color: highlight;
+}
+
+.progress__title {
+  composes: listItem__title;
+  color: #fff;
+}
+
+.previewItem {
+  composes: listItem;
+  padding: 5px;
+}
+
+.previewItem__details {
+  padding: 5px;
+}
+
+.progress_bar {
+  background: highlight;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  transition: width 1s ease-in-out;
+  width: 0;
+  z-index: 1;
+  overflow: hidden;
+  padding: 5px 0;
+}
+
+.progress_bar .listItem__img {
+  margin-left: 5px;
+}
+
+.validationMessages {}
+
+.validationMessage {
+  composes: sans normal errorColor errorLightBackground from styles;
+  margin-bottom: 5px;
+  padding: 8px 30px 8px 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.remove {
+  composes: primaryColor from styles;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 1rem;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition-duration: 100ms;
+  transition-property: color;
+  z-index: 2;
+}
+
+.remove:focus,
+.remove:hover {
+  color: error;
+}
+
+.removeText {
+  display: none;
+}
+
+.removeX {
+  composes: fallback large from styles;
+}
+
+.removeX:hover {
+  color: error;
+}
+
+.align_middle {
+  display: table-cell;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+.align_middle__content {
+  display: table-cell;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+/**
+ * Fade in animation
+ * Used for stops and copy
+ */
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.fade_in {
+  opacity: 0;
+  animation-name: fadeIn;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}

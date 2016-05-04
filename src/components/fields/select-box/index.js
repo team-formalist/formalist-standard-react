@@ -36,6 +36,14 @@ const SelectBox = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
