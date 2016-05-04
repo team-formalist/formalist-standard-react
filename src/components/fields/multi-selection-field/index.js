@@ -303,7 +303,7 @@ const SelectionField = React.createClass({
           </div>
           {
             (numberOfSelections > 0)
-            ? <div className={styles.selectedItems}>
+            ? <div id={name} className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
                 {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option}/>)}
               </Sortable>
