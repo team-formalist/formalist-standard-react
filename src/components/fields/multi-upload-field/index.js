@@ -336,9 +336,14 @@ const MultiUploadField = React.createClass({
         return this.updateUploadedFiles(fileObject, uploadResponse)
       })
       .catch((err) => {
-        this.removeFileFromPreviewFiles(fileObject)
-        this.storeXHRErrorMessage(err.message)
-        throw new Error(err.message)
+        const { name } = err
+        if (name === 'presignRequest' || name === 'uploadRequest' || name === 'responseStatus') {
+          this.removeFileFromPreviewFiles(fileObject)
+          this.storeXHRErrorMessage(err.message)
+        } else {
+          console.error(err);
+          throw err
+        }
       })
   },
 
@@ -534,7 +539,7 @@ const MultiUploadField = React.createClass({
       <div
         key={i}
         className={styles.validationMessage}>
-        Server Error: {message}
+        {message}
         <button className={styles.remove}>
           <span className={styles.removeText}>Remove</span>
           <div
