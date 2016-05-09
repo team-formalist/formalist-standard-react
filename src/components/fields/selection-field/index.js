@@ -249,7 +249,7 @@ const SelectionField = React.createClass({
         <div className={styles.display}>
           {(selection)
             ? <div className={styles.wrapper}>
-              <div className={styles.selection}>
+              <div id={name} className={styles.selection}>
                 <Selection option={selection}/>
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
