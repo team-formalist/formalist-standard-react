@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
 import {upload, presign} from 'attache-upload'
-import { List } from 'immutable'
+import Immutable, { List } from 'immutable'
 
 // Import components
 import FieldHeader from '../common/header'
@@ -80,19 +80,22 @@ const MultiUploadField = React.createClass({
    */
 
   getInitialState () {
-    const {value} = this.props
+    let {value} = this.props
+    value = (value) ? value.toJS() : value
     let uploadedFiles = []
+    let previewFiles = []
 
     // is not null/array but is an object
     // or is a List with a size greater than 0
     if (value != null && !Array.isArray(value) && (typeof (value) === 'object')) {
       uploadedFiles = [value]
-    } else if (List.isList(value) && value.size > 0) {
-      uploadedFiles = value.slice(0)
+    } else if (value != null) {
+      uploadedFiles = value
     }
 
     return {
-      uploadedFiles
+      uploadedFiles,
+      previewFiles,
     }
   },
 
@@ -255,7 +258,7 @@ const MultiUploadField = React.createClass({
     const value = multiple ? uploadedFiles : uploadedFiles[0]
 
     this.props.actions.edit(
-      (val) => value
+      (val) => Immutable.fromJS(value)
     )
   },
 
@@ -470,9 +473,6 @@ const MultiUploadField = React.createClass({
       uploadedFiles
     })
 
-    uploadedFiles.map((file) => {
-      this.uploadFile(file, noOp, false)
-    })
     this.onUpdate(uploadedFiles)
   },
 
@@ -736,8 +736,6 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    console.log('fileObject', fileObject)
-
     const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
     const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
