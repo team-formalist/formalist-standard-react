@@ -3,7 +3,7 @@ import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
 import {upload, presign} from 'attache-upload'
-import Immutable, { List } from 'immutable'
+import Immutable from 'immutable'
 
 // Import components
 import FieldHeader from '../common/header'
@@ -95,7 +95,7 @@ const MultiUploadField = React.createClass({
 
     return {
       uploadedFiles,
-      previewFiles,
+      previewFiles
     }
   },
 
@@ -344,7 +344,7 @@ const MultiUploadField = React.createClass({
           this.removeFileFromPreviewFiles(fileObject)
           this.storeXHRErrorMessage(err.message)
         } else {
-          console.error(err);
+          console.error(err)
           throw err
         }
       })
