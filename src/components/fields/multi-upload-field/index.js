@@ -2,7 +2,7 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
-import {upload, presign, deleteXHRRequest} from 'attache-upload'
+import {upload, presign, abortXHRRequest} from 'attache-upload'
 import Immutable from 'immutable'
 
 // Import components
@@ -175,7 +175,7 @@ const MultiUploadField = React.createClass({
    */
 
   abortUploadRequest (file) {
-    deleteXHRRequest(file.uid)
+    abortXHRRequest(file.uid)
   },
 
   /**
