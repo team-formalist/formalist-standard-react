@@ -2,7 +2,7 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
-import {upload, presign, getXHRRequests, deleteXHRRequest} from 'attache-upload'
+import {upload, presign, deleteXHRRequest} from 'attache-upload'
 import Immutable from 'immutable'
 
 // Import components
@@ -88,7 +88,7 @@ const MultiUploadField = React.createClass({
     if (value != null) {
       if (!Array.isArray(value) && (typeof (value) === 'object')) {
         files = [value]
-      } else  {
+      } else {
         files = value
       }
     }
@@ -518,7 +518,7 @@ const MultiUploadField = React.createClass({
           <div
             className={styles.removeX}
             onClick={this.removeXHRErrorMessage}
-            data-key={i}>×</div>
+            data-key={index}>×</div>
         </button>
       </div>
     )
@@ -561,7 +561,7 @@ const MultiUploadField = React.createClass({
           <div
             className={styles.removeX}
             onClick={this.removeInvalidFile}
-            data-key={i}>×</div>
+            data-key={index}>×</div>
         </button>
       </div>
     )
@@ -644,7 +644,7 @@ const MultiUploadField = React.createClass({
    */
 
   renderPreviewItem (fileObject, index) {
-    const {progress, file, uid, file_name} = fileObject
+    const {progress, file, file_name} = fileObject
     const {preview} = file
     const hasThumbnail = filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
@@ -750,7 +750,7 @@ const MultiUploadField = React.createClass({
     return (
       <div className={styles.uploadedItems}>
         <Sortable canRemove canSort={isSortable} onRemove={this.removeFile} onDrop={this.onDrop}>
-          { allFiles }
+          {allFiles}
         </Sortable>
       </div>
     )
