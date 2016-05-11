@@ -38,8 +38,8 @@ const MultiUploadField = React.createClass({
     name: React.PropTypes.string,
     presign_url: React.PropTypes.string,
     multiple: React.PropTypes.bool,
-    fileTypeRegex: React.PropTypes.object,
-    fileTypeRegexMessage: React.PropTypes.string,
+    permittedFileTypeRegex: React.PropTypes.object,
+    permittedFileTypeMessage: React.PropTypes.string,
     maxFileSize: React.PropTypes.number,
     maxFileSizeMessage: React.PropTypes.string,
     buttonText: React.PropTypes.string,
@@ -358,15 +358,16 @@ const MultiUploadField = React.createClass({
       : []
 
     const {
-      fileTypeRegex,
-      fileTypeRegexMessage,
+      permittedFileTypeRegex,
+      permittedFileTypeMessage,
       maxFileSize,
       maxFileSizeMessage
     } = this.props
 
     // iterate and validate each file
     files.map((file) => {
-      status = validate(file, fileTypeRegex, fileTypeRegexMessage, maxFileSize, maxFileSizeMessage)
+      status = validate(file, permittedFileTypeRegex, permittedFileTypeMessage, maxFileSize, maxFileSizeMessage)
+
       if (!status.success) {
         invalidFiles.push({
           file,
