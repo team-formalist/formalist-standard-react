@@ -59,7 +59,6 @@
   },
   "dependencies": {
     "attache-upload": "icelab/attache-upload.js",
-    "bus": "component/bus",
     "classnames": "^2.2.3",
     "es6-promise": "^3.1.2",
     "formalist-compose": "icelab/formalist-compose",
