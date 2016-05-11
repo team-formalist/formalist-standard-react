@@ -26,11 +26,10 @@ test('File Upload:', (nest) => {
     // <FieldHeader/>
     // null (XHRErrorMessages)
     // null (invalidFiles)
-    // null (previewFiles)
     // <Dropzone/>
     const component = shallowRenderComponent(Input, props)
     const actual = component.props.children.props.children.length
-    const expected = 5
+    const expected = 4
     t.equal(actual, expected)
     t.end()
   })
