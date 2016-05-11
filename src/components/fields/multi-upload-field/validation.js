@@ -1,4 +1,3 @@
-
 /**
  * validate
  * Take a file, validate and return a Promise
