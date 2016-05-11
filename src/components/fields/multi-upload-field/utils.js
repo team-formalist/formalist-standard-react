@@ -18,7 +18,7 @@ function filenameIsImage (filename) {
  * For each order value, push that index of `arr` into `sorted`
  * return sorted
  * @param  {array} arr
- * @param  {[array} order
+ * @param  {array} order
  * @return {array}
  */
 
@@ -32,7 +32,7 @@ function sortArrayByOrder (arr, order) {
 
 /**
  * generateUniqueID
- * @return {[type]} [description]
+ * @return {string}
  */
 
 function generateUniqueID (fileName) {
@@ -42,7 +42,7 @@ function generateUniqueID (fileName) {
 /**
  * noOp
  * Default param value
- * @return {Function}
+ * @return {function}
  */
 
 const noOp = (_) => {}
