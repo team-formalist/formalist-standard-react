@@ -63,7 +63,6 @@
   composes: greyLightColor from styles;
   composes: small sans from styles;
   box-sizing: border-box;
-  margin-bottom: 1px;
   position: relative;
   width: 100%;
 }
@@ -97,22 +96,13 @@
   color: #fff;
 }
 
-.previewItem {
-  composes: listItem;
-  padding: 5px;
-}
-
-.previewItem__details {
-  padding: 5px;
-}
-
 .progress_bar {
   background: highlight;
-  bottom: 0;
-  left: 0;
+  bottom: -0.5rem;
+  left: -1rem;
   box-sizing: border-box;
   position: absolute;
-  top: 0;
+  top: -0.5rem;
   transition: width 1s ease-in-out;
   width: 0;
   z-index: 1;
@@ -121,7 +111,7 @@
 }
 
 .progress_bar .listItem__img {
-  margin-left: 5px;
+  margin-left: 10px;
 }
 
 .validationMessages {}
