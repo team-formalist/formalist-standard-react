@@ -50,8 +50,13 @@ export default React.createClass({
 
   onDragOver (e) {
     e.preventDefault()
+
+    const highlight = e.dataTransfer.types[0] !== "Files"
+      ? false
+      : true
+
     this.setState({
-      highlight: true
+      highlight
     })
   },
 
