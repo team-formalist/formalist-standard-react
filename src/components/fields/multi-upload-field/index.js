@@ -219,7 +219,7 @@ const MultiUploadField = React.createClass({
     const {path, geometry, uploadURL} = response
 
     let files = this.state.files.filter((preview) => {
-      return preview.file_name !== fileObject.file_name
+      return preview.uid !== fileObject.uid
     })
 
     // apply additional properties to the fileObject
@@ -342,14 +342,7 @@ const MultiUploadField = React.createClass({
 
   onChange (files) {
     if (!files.length) return
-
-    // if it's a single upload field, remove existing uploadedFiles
     const { multiple } = this.props
-    if (!multiple && this.state.files.length) {
-      this.setState({
-        files: []
-      })
-    }
 
     let status
     let validFiles = []
@@ -394,7 +387,10 @@ const MultiUploadField = React.createClass({
     })
 
     // concatenate uploadingFiles + existing files and save
-    const allFiles = uploadingFiles.concat(this.state.files)
+    const allFiles = multiple
+      ? uploadingFiles.concat(this.state.files)
+      : uploadingFiles
+      
     this.setState({
       files: allFiles
     })
