@@ -43,13 +43,13 @@ This is the current expected format for passing in existing files.
 [
   {
     name: 'boo.jpg',
-    original_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/boo.jpg',
-    thumbnail_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/100x/boo.jpg'
+    original_url: 'some_url/boo.jpg',
+    thumbnail_url: 'some_url/boo_thumb.jpg'
   },
   {
     name: 'baz.jpg',
-    original_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/baz.jpg',
-    thumbnail_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/100x/baz.jpg'
+    original_url: 'some_url/baz.jpg',
+    thumbnail_url: 'some_url/baz_thumb.jpg'
   }
 ]
 ```
