@@ -654,7 +654,7 @@ const MultiUploadField = React.createClass({
     }
 
     return (
-      <div className={styles.listItem} key={index}>
+      <div className={styles.previewItem} key={index}>
         <span
           className={styles.progress_bar}
           style={currentProgress}>

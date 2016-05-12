@@ -67,6 +67,17 @@
   width: 100%;
 }
 
+.previewItem {
+  composes: listItem;
+  background: greyTint;
+  border-radius: 0.25em;
+  overflow: hidden;
+}
+
+.previewItem__details {
+  padding: 5px;
+}
+
 .listItem__img img {
   background-color: #fff;
   box-shadow: 0 2px 2px 0px rgba(0,0,0,0.08);
@@ -98,20 +109,15 @@
 
 .progress_bar {
   background: highlight;
-  bottom: -0.5rem;
-  left: -1rem;
+  bottom: 0;
+  left: 0;
   box-sizing: border-box;
   position: absolute;
-  top: -0.5rem;
-  transition: width 1s ease-in-out;
+  top: 0;
+  transition: width 0.5s ease-in-out;
   width: 0;
   z-index: 1;
   overflow: hidden;
-  padding: 5px 0;
-}
-
-.progress_bar .listItem__img {
-  margin-left: 10px;
 }
 
 .validationMessages {}
