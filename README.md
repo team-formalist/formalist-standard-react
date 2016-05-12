@@ -37,24 +37,19 @@ Here are the potential props we can have for the `multi-upload-field`.
 
 ##### uploadedFiles
 
-This is the current expected format.  
-Note: optional 'thumbnail_url' property.
+This is the current expected format for passing in existing files.
 
 ```js
 [
   {
     name: 'boo.jpg',
-    path: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/boo.jpg',
-    thumbnail_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/100x/boo.jpg',
-    geometry: '300x300',
-    uid: 'dffct0jk7l_boo.jpg'
+    original_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/boo.jpg',
+    thumbnail_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/100x/boo.jpg'
   },
   {
     name: 'baz.jpg',
-    path: '49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/baz.jpg',
-    thumbnail_url: '49/29/fe/c3/f7/9f/a7/28/76/48/84/9c/17/88/68/bb/100x/baz.jpg',
-    geometry: '300x300',
-    uid: 'rpieu27lo6_baz.jpg'
+    original_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/baz.jpg',
+    thumbnail_url: 'b6/4c/62/82/87/6c/f6/33/0a/14/89/55/59/48/ed/e0/100x/baz.jpg'
   }
 ]
 ```
@@ -65,35 +60,55 @@ Note: optional 'thumbnail_url' property.
 
 multi_upload_field :multi_upload_field,
   label: "Drop/Upload Files",
-  presign_url: "http://localhost:3000/uploads/presign",
-  multiple: false
+  presign_url: "http://localhost:3000/uploads/presign"
 ```
 
 ```js
 // ast.js
 
 [
-  'field',
   [
-    'multi_upload_field',
-    'multi_upload_field',
-    null,
-    [],
-    [],
+    "field",
     [
+      "multi_upload_field",
+      "multi_upload_field",
+      null,
+      [],
       [
-        'label',
-        'Drop/Upload Files'
-      ],
-      [
-        'presign_url',
-        'http://localhost:3000/uploads/presign'
-      ],
-      [
-        'multiple',
-        false
+        "object",
+        [
+          [
+            "label",
+            [
+              "value",
+              [
+                "Upload many photos"
+              ]
+            ]
+          ],
+          [
+            "presign_url",
+            [
+              "value",
+              [
+                "http://localhost:3000/uploads/presign"
+              ]
+            ]
+          ]
+        ]
       ]
     ]
   ]
-]
+```
+
+## upload-field
+
+This component just passes the prop `multiple={false}` to the `multi-upload-field` component. The same `props` apply.
+
+```ruby
+#demo.rb
+
+upload_field :upload_field,
+  label: "Drop/Upload Files",
+  presign_url: "http://localhost:3000/uploads/presign"
 ```
