@@ -230,8 +230,8 @@ const MultiUploadField = React.createClass({
     fileObject.original_url = this.buildPath(uploadURL, path)
     delete fileObject.file
 
-    // push the new objects onto 'existingFiles'
-    files.push(fileObject)
+    // push the new objects to the top of 'existingFiles'
+    files.unshift(fileObject)
 
     // save
     this.setState({
@@ -746,11 +746,9 @@ const MultiUploadField = React.createClass({
     })
 
     return (
-      <div className={styles.uploadedItems}>
-        <Sortable canRemove canSort={isSortable} onRemove={this.removeFile} onDrop={this.onDrop}>
-          {allFiles}
-        </Sortable>
-      </div>
+      <Sortable canRemove canSort={isSortable} onRemove={this.removeFile} onDrop={this.onDrop}>
+        {allFiles}
+      </Sortable>
     )
   },
 
