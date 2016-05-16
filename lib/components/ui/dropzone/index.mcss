@@ -7,17 +7,53 @@
 @value greyLight: greyLight from styles;
 @value greyMid: greyMid from styles;
 
-
 .dropzone {
   composes: greyLightColor from styles;
   composes: small sans from styles;
   cursor: pointer;
-  min-height: 66px;
+  min-height: 71px;
   position: relative;
   width: 100%;
   z-index: 0;
   transition: background-color 0.3s;
 }
+
+/**
+ * 'Upload an image' text
+ */
+
+.dropzone__drag_over:before,
+.dropzone__active:before,
+.dropzone__empty:before{
+  color: greyTint;
+  content: "Upload an image";
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+  z-index: 10;
+  transition: color 0.25s;
+}
+
+.dropzone__empty:hover:before {
+  color: greyMid;
+}
+
+.dropzone__active:before {
+  color: highlight;
+}
+
+.dropzone__drag_over:before {
+  color: greyMid;
+}
+
+.dropzone__drag_over.dropzone__active:before {
+  color: highlight;
+}
+
+/**
+ * dropzone border
+ */
 
 .dropzone:after {
   background: none;
@@ -31,38 +67,13 @@
   position: absolute;
   top: 0;
   width: 100%;
-  z-index: 0;
-  transition: border-color 0.3s;
+  z-index: 1;
+  transition: border-color 0.25s;
 }
-
-.dropzone:hover,
-.dropzone__highlight {}
 
 .dropzone:hover:after,
-.dropzone__highlight:after {
+.dropzone__drag_over:after {
   border-color: greyMid;
-}
-
-.dropzone__button {
-  composes: small buttonHighlight from '../../ui/buttons.mcss';
-  position: absolute;
-  right: 0;
-  top: -10px;
-}
-
-.dropzone__label {
-  composes: greyLightColor from styles;
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  transition: color 0.3s;
-  z-index: 10;
-}
-
-.dropzone:hover .dropzone__label,
-.dropzone__highlight .dropzone__label {
-  color: greyMid;
 }
 
 .dropzone__disable_hover:after,
@@ -70,27 +81,33 @@
   border-color: transparent;
 }
 
-.dropzone__disable_hover.dropzone__highlight:after {
+.dropzone__disable_hover.dropzone__drag_over:after {
   border-color: greyMid;
-  bottom: -2px;
-  left: -2px;
-  right: -2px;
-  top: -2px;
 }
 
-.dropzone__disable_hover.dropzone__highlight.dropzone__active:after {
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active:after {
   border-color: highlight;
-}
-
-.dropzone__active {
-  background-color: highlightLight;
 }
 
 .dropzone__active:after {
   border-color: highlight;
 }
 
-.dropzone__active .dropzone__label,
-.dropzone__active:hover .dropzone__label {
-  color: highlight;
-}
+/**
+ * active background color
+ */
+
+ .dropzone__active {
+   background-color: highlightLight;
+ }
+
+/**
+ * dropzone button
+ */
+
+ .dropzone__button {
+   composes: small buttonHighlight from '../../ui/buttons.mcss';
+   position: absolute;
+   right: 0;
+   top: -10px;
+ }
