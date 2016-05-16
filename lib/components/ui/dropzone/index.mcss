@@ -21,7 +21,7 @@
 
 .dropzone:after {
   background: none;
-  border: 2px dashed greyTint;
+  border: 1px dashed greyTint;
   bottom: 0;
   box-sizing: border-box;
   content: "";
