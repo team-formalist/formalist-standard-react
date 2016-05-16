@@ -174,23 +174,3 @@
   vertical-align: middle;
   margin-top: -2px;
 }
-
-/**
- * Fade in animation
- * Used for stops and copy
- */
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-
-.fade_in {
-  opacity: 0;
-  animation-name: fadeIn;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-in;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-}

@@ -698,14 +698,9 @@ const MultiUploadField = React.createClass({
       ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
       : null
 
-    const bodyClassNames = classNames(
-      styles.listItem__body,
-      styles.fade_in
-    )
-
     return (
       <div className={styles.listItem} key={index}>
-        <div className={bodyClassNames}>
+        <div className={styles.listItem__body}>
           <div className={styles.align_middle}>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__img}>
