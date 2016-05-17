@@ -111,3 +111,49 @@ upload_field :upload_field,
   label: "Drop/Upload Files",
   presign_url: "http://localhost:3000/uploads/presign"
 ```
+
+
+## Custom uploaded item template
+
+Pass through a custom template for rendering an uploaded item, by defining a
+`component`.
+
+Here we assign our `admin` component to the `components` array of our new `multiUploadField`. The `multiUploadField` will then extract this template
+when rendering uploaded files passing it the parameters `fileObject` and `index`.
+
+```js
+import template from 'formalist-standard-react'
+const configuredTemplate = template({}, formConfig)
+const AST = '../ast.js'
+const form = configuredTemplate(AST)
+const app = document.querySelector('.app')
+
+const formConfig = {
+  fields: {
+    multiUploadField: {
+      components: [
+        {
+          name: 'admin',
+          component: (fileObject, index) => (<div key={index}>I see {fileObject.file_name}</div>)
+        }
+      ]
+    }
+  }
+}
+
+ReactDOM.render(<App form={form} />, app)
+```
+
+A `fileObject` is an object that contains the original file as well as similar
+properties so as to not modify the originla File itself.
+
+```js
+{
+  file_name: small.jpg,
+  file: File,
+  lastModifiedDate: Tue May 17 2016 15:28:11 GMT+1000 (AEST),
+  size: 5000000000,
+  type: 'image/png',
+  uid: "wyertyiopdop_small.jpg"
+}
+```

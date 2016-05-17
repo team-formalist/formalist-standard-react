@@ -12,6 +12,7 @@ import validate from './validation.js'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
 import {filenameIsImage, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
+import extractComponent from '../../../utils/extract-component'
 
 /**
  * MultiUploadField
@@ -33,19 +34,21 @@ const MultiUploadField = React.createClass({
     actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
       label: React.PropTypes.string,
-      presign_url: React.PropTypes.string
+      presign_url: React.PropTypes.string,
+      render_uploaded_as: React.PropTypes.string
     }),
-    name: React.PropTypes.string,
-    presign_url: React.PropTypes.string,
-    multiple: React.PropTypes.bool,
-    permittedFileTypeRegex: React.PropTypes.object,
-    permittedFileTypeMessage: React.PropTypes.string,
-    maxFileSize: React.PropTypes.number,
-    maxFileSizeMessage: React.PropTypes.string,
     buttonText: React.PropTypes.string,
+    config: React.PropTypes.object,
+    errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list,
+    maxFileSize: React.PropTypes.number,
+    maxFileSizeMessage: React.PropTypes.string,
+    multiple: React.PropTypes.bool,
+    name: React.PropTypes.string,
+    permittedFileTypeMessage: React.PropTypes.string,
+    permittedFileTypeRegex: React.PropTypes.object,
+    presign_url: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       ImmutablePropTypes.list,
       React.PropTypes.object
@@ -684,45 +687,92 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * renderUploadedItem
+   * renderDefaultTemplate
    * Render an node represeting an uploaded file
    * @param {object} fileObject
    * @param {number} index
    * @return {vnode}
    */
 
-  renderUploadedItem (fileObject, index) {
-    const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
-    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
-    const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
-      : null
+   renderDefaultTemplate (fileObject, index) {
+     const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
+     const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
+     const thumbnailImage = hasThumbnail
+       ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
+       : null
 
-    return (
-      <div className={styles.listItem} key={index}>
-        <div className={styles.listItem__body}>
-          <div className={styles.align_middle}>
-            <div className={styles.align_middle__content}>
-              <div className={styles.listItem__img}>
-                {thumbnailImage}
-              </div>
-            </div>
-            <div className={styles.align_middle__content}>
-              <div className={styles.listItem__title}>
-                <a target='_blank' href={original_url}>{file_name}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  },
+     return (
+       <div className={styles.listItem} key={index}>
+         <div className={styles.listItem__body}>
+           <div className={styles.align_middle}>
+             <div className={styles.align_middle__content}>
+               <div className={styles.listItem__img}>
+                 {thumbnailImage}
+               </div>
+             </div>
+             <div className={styles.align_middle__content}>
+               <div className={styles.listItem__title}>
+                 <a target='_blank' href={original_url}>{file_name}</a>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     )
+   },
+
+   /**
+    * renderCustomTemplate
+    * Try and extract the custom template from `config` passing it our `fileObject`
+    * The `extractComponent` will try and match a `name` property in `config` with
+    * properties defined in the form class.
+    * e.g.
+    *
+    * // form class
+    *
+    * multi_upload_field :multi_upload_field,
+    *  label: "Upload all the photos",
+    *  presign_url: "http://some/presign",
+    *  render_uploaded_as: "admin"
+    *
+    *
+    * // form config
+    *
+    * multiUploadField: {
+    *   components: [
+    *     {
+    *       name: 'admin',
+    *       component: (file, index) => (<div key={index}>I see {file.file_name}</div>)
+    *     }
+    *   ]
+    * }
+    *
+    * If that fails, return null and log the error.
+    * @param  {object} fileObject
+    * @param  {number} index
+    * @return {vnode | null}
+    */
+
+   renderCustomTemplate (fileObject, index) {
+     const {config, attributes} = this.props
+     const {render_uploaded_as} = attributes
+
+     try {
+       return extractComponent(config.components, render_uploaded_as)(fileObject)
+     }
+     catch (err) {
+       console.error(err)
+       return null
+     }
+   },
 
   /**
    * renderFiles
    * Iterate all files in state.
    * If the file has a 'file' property, call `renderPreviewItem()`
-   * otherwise call `renderUploadedItem()`
+   * otherwise :
+   * - check if we need to renderCustomTemplate()
+   * - otherwise render a default template
    * Toggle `isSortable` based on if preview items exist
    * @param  {Array} files
    * @return {vnode}
@@ -731,12 +781,14 @@ const MultiUploadField = React.createClass({
   renderFiles (files) {
     let isSortable = true
 
-    var allFiles = files.map((file) => {
+    var allFiles = files.map((file, index) => {
       if (file.file) {
         isSortable = false
-        return this.renderPreviewItem(file)
+        return this.renderPreviewItem(file, index)
       } else {
-        return this.renderUploadedItem(file)
+        const template = this.renderCustomTemplate(file, index)
+          || this.renderDefaultTemplate(file, index)
+        return template
       }
     })
 
