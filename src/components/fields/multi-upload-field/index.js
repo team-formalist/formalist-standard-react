@@ -134,7 +134,7 @@ const MultiUploadField = React.createClass({
    * 		file_name: small.jpg,
    * 		file: {file},
    * 		uid: "wyertyiopdop_small.jpg"
-   *}
+   * }
    *
    * @param {array || object} val - a existing file object or an array of dropped files
    * @return {array || object} an array of objects - of just an object
@@ -694,32 +694,32 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-   renderDefaultTemplate (fileObject, index) {
-     const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
-     const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
-     const thumbnailImage = hasThumbnail
-       ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
-       : null
+  renderDefaultTemplate (fileObject, index) {
+    const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
+    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
+    const thumbnailImage = hasThumbnail
+      ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
+      : null
 
-     return (
-       <div className={styles.listItem} key={index}>
-         <div className={styles.listItem__body}>
-           <div className={styles.align_middle}>
-             <div className={styles.align_middle__content}>
-               <div className={styles.listItem__img}>
-                 {thumbnailImage}
-               </div>
-             </div>
-             <div className={styles.align_middle__content}>
-               <div className={styles.listItem__title}>
-                 <a target='_blank' href={original_url}>{file_name}</a>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     )
-   },
+    return (
+      <div className={styles.listItem} key={index}>
+        <div className={styles.listItem__body}>
+          <div className={styles.align_middle}>
+            <div className={styles.align_middle__content}>
+              <div className={styles.listItem__img}>
+                {thumbnailImage}
+              </div>
+            </div>
+            <div className={styles.align_middle__content}>
+              <div className={styles.listItem__title}>
+                <a target='_blank' href={original_url}>{file_name}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
 
    /**
     * renderCustomTemplate
@@ -753,18 +753,17 @@ const MultiUploadField = React.createClass({
     * @return {vnode | null}
     */
 
-   renderCustomTemplate (fileObject, index) {
-     const {config, attributes} = this.props
-     const {render_uploaded_as} = attributes
+  renderCustomTemplate (fileObject, index) {
+    const {config, attributes} = this.props
+    const {render_uploaded_as} = attributes
 
-     try {
-       return extractComponent(config.components, render_uploaded_as)(fileObject)
-     }
-     catch (err) {
-       console.error(err)
-       return null
-     }
-   },
+    try {
+      return extractComponent(config.components, render_uploaded_as)(fileObject)
+    } catch (err) {
+      console.error(err)
+      return null
+    }
+  },
 
   /**
    * renderFiles
@@ -786,8 +785,8 @@ const MultiUploadField = React.createClass({
         isSortable = false
         return this.renderPreviewItem(file, index)
       } else {
-        const template = this.renderCustomTemplate(file, index)
-          || this.renderDefaultTemplate(file, index)
+        const template = this.renderCustomTemplate(file, index) ||
+          this.renderDefaultTemplate(file, index)
         return template
       }
     })
