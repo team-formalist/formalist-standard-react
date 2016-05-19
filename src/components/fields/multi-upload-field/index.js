@@ -112,13 +112,12 @@ const MultiUploadField = React.createClass({
 
   componentWillReceiveProps (nextProps) {
     if (!nextProps.multple || !nextProps.value.length) return
-
     let files = this.state.files.slice(0)
+
     let newValueProps = filterUniqueObjects(files, nextProps.value)
-
     if (!newValueProps.length) return
-    files = files.concat(newValueProps)
 
+    files = files.concat(newValueProps)
     this.setState({
       files
     })
@@ -461,7 +460,7 @@ const MultiUploadField = React.createClass({
       files
     })
 
-    this.onUpdate(files)
+    if (files.length) this.onUpdate(files)
   },
 
   /**
