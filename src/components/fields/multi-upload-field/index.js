@@ -234,7 +234,7 @@ const MultiUploadField = React.createClass({
     delete fileObject.file
 
     // push the new objects to the top of 'existingFiles'
-    files.unshift(fileObject)
+    files.push(fileObject)
 
     // save
     this.setState({
@@ -392,7 +392,7 @@ const MultiUploadField = React.createClass({
     // if `multiple` concat dropped file with existing,
     // otherwise just the dropped file
     const allFiles = multiple
-      ? uploadingFiles.concat(this.state.files)
+      ? this.state.files.concat(uploadingFiles)
       : uploadingFiles
 
     this.setState({
