@@ -753,12 +753,9 @@ const MultiUploadField = React.createClass({
     * @return {vnode | null}
     */
 
-  renderCustomTemplate (fileObject, index) {
-    const {config, attributes} = this.props
-    const {render_uploaded_as} = attributes
-
+  renderCustomTemplate (fileObject, index, config, attribute) {
     try {
-      return extractComponent(config.components, render_uploaded_as)(fileObject)
+      return extractComponent(config.components, attribute)(fileObject)
     } catch (err) {
       console.error(err)
       return null
@@ -779,14 +776,17 @@ const MultiUploadField = React.createClass({
 
   renderFiles (files) {
     let isSortable = true
+    const {config, attributes} = this.props
+    const {render_uploaded_as} = attributes
 
     var allFiles = files.map((file, index) => {
       if (file.file) {
         isSortable = false
         return this.renderPreviewItem(file, index)
       } else {
-        const template = this.renderCustomTemplate(file, index) ||
-          this.renderDefaultTemplate(file, index)
+        const template = (render_uploaded_as)
+          ? this.renderCustomTemplate(file, index, config, render_uploaded_as)
+          : this.renderDefaultTemplate(file, index)
         return template
       }
     })
@@ -822,19 +822,15 @@ const MultiUploadField = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.field}>
-
           <div>
             <FieldHeader hint={hint} id={name} label={label} />
           </div>
-
           {XHRErrorMessages && XHRErrorMessages.length > 0
             ? this.renderXHRErrorMessages(XHRErrorMessages)
             : null}
-
           {invalidFiles && invalidFiles.length > 0
             ? this.renderInvalidFiles(invalidFiles)
             : null}
-
           <Dropzone
             multiple={multiple}
             onChange={this.onChange}
