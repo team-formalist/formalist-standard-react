@@ -53,11 +53,8 @@ export default React.createClass({
 
   onDragOver (e) {
     e.preventDefault()
-
     const isActive = e.dataTransfer.types[0] === 'Files'
-
     if (isActive === this.state.isActive) return
-
     this.setState({
       isActive
     })
@@ -182,7 +179,7 @@ export default React.createClass({
             onDrop={this.onDrop}
             ref='dropzone'
             style={{}}>
-            {isActive ? null : children}
+            {children}
           </Dropzone>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}

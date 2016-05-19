@@ -10,87 +10,87 @@
 .dropzone {
   composes: greyLightColor from styles;
   composes: small sans from styles;
-  cursor: pointer;
   min-height: 71px;
   position: relative;
+  transition: background-color 0.3s;
   width: 100%;
   z-index: 0;
-  transition: background-color 0.3s;
 }
 
 /**
- * 'Upload an image' text
+ * Dropzone 'Upload an image' text
  */
 
-.dropzone__drag_over:before,
-.dropzone__active:before,
-.dropzone__empty:before{
-  color: greyTint;
+.dropzone__drag_over:after,
+.dropzone__active:after,
+.dropzone__empty:after {
+  color: greyLight;
   content: "Upload an image";
-  top: 50%;
   left: 50%;
-  transform: translateX(-50%) translateY(-50%);
   position: absolute;
-  z-index: 10;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
   transition: color 0.25s;
+  z-index: 10;
 }
 
-.dropzone__empty:hover:before {
+.dropzone__empty:hover:after {
   color: greyMid;
 }
 
-.dropzone__active:before {
+.dropzone__active:after {
   color: highlight;
 }
 
-.dropzone__drag_over:before {
+.dropzone__drag_over:after {
   color: greyMid;
 }
 
-.dropzone__drag_over.dropzone__active:before {
+.dropzone__drag_over.dropzone__active:after {
   color: highlight;
 }
 
 /**
- * dropzone border
+ * dropzone border and backgrounds
  */
 
-.dropzone:after {
-  background: none;
-  border: 1px dashed greyTint;
+.dropzone:before {
+  background: transparent;
+  border: 1px dashed transparent;
   bottom: 0;
   box-sizing: border-box;
   content: "";
   display: block;
   left: 0;
-  right: 0;
   position: absolute;
+  right: 0;
   top: 0;
+  transition: border-color 0.25s, background-color 0.25s;
   width: 100%;
   z-index: 1;
-  transition: border-color 0.25s;
 }
 
-.dropzone:hover:after,
-.dropzone__drag_over:after {
+.dropzone__empty:before {
+  border-color: greyLight;
+}
+
+.dropzone__empty:hover:before {
   border-color: greyMid;
 }
 
-.dropzone__disable_hover:after,
-.dropzone__disable_hover:hover:after{
-  border-color: transparent;
-}
-
-.dropzone__disable_hover.dropzone__drag_over:after {
+.dropzone__drag_over:before {
+  background: rgba(245,245,245, 0.7);
   border-color: greyMid;
+  z-index: 9;
 }
 
-.dropzone__disable_hover.dropzone__drag_over.dropzone__active:after {
+.dropzone__drag_over.dropzone__active:before {
+  background: rgba(127,194,234, 0.3);
   border-color: highlight;
 }
 
-.dropzone__active:after {
-  border-color: highlight;
+.dropzone__drag_over.dropzone__empty:before {
+  background: transparent;
 }
 
 /**
@@ -109,5 +109,5 @@
    composes: small buttonHighlight from '../../ui/buttons.mcss';
    position: absolute;
    right: 0;
-   top: -10px;
+   top: -3px;
  }
