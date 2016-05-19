@@ -763,6 +763,24 @@ const MultiUploadField = React.createClass({
   },
 
   /**
+   * customComponentExists
+   * Does a component with the same name as the `attribute` exist ?
+   * @param  {object} config - components: [...]
+   * @param  {string} attribute
+   * @return {bool}
+   */
+
+  customComponentExists (config, attribute) {
+    if (!config || !attribute) return false
+
+    let result = false
+    config.components.map((component) => {
+      if (component.name === attribute) result = true
+    })
+    return result
+  },
+
+  /**
    * renderFiles
    * Iterate all files in state.
    * If the file has a 'file' property, call `renderPreviewItem()`
@@ -779,14 +797,14 @@ const MultiUploadField = React.createClass({
     const {config, attributes} = this.props
     const {render_uploaded_as} = attributes
 
-    var allFiles = files.map((file, index) => {
-      if (file.file) {
+    var allFiles = files.map((fileObject, index) => {
+      if (fileObject.file) {
         isSortable = false
-        return this.renderPreviewItem(file, index)
+        return this.renderPreviewItem(fileObject, index)
       } else {
-        const template = (render_uploaded_as)
-          ? this.renderCustomTemplate(file, index, config, render_uploaded_as)
-          : this.renderDefaultTemplate(file, index)
+        const template = (this.customComponentExists(config, render_uploaded_as))
+          ? this.renderCustomTemplate(fileObject, index, config, render_uploaded_as)
+          : this.renderDefaultTemplate(fileObject, index)
         return template
       }
     })

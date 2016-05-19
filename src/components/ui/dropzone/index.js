@@ -54,10 +54,7 @@ export default React.createClass({
   onDragOver (e) {
     e.preventDefault()
 
-    const isActive = e.dataTransfer.types[0] !== "Files"
-      ? false
-      : true
-
+    const isActive = e.dataTransfer.types[0] === 'Files'
 
     if (isActive === this.state.isActive) return
 
