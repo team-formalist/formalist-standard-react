@@ -33,7 +33,7 @@ const MultiUploadField = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
+      upload_label: React.PropTypes.string,
       presign_url: React.PropTypes.string,
       render_uploaded_as: React.PropTypes.string
     }),
@@ -821,7 +821,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {attributes, hint, label, name, multiple} = this.props
+    const {attributes, hint, label, name, multiple, upload_label} = this.props
     const {
       XHRErrorMessages,
       files,
@@ -851,6 +851,7 @@ const MultiUploadField = React.createClass({
           <Dropzone
             multiple={multiple}
             onChange={this.onChange}
+            label={upload_label}
             disableClick={files.length > 0}>
             {files.length > 0
               ? this.renderFiles(files)

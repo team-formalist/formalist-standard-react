@@ -7,51 +7,57 @@
 @value greyLight: greyLight from styles;
 @value greyMid: greyMid from styles;
 
+
+.parent {
+  position: relative;
+}
+
 .dropzone {
   composes: greyLightColor from styles;
   composes: small sans from styles;
   min-height: 71px;
-  position: relative;
   transition: background-color 0.3s;
   width: 100%;
   z-index: 0;
 }
 
 /**
- * Dropzone 'Upload an image' text
+ * Dropzone 'Upload an image' label
  */
 
-.dropzone__drag_over:after,
-.dropzone__active:after,
-.dropzone__empty:after {
+.dropzone__label {
   color: greyLight;
-  content: "Upload an image";
+  cursor: none;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   transition: color 0.25s;
-  z-index: 10;
-}
-
-.dropzone__empty:hover:after {
-  color: greyMid;
-}
-
-.dropzone__active:after {
-  color: highlight;
-}
-
-.dropzone__drag_over:after {
-  color: greyMid;
-}
-
-.dropzone__drag_over.dropzone__active:after {
-  color: highlight;
-}
-
-.dropzone__active.dropzone__disable_hover:after {
+  z-index: 1;
   display: none;
+}
+
+.dropzone__drag_over .dropzone__label,
+.dropzone__active .dropzone__label,
+.dropzone__empty .dropzone__label {
+  display: inline-block;
+}
+
+.dropzone__empty:hover .dropzone__label {
+  color: greyMid;
+}
+
+.dropzone__active .dropzone__label {
+  color: highlight;
+}
+
+.dropzone__drag_over .dropzone__label {
+  color: greyMid;
+}
+
+.dropzone__drag_over.dropzone__active .dropzone__label {
+  color: highlight;
+  z-index: 9;
 }
 
 /**

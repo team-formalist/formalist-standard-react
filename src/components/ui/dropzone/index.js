@@ -153,7 +153,15 @@ export default React.createClass({
 
   render () {
     const {files, isActive} = this.state
-    const {buttonText, renderPreview, multiple, children, disableClick, hideDropZoneBtn} = this.props
+    const {
+      buttonText,
+      renderPreview,
+      multiple,
+      children,
+      disableClick,
+      hideDropZoneBtn,
+      label
+    } = this.props
 
     let dropZoneClassNames = classNames(
       styles.dropzone,
@@ -171,16 +179,19 @@ export default React.createClass({
             ? this.renderButton(buttonText)
             : null}
 
-          <Dropzone
-            disableClick={disableClick}
-            activeClassName={styles.dropzone__active}
-            className={dropZoneClassNames}
-            multiple={multiple}
-            onDrop={this.onDrop}
-            ref='dropzone'
-            style={{}}>
-            {children}
-          </Dropzone>
+          <div className={styles.parent}>
+            <Dropzone
+              disableClick={disableClick}
+              activeClassName={styles.dropzone__active}
+              className={dropZoneClassNames}
+              multiple={multiple}
+              onDrop={this.onDrop}
+              ref='dropzone'
+              style={{}}>
+              {children}
+              <span className={styles.dropzone__label}>{ label || 'Upload an image'}</span>
+            </Dropzone>
+          </div>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
