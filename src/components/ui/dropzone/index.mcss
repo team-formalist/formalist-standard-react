@@ -50,6 +50,10 @@
   color: highlight;
 }
 
+.dropzone__active.dropzone__disable_hover:after {
+  display: none;
+}
+
 /**
  * dropzone border and backgrounds
  */
