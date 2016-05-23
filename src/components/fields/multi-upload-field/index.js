@@ -35,20 +35,19 @@ const MultiUploadField = React.createClass({
     attributes: React.PropTypes.shape({
       upload_label: React.PropTypes.string,
       presign_url: React.PropTypes.string,
-      render_uploaded_as: React.PropTypes.string
+      render_uploaded_as: React.PropTypes.string,
+      button_text: React.PropTypes.string,
+      permittedFileTypeMessage: React.PropTypes.string,
+      permittedFileTypeRegex: React.PropTypes.object,
+      maxFileSize: React.PropTypes.number,
+      maxFileSizeMessage: React.PropTypes.string,
+      multiple: React.PropTypes.bool
     }),
-    buttonText: React.PropTypes.string,
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    maxFileSize: React.PropTypes.number,
-    maxFileSizeMessage: React.PropTypes.string,
-    multiple: React.PropTypes.bool,
     name: React.PropTypes.string,
-    permittedFileTypeMessage: React.PropTypes.string,
-    permittedFileTypeRegex: React.PropTypes.object,
-    presign_url: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       ImmutablePropTypes.list,
       React.PropTypes.object
@@ -821,7 +820,7 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {attributes, hint, label, name, multiple, upload_label} = this.props
+    const {attributes, hint, label, name, multiple, upload_label, button_text} = this.props
     const {
       XHRErrorMessages,
       files,
@@ -852,6 +851,7 @@ const MultiUploadField = React.createClass({
             multiple={multiple}
             onChange={this.onChange}
             label={upload_label}
+            buttonText={button_text}
             disableClick={files.length > 0}>
             {files.length > 0
               ? this.renderFiles(files)

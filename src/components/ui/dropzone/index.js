@@ -147,6 +147,21 @@ export default React.createClass({
   },
 
   /**
+   * renderLabel
+   * Render a label for the dropzone field
+   * @param  {string} label
+   * @return {vnode}
+   */
+
+  renderLabel (label) {
+    return (
+      <span className={styles.dropzone__label}>
+        { label || 'Upload an image'}
+      </span>
+    )
+  },
+
+  /**
    * render
    * @return {vnode}
    */
@@ -189,7 +204,7 @@ export default React.createClass({
               ref='dropzone'
               style={{}}>
               {children}
-              <span className={styles.dropzone__label}>{ label || 'Upload an image'}</span>
+              {this.renderLabel(label)}
             </Dropzone>
           </div>
         </div>
