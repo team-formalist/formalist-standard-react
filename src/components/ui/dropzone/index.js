@@ -141,7 +141,7 @@ export default React.createClass({
       <button onClick={this.onClick} className={styles.dropzone__button}>
         {buttonText != null
           ? buttonText
-          : 'Upload an image'}
+          : 'Upload file'}
       </button>
     )
   },
@@ -156,7 +156,7 @@ export default React.createClass({
   renderLabel (label) {
     return (
       <span className={styles.dropzone__label}>
-        { label || 'Upload an image'}
+        { label || 'Drop file to upload'}
       </span>
     )
   },
