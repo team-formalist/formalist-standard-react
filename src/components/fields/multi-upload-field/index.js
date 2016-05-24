@@ -33,15 +33,15 @@ const MultiUploadField = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
-      upload_prompt: React.PropTypes.string,
+      maxFileSize: React.PropTypes.number,
+      maxFileSizeMessage: React.PropTypes.string,
+      multiple: React.PropTypes.bool,
+      permittedFileTypeMessage: React.PropTypes.string,
+      permittedFileTypeRegex: React.PropTypes.object,
       presign_url: React.PropTypes.string,
       render_uploaded_as: React.PropTypes.string,
       upload_action_label: React.PropTypes.string,
-      permittedFileTypeMessage: React.PropTypes.string,
-      permittedFileTypeRegex: React.PropTypes.object,
-      maxFileSize: React.PropTypes.number,
-      maxFileSizeMessage: React.PropTypes.string,
-      multiple: React.PropTypes.bool
+      upload_prompt: React.PropTypes.string
     }),
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
