@@ -24,7 +24,7 @@ const MultiUploadField = React.createClass({
    * displayName
    */
 
-  displayName: 'MultiUploadField',
+  displayName: 'UploadField',
 
   /**
    * propTypes
