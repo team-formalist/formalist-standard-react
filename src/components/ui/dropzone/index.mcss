@@ -60,6 +60,10 @@
   z-index: 9;
 }
 
+.dropzone__active:hover .dropzone__label {
+  display: none;
+}
+
 /**
  * dropzone border and backgrounds
  */
