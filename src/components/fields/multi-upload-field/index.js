@@ -11,7 +11,7 @@ import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
 import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
-import {filenameIsImage, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
+import {hasImageFormatType, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
 import extractComponent from '../../../utils/extract-component'
 
 /**
@@ -646,7 +646,7 @@ const MultiUploadField = React.createClass({
   renderPreviewItem (fileObject, index) {
     const {progress, file, file_name} = fileObject
     const {preview} = file
-    const hasThumbnail = filenameIsImage(file_name)
+    const hasThumbnail = hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
       ? this.renderThumbnail(preview, file_name)
       : null
@@ -695,7 +695,7 @@ const MultiUploadField = React.createClass({
 
   renderDefaultTemplate (fileObject, index) {
     const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
-    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
+    const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
       ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
       : null
