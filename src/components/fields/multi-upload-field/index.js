@@ -250,8 +250,7 @@ const MultiUploadField = React.createClass({
    */
 
   onUpdate (files) {
-    const {multiple} = this.props
-    const value = multiple ? files : files[0]
+    const value = (this.props.attributes.multiple || this.props.multiple) ? files : files[0]
 
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
@@ -345,8 +344,8 @@ const MultiUploadField = React.createClass({
     if (!files.length) return
 
     const { attributes } = this.props
+
     const {
-      multiple,
       permittedFileTypeRegex,
       permittedFileTypeMessage,
       maxFileSize,
@@ -390,7 +389,7 @@ const MultiUploadField = React.createClass({
 
     // if `multiple` concat dropped file with existing,
     // otherwise just the dropped file
-    const allFiles = multiple
+    const allFiles = (this.props.attributes.multiple || this.props.multiple)
       ? this.state.files.concat(uploadingFiles)
       : uploadingFiles
 
@@ -822,7 +821,7 @@ const MultiUploadField = React.createClass({
 
   render () {
     const {attributes, hint, label, name} = this.props
-    const {upload_prompt, upload_action_label, multiple} = attributes
+    const {upload_prompt, upload_action_label} = attributes
     const {
       XHRErrorMessages,
       files,
@@ -850,7 +849,7 @@ const MultiUploadField = React.createClass({
             ? this.renderInvalidFiles(invalidFiles)
             : null}
           <Dropzone
-            multiple={multiple}
+            multiple={this.props.attributes.multiple || this.props.multiple}
             onChange={this.onChange}
             label={upload_prompt}
             buttonText={upload_action_label}
