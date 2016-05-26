@@ -838,7 +838,7 @@ const MultiUploadField = React.createClass({
 
     return (
       <div className={fieldClassNames}>
-        <div className={styles.parent}>
+        <div>
           <div>
             <FieldHeader hint={hint} id={name} label={label} />
           </div>
