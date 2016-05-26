@@ -7,10 +7,14 @@
 @value greyLight: greyLight from styles;
 @value greyMid: greyMid from styles;
 
-
-.parent {
-  position: relative;
-}
+/**
+ * dropzone
+ * this element cannot always be positioned relative.
+ * when this field is 'relative' it's sortable children "lose" elements when dragging.
+ * This element does need to be 'relative' at times to display it's label element
+ * vertically aligned.
+ * When the dropzone is empty, or on window drag, we position this element 'relative'
+ */
 
 .dropzone {
   composes: greyLightColor from styles;
@@ -18,29 +22,83 @@
   min-height: 71px;
   transition: background-color 0.3s;
   width: 100%;
-  z-index: 0;
+  z-index: 1;
+}
+
+.dropzone__empty,
+.dropzone__drag_over {
+  position: relative;
+}
+
+.dropzone__drag_over > div {
+  opacity: 0;
 }
 
 /**
- * Dropzone 'Upload an image' label
+ * dropzone__label__wrapper
+ * This is the coloured block that hides existing uploaded files.
+ * We only show this when dragging files on the window or when the dropzone
+ * is empty.
+ */
+
+.dropzone__label__wrapper {
+  background: transparent;
+  border: 1px dashed greyLight;
+  bottom: 0;
+  box-sizing: border-box;
+  display: none;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.dropzone__drag_over .dropzone__label__wrapper,
+.dropzone__active .dropzone__label__wrapper,
+.dropzone__empty .dropzone__label__wrapper {
+  display: block;
+}
+
+.dropzone__active:hover .dropzone__label__wrapper {
+  display: none;
+}
+
+.dropzone__empty .dropzone__label__wrapper {
+  background: transparent;
+  border-color: greyLight;
+}
+
+.dropzone__empty:hover .dropzone__label__wrapper {
+  border-color: greyMid;
+}
+
+.dropzone__drag_over .dropzone__label__wrapper {
+  background: rgba(245,245,245, 0.7);
+  border-color: greyMid;
+}
+
+.dropzone__drag_over.dropzone__active .dropzone__label__wrapper {
+  background: rgba(127,194,234, 0.3);
+  border-color: highlight;
+}
+
+/**
+ * dropzone__label
+ * visibility of this element is dictated by dropzone__label__wrapper
  */
 
 .dropzone__label {
   color: greyLight;
   cursor: none;
+  display: inline-block;
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   transition: color 0.25s;
   z-index: 1;
-  display: none;
-}
-
-.dropzone__drag_over .dropzone__label,
-.dropzone__active .dropzone__label,
-.dropzone__empty .dropzone__label {
-  display: inline-block;
 }
 
 .dropzone__empty:hover .dropzone__label {
@@ -57,71 +115,19 @@
 
 .dropzone__drag_over.dropzone__active .dropzone__label {
   color: highlight;
-  z-index: 9;
 }
-
-.dropzone__active:hover .dropzone__label {
-  display: none;
-}
-
-/**
- * dropzone border and backgrounds
- */
-
-.dropzone:before {
-  background: transparent;
-  border: 1px dashed transparent;
-  bottom: 0;
-  box-sizing: border-box;
-  content: "";
-  display: block;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transition: border-color 0.25s, background-color 0.25s;
-  width: 100%;
-  z-index: 1;
-}
-
-.dropzone__empty:before {
-  border-color: greyLight;
-}
-
-.dropzone__empty:hover:before {
-  border-color: greyMid;
-}
-
-.dropzone__drag_over:before {
-  background: rgba(245,245,245, 0.7);
-  border-color: greyMid;
-  z-index: 9;
-}
-
-.dropzone__drag_over.dropzone__active:before {
-  background: rgba(127,194,234, 0.3);
-  border-color: highlight;
-}
-
-.dropzone__drag_over.dropzone__empty:before {
-  background: transparent;
-}
-
-/**
- * active background color
- */
-
- .dropzone__active {
-   background-color: highlightLight;
- }
 
 /**
  * dropzone button
+ * This button is positioned inside of the multi-upload-field component.
+ * Because the multi-upload-field cannot be positioned 'relative' by default
+ * (due to Sortable Items losing elements on drag) we have to float this to
+ * the right and apply negative margin to position it in the multi-upload-field
+ * field header
  */
 
  .dropzone__button {
    composes: small buttonHighlight from '../../ui/buttons.mcss';
-   position: absolute;
-   right: 0;
-   top: -3px;
+   float: right;
+   margin-top: -30px;
  }

@@ -155,8 +155,10 @@ export default React.createClass({
 
   renderLabel (label) {
     return (
-      <span className={styles.dropzone__label}>
-        { label || 'Drop file to upload'}
+      <span className={styles.dropzone__label__wrapper}>
+        <span className={styles.dropzone__label}>
+          { label || 'Drop file to upload'}
+        </span>
       </span>
     )
   },
@@ -194,19 +196,17 @@ export default React.createClass({
             ? this.renderButton(buttonText)
             : null}
 
-          <div className={styles.parent}>
-            <Dropzone
-              disableClick={disableClick}
-              activeClassName={styles.dropzone__active}
-              className={dropZoneClassNames}
-              multiple={multiple}
-              onDrop={this.onDrop}
-              ref='dropzone'
-              style={{}}>
-              {children}
-              {this.renderLabel(label)}
-            </Dropzone>
-          </div>
+          <Dropzone
+            disableClick={disableClick}
+            activeClassName={styles.dropzone__active}
+            className={dropZoneClassNames}
+            multiple={multiple}
+            onDrop={this.onDrop}
+            ref='dropzone'
+            style={{}}>
+            {children}
+            {this.renderLabel(label)}
+          </Dropzone>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
