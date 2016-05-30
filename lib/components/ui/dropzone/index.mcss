@@ -43,9 +43,7 @@
 
 .dropzone__label__wrapper {
   background: transparent;
-  border: 1px dashed greyLight;
   bottom: 0;
-  box-sizing: border-box;
   display: none;
   left: 0;
   position: absolute;
@@ -53,6 +51,23 @@
   top: 0;
   width: 100%;
   z-index: -1;
+}
+
+/* add a psuedo element with the dash border *behind* the label so
+that it doesn't glitchy state changes when hovered/dragged over */
+
+.dropzone__label__wrapper:after {
+  background: transparent;
+  border: 1px dashed greyLight;
+  bottom: 0;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -2;
 }
 
 .dropzone__drag_over .dropzone__label__wrapper,
@@ -65,22 +80,33 @@
   display: none;
 }
 
+/* empty state */
+
 .dropzone__empty .dropzone__label__wrapper {
   background: transparent;
-  border-color: greyLight;
 }
 
-.dropzone__empty:hover .dropzone__label__wrapper {
+.dropzone__empty:hover .dropzone__label__wrapper:after {
   border-color: greyMid;
 }
+
+/* dragging on the window state */
 
 .dropzone__drag_over .dropzone__label__wrapper {
   background: rgba(245,245,245, 0.7);
+}
+
+.dropzone__drag_over .dropzone__label__wrapper:after {
   border-color: greyMid;
 }
 
+/* dragging on the window and then over the dropzone state */
+
 .dropzone__drag_over.dropzone__active .dropzone__label__wrapper {
   background: rgba(127,194,234, 0.3);
+}
+
+.dropzone__drag_over.dropzone__active .dropzone__label__wrapper:after {
   border-color: highlight;
 }
 
