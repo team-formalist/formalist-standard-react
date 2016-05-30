@@ -61,6 +61,10 @@
   display: block;
 }
 
+.dropzone__disable_hover.dropzone__active:hover .dropzone__label__wrapper {
+  display: none;
+}
+
 .dropzone__empty .dropzone__label__wrapper {
   background: transparent;
   border-color: greyLight;
