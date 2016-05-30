@@ -74,27 +74,25 @@ export default React.createClass({
   },
 
   /**
-   * [onDragStart description]
-   * Set the effect for dragging to "move".
-   * This overrides 'all' which displays a green (+) cursor
-   * when moving an item in a Sortable
-   * @param  {Event} e
-   */
-
-  onDragStart (e) {
-    e.dataTransfer.effectAllowed = "move"
-  },
-
-  /**
    * componentDidMount
    * Create event listener for drag events on the body and update state
    */
 
   componentDidMount () {
-    document.addEventListener('dragstart', this.onDragStart)
     document.addEventListener('dragover', this.onDragOver)
     document.addEventListener('dragleave', this.onDragLeave)
     document.addEventListener('drop', this.onDragLeave)
+  },
+
+  /**
+   * onDragStart
+   * on dragStart of the dropzone, override it's `effectAllowed`
+   * to not display the green (+) move cursor
+   * @param  {Event} e
+   */
+
+  onDragStart (e) {
+    e.dataTransfer.effectAllowed = "move";
   },
 
   /**
@@ -214,6 +212,7 @@ export default React.createClass({
             activeClassName={styles.dropzone__active}
             className={dropZoneClassNames}
             multiple={multiple}
+            onDragStart={this.onDragStart}
             onDrop={this.onDrop}
             ref='dropzone'
             style={{}}>
