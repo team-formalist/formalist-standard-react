@@ -214,11 +214,10 @@ const MultiUploadField = React.createClass({
    * Iterate previewFiles and return all files that are not `file`
    * Push `file` into uploadedFiles and save the state
    * @param {object} a file object
+   * @param {object} attache server response
    */
 
   updateUploadedFiles (fileObject, response) {
-    const {path, geometry, uploadURL} = response
-
     let previewFiles = this.state.previewFiles.filter((preview) => {
       return preview.file_name !== fileObject.file_name
     })
@@ -227,11 +226,9 @@ const MultiUploadField = React.createClass({
       ? this.state.uploadedFiles.slice(0)
       : []
 
-    // apply additional properties to fileObject before saving to state
-    fileObject.path = path
-    fileObject.geometry = geometry
-    fileObject.uploadURL = uploadURL
-    fileObject.original_url = this.buildPath(uploadURL, path)
+    // store the response from attache to the fileObject
+    // so we can export easily in onUpdate()
+    fileObject.attache_response = response
     uploadedFiles.push(fileObject)
 
     this.setState({
@@ -253,26 +250,16 @@ const MultiUploadField = React.createClass({
   onUpdate (uploadedFiles) {
     const {multiple} = this.props
 
-    // delete `file` from each fileObject
-    uploadedFiles.map(this.normaliseFileExport)
+    // abstract attache_response from each uploaded file
+    uploadedFiles.map((fileObject) => {
+      return fileObject.attache_response
+    })
+
     const value = multiple ? uploadedFiles : uploadedFiles[0]
 
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
     )
-  },
-
-  /**
-   * normaliseFileExport
-   * Remove any values we don’t care about persisting, mostly the `file`
-   * attribute/object that we use for previewing
-   * @param {object} file object
-   */
-
-  normaliseFileExport (obj) {
-    const copy = Object.assign({}, obj)
-    delete copy.file
-    return copy
   },
 
   /**
@@ -731,7 +718,10 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
+    const {attache_response, file_name, thumbnail_url} = fileObject
+    const {path, uploadURL} = attache_response
+    const original_url = this.buildPath(uploadURL, path)
+
     const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
       ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
