@@ -85,16 +85,6 @@ const MultiUploadField = React.createClass({
     let uploadedFiles = []
     let previewFiles = []
 
-    value = [
-      {
-        fileAttributes: {
-          "original_url": "http://icelab.attache.me/view/1a/84/db/cb/41/fc/37/f1/fe/da/79/ab/5a/cb/75/c2/original/mullet.png",
-          "thumbnail_url": "http://icelab.attache.me/view/1a/84/db/cb/41/fc/37/f1/fe/da/79/ab/5a/cb/75/c2/50x/mullet.png",
-          "name": "foo"
-        }
-      }
-    ]
-
     // is not null/array but is an object
     // or is a List with a size greater than 0
     if (value != null && !Array.isArray(value) && (typeof (value) === 'object')) {
@@ -262,8 +252,6 @@ const MultiUploadField = React.createClass({
     const uploadedFiles = fileObjects.map(this.normaliseFileExport)
     const value = multiple ? uploadedFiles : uploadedFiles[0]
 
-    console.log(value)
-
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
     )
@@ -283,11 +271,12 @@ const MultiUploadField = React.createClass({
   },
 
   /**
-   * [applyAttribute description]
-   * @param  {[type]} obj   [description]
-   * @param  {[type]} name  [description]
-   * @param  {[type]} value [description]
-   * @return {[type]}       [description]
+   * applyAttribute
+   * Copy an object and apply a property and value to it.
+   * @param  {object} obj
+   * @param  {string} name
+   * @param  value
+   * @return {object}
    */
 
   applyAttribute (obj, name, value) {
@@ -747,9 +736,10 @@ const MultiUploadField = React.createClass({
 
   /**
    * buildThumbnailPath
-   * @param  {[type]} original_url [description]
-   * @param  {[type]} dimension    =             '50x' [description]
-   * @return {[type]}              [description]
+   * Replace 'original' with a specific dimension. Defaults to `50x`
+   * @param  {string} original_url
+   * @param  {string} dimension
+   * @return {string}
    */
 
   buildThumbnailPath (original_url, dimension = '50x') {
