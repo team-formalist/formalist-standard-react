@@ -227,7 +227,8 @@ const MultiUploadField = React.createClass({
       ? this.state.uploadedFiles.slice(0)
       : []
 
-    fileObject.fileAttributes = this.applyAttribute(response, 'original_url', this.buildPath(uploadURL, path))
+    fileObject.fileAttributes = response
+    fileObject.original_url = this.buildPath(uploadURL, path)
     uploadedFiles.push(fileObject)
 
     this.setState({
@@ -268,21 +269,6 @@ const MultiUploadField = React.createClass({
     let copy = Object.assign({}, obj)
     delete copy.fileAttributes.uploadURL
     return copy.fileAttributes
-  },
-
-  /**
-   * applyAttribute
-   * Copy an object and apply a property and value to it.
-   * @param  {object} obj
-   * @param  {string} name
-   * @param  value
-   * @return {object}
-   */
-
-  applyAttribute (obj, name, value) {
-    let copy = Object.assign({}, obj)
-    copy[name] = value
-    return copy
   },
 
   /**
@@ -759,13 +745,15 @@ const MultiUploadField = React.createClass({
     const {file, fileAttributes} = fileObject
     const {thumbnail_url, original_url} = fileAttributes
 
+    const originalURL = fileObject.original_url || fileAttributes.original_url
+
     const file_name = fileAttributes.name != null
       ? fileAttributes.name
       : file.name
 
     const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, original_url, file_name)
+      ? this.renderThumbnail(thumbnail_url, originalURL, file_name)
       : null
 
     const bodyClassNames = classNames(
@@ -784,7 +772,7 @@ const MultiUploadField = React.createClass({
             </div>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__title}>
-                <a target='_blank' href={original_url}>{file_name}</a>
+                <a target='_blank' href={originalURL}>{file_name}</a>
               </div>
             </div>
           </div>
