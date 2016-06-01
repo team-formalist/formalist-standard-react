@@ -266,8 +266,8 @@ const MultiUploadField = React.createClass({
 
   normaliseFileExport (obj) {
     let copy = Object.assign({}, obj)
-    delete obj.fileAttributes.uploadURL
-    return obj.fileAttributes
+    delete copy.fileAttributes.uploadURL
+    return copy.fileAttributes
   },
 
   /**
