@@ -70,14 +70,18 @@ that it doesn't glitchy state changes when hovered/dragged over */
   z-index: -2;
 }
 
+.dropzone__disable_hover.dropzone__active:hover .dropzone__label__wrapper {
+  display: none;
+}
+
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active:hover .dropzone__label__wrapper {
+  display: block;
+}
+
 .dropzone__drag_over .dropzone__label__wrapper,
 .dropzone__active .dropzone__label__wrapper,
 .dropzone__empty .dropzone__label__wrapper {
   display: block;
-}
-
-.dropzone__disable_hover.dropzone__active:hover .dropzone__label__wrapper {
-  display: none;
 }
 
 /* empty state */
@@ -102,10 +106,12 @@ that it doesn't glitchy state changes when hovered/dragged over */
 
 /* dragging on the window and then over the dropzone state */
 
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active .dropzone__label__wrapper,
 .dropzone__drag_over.dropzone__active .dropzone__label__wrapper {
   background: rgba(127,194,234, 0.3);
 }
 
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active .dropzone__label__wrapper:after,
 .dropzone__drag_over.dropzone__active .dropzone__label__wrapper:after {
   border-color: highlight;
 }
