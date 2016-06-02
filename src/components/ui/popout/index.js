@@ -33,6 +33,7 @@ const Popout = React.createClass({
     children: React.PropTypes.node,
     closeOnEsc: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
+    isOpened: React.PropTypes.bool,
     offset: React.PropTypes.shape({
       default: React.PropTypes.number,
       vert: React.PropTypes.number,
@@ -56,10 +57,20 @@ const Popout = React.createClass({
 
   getInitialState () {
     return {
+      isOpened: this.props.isOpened || false,
       position: {
         left: 0,
         top: 0
       }
+    }
+  },
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.isOpened != null) {
+      this.setState({
+        isOpened: nextProps.isOpened
+      })
+      window.requestAnimationFrame(this.calculatePosition)
     }
   },
 
@@ -83,7 +94,11 @@ const Popout = React.createClass({
     // Only bother if its rendered
     let position
     const { placement } = this.props
-    const referencePosition = this.refs.reference.getBoundingClientRect()
+    let referenceElement = this.refs.reference
+    if (this.refs.reference && this.refs.reference.firstChild) {
+      referenceElement = this.refs.reference.firstChild
+    }
+    const referencePosition = referenceElement.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
     let horzOffset = this.props.offset.horz
