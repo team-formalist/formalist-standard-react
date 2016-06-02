@@ -45,6 +45,7 @@ const Sortable = React.createClass({
      * @type {Function}
      */
     onSort: React.PropTypes.func,
+    canSort: React.PropTypes.bool,
     verticalControls: React.PropTypes.bool
   },
 
@@ -123,9 +124,7 @@ const Sortable = React.createClass({
   render () {
     const { instanceKey, items } = this.state
     const { canRemove, onRemove, verticalControls, canSort } = this.props
-    let isSortable = (canSort === false || items.length <= 1)
-      ? false
-      : true
+    let isSortable = !(!canSort || items.length <= 1)
 
     return (
       <div className={styles.base} data-name='sortable-item'>

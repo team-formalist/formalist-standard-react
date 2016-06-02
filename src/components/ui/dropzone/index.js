@@ -16,6 +16,7 @@ export default React.createClass({
    */
 
   propTypes: {
+    label: React.PropTypes.string,
     buttonText: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     renderPreview: React.PropTypes.bool,
@@ -92,7 +93,7 @@ export default React.createClass({
    */
 
   onDragStart (e) {
-    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.effectAllowed = 'move'
   },
 
   /**
@@ -168,7 +169,7 @@ export default React.createClass({
     return (
       <span className={styles.dropzone__label__wrapper}>
         <span className={styles.dropzone__label}>
-          { label || 'Drop file to upload'}
+          {label || 'Drop file to upload'}
         </span>
       </span>
     )

@@ -6,6 +6,9 @@
     },
     sourceType: "module"
   },
+  "rules": {
+    "camelcase": [0, {"properties": "never"}]
+  },
   extends: [
     "standard",
     "standard-react"
@@ -15,4 +18,3 @@
     "react"
   ]
 }
-

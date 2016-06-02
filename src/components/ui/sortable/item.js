@@ -188,7 +188,7 @@ const Item = React.createClass({
             {canSort ? connectDragSource(
               <button className={styles.handle} onClick={this.onHandleClick}>
                 <span className={styles.handleText}>Drag to reorder</span>
-                <div className={styles.handleLine}/>
+                <div className={styles.handleLine} />
               </button>) : null}
           </div>
         </div>

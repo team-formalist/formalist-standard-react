@@ -77,7 +77,7 @@ const RadioButtons = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           {options.map((option, i) => {
@@ -101,7 +101,7 @@ const RadioButtons = React.createClass({
                 onChange={this.onChange} />
             )
           })}
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )

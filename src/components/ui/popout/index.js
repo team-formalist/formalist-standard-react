@@ -208,7 +208,7 @@ const Popout = React.createClass({
           onClose={onClose}
           onUpdate={onUpdate}>
           <div className={styles.positioner} style={position}>
-            <div className={arrowClassNames}/>
+            <div className={arrowClassNames} />
             <div ref='container' className={containerClassNames}>
               {children.slice(1)}
             </div>

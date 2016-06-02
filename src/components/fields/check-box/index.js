@@ -69,7 +69,7 @@ const CheckBox = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <Checkbox
@@ -79,7 +79,7 @@ const CheckBox = React.createClass({
             value={value}
             defaultChecked={value}
             onChange={this.onChange} />
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )
