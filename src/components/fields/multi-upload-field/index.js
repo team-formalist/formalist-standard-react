@@ -143,7 +143,7 @@ const MultiUploadField = React.createClass({
       const {name, size, type, lastModifiedDate} = file
       return {
         file,
-        file_name: name,
+        name,
         size,
         type,
         lastModifiedDate: lastModifiedDate.toString(),
@@ -198,7 +198,7 @@ const MultiUploadField = React.createClass({
       : []
 
     previewFiles.map((file) => {
-      if (file.file_name === name) {
+      if (file.name === name) {
         file.progress = e.percent
       }
     })
@@ -216,11 +216,9 @@ const MultiUploadField = React.createClass({
    * @param {object} a file object
    */
 
-  updateUploadedFiles (fileObject, response) {
-    const {path, uploadURL} = response
-
+  updateUploadedFiles (fileObject, response, upload_url) {
     let previewFiles = this.state.previewFiles.filter((preview) => {
-      return preview.file_name !== fileObject.file_name
+      return preview.name !== fileObject.name
     })
 
     let uploadedFiles = this.state.uploadedFiles
@@ -228,7 +226,7 @@ const MultiUploadField = React.createClass({
       : []
 
     fileObject.fileAttributes = response
-    fileObject.original_url = this.buildPath(uploadURL, path)
+    fileObject.original_url = this.buildPath(upload_url, response.path)
     uploadedFiles.push(fileObject)
 
     this.setState({
@@ -266,6 +264,10 @@ const MultiUploadField = React.createClass({
    */
 
   normaliseFileExport (obj) {
+    if (!obj.hasOwnProperty('fileAttributes')) {
+      return obj
+    }
+
     let copy = Object.assign({}, obj)
     delete copy.fileAttributes.uploadURL
     return copy.fileAttributes
@@ -325,14 +327,20 @@ const MultiUploadField = React.createClass({
     if (!fileObject) return
     const {presign_url} = this.props.attributes
     const {csrfToken} = this.context.globalConfig
+    let upload_url
 
     presign(presign_url, csrfToken)
       .then((presignResponse) => {
+
+        // assign the return 'url' to upload_url so
+        // we can create paths to the file
+        upload_url = presignResponse.url
+
         return upload(presignResponse, fileObject, onProgress)
       })
       .then((uploadResponse) => {
         if (!updateUploadedFilesStatus) return
-        return this.updateUploadedFiles(fileObject, uploadResponse)
+        return this.updateUploadedFiles(fileObject, uploadResponse, upload_url)
       })
       .catch((err) => {
         this.removeFileFromPreviewFiles(fileObject)
@@ -654,8 +662,8 @@ const MultiUploadField = React.createClass({
   },
 
   renderPreviewItem (fileObject, i) {
-    const {progress, file, uid} = fileObject
-    const {preview, name} = file
+    const {progress, file, name, uid} = fileObject
+    const {preview} = file
     const hasThumbnail = filenameIsImage(name)
     const thumbnailImage = hasThumbnail
       ? this.renderThumbnail(preview, null, name)
@@ -742,18 +750,10 @@ const MultiUploadField = React.createClass({
    */
 
   renderUploadedFileItem (fileObject, idx) {
-    const {file, fileAttributes} = fileObject
-    const {thumbnail_url, original_url} = fileAttributes
-
-    const originalURL = fileObject.original_url || fileAttributes.original_url
-
-    const file_name = fileAttributes.name != null
-      ? fileAttributes.name
-      : file.name
-
-    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(file_name)
+    const {file, fileAttributes, name, thumbnail_url, original_url} = fileObject
+    const hasThumbnail = (thumbnail_url != null) || filenameIsImage(name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, originalURL, file_name)
+      ? this.renderThumbnail(thumbnail_url, original_url, name)
       : null
 
     const bodyClassNames = classNames(
@@ -772,7 +772,7 @@ const MultiUploadField = React.createClass({
             </div>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__title}>
-                <a target='_blank' href={originalURL}>{file_name}</a>
+                <a target='_blank' href={original_url}>{name}</a>
               </div>
             </div>
           </div>
