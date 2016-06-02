@@ -47,6 +47,7 @@ const MultiUploadField = React.createClass({
     errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
+    multiple: React.PropTypes.bool,
     name: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       ImmutablePropTypes.list,
@@ -129,7 +130,7 @@ const MultiUploadField = React.createClass({
    * The uid is generated using the file name.
    * Example:
    * {
-   * 		file_name: small.jpg,
+   * 		name: small.jpg,
    * 		file: {file},
    * 		uid: "wyertyiopdop_small.jpg"
    * }
@@ -144,7 +145,7 @@ const MultiUploadField = React.createClass({
       const {name, size, type, lastModifiedDate} = file
       return {
         file,
-        file_name: name,
+        name,
         size,
         type,
         lastModifiedDate: lastModifiedDate.toString(),
@@ -195,7 +196,7 @@ const MultiUploadField = React.createClass({
       : []
 
     files.map((file) => {
-      if (file.file_name === name) {
+      if (file.name === name) {
         file.progress = e.percent
       }
     })
@@ -216,25 +217,16 @@ const MultiUploadField = React.createClass({
    * @param {object} a file object
    */
 
-  updateFiles (fileObject, response) {
-    const {path, geometry, uploadURL} = response
-
+  updateUploadedFiles (fileObject, response, upload_url) {
     let files = this.state.files.filter((preview) => {
       return preview.uid !== fileObject.uid
     })
 
-    // apply additional properties to the fileObject
-    // and delete 'file' object before saving it to state
-    fileObject.path = path
-    fileObject.geometry = geometry
-    fileObject.uploadURL = uploadURL
-    fileObject.original_url = this.buildPath(uploadURL, path)
     delete fileObject.file
-
-    // push the new objects to the top of 'existingFiles'
+    fileObject.fileAttributes = response
+    fileObject.original_url = this.buildPath(upload_url, response.path)
     files.push(fileObject)
 
-    // save
     this.setState({
       files
     })
@@ -250,11 +242,27 @@ const MultiUploadField = React.createClass({
    */
 
   onUpdate (files) {
-    const value = (this.props.attributes.multiple || this.props.multiple) ? files : files[0]
+    const uploadedFiles = files.map(this.normaliseFileExport)
+    const value = (this.props.attributes.multiple || this.props.multiple)
+      ? uploadedFiles
+      : uploadedFiles[0]
 
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
     )
+  },
+
+  /**
+   * normaliseFileExport
+   * If the object does not have a 'fileAttributes' property
+   * return the object, otherwise just the 'fileAttributes' property
+   * @param {object} obj
+   */
+
+  normaliseFileExport (obj) {
+    return obj.hasOwnProperty('fileAttributes')
+     ? obj
+     : obj.fileAttributes
   },
 
   /**
@@ -311,13 +319,17 @@ const MultiUploadField = React.createClass({
     if (!fileObject) return
     const {presign_url} = this.props.attributes
     const {csrfToken} = this.context.globalConfig
+    let upload_url
 
     presign(presign_url, csrfToken)
       .then((presignResponse) => {
+        // assign the return 'url' to upload_url so
+        // we can create paths to the file
+        upload_url = presignResponse.url
         return upload(presignResponse, fileObject, onProgress)
       })
       .then((uploadResponse) => {
-        return this.updateFiles(fileObject, uploadResponse)
+        return this.updateUploadedFiles(fileObject, uploadResponse, upload_url)
       })
       .catch((err) => {
         const { name } = err
@@ -583,17 +595,18 @@ const MultiUploadField = React.createClass({
 
   /**
    * renderThumbnail
-   * Create a vnode image element
+   * Return a thumbnail image based on `thumbnail_url` or building one from 'original_url'
    * @param  {string} thumbnail_url
+   * @param  {string} original_url
    * @param  {string} name
-   * @param  {string} uploadURL
-   * @param  {string} path
    * @return {vnode}
    */
 
-  renderThumbnail (url, name, uploadURL, path) {
+  renderThumbnail (thumbnail_url, original_url, name) {
+    if (!thumbnail_url && !original_url) return
+
     return (
-      <img src={url || this.buildPath(uploadURL, path, '50x')} alt={name} />
+      <img src={thumbnail_url || this.buildThumbnailPath(original_url, '50x')} alt={name} />
     )
   },
 
@@ -643,11 +656,11 @@ const MultiUploadField = React.createClass({
    */
 
   renderPreviewItem (fileObject, index) {
-    const {progress, file, file_name} = fileObject
+    const {progress, file, name} = fileObject
     const {preview} = file
-    const hasThumbnail = hasImageFormatType(file_name)
+    const hasThumbnail = hasImageFormatType(name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(preview, file_name)
+      ? this.renderThumbnail(preview, null, name)
       : null
 
     let currentProgress = {
@@ -659,10 +672,10 @@ const MultiUploadField = React.createClass({
         <span
           className={styles.progress_bar}
           style={currentProgress}>
-          {this.renderPreviewDetails(file_name, thumbnailImage, true)}
+          {this.renderPreviewDetails(name, thumbnailImage, true)}
         </span>
 
-        {this.renderPreviewDetails(file_name, thumbnailImage)}
+        {this.renderPreviewDetails(name, thumbnailImage)}
       </div>
     )
   },
@@ -685,6 +698,18 @@ const MultiUploadField = React.createClass({
   },
 
   /**
+   * buildThumbnailPath
+   * Replace 'original' with a specific dimension. Defaults to `50x`
+   * @param  {string} original_url
+   * @param  {string} dimension
+   * @return {string}
+   */
+
+  buildThumbnailPath (original_url, dimension = '50x') {
+    return original_url.replace('original', dimension)
+  },
+
+  /**
    * renderDefaultTemplate
    * Render an node represeting an uploaded file
    * @param {object} fileObject
@@ -693,10 +718,10 @@ const MultiUploadField = React.createClass({
    */
 
   renderDefaultTemplate (fileObject, index) {
-    const {path, file_name, uploadURL, original_url, thumbnail_url} = fileObject
-    const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
+    const {name, thumbnail_url, original_url} = fileObject
+    const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, file_name, uploadURL, path)
+      ? this.renderThumbnail(thumbnail_url, original_url, name)
       : null
 
     return (
@@ -710,7 +735,7 @@ const MultiUploadField = React.createClass({
             </div>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__title}>
-                <a target='_blank' href={original_url}>{file_name}</a>
+                <a target='_blank' href={original_url}>{name}</a>
               </div>
             </div>
           </div>
@@ -719,37 +744,37 @@ const MultiUploadField = React.createClass({
     )
   },
 
-   /**
-    * renderCustomTemplate
-    * Try and extract the custom template from `config` passing it our `fileObject`
-    * The `extractComponent` will try and match a `name` property in `config` with
-    * properties defined in the form class.
-    * e.g.
-    *
-    * // form class
-    *
-    * multi_upload_field :multi_upload_field,
-    *  label: "Upload all the photos",
-    *  presign_url: "http://some/presign",
-    *  render_uploaded_as: "admin"
-    *
-    *
-    * // form config
-    *
-    * multiUploadField: {
-    *   components: [
-    *     {
-    *       name: 'admin',
-    *       component: (file, index) => (<div key={index}>I see {file.file_name}</div>)
-    *     }
-    *   ]
-    * }
-    *
-    * If that fails, return null and log the error.
-    * @param  {object} fileObject
-    * @param  {number} index
-    * @return {vnode | null}
-    */
+ /**
+  * renderCustomTemplate
+  * Try and extract the custom template from `config` passing it our `fileObject`
+  * The `extractComponent` will try and match a `name` property in `config` with
+  * properties defined in the form class.
+  * e.g.
+  *
+  * // form class
+  *
+  * multi_upload_field :multi_upload_field,
+  *  label: "Upload all the photos",
+  *  presign_url: "http://some/presign",
+  *  render_uploaded_as: "admin"
+  *
+  *
+  * // form config
+  *
+  * multiUploadField: {
+  *   components: [
+  *     {
+  *       name: 'admin',
+  *       component: (file, index) => (<div key={index}>I see {file.name}</div>)
+  *     }
+  *   ]
+  * }
+  *
+  * If that fails, return null and log the error.
+  * @param  {object} fileObject
+  * @param  {number} index
+  * @return {vnode | null}
+  */
 
   renderCustomTemplate (fileObject, index, config, attribute) {
     try {
