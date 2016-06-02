@@ -1,32 +1,16 @@
 import React from 'react'
-import Editor from 'draft-js-plugins-editor'
-import {fromJS} from 'immutable'
+import PluginsEditor from 'draft-js-plugins-editor'
+import {Editor} from 'draft-js'
+import {fromJS, Map} from 'immutable'
 
-// Plugins
-import autoListPlugin from 'draft-js-autolist-plugin'
 import './tmp.css'
 
+// Plugins
 
-import createMentionPlugin from 'draft-js-mention-plugin'
-import 'draft-js-hashtag-plugin/lib/plugin.css'
 
-const mentions = fromJS([
-  {
-    name: 'Max Stoiber',
-    link: 'https://twitter.com/mxstbr',
-    avatar: 'https://pbs.twimg.com/profile_images/681114454029942784/PwhopfmU_400x400.jpg',
-  },
-  {
-    name: 'Nik Graf',
-    link: 'https://twitter.com/nikgraf',
-    avatar: 'https://pbs.twimg.com/profile_images/535634005769457664/Ppl32NaN_400x400.jpeg',
-  },
-])
-
-const mentionPlugin = createMentionPlugin({
-  mentions
-})
-const { MentionSuggestions } = mentionPlugin
+import createInlineToolbarPlugin from '../rich-text-editor-inline-toolbar'
+const inlineToolbarPlugin = createInlineToolbarPlugin()
+const {InlineToolbar} = inlineToolbarPlugin
 
 const RichTextEditor = React.createClass({
   propTypes: {
@@ -37,8 +21,7 @@ const RichTextEditor = React.createClass({
 
     return {
       plugins: [
-        autoListPlugin(),
-        mentionPlugin
+        inlineToolbarPlugin
       ]
     }
   },
@@ -48,8 +31,13 @@ const RichTextEditor = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <Editor editorState={editorState} onChange={onChange} plugins={this.state.plugins}/>
-        <MentionSuggestions onSearchChange={({value}) => console.log(value)} suggestions={mentions}/>
+        <InlineToolbar
+          editorState={editorState}
+          onChange={onChange} />
+        <PluginsEditor
+          plugins={this.state.plugins}
+          editorState={editorState}
+          onChange={onChange} />
       </div>
     )
   }
