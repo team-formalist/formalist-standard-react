@@ -8,16 +8,28 @@ import {
 
 // Components
 import Popout from '../popout'
+import InlineToolbarItems from './items'
 
 const {hasCommandModifier} = KeyBindingUtil
 
+import styles from './rich-text-editor-inline-toolbar.mcss'
+
+function withinBounds(rect, bounds) {
+   return (
+    rect.left >= bounds.left &&
+    rect.top >= bounds.top &&
+    rect.right <= bounds.right &&
+    rect.bottom <= bounds.bottom
+  )
+}
 
 const InlineToolbar = React.createClass({
   propTypes: {
+    editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    inlineButtons: React.PropTypes.array,
     entityButtons: React.PropTypes.array,
+    inlineButtons: React.PropTypes.array,
+    onChange: React.PropTypes.func.isRequired,
   },
 
   getInitialState () {
@@ -27,46 +39,55 @@ const InlineToolbar = React.createClass({
   },
 
   componentWillReceiveProps (nextProps) {
-    const {editorState} = nextProps
+    const {editorState, editorHasFocus} = nextProps
     const selection = editorState.getSelection()
-    const selectionVisible = !selection.isCollapsed() && selection.hasFocus
+    const selectionVisible = !selection.isCollapsed() && editorHasFocus
 
     this.setState({
       visible: selectionVisible
     })
+
+    if (selectionVisible) {
+      // We have to wait a tick to calculate the position
+      window.requestAnimationFrame(() => {
+        this.setState({
+          positionStyle: this.calculatePosition()
+        })
+      })
+    }
   },
 
   calculatePosition () {
     const {visible} = this.state
     if (visible) {
       const selectionRect = getVisibleSelectionRect(window)
-      // Need to calculate offset
       if (selectionRect && this.positioner) {
         const positionerRect = this.positioner.offsetParent.getBoundingClientRect()
         return {
-          position: 'absolute',
           left: selectionRect.left - positionerRect.left,
           top: selectionRect.top - positionerRect.top,
           width: selectionRect.width,
-          height: 0,
         }
       }
     }
     return {
-      position: 'absolute',
+      left: 0,
+      right: 0,
+      width: 0,
     }
   },
 
   render () {
     const {editorState, onChange} = this.props
-    const {visible} = this.state
-    let style = this.calculatePosition()
+    const {visible, positionStyle} = this.state
 
     return (
       <div>
-        <Popout ref='popout' placement='top' isOpened={visible}>
-          <div ref={(r) => this.positioner = r} style={style}>&nbsp;</div>
-          <p>Popout content!</p>
+        <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true}>
+          <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
+          <div>
+            <InlineToolbarItems editorState={editorState} onChange={onChange}/>
+          </div>
         </Popout>
       </div>
     )

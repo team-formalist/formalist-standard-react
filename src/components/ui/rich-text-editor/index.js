@@ -17,26 +17,39 @@ const RichTextEditor = React.createClass({
   },
 
   getInitialState () {
-    const { editorState, onChange } = this.props
+    const {editorState, onChange} = this.props
 
     return {
       plugins: [
         inlineToolbarPlugin
-      ]
+      ],
+      hasFocus: false,
     }
   },
 
+  onFocus (e) {
+    this.setState({hasFocus: true})
+  },
+
+  onBlur (e) {
+    this.setState({hasFocus: false})
+  },
+
   render () {
-    const { editorState, onChange } = this.props
+    const {editorState, onChange} = this.props
+    const {hasFocus} = this.state
 
     return (
       <div className={this.props.className}>
         <InlineToolbar
+          editorHasFocus={hasFocus}
           editorState={editorState}
           onChange={onChange} />
         <PluginsEditor
           plugins={this.state.plugins}
           editorState={editorState}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
           onChange={onChange} />
       </div>
     )

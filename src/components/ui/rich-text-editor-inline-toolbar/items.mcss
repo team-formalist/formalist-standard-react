@@ -1,0 +1,13 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.list {
+  display: flex;
+}
+
+.button {
+  display: block;
+}
+
+  .buttonActive {
+    composes: sansBold from styles;
+  }
