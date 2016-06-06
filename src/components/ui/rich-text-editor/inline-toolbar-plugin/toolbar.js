@@ -86,16 +86,21 @@ const Toolbar = React.createClass({
     const {editorState, inlineItems, onChange} = this.props
     const {visible, positionStyle} = this.state
 
-    return (
-      <div>
-        <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true}>
-          <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
-          <div>
-            <InlineToolbarItems items={inlineItems} editorState={editorState} onChange={onChange}/>
-          </div>
-        </Popout>
-      </div>
-    )
+    // Only display if we have some `inlineItems` configured
+    if (inlineItems.length > 0) {
+      return (
+        <div>
+          <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true}>
+            <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
+            <div>
+              <InlineToolbarItems items={inlineItems} editorState={editorState} onChange={onChange}/>
+            </div>
+          </Popout>
+        </div>
+      )
+    } else {
+      return null
+    }
   }
 })
 
