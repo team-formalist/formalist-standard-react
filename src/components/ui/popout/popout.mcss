@@ -106,7 +106,7 @@
 .containerArrow--bottom {
   bottom: 100%;
   left: 50%;
-  top: 1px;
+  top: -11px;
 }
   .containerArrow--bottom:before {
     border-bottom-color: greyLight;
@@ -115,6 +115,7 @@
   }
   .containerArrow--bottom:after {
     border-bottom-color: white;
-    border-width: 5px;
-    margin-left: -5px;
+    border-width: 6px;
+    margin-left: -6px;
+    margin-top: 2px;
   }
