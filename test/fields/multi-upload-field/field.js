@@ -13,7 +13,7 @@ const props = {
     inline: true
   },
   errors: {
-    count: function () {}
+    count () {}
   }
 }
 
