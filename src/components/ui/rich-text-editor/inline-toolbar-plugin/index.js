@@ -2,7 +2,6 @@ import React from 'react'
 import {
   RichUtils,
   getDefaultKeyBinding,
-  getVisibleSelectionRect,
   KeyBindingUtil,
 } from 'draft-js'
 const {hasCommandModifier} = KeyBindingUtil

@@ -1,4 +1,7 @@
 import React from 'react'
+import {
+  getVisibleSelectionRect,
+} from 'draft-js'
 // Components
 import Popout from '../../popout'
 import InlineToolbarItems from './items'
