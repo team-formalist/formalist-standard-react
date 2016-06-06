@@ -57,9 +57,9 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
-    "draft-js-autolist-plugin": "icelab/draft-js-autolist-plugin",
-    "draft-js-ast-exporter": "icelab/draft-js-ast-exporter",
-    "draft-js-ast-importer": "icelab/draft-js-ast-importer",
+    "draft-js-ast-exporter": "0.0.1",
+    "draft-js-ast-importer": "0.0.1",
+    "draft-js-autolist-plugin": "0.0.1",
     "draft-js-mention-plugin": "1.0.0",
     "draft-js-plugins-editor": "1.0.0",
     "draft-js-single-line-plugin": "0.0.1",
