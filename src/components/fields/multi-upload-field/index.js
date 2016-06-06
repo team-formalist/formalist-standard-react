@@ -6,6 +6,7 @@ import {upload, presign, abortXHRRequest} from 'attache-upload'
 import Immutable from 'immutable'
 
 // Import components
+import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
@@ -845,8 +846,10 @@ const MultiUploadField = React.createClass({
    */
 
   render () {
-    const {attributes, hint, label, name} = this.props
+    const {attributes, hint, label, name, errors} = this.props
     const {upload_prompt, upload_action_label} = attributes
+    let hasErrors = (errors.count() > 0)
+
     const {
       XHRErrorMessages,
       files,
@@ -883,6 +886,7 @@ const MultiUploadField = React.createClass({
               ? this.renderFiles(files)
               : null}
           </Dropzone>
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )
