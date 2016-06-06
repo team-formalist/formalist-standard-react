@@ -3,6 +3,7 @@ import PluginsEditor from 'draft-js-plugins-editor'
 import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
 // Plugins
+import createSingleLinePlugin from 'draft-js-single-line-plugin'
 import createInlineToolbarPlugin from './inline-toolbar-plugin'
 // Styles
 import './tmp.css'
@@ -17,19 +18,35 @@ const RichTextEditor = React.createClass({
   },
 
   getInitialState () {
-    const {inlineFormatters} = this.props
+    const plugins = this.configurePlugins()
+
+    return {
+      plugins,
+      hasFocus: false,
+    }
+  },
+
+  /**
+   * Handle the configuration of the various plugins we allow to pass in
+   * @return {Array} List of draft-js-plugins compatible plugins
+   */
+  configurePlugins () {
+    const {inlineFormatters, boxSize} = this.props
+    const singleLinePlugin = createSingleLinePlugin()
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       inlineFormatters
     })
-    this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
-    const {editorState, onChange} = this.props
-
-    return {
-      plugins: [
-        inlineToolbarPlugin
-      ],
-      hasFocus: false,
+    // Build up the list of plugins
+    let plugins = [
+      inlineToolbarPlugin
+    ]
+    // Add singleLine plugin if the boxSize matches
+    if (boxSize === 'single') {
+      plugins = plugins.concat([singleLinePlugin])
     }
+    // Extract the toolbar component for use in rendering
+    this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
+    return plugins
   },
 
   onFocus (e) {
