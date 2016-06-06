@@ -6,21 +6,6 @@ import {
 
 import styles from './items.mcss'
 
-const defaultItems = [
-  {
-    label: 'Bold',
-    style: 'BOLD',
-  },
-  {
-    label: 'Italic',
-    style: 'ITALIC',
-  },
-  {
-    label: 'Code',
-    style: 'CODE',
-  },
-]
-
 const InlineToolbarItems = React.createClass({
 
   propTypes: {
@@ -29,13 +14,9 @@ const InlineToolbarItems = React.createClass({
     onChange: React.PropTypes.func.isRequired,
   },
 
-  getInitialState () {
-    let items = defaultItems.slice(0)
-    if (this.props.items) {
-      items = items.concat(this.props.items)
-    }
+  getDefaultProps () {
     return {
-      items,
+      items: []
     }
   },
 
@@ -68,8 +49,8 @@ const InlineToolbarItems = React.createClass({
   },
 
   render () {
-    const {items} = this.state
-    // Note: We need to cancel onMouseDown to avoid the buttons capturing focus
+    const {items} = this.props
+    // We need to cancel onMouseDown to avoid the buttons capturing focus
     return (
       <div>
         <ul className={styles.list} onMouseDown={(e) => e.preventDefault()}>

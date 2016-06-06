@@ -1,34 +1,25 @@
 import React from 'react'
-import {
-  RichUtils,
-  getDefaultKeyBinding,
-  getVisibleSelectionRect,
-  KeyBindingUtil,
-} from 'draft-js';
-
 // Components
-import Popout from '../popout'
+import Popout from '../../popout'
 import InlineToolbarItems from './items'
+// Styles
+import styles from './toolbar.mcss'
 
-const {hasCommandModifier} = KeyBindingUtil
-
-import styles from './rich-text-editor-inline-toolbar.mcss'
-
-function withinBounds(rect, bounds) {
-   return (
-    rect.left >= bounds.left &&
-    rect.top >= bounds.top &&
-    rect.right <= bounds.right &&
-    rect.bottom <= bounds.bottom
-  )
-}
-
-const InlineToolbar = React.createClass({
+/**
+ * Inline Toolbar
+ *
+ * An inline toolbar for the `rich-text-editor` that pops out when text is
+ * selected.
+ *
+ * It uses the common <Popout/> UI component so there’s a slightly strange dance
+ * to set the position using a reference element `this.refs.positioner`.
+ *
+ */
+const Toolbar = React.createClass({
   propTypes: {
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
-    entityButtons: React.PropTypes.array,
-    inlineButtons: React.PropTypes.array,
+    inlineItems: React.PropTypes.array,
     onChange: React.PropTypes.func.isRequired,
   },
 
@@ -38,9 +29,14 @@ const InlineToolbar = React.createClass({
     }
   },
 
+  /**
+   * Handle position and visibility of the toolbar
+   */
   componentWillReceiveProps (nextProps) {
     const {editorState, editorHasFocus} = nextProps
     const selection = editorState.getSelection()
+
+    // Determine visibility of the toolbar
     const selectionVisible = !selection.isCollapsed() && editorHasFocus
 
     this.setState({
@@ -57,6 +53,12 @@ const InlineToolbar = React.createClass({
     }
   },
 
+  /**
+   * Calculate the position of the toolbar based on the visible selection
+   * and the position of the `positioner`s offsetParent.
+   *
+   * @return {Object} Description of the position/size of the positioner
+   */
   calculatePosition () {
     const {visible} = this.state
     if (visible) {
@@ -78,7 +80,7 @@ const InlineToolbar = React.createClass({
   },
 
   render () {
-    const {editorState, onChange} = this.props
+    const {editorState, inlineItems, onChange} = this.props
     const {visible, positionStyle} = this.state
 
     return (
@@ -86,7 +88,7 @@ const InlineToolbar = React.createClass({
         <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true}>
           <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
           <div>
-            <InlineToolbarItems editorState={editorState} onChange={onChange}/>
+            <InlineToolbarItems items={inlineItems} editorState={editorState} onChange={onChange}/>
           </div>
         </Popout>
       </div>
@@ -94,37 +96,4 @@ const InlineToolbar = React.createClass({
   }
 })
 
-
-function handleKeyCommand (command, { getEditorState, setEditorState }) {
-  switch (command) {
-    case 'bold':
-      setEditorState(
-        RichUtils.toggleInlineStyle(getEditorState(), 'BOLD')
-      )
-      return true
-    case 'italic':
-      setEditorState(
-        RichUtils.toggleInlineStyle(getEditorState(), 'ITALIC')
-      )
-      return true
-    case 'underline':
-      setEditorState(
-        RichUtils.toggleInlineStyle(getEditorState(), 'UNDERLINE')
-      )
-      return true
-  }
-  return false
-}
-
-export default function inlineToolbarPlugin (options = {}) {
-  return {
-    handleKeyCommand,
-    // Wrapper for the toolbar to mix in curried options
-    InlineToolbar: (props, children) => {
-      props = Object.assign({}, {something: "else"}, props)
-      return (
-        <InlineToolbar {...props}/>
-      )
-    }
-  }
-}
+export default Toolbar
