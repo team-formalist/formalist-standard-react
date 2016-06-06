@@ -77,11 +77,6 @@ const RichTextArea = React.createClass({
       }
     )
 
-    // Set up input classes
-    let inputClassNames = classNames({
-      [`${styles.code}`]: attributes.code
-    })
-
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
@@ -89,12 +84,12 @@ const RichTextArea = React.createClass({
         </div>
         <div className={styles.display}>
           <RichTextEditor
-            className={styles.editor}
             editorState={editorState}
             onChange={this.onChange}
             inlineFormatters={attributes.inline_formatters}
             boxSize={attributes.box_size}
-            textSize={attributes.text_size} />
+            textSize={attributes.text_size}
+            placeholder={attributes.placeholder} />
           {(hasErrors) ? <FieldErrors errors={errors}/> : null}
         </div>
       </div>

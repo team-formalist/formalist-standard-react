@@ -3,9 +3,12 @@ import PluginsEditor from 'draft-js-plugins-editor'
 import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
 // Plugins
+import BlockToolbar from './block-toolbar'
+import createAutoListPlugin from 'draft-js-autolist-plugin'
 import createSingleLinePlugin from 'draft-js-single-line-plugin'
 import createInlineToolbarPlugin from './inline-toolbar-plugin'
 // Styles
+import styles from './rich-text-editor.mcss'
 import './tmp.css'
 
 /**
@@ -15,6 +18,13 @@ const RichTextEditor = React.createClass({
   propTypes: {
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string,
+  },
+
+  getDefaultProps () {
+    return {
+      placeholder: 'Start writing content …'
+    }
   },
 
   getInitialState () {
@@ -32,6 +42,7 @@ const RichTextEditor = React.createClass({
    */
   configurePlugins () {
     const {inlineFormatters, boxSize} = this.props
+    const autoListPlugin = createAutoListPlugin()
     const singleLinePlugin = createSingleLinePlugin()
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       inlineFormatters
@@ -43,6 +54,8 @@ const RichTextEditor = React.createClass({
     // Add singleLine plugin if the boxSize matches
     if (boxSize === 'single') {
       plugins = plugins.concat([singleLinePlugin])
+    } else {
+      plugins = plugins.concat([autoListPlugin])
     }
     // Extract the toolbar component for use in rendering
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
@@ -57,23 +70,47 @@ const RichTextEditor = React.createClass({
     this.setState({hasFocus: false})
   },
 
+  /**
+   * Focus the editor when the `contentEl` is clicked
+   * @param  {MouseEvent} e
+   */
+  onContentClick (e) {
+    e.preventDefault()
+    if (e.target === this.contentEl) {
+      this.editor.focus()
+    }
+  },
+
   render () {
-    const {editorState, onChange} = this.props
+    const {boxSize, editorState, onChange, placeholder} = this.props
     const {hasFocus} = this.state
     const {InlineToolbar} = this
 
     return (
-      <div className={this.props.className}>
-        <InlineToolbar
-          editorHasFocus={hasFocus}
-          editorState={editorState}
-          onChange={onChange} />
-        <PluginsEditor
-          plugins={this.state.plugins}
-          editorState={editorState}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          onChange={onChange} />
+      <div className={styles.base}>
+        {(boxSize !== 'single')
+          ? <div className={styles.gutter}>
+              <BlockToolbar
+                editorHasFocus={hasFocus}
+                editorState={editorState}
+                onChange={onChange} />
+            </div>
+          : null
+        }
+        <div className={styles.content} ref={(c) => this.contentEl = c} onClick={this.onContentClick}>
+          <InlineToolbar
+            editorHasFocus={hasFocus}
+            editorState={editorState}
+            onChange={onChange} />
+          <PluginsEditor
+            ref={(c) => this.editor = c}
+            placeholder={placeholder}
+            plugins={this.state.plugins}
+            editorState={editorState}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            onChange={onChange} />
+        </div>
       </div>
     )
   }
