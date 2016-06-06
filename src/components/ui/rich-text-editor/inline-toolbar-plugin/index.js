@@ -9,10 +9,10 @@ const {hasCommandModifier} = KeyBindingUtil
 import Toolbar from './toolbar'
 
 /**
- * The default inline formatting options
+ * The inline item mappings
  * @type {Array}
  */
-const defaultInlineItems = [
+const inlineItemsMapping = [
   {
     command: 'bold',
     label: 'Bold',
@@ -28,11 +28,38 @@ const defaultInlineItems = [
     label: 'Code',
     style: 'CODE',
   },
+  {
+    command: 'underline',
+    label: 'Underline',
+    style: 'UNDERLINE',
+  },
+  {
+    command: 'strikethrough',
+    label: 'Strikethrough',
+    style: 'STRIKETHROUGH',
+  },
 ]
 
+const defaults = {
+  allowedInlineCommands: [
+    'bold',
+    'italic',
+    'code',
+  ]
+}
+
+/**
+ * Plugin for the inline toolbar
+
+ * @param  {Array} options.inlineCommands Optional list of inline commands to
+ * allow. Will default to defaults.allowedInlineCommands
+ *
+ * @return {Object} draft-js-editor-plugin compatible object
+ */
 export default function inlineToolbarPlugin (options = {}) {
 
-  const inlineItems = options.inlineItems || defaultInlineItems
+  const inlineCommands = options.inlineCommands || defaults.allowedInlineCommands
+  const inlineItems = inlineItemsMapping.filter((item) => inlineCommands.indexOf(item.command) > -1)
 
   return {
     /**
@@ -40,7 +67,7 @@ export default function inlineToolbarPlugin (options = {}) {
      *
      * Match a command to the inline or block style to apply.
      *
-     * @param  {String} command The command-as-string as passed by Draft.
+     * @param  {String}   command The command-as-string as passed by Draft.
      * @param  {Function} options.getEditorState Getter for the current editorState
      * @param  {Function} options.setEditorState Setter for the current editorState
      * @return {Boolean} Handled or not?
