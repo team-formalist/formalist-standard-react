@@ -41,7 +41,7 @@ const inlineItemsMapping = [
 ]
 
 const defaults = {
-  allowedInlineCommands: [
+  allowedInlineFormatters: [
     'bold',
     'italic',
     'code',
@@ -51,15 +51,15 @@ const defaults = {
 /**
  * Plugin for the inline toolbar
 
- * @param  {Array} options.inlineCommands Optional list of inline commands to
- * allow. Will default to defaults.allowedInlineCommands
+ * @param  {Array} options.inlineFormatters Optional list of inline commands to
+ * allow. Will default to defaults.allowedInlineFormatters
  *
  * @return {Object} draft-js-editor-plugin compatible object
  */
 export default function inlineToolbarPlugin (options = {}) {
 
-  const inlineCommands = options.inlineCommands || defaults.allowedInlineCommands
-  const inlineItems = inlineItemsMapping.filter((item) => inlineCommands.indexOf(item.command) > -1)
+  const inlineFormatters = options.inlineFormatters || defaults.allowedInlineFormatters
+  const inlineItems = inlineItemsMapping.filter((item) => inlineFormatters.indexOf(item.command) > -1)
 
   return {
     /**

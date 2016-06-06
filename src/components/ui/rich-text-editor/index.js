@@ -12,10 +12,15 @@ import './tmp.css'
  */
 const RichTextEditor = React.createClass({
   propTypes: {
+    editorState: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
   },
 
   getInitialState () {
-    const inlineToolbarPlugin = createInlineToolbarPlugin()
+    const {inlineFormatters} = this.props
+    const inlineToolbarPlugin = createInlineToolbarPlugin({
+      inlineFormatters
+    })
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     const {editorState, onChange} = this.props
 

@@ -29,7 +29,8 @@ const RichTextArea = React.createClass({
       hint: React.PropTypes.string,
       placeholder: React.PropTypes.string,
       inline: React.PropTypes.bool,
-      singleLine: React.PropTypes.bool,
+      single_line: React.PropTypes.bool,
+      inline_formatters: React.PropTypes.array,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -87,7 +88,12 @@ const RichTextArea = React.createClass({
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
         </div>
         <div className={styles.display}>
-          <RichTextEditor className={styles.editor} editorState={editorState} onChange={this.onChange}/>
+          <RichTextEditor
+            className={styles.editor}
+            editorState={editorState}
+            onChange={this.onChange}
+            inlineFormatters={attributes.inline_formatters}
+            />
           {(hasErrors) ? <FieldErrors errors={errors}/> : null}
         </div>
       </div>
