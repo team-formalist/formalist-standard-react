@@ -7,10 +7,3 @@
     composes: baseInline from '../shared.mcss';
   }
 
-.code {
-  composes: mono from styles;
-}
-
-.editor {
-  composes: inputBox from '../../ui/input-boxes.mcss';
-}

@@ -14,7 +14,8 @@
     text-align: initial
 }
 .DraftEditor-root {
-    position: relative
+    line-height: 1.4;
+    position: relative;
 }
 .DraftEditor-editorContainer {
     background-color: rgba(255, 255, 255, 0);
@@ -77,38 +78,37 @@
     direction: rtl
 }
 .public-DraftStyleDefault-ol, .public-DraftStyleDefault-ul {
-    margin: 16px 0;
-    padding: 0
+    padding: 0;
 }
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR {
-    margin-left: 1.5em
+    margin-left: 1.5em;
 }
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL {
-    margin-right: 1.5em
+    margin-right: 1.5em;
 }
 .public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR {
-    margin-left: 3em
+    margin-left: 3em;
 }
 .public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL {
-    margin-right: 3em
+    margin-right: 3em;
 }
 .public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR {
-    margin-left: 4.5em
+    margin-left: 4.5em;
 }
 .public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL {
-    margin-right: 4.5em
+    margin-right: 4.5em;
 }
 .public-DraftStyleDefault-depth3.public-DraftStyleDefault-listLTR {
-    margin-left: 6em
+    margin-left: 6em;
 }
 .public-DraftStyleDefault-depth3.public-DraftStyleDefault-listRTL {
-    margin-right: 6em
+    margin-right: 6em;
 }
 .public-DraftStyleDefault-depth4.public-DraftStyleDefault-listLTR {
-    margin-left: 7.5em
+    margin-left: 7.5em;
 }
 .public-DraftStyleDefault-depth4.public-DraftStyleDefault-listRTL {
-    margin-right: 7.5em
+    margin-right: 7.5em;
 }
 .public-DraftStyleDefault-unorderedListItem {
     list-style-type: square;
@@ -138,38 +138,38 @@
 }
 .public-DraftStyleDefault-orderedListItem:before {
     content: counter(ol0)". ";
-    counter-increment: ol0
+    counter-increment: ol0;
 }
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth1:before {
     content: counter(ol1)". ";
-    counter-increment: ol1
+    counter-increment: ol1;
 }
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth2:before {
     content: counter(ol2)". ";
-    counter-increment: ol2
+    counter-increment: ol2;
 }
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth3:before {
     content: counter(ol3)". ";
-    counter-increment: ol3
+    counter-increment: ol3;
 }
 .public-DraftStyleDefault-orderedListItem.public-DraftStyleDefault-depth4:before {
     content: counter(ol4)". ";
-    counter-increment: ol4
+    counter-increment: ol4;
 }
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset {
-    counter-reset: ol0
+    counter-reset: ol0;
 }
 .public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset {
-    counter-reset: ol1
+    counter-reset: ol1;
 }
 .public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset {
-    counter-reset: ol2
+    counter-reset: ol2;
 }
 .public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset {
-    counter-reset: ol3
+    counter-reset: ol3;
 }
 .public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset {
-    counter-reset: ol4
+    counter-reset: ol4;
 }
 
 

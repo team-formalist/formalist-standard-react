@@ -1,0 +1,18 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.base {
+  composes: inputBox from '../../ui/input-boxes.mcss';
+  display: flex;
+  padding: 0;
+}
+
+.gutter {
+  border-right: 1px solid #ccc;
+  position: relative;
+  width: 5rem;
+}
+
+.content {
+  padding: 2rem 2rem 1rem;
+  flex: 1;
+}
