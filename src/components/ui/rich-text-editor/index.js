@@ -2,21 +2,21 @@ import React from 'react'
 import PluginsEditor from 'draft-js-plugins-editor'
 import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
-
+// Plugins
+import createInlineToolbarPlugin from './inline-toolbar-plugin'
+// Styles
 import './tmp.css'
 
-// Plugins
-
-
-import createInlineToolbarPlugin from '../rich-text-editor-inline-toolbar'
-const inlineToolbarPlugin = createInlineToolbarPlugin()
-const {InlineToolbar} = inlineToolbarPlugin
-
+/**
+ * Rich Text Editor
+ */
 const RichTextEditor = React.createClass({
   propTypes: {
   },
 
   getInitialState () {
+    const inlineToolbarPlugin = createInlineToolbarPlugin()
+    this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     const {editorState, onChange} = this.props
 
     return {
@@ -38,6 +38,7 @@ const RichTextEditor = React.createClass({
   render () {
     const {editorState, onChange} = this.props
     const {hasFocus} = this.state
+    const {InlineToolbar} = this
 
     return (
       <div className={this.props.className}>
@@ -55,11 +56,5 @@ const RichTextEditor = React.createClass({
     )
   }
 })
-
-
-/**
- * Plugins
- */
-
 
 export default RichTextEditor
