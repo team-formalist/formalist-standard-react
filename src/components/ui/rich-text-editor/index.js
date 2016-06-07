@@ -3,9 +3,9 @@ import PluginsEditor from 'draft-js-plugins-editor'
 import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
 // Plugins
-import BlockToolbar from './block-toolbar'
 import createAutoListPlugin from 'draft-js-autolist-plugin'
 import createSingleLinePlugin from 'draft-js-single-line-plugin'
+import createBlockToolbarPlugin from './block-toolbar-plugin'
 import createInlineToolbarPlugin from './inline-toolbar-plugin'
 // Styles
 import styles from './rich-text-editor.mcss'
@@ -49,9 +49,16 @@ const RichTextEditor = React.createClass({
    * @return {Array} List of draft-js-plugins compatible plugins
    */
   configurePlugins () {
-    const {inlineFormatters, boxSize} = this.props
+    const {
+      blockFormatters,
+      inlineFormatters,
+      boxSize,
+    } = this.props
     const autoListPlugin = createAutoListPlugin()
     const singleLinePlugin = createSingleLinePlugin()
+    const blockToolbarPlugin = createBlockToolbarPlugin({
+      blockFormatters
+    })
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       inlineFormatters
     })
@@ -63,9 +70,10 @@ const RichTextEditor = React.createClass({
     if (boxSize === 'single') {
       plugins = plugins.concat([singleLinePlugin])
     } else {
-      plugins = plugins.concat([autoListPlugin])
+      plugins = plugins.concat([autoListPlugin, blockToolbarPlugin])
     }
     // Extract the toolbar component for use in rendering
+    this.BlockToolbar  = blockToolbarPlugin.BlockToolbar
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     return plugins
   },
@@ -92,7 +100,10 @@ const RichTextEditor = React.createClass({
   render () {
     const {boxSize, blockFormatters, editorState, onChange, placeholder} = this.props
     const {hasFocus} = this.state
-    const {InlineToolbar} = this
+    const {
+      BlockToolbar,
+      InlineToolbar,
+    } = this
 
     return (
       <div className={styles.base}>
