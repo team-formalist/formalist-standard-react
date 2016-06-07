@@ -23,7 +23,15 @@ const RichTextEditor = React.createClass({
 
   getDefaultProps () {
     return {
-      placeholder: 'Start writing content …'
+      placeholder: 'Start writing …',
+      blockFormatters: [
+        'unstyled',
+        'header-one',
+        'unordered-list-item',
+        'ordered-list-item',
+        'blockquote',
+        'code',
+      ]
     }
   },
 
@@ -82,7 +90,7 @@ const RichTextEditor = React.createClass({
   },
 
   render () {
-    const {boxSize, editorState, onChange, placeholder} = this.props
+    const {boxSize, blockFormatters, editorState, onChange, placeholder} = this.props
     const {hasFocus} = this.state
     const {InlineToolbar} = this
 
@@ -91,6 +99,7 @@ const RichTextEditor = React.createClass({
         {(boxSize !== 'single')
           ? <div className={styles.gutter}>
               <BlockToolbar
+                blockFormatters={blockFormatters}
                 editorHasFocus={hasFocus}
                 editorState={editorState}
                 onChange={onChange} />

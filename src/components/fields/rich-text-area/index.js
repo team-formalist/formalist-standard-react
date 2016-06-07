@@ -31,6 +31,7 @@ const RichTextArea = React.createClass({
       inline: React.PropTypes.bool,
       box_size: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
       inline_formatters: React.PropTypes.array,
+      block_formatters: React.PropTypes.array,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -87,6 +88,7 @@ const RichTextArea = React.createClass({
             editorState={editorState}
             onChange={this.onChange}
             inlineFormatters={attributes.inline_formatters}
+            blockFormatters={attributes.block_formatters}
             boxSize={attributes.box_size}
             textSize={attributes.text_size}
             placeholder={attributes.placeholder} />

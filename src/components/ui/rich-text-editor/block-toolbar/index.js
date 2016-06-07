@@ -4,8 +4,64 @@ import {
 } from 'draft-js'
 // Components
 import Popout from '../../popout'
+import StandardItems from './standard-items'
 // Styles
 import styles from './block-toolbar.mcss'
+
+/**
+ * The block item mappings
+ * @type {Array}
+ */
+const blockItemsMapping = [
+  {
+    type: 'unstyled',
+    label: 'Paragraph',
+  },
+  {
+    type: 'paragraph',
+    label: 'Paragraph',
+  },
+  {
+    type: 'header-one',
+    label: 'Heading 1',
+  },
+  {
+    type: 'header-two',
+    label: 'Heading 2',
+  },
+  {
+    type: 'header-three',
+    label: 'Heading 3',
+  },
+  {
+    type: 'header-four',
+    label: 'Heading 4',
+  },
+  {
+    type: 'header-five',
+    label: 'Heading 5',
+  },
+  {
+    type: 'header-six',
+    label: 'Heading 6',
+  },
+  {
+    type: 'unordered-list-item',
+    label: 'UL',
+  },
+  {
+    type: 'ordered-list-item',
+    label: 'OL',
+  },
+  {
+    type: 'blockquote',
+    label: 'Blockquote',
+  },
+  {
+    type: 'code-block',
+    label: 'Code',
+  },
+]
 
 /**
  * Block Toolbar
@@ -13,6 +69,7 @@ import styles from './block-toolbar.mcss'
  */
 const BlockToolbar = React.createClass({
   propTypes: {
+    blockFormatters: React.PropTypes.array,
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -54,7 +111,7 @@ const BlockToolbar = React.createClass({
         top: Math.floor(
           blockRect.top -
           positionerParentRect.top -
-          10
+          8
         ),
       }
     }
@@ -75,8 +132,10 @@ const BlockToolbar = React.createClass({
   },
 
   render () {
-    const {editorState, onChange} = this.props
+    const {blockFormatters, editorState, onChange} = this.props
     const {open, positionStyle} = this.state
+
+    const blockItems = blockItemsMapping.filter((item) => blockFormatters.indexOf(item.type) > -1)
 
     return (
       <div>
@@ -88,7 +147,7 @@ const BlockToolbar = React.createClass({
             </button>
           </div>
           <div>
-            I AM BUTTONS
+            <StandardItems items={blockItems} editorState={editorState} onChange={onChange}/>
           </div>
         </Popout>
       </div>
