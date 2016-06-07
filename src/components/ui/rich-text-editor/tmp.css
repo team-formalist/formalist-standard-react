@@ -14,8 +14,9 @@
     text-align: initial
 }
 .DraftEditor-root {
-    line-height: 1.4;
+    line-height: 1.5;
     position: relative;
+    font-size: 1.5rem;
 }
 .DraftEditor-editorContainer {
     background-color: rgba(255, 255, 255, 0);
@@ -63,6 +64,11 @@
     position: relative;
     white-space: pre-wrap
 }
+
+.public-DraftEditor-content h1 {
+  font-weight: bold;
+}
+
 .public-DraftStyleDefault-ltr {
     direction: ltr;
     text-align: left
