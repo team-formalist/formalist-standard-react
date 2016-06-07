@@ -25,6 +25,10 @@
   z-index: 1;
 }
 
+.dropzone:hover {
+  cursor: pointer;
+}
+
 .dropzone__empty,
 .dropzone__drag_over {
   position: relative;
@@ -123,7 +127,6 @@ that it doesn't glitchy state changes when hovered/dragged over */
 
 .dropzone__label {
   color: greyLight;
-  cursor: none;
   display: inline-block;
   left: 50%;
   position: absolute;
