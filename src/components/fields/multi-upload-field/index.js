@@ -2,7 +2,7 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
-import {upload, presign, abortXHRRequest} from 'attache-upload'
+import {upload, presign, abortXHRRequest, getXHRRequests} from 'attache-upload'
 import Immutable from 'immutable'
 
 // Import components
@@ -357,6 +357,11 @@ const MultiUploadField = React.createClass({
     if (!files.length) return
 
     const { attributes } = this.props
+    const isMultiple = (this.props.attributes.multiple || this.props.multiple)
+
+    if (!isMultiple && this.state.files.length) {
+      this.removeFile(0)
+    }
 
     const {
       permittedFileTypeRegex,
@@ -402,7 +407,7 @@ const MultiUploadField = React.createClass({
 
     // if `multiple` concat dropped file with existing,
     // otherwise just the dropped file
-    const allFiles = (this.props.attributes.multiple || this.props.multiple)
+    const allFiles = isMultiple
       ? this.state.files.concat(uploadingFiles)
       : uploadingFiles
 
@@ -461,11 +466,11 @@ const MultiUploadField = React.createClass({
    */
 
   removeFile (index, e) {
-    e.preventDefault()
+    if (e) e.preventDefault()
     const files = this.state.files.slice(0)
 
     const file = files[index]
-    if (file.file) this.abortUploadRequest(files[index])
+    if (file.file) this.abortUploadRequest(file)
 
     files.splice(index, 1)
     this.setState({
