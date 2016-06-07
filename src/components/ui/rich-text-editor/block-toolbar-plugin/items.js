@@ -29,14 +29,15 @@ const BlockItems = React.createClass({
   },
 
   renderItems (items) {
-    // const currentBlock = this.props.editorState.getCurrentInlineStyle()
+    const {editorState} = this.props
+    const currentBlockType = RichUtils.getCurrentBlockType(editorState)
     return items.map((item) => {
-      // const active = currentStyle.has(item.style)
+      const active = currentBlockType === item.type
       const buttonClassNames = classNames(
-        styles.button
-        // {
-        //   [`${styles.buttonActive}`]: active,
-        // }
+        styles.button,
+        {
+          [`${styles.buttonActive}`]: active,
+        }
       )
       return (
         <button key={item.label} className={buttonClassNames} onClick={(e) => {
