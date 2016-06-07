@@ -84,6 +84,20 @@ export default function inlineToolbarPlugin (options = {}) {
     },
 
     /**
+     * Override the inline style for code to match our typeface.
+     * In the future this will hopefully be addressable through CSS when
+     * https://github.com/facebook/draft-js/pull/354 is merged.
+     * @type {Object}
+     */
+    customStyleMap: {
+      CODE: {
+        fontFamily: 'inconsolata, monospace',
+        lineHeight: 1.35,
+        wordWrap: 'break-word',
+      },
+    },
+
+    /**
      * Export the `InlineToolbar` component with curried `options`
      *
      * @param  {Object} props Props for the toolbar
