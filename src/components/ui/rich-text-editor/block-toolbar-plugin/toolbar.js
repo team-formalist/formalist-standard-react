@@ -14,7 +14,7 @@ import styles from './toolbar.mcss'
  */
 const BlockToolbar = React.createClass({
   propTypes: {
-    blockItems: React.PropTypes.array,
+    blockItemsGroups: React.PropTypes.array,
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -76,7 +76,7 @@ const BlockToolbar = React.createClass({
   },
 
   render () {
-    const {blockItems, editorState, onChange} = this.props
+    const {blockItemsGroups, editorState, onChange} = this.props
     const {open, positionStyle} = this.state
 
     return (
@@ -95,7 +95,7 @@ const BlockToolbar = React.createClass({
             </button>
           </div>
           <div>
-            <Items items={blockItems} editorState={editorState} onChange={onChange} onSelect={this.closeToolbar}/>
+            <Items itemsGroups={blockItemsGroups} editorState={editorState} onChange={onChange}/>
           </div>
         </Popout>
       </div>

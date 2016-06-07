@@ -67,6 +67,14 @@
 
 .public-DraftEditor-content h1 {
   font-weight: bold;
+  font-size: 2rem;
+}
+
+.public-DraftEditor-content h2 {
+  font-weight: bold;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
 }
 
 .public-DraftStyleDefault-ltr {

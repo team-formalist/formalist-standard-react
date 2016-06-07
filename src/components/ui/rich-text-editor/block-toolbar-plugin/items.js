@@ -6,33 +6,42 @@ import {
 
 import styles from './items.mcss'
 
+function getBlockTypeToApply(currentType, types) {
+  const index = types.indexOf(currentType)
+  if (index === -1) {
+    return types[0]
+  } else if (index < types.length - 1) {
+    return types[index + 1]
+  }
+  return 'unstyled'
+}
+
 const BlockItems = React.createClass({
 
   propTypes: {
-    items: React.PropTypes.array,
+    itemsGroups: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps () {
     return {
-      items: []
+      itemsGroups: []
     }
   },
 
   toggleBlockType (blockType) {
-    const {editorState, onChange, onSelect} = this.props
+    const {editorState, onChange} = this.props
     onChange(
       RichUtils.toggleBlockType(editorState, blockType)
     )
-    onSelect()
   },
 
-  renderItems (items) {
+  renderItemsGroups (itemsGroups) {
     const {editorState} = this.props
     const currentBlockType = RichUtils.getCurrentBlockType(editorState)
-    return items.map((item) => {
-      const active = currentBlockType === item.type
+    return itemsGroups.map((group) => {
+      const active = (group.types.indexOf(currentBlockType) > -1)
       const buttonClassNames = classNames(
         styles.button,
         {
@@ -40,22 +49,22 @@ const BlockItems = React.createClass({
         }
       )
       return (
-        <button key={item.label} className={buttonClassNames} onClick={(e) => {
+        <button key={group.label} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
-          this.toggleBlockType(item.type)
+          this.toggleBlockType(getBlockTypeToApply(currentBlockType, group.types))
         }}>
-          {item.label}
+          {group.label}
         </button>
       )
     })
   },
 
   render () {
-    const {items} = this.props
+    const {itemsGroups} = this.props
     return (
       <div>
         <ul className={styles.list} onMouseDown={(e) => e.preventDefault()}>
-          {this.renderItems(items)}
+          {this.renderItemsGroups(itemsGroups)}
         </ul>
       </div>
     )

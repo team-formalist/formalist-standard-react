@@ -8,58 +8,42 @@ const {hasCommandModifier} = KeyBindingUtil
 // Components
 import Toolbar from './toolbar'
 
-/**
- * The block item mappings
- * @type {Array}
- */
-const blockItemsMapping = [
+const blockItemsGroupsMapping = [
   {
-    type: 'unstyled',
     label: 'Paragraph',
+    types: [
+      'unstyled',
+    ],
   },
   {
-    type: 'paragraph',
-    label: 'Paragraph',
+    label: 'Heading',
+    types: [
+      'header-one',
+      'header-two',
+      'header-three',
+      'header-four',
+      'header-five',
+      'header-six',
+    ],
   },
   {
-    type: 'header-one',
-    label: 'Heading 1',
+    label: 'Unordered',
+    types: [
+      'unordered-list-item',
+    ],
   },
   {
-    type: 'header-two',
-    label: 'Heading 2',
+    label: 'Ordered',
+    types: [
+      'ordered-list-item',
+    ],
   },
   {
-    type: 'header-three',
-    label: 'Heading 3',
-  },
-  {
-    type: 'header-four',
-    label: 'Heading 4',
-  },
-  {
-    type: 'header-five',
-    label: 'Heading 5',
-  },
-  {
-    type: 'header-six',
-    label: 'Heading 6',
-  },
-  {
-    type: 'unordered-list-item',
-    label: 'UL',
-  },
-  {
-    type: 'ordered-list-item',
-    label: 'OL',
-  },
-  {
-    type: 'blockquote',
-    label: 'Blockquote',
-  },
-  {
-    type: 'code-block',
-    label: 'Code',
+    label: 'Quote',
+    types: [
+      'blockquote',
+      'pullquote',
+    ],
   },
 ]
 
@@ -67,9 +51,10 @@ const defaults = {
   allowedBlockFormatters: [
     'unstyled',
     'header-one',
+    'header-two',
     'unordered-list-item',
     'ordered-list-item',
-    'blockquote-list-item',
+    'blockquote',
     'code',
   ]
 }
@@ -85,7 +70,16 @@ const defaults = {
 export default function blockToolbarPlugin (options = {}) {
 
   const blockFormatters = options.blockFormatters || defaults.allowedBlockFormatters
-  const blockItems = blockItemsMapping.filter((item) => blockFormatters.indexOf(item.type) > -1)
+  // Filter out the un-allowed block-item types
+  const blockItemsGroups = blockItemsGroupsMapping.map((group) => {
+    const types = group.types.filter((type) => blockFormatters.indexOf(type) > -1)
+    return {
+      label: group.label,
+      types
+    }
+  }).filter((group) => {
+    return group.types.length > 0
+  })
 
   return {
     /**
@@ -95,7 +89,7 @@ export default function blockToolbarPlugin (options = {}) {
      * @return {ReactComponent} The curried component
      */
     BlockToolbar: (props) => {
-      props = Object.assign({}, {blockItems}, props)
+      props = Object.assign({}, {blockItemsGroups}, props)
       return (
         <Toolbar {...props}/>
       )
