@@ -63,14 +63,13 @@ const BlockToolbar = React.createClass({
     return {}
   },
 
-  openToolbar (e) {
-    e.preventDefault()
+  openToolbar () {
     this.setState({
-      open: !this.state.open
+      open: true
     })
   },
 
-  onClose (e) {
+  closeToolbar () {
     this.setState({
       open: false
     })
