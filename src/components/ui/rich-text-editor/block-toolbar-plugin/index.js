@@ -65,8 +65,11 @@ const blockItemsMapping = [
 
 const defaults = {
   allowedBlockFormatters: [
-    'bold',
-    'italic',
+    'unstyled',
+    'header-one',
+    'unordered-list-item',
+    'ordered-list-item',
+    'blockquote-list-item',
     'code',
   ]
 }
