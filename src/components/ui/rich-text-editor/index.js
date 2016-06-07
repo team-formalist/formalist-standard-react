@@ -24,14 +24,6 @@ const RichTextEditor = React.createClass({
   getDefaultProps () {
     return {
       placeholder: 'Start writing …',
-      blockFormatters: [
-        'unstyled',
-        'header-one',
-        'unordered-list-item',
-        'ordered-list-item',
-        'blockquote',
-        'code',
-      ]
     }
   },
 
