@@ -1,11 +1,10 @@
 @value styles: 'formalist-theme/theme/index.mcss';
 
-.list {
-  display: flex;
-}
+.list {}
 
 .button {
   display: block;
+  text-align: center;
 }
 
   .buttonActive {
