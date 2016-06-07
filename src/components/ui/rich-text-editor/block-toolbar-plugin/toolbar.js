@@ -82,15 +82,21 @@ const BlockToolbar = React.createClass({
 
     return (
       <div>
-        <Popout placement='bottom' isOpened={open} closeOnOutsideClick={true} closeOnEsc onClose={this.onClose}>
+        <Popout placement='bottom' isOpened={open} closeOnOutsideClick={true} closeOnEsc onClose={this.closeToolbar}>
           <div style={positionStyle} className={styles.positioner} ref={(r) => this.positioner = r}>
-            <button className={styles.toggle} onClick={this.openToolbar} onMouseDown={(e) => e.preventDefault()}>
+            <button
+              className={styles.toggle}
+              onClick={(e) => {
+                e.preventDefault()
+                this.openToolbar()
+              }}
+              onMouseDown={(e) => e.preventDefault()}>
               ¶
               <span className={styles.toggleText}>View block elements</span>
             </button>
           </div>
           <div>
-            <Items items={blockItems} editorState={editorState} onChange={onChange}/>
+            <Items items={blockItems} editorState={editorState} onChange={onChange} onSelect={this.closeToolbar}/>
           </div>
         </Popout>
       </div>

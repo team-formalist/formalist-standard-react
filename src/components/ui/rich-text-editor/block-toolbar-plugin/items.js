@@ -21,10 +21,11 @@ const BlockItems = React.createClass({
   },
 
   toggleBlockType (blockType) {
-    const {editorState, onChange} = this.props
+    const {editorState, onChange, onSelect} = this.props
     onChange(
       RichUtils.toggleBlockType(editorState, blockType)
     )
+    onSelect()
   },
 
   renderItems (items) {
