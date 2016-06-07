@@ -2,7 +2,7 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
-import {upload, presign, abortXHRRequest, getXHRRequests} from 'attache-upload'
+import {upload, presign, abortXHRRequest} from 'attache-upload'
 import Immutable from 'immutable'
 
 // Import components
@@ -49,7 +49,7 @@ const MultiUploadField = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     multiple: React.PropTypes.bool,
-    file_name: React.PropTypes.string,
+    name: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       ImmutablePropTypes.list,
       React.PropTypes.object
@@ -190,15 +190,12 @@ const MultiUploadField = React.createClass({
    * @param {object} file - the uploaded file
    */
 
-  onProgress (e, file) {
-    const {name} = file
-    let files = this.state.files
-      ? this.state.files.slice(0)
-      : []
+  onProgress (e, fileObject) {
+    let files = this.state.files.slice(0)
 
-    files.map((file) => {
-      if (file.file_name === name) {
-        file.progress = e.percent
+    files.map((existingFile) => {
+      if (existingFile.uid === fileObject.uid) {
+        existingFile.progress = e.percent
       }
     })
 
@@ -219,14 +216,14 @@ const MultiUploadField = React.createClass({
    */
 
   updateUploadedFiles (fileObject, response, upload_url) {
-    let files = this.state.files.filter((preview) => {
-      return preview.uid !== fileObject.uid
-    })
+    let copy = Object.assign({}, fileObject)
+    delete copy.file
+    copy.fileAttributes = response
+    copy.original_url = this.buildPath(upload_url, response.path)
 
-    delete fileObject.file
-    fileObject.fileAttributes = response
-    fileObject.original_url = this.buildPath(upload_url, response.path)
-    files.push(fileObject)
+    let files = this.state.files.slice(0)
+    const indexOfFile = files.findIndex(file => file.uid === fileObject.uid)
+    files.splice(indexOfFile, 1, copy)
 
     this.setState({
       files
