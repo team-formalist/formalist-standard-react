@@ -49,7 +49,7 @@ const MultiUploadField = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     multiple: React.PropTypes.bool,
-    name: React.PropTypes.string,
+    file_name: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       ImmutablePropTypes.list,
       React.PropTypes.object
@@ -127,11 +127,11 @@ const MultiUploadField = React.createClass({
   /**
    * createFileObjects
    * Create a file object for a file
-   * A file object includes the name, the file and a uid
-   * The uid is generated using the file name.
+   * A file object includes the file_name, the file and a uid
+   * The uid is generated using the actual file's name.
    * Example:
    * {
-   * 		name: small.jpg,
+   * 		file_name: small.jpg,
    * 		file: {file},
    * 		uid: "wyertyiopdop_small.jpg"
    * }
@@ -146,7 +146,7 @@ const MultiUploadField = React.createClass({
       const {name, size, type, lastModifiedDate} = file
       return {
         file,
-        name,
+        file_name: name,
         size,
         type,
         lastModifiedDate: lastModifiedDate.toString(),
@@ -197,7 +197,7 @@ const MultiUploadField = React.createClass({
       : []
 
     files.map((file) => {
-      if (file.name === name) {
+      if (file.file_name === name) {
         file.progress = e.percent
       }
     })
@@ -599,27 +599,27 @@ const MultiUploadField = React.createClass({
    * Return a thumbnail image based on `thumbnail_url` or building one from 'original_url'
    * @param  {string} thumbnail_url
    * @param  {string} original_url
-   * @param  {string} name
+   * @param  {string} file_name
    * @return {vnode}
    */
 
-  renderThumbnail (thumbnail_url, original_url, name) {
+  renderThumbnail (thumbnail_url, original_url, file_name) {
     if (!thumbnail_url && !original_url) return
 
     return (
-      <img src={thumbnail_url || this.buildThumbnailPath(original_url, '50x')} alt={name} />
+      <img src={thumbnail_url || this.buildThumbnailPath(original_url, '50x')} alt={file_name} />
     )
   },
 
   /**
    * renderPreviewDetails
    * Render the file details for a preview item
-   * @param  {string} name
+   * @param  {string} file_name
    * @param  {image} thumbnailImage
    * @return {vnode}
    */
 
-  renderPreviewDetails (name, thumbnailImage, isProgressTitle = false) {
+  renderPreviewDetails (file_name, thumbnailImage, isProgressTitle = false) {
     const titleClassNames = classNames(
       {
         [`${styles.listItem__title}`]: !isProgressTitle,
@@ -641,7 +641,7 @@ const MultiUploadField = React.createClass({
         </div>
         <div className={styles.align_middle__content}>
           <div className={titleClassNames}>
-            Uploading: {name}
+            Uploading: {file_name}
           </div>
         </div>
       </div>
@@ -657,11 +657,11 @@ const MultiUploadField = React.createClass({
    */
 
   renderPreviewItem (fileObject, index) {
-    const {progress, file, name} = fileObject
+    const {progress, file, file_name} = fileObject
     const {preview} = file
-    const hasThumbnail = hasImageFormatType(name)
+    const hasThumbnail = hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(preview, null, name)
+      ? this.renderThumbnail(preview, null, file_name)
       : null
 
     let currentProgress = {
@@ -673,10 +673,10 @@ const MultiUploadField = React.createClass({
         <span
           className={styles.progress_bar}
           style={currentProgress}>
-          {this.renderPreviewDetails(name, thumbnailImage, true)}
+          {this.renderPreviewDetails(file_name, thumbnailImage, true)}
         </span>
 
-        {this.renderPreviewDetails(name, thumbnailImage)}
+        {this.renderPreviewDetails(file_name, thumbnailImage)}
       </div>
     )
   },
@@ -719,10 +719,10 @@ const MultiUploadField = React.createClass({
    */
 
   renderDefaultTemplate (fileObject, index) {
-    const {name, thumbnail_url, original_url} = fileObject
-    const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(name)
+    const {file_name, thumbnail_url, original_url} = fileObject
+    const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, original_url, name)
+      ? this.renderThumbnail(thumbnail_url, original_url, file_name)
       : null
 
     return (
@@ -736,7 +736,7 @@ const MultiUploadField = React.createClass({
             </div>
             <div className={styles.align_middle__content}>
               <div className={styles.listItem__title}>
-                <a target='_blank' href={original_url}>{name}</a>
+                <a target='_blank' href={original_url}>{file_name}</a>
               </div>
             </div>
           </div>
