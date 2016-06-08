@@ -7,56 +7,12 @@
 .base {
   composes: base from '../shared.mcss';
 }
-  .baseInline {
-    composes: baseInline from '../shared.mcss';
-  }
+.baseInline {
+  composes: baseInline from '../shared.mcss';
+}
 
-.field {
+.parent {
   position: relative;
-}
-
-.message {
-  padding-right: 3rem;
-  position: relative;
-  z-index: 1;
-}
-
-.result,
-.progress {
-  composes: sans normal from styles;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: block;
-  left: 0;
-  overflow: hidden;
-  padding: 20px;
-  position: absolute;
-  text-align: left;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-}
-
-.result {
-  composes: greyTint greyTintBackground from styles;
-  font-size: 1.1em;
-  line-height: 1.5;
-}
-
-.percentage {
-  float: right;
-}
-
-.previewItems {
-  background: greyTint;
-  color: #fff;
-  margin-bottom: 5px;
-}
-
-.uploadedItems {
-  composes: greyMidColor greyTintBackground from styles;
-  position: relative;
-  z-index: 5;
 }
 
 .listItem {
@@ -72,10 +28,11 @@
   background: greyTint;
   border-radius: 0.25em;
   overflow: hidden;
+  height: 40px;
 }
 
 .previewItem__details {
-  padding: 5px;
+  padding-left : 5px;
 }
 
 .listItem__img img {
@@ -89,6 +46,10 @@
   width: auto;
   position: relative;
   z-index: 2;
+}
+
+.previewItem .listItem__img img {
+  height: 30px;
 }
 
 .listItem__title {
@@ -120,12 +81,10 @@
   overflow: hidden;
 }
 
-.validationMessages {}
-
 .validationMessage {
   composes: sans normal errorColor errorLightBackground from styles;
   margin-bottom: 5px;
-  padding: 8px 30px 8px 8px;
+  padding: 8px 50px 8px 8px;
   position: relative;
   z-index: 1;
 }
@@ -164,9 +123,7 @@
 }
 
 .align_middle {
-  display: table-cell;
-  vertical-align: middle;
-  margin-top: -2px;
+  display: table;
 }
 
 .align_middle__content {

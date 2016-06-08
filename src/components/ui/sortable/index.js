@@ -45,6 +45,7 @@ const Sortable = React.createClass({
      * @type {Function}
      */
     onSort: React.PropTypes.func,
+    canSort: React.PropTypes.bool,
     verticalControls: React.PropTypes.bool
   },
 

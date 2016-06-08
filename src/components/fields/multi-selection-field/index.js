@@ -262,7 +262,7 @@ const SelectionField = React.createClass({
           key={option.id}
           className={styles.optionButton}
           onClick={onClick}>
-          <Option option={option}/>
+          <Option option={option} />
         </button>
       )
     })
@@ -270,7 +270,7 @@ const SelectionField = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div>
           <div className={styles.display}>
@@ -305,12 +305,12 @@ const SelectionField = React.createClass({
             (numberOfSelections > 0)
             ? <div id={name} className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
-                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option}/>)}
+                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option} />)}
               </Sortable>
             </div>
             : null
           }
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )

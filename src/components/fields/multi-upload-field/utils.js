@@ -2,13 +2,13 @@ import uid from 'uid'
 import isEqual from 'lodash.isequal'
 
 /**
- * filenameIsImage
- * return a bool if the name contains a file type in the pattern
+ * hasImageFormatType
+ * return a bool if the filename contains an image format type
  * @param  {string} name
  * @return {bool}
  */
 
-function filenameIsImage (filename) {
+function hasImageFormatType (filename) {
   return (/.(jpg|jpeg|gif|png|bmp|svg)$/).test(filename)
 }
 
@@ -73,7 +73,7 @@ function filterUniqueObjects (primary, secondary) {
 }
 
 export {
-  filenameIsImage,
+  hasImageFormatType,
   sortArrayByOrder,
   generateUniqueID,
   noOp,

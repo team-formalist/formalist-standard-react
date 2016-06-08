@@ -122,7 +122,7 @@ const Modal = React.createClass({
             <span className={styles.closeText}>Close</span>
             <div className={styles.closeX}>&times;</div>
           </button>
-          <button className={styles.overlay} onClick={this.onOverlayClick}/>
+          <button className={styles.overlay} onClick={this.onOverlayClick} />
           <div className={styles.content}>
             {this.props.children}
           </div>

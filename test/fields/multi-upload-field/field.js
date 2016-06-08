@@ -11,6 +11,9 @@ const props = {
   name: 'baz',
   attributes: {
     inline: true
+  },
+  errors: {
+    count () {}
   }
 }
 
@@ -23,13 +26,17 @@ test('File Upload:', (nest) => {
   })
 
   nest.test('...children has children', (t) => {
-    // <FieldHeader/>
-    // null (XHRErrorMessages)
-    // null (invalidFiles)
-    // <Dropzone/>
+    // this is what 'children' looks like:
+
+    // 1. <FieldHeader/>
+    // 2. null (XHRErrorMessages)
+    // 3. null (invalidFiles)
+    // 4. <Dropzone/>
+    // 5. <FieldErrors/>
+
     const component = shallowRenderComponent(Input, props)
     const actual = component.props.children.props.children.length
-    const expected = 4
+    const expected = 5
     t.equal(actual, expected)
     t.end()
   })

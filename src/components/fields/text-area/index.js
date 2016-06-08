@@ -74,7 +74,7 @@ const TextField = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <TextBox
@@ -86,7 +86,7 @@ const TextField = React.createClass({
             onChange={this.onChange}
             boxSize={attributes.box_size}
             textSize={attributes.text_size} />
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )

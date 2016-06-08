@@ -168,7 +168,7 @@ const Many = React.createClass({
             </span>
             <button className={styles.placeholderButton} onClick={this.addChild}>Add the first?</button>
           </div>}
-        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+        {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
   }

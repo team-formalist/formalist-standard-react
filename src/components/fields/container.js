@@ -19,6 +19,7 @@ const FieldContainer = React.createClass({
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
+    globalConfig: React.PropTypes.object,
     hashCode: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired,
     path: ImmutablePropTypes.list.isRequired,
@@ -117,7 +118,7 @@ const FieldContainer = React.createClass({
           errors={errors}
           attributes={attributes}
           label={label}
-          hint={hint}/>
+          hint={hint} />
       </div>
     )
   }

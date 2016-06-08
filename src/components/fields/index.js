@@ -14,7 +14,6 @@ import TextArea from './text-area'
 import MultiUploadField from './multi-upload-field'
 import UploadField from './upload-field'
 
-
 /**
  * Wrap a React class in with the common Container class
  *

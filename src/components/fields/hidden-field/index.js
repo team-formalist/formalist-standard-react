@@ -4,7 +4,7 @@ import React from 'react'
  * Hidden field
  */
 const HiddenField = () => {
-  return <span/>
+  return <span />
 }
 
 export default HiddenField
