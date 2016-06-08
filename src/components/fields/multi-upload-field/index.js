@@ -88,13 +88,12 @@ const MultiUploadField = React.createClass({
     value = (value) ? value.toJS() : value
     let files = []
 
-    if (!allowMultipleFiles && value.length > 1) {
-      value = value.splice(0, 1)
-    }
-
     // check if 'value' exists.
     // if it's an 'object' and put it in array
     if (value != null) {
+      if (!allowMultipleFiles && value.length > 1) {
+        value = value.splice(0, 1)
+      }
       if (!Array.isArray(value) && (typeof (value) === 'object')) {
         files = [ this.populateExistingAttributes(value) ]
       } else {
@@ -136,7 +135,7 @@ const MultiUploadField = React.createClass({
    */
 
   componentWillReceiveProps (nextProps) {
-    if (!nextProps.multple || !nextProps.value.length) return
+    if (!nextProps.multple || !nextProps.value || !nextProps.value.length) return
     let files = this.state.files.slice(0)
 
     let newValueProps = filterUniqueObjects(files, nextProps.value)
