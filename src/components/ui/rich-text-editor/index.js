@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
 import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
@@ -99,6 +100,20 @@ const RichTextEditor = React.createClass({
       InlineToolbar,
     } = this
 
+    let placeholderBlockType = false
+    const contentState = editorState.getCurrentContent();
+    if (!contentState.hasText()) {
+      placeholderBlockType = contentState.getBlockMap().first().getType()
+    }
+
+    // Set up content wrapper classes
+    let contentClassNames = classNames(
+      styles.content,
+      {
+        [`${styles['contentPlaceholder--' + placeholderBlockType]}`]: (placeholderBlockType && styles['contentPlaceholder--' + placeholderBlockType])
+      }
+    )
+
     return (
       <div className={styles.base}>
         {(boxSize !== 'single')
@@ -111,7 +126,7 @@ const RichTextEditor = React.createClass({
             </div>
           : null
         }
-        <div className={styles.content} ref={(c) => this.contentEl = c} onClick={this.onContentClick}>
+        <div className={contentClassNames} ref={(c) => this.contentEl = c} onClick={this.onContentClick}>
           <InlineToolbar
             editorHasFocus={hasFocus}
             editorState={editorState}
