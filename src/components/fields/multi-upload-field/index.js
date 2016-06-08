@@ -84,22 +84,46 @@ const MultiUploadField = React.createClass({
 
   getInitialState () {
     let {value} = this.props
+    const allowMultipleFiles = (this.props.multiple || this.props.attributes.multiple)
     value = (value) ? value.toJS() : value
     let files = []
+
+    if (!allowMultipleFiles && value.length > 1) {
+      value = value.splice(0, 1)
+    }
 
     // check if 'value' exists.
     // if it's an 'object' and put it in array
     if (value != null) {
       if (!Array.isArray(value) && (typeof (value) === 'object')) {
-        files = [value]
+        files = [ this.populateExistingAttributes(value) ]
       } else {
-        files = value
+        files = value.map((file) => {
+          return this.populateExistingAttributes(file)
+        })
       }
     }
 
     return {
       files
     }
+  },
+
+  /**
+   * populateExistingAttributes
+   * take an object and copy it's contents to `fileAttributes` of a new object
+   * return the new object
+   * @param  {obj} file
+   * @return {obj}
+   */
+
+  populateExistingAttributes (file) {
+    var obj = {}
+    obj.fileAttributes = {}
+    for (var key in file) {
+      obj.fileAttributes[key] = file[key]
+    }
+    return obj
   },
 
   /**
@@ -146,7 +170,9 @@ const MultiUploadField = React.createClass({
       const {name, size, type, lastModifiedDate} = file
       return {
         file,
-        file_name: name,
+        fileAttributes : {
+          file_name: name
+        },
         size,
         type,
         lastModifiedDate: lastModifiedDate.toString(),
@@ -240,7 +266,8 @@ const MultiUploadField = React.createClass({
    */
 
   onUpdate (files) {
-    const uploadedFiles = files.map(this.normaliseFileExport)
+    const uploadedFiles = files.map((file) => file.fileAttributes)
+
     const value = (this.props.attributes.multiple || this.props.multiple)
       ? uploadedFiles
       : uploadedFiles[0]
@@ -248,19 +275,6 @@ const MultiUploadField = React.createClass({
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
     )
-  },
-
-  /**
-   * normaliseFileExport
-   * If the object does not have a 'fileAttributes' property
-   * return the object, otherwise just the 'fileAttributes' property
-   * @param {object} obj
-   */
-
-  normaliseFileExport (obj) {
-    return obj.hasOwnProperty('fileAttributes')
-     ? obj.fileAttributes
-     : obj
   },
 
   /**
@@ -659,7 +673,8 @@ const MultiUploadField = React.createClass({
    */
 
   renderPreviewItem (fileObject, index) {
-    const {progress, file, file_name} = fileObject
+    const {progress, file, fileAttributes} = fileObject
+    const { file_name } = fileAttributes
     const {preview} = file
     const hasThumbnail = hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
@@ -721,7 +736,8 @@ const MultiUploadField = React.createClass({
    */
 
   renderDefaultTemplate (fileObject, index) {
-    const {file_name, thumbnail_url, original_url} = fileObject
+    const { fileAttributes } = fileObject
+    const {file_name, thumbnail_url, original_url} = fileAttributes
     const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
       ? this.renderThumbnail(thumbnail_url, original_url, file_name)
@@ -850,9 +866,10 @@ const MultiUploadField = React.createClass({
   render () {
     const {attributes, hint, label, name, errors} = this.props
     const {upload_prompt, upload_action_label} = attributes
+
     let hasErrors = (errors.count() > 0)
 
-    const {
+    let {
       XHRErrorMessages,
       files,
       invalidFiles
