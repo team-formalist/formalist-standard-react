@@ -26,6 +26,14 @@ const BlockToolbar = React.createClass({
     }
   },
 
+  componentWillMount () {
+    window.addEventListener('keydown', this.onKeyDown)
+  },
+
+  componentWillUnmount () {
+    window.removeEventListener('keydown', this.onKeyDown)
+  },
+
   /**
    * Handle position and visibility of the toolbar
    */
@@ -61,6 +69,10 @@ const BlockToolbar = React.createClass({
       }
     }
     return {}
+  },
+
+  onKeyDown (e) {
+    this.closeToolbar()
   },
 
   openToolbar () {
