@@ -4,6 +4,7 @@ import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
 // Plugins
 import createAutoListPlugin from 'draft-js-autolist-plugin'
+import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import createSingleLinePlugin from 'draft-js-single-line-plugin'
 import createBlockToolbarPlugin from './block-toolbar-plugin'
 import createInlineToolbarPlugin from './inline-toolbar-plugin'
@@ -56,7 +57,8 @@ const RichTextEditor = React.createClass({
     })
     // Build up the list of plugins
     let plugins = [
-      inlineToolbarPlugin
+      inlineToolbarPlugin,
+      createBlockBreakoutPlugin(),
     ]
     // Add singleLine plugin if the boxSize matches
     if (boxSize === 'single') {
