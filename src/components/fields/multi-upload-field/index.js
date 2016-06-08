@@ -259,8 +259,8 @@ const MultiUploadField = React.createClass({
 
   normaliseFileExport (obj) {
     return obj.hasOwnProperty('fileAttributes')
-     ? obj
-     : obj.fileAttributes
+     ? obj.fileAttributes
+     : obj
   },
 
   /**
