@@ -69,6 +69,7 @@ const RichTextEditor = React.createClass({
     }
     // Extract the toolbar component for use in rendering
     this.BlockToolbar  = blockToolbarPlugin.BlockToolbar
+    this.blockRenderMap  = blockToolbarPlugin.blockRenderMap
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     return plugins
   },
@@ -133,6 +134,7 @@ const RichTextEditor = React.createClass({
             onChange={onChange} />
           <PluginsEditor
             ref={(c) => this.editor = c}
+            blockRenderMap={this.blockRenderMap}
             placeholder={placeholder}
             plugins={this.state.plugins}
             editorState={editorState}

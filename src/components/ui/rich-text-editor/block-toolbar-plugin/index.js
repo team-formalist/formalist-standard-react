@@ -1,5 +1,7 @@
 import React from 'react'
+import {Map} from 'immutable'
 import {
+  DefaultDraftBlockRenderMap,
   RichUtils,
   getDefaultKeyBinding,
   KeyBindingUtil,
@@ -7,6 +9,7 @@ import {
 const {hasCommandModifier} = KeyBindingUtil
 // Components
 import Toolbar from './toolbar'
+import PullquoteBlock from './blocks/pull-quote'
 
 const blockItemsGroupsMapping = [
   {
@@ -55,8 +58,19 @@ const defaults = {
     'unordered-list-item',
     'ordered-list-item',
     'blockquote',
+    'pullquote',
     'code',
-  ]
+  ],
+  blockSet: {
+    pullquote: {
+      component: PullquoteBlock,
+    },
+  },
+  blockRenderMap: {
+    pullquote: {
+      element: 'blockquote',
+    },
+  },
 }
 
 /**
@@ -68,8 +82,11 @@ const defaults = {
  * @return {Object} draft-js-editor-plugin compatible object
  */
 export default function blockToolbarPlugin (options = {}) {
-
+  // Pull out the options
   const blockFormatters = options.blockFormatters || defaults.allowedBlockFormatters
+  const blockSet = options.blockSet || defaults.blockSet
+  const blockRenderMap = Map(options.blockRenderMap || defaults.blockRenderMap)
+
   // Filter out the un-allowed block-item types
   const blockItemsGroups = blockItemsGroupsMapping.map((group) => {
     const types = group.types.filter((type) => blockFormatters.indexOf(type) > -1)
@@ -82,6 +99,16 @@ export default function blockToolbarPlugin (options = {}) {
   })
 
   return {
+
+    blockRendererFn (contentBlock) {
+      const type = contentBlock.getType()
+      if (type && blockSet[type]) {
+        return blockSet[type]
+      }
+    },
+
+    blockRenderMap: DefaultDraftBlockRenderMap.merge(blockRenderMap),
+
     /**
      * Export the `BlockToolbar` component with curried `options`
      *
