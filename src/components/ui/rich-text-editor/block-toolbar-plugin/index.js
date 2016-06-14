@@ -7,6 +7,7 @@ import {
   KeyBindingUtil,
 } from 'draft-js'
 const {hasCommandModifier} = KeyBindingUtil
+
 // Components
 import Toolbar from './toolbar'
 import PullquoteBlock from './blocks/pull-quote'
@@ -51,7 +52,7 @@ const blockItemsGroupsMapping = [
 ]
 
 const defaults = {
-  allowedBlockFormatters: [
+  blockFormatters: [
     'unstyled',
     'header-one',
     'header-two',
@@ -77,13 +78,13 @@ const defaults = {
  * Plugin for the block toolbar
 
  * @param  {Array} options.blockFormatters Optional list of block commands to
- * allow. Will default to defaults.allowedBlockFormatters
+ * allow. Will default to defaults.blockFormatters
  *
  * @return {Object} draft-js-editor-plugin compatible object
  */
 export default function blockToolbarPlugin (options = {}) {
   // Pull out the options
-  const blockFormatters = options.blockFormatters || defaults.allowedBlockFormatters
+  const blockFormatters = options.blockFormatters || defaults.blockFormatters
   const blockSet = options.blockSet || defaults.blockSet
   const blockRenderMap = Map(options.blockRenderMap || defaults.blockRenderMap)
 
@@ -100,13 +101,24 @@ export default function blockToolbarPlugin (options = {}) {
 
   return {
 
+    /**
+     * Customer block renderer resolver
+     * @param  {ContentBlock} contentBlock The draft `ContentBlock` object to
+     * render
+     * @return {Object} A compatible renderer object definition
+     */
     blockRendererFn (contentBlock) {
       const type = contentBlock.getType()
+      // Pull out the renderer from our `blockSet` object
       if (type && blockSet[type]) {
         return blockSet[type]
       }
     },
 
+    /**
+     * Merge our blockRenderMap with the draft defaults
+     * @type {Map}
+     */
     blockRenderMap: DefaultDraftBlockRenderMap.merge(blockRenderMap),
 
     /**
