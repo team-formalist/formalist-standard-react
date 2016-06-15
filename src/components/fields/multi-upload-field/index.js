@@ -487,7 +487,7 @@ const MultiUploadField = React.createClass({
       files
     })
 
-    if (files.length) this.onUpdate(files)
+    this.onUpdate(files)
   },
 
   /**
