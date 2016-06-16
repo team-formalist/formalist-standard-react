@@ -243,8 +243,14 @@ const MultiUploadField = React.createClass({
   updateUploadedFiles (fileObject, response, upload_url) {
     let copy = Object.assign({}, fileObject)
     delete copy.file
-    copy.fileAttributes = response
-    copy.original_url = this.buildPath(upload_url, response.path)
+
+    // apply response key/values to existing `fileAttributes`
+    for (var key in response) {
+      copy.fileAttributes[key] = response[key]
+    }
+
+    // apply the 'original_url' to existing `fileAttributes`
+    copy.fileAttributes['original_url'] = this.buildPath(upload_url, response.path)
 
     let files = this.state.files.slice(0)
     const indexOfFile = files.findIndex(file => file.uid === fileObject.uid)
