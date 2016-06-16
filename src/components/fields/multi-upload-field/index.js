@@ -266,12 +266,13 @@ const MultiUploadField = React.createClass({
   /**
    * onUpdate
    * If `multiple` return the array of file(s), otherwise just the first
+   * normalise each fileObject, returning it's fileAttributes object
    * @param  {array} files
    * @return {array/object}
    */
 
   onUpdate (files) {
-    const uploadedFiles = files.map((file) => file.fileAttributes)
+    const uploadedFiles = files.map(this.normaliseFileExport)
 
     const value = (this.props.attributes.multiple || this.props.multiple)
       ? uploadedFiles
@@ -280,6 +281,20 @@ const MultiUploadField = React.createClass({
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
     )
+  },
+
+  /**
+   * normaliseFileExport
+   * Remove 'file_name' and 'original_url' from the fileObject.fileAttributes object
+   * return the object
+   * @param {object} obj
+   */
+
+  normaliseFileExport (obj) {
+    let copy = Object.assign({}, obj.fileAttributes)
+    delete copy.file_name
+    delete copy.original_url
+    return copy
   },
 
   /**
