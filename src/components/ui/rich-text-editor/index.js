@@ -51,7 +51,8 @@ const RichTextEditor = React.createClass({
     const autoListPlugin = createAutoListPlugin()
     const singleLinePlugin = createSingleLinePlugin()
     const blockToolbarPlugin = createBlockToolbarPlugin({
-      blockFormatters
+      setReadOnly: this.setReadOnly,
+      blockFormatters,
     })
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       inlineFormatters
@@ -83,6 +84,14 @@ const RichTextEditor = React.createClass({
   },
 
   /**
+   * Set the editor to read-only (or note)
+   * @param {Boolean} readOnly
+   */
+  setReadOnly (readOnly) {
+    this.setState({readOnly})
+  },
+
+  /**
    * Focus the editor when the `contentEl` is clicked
    * @param  {MouseEvent} e
    */
@@ -95,7 +104,7 @@ const RichTextEditor = React.createClass({
 
   render () {
     const {boxSize, blockFormatters, editorState, onChange, placeholder} = this.props
-    const {hasFocus} = this.state
+    const {hasFocus, readOnly} = this.state
     const {
       BlockToolbar,
       InlineToolbar,
@@ -140,7 +149,8 @@ const RichTextEditor = React.createClass({
             editorState={editorState}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            onChange={onChange} />
+            onChange={onChange}
+            readOnly={readOnly} />
         </div>
       </div>
     )

@@ -1,6 +1,8 @@
 import React from 'react'
 import {
   getVisibleSelectionRect,
+  Entity,
+  AtomicBlockUtils,
 } from 'draft-js'
 // Components
 import Popout from '../../popout'
@@ -53,7 +55,7 @@ const BlockToolbar = React.createClass({
    * @return {Object} Description of the position/size of the positioner
    */
   calculatePosition () {
-    const {editorState} = this.props
+    const {editorState, setReadOnly} = this.props
     const selection = editorState.getSelection()
     const selectedBlockKey = selection.getStartKey()
     const selectedBlock = document.querySelector(`[data-block][data-offset-key^='${selectedBlockKey}']`)
@@ -87,6 +89,48 @@ const BlockToolbar = React.createClass({
     })
   },
 
+  insertAtomicBlock (e) {
+    const {editorState, onChange} = this.props
+    e.preventDefault()
+    const entityKey = Entity.create('formalist', 'IMMUTABLE', {
+      ast: [
+        [
+          "field",
+          [
+            "text_field",
+            "text_field",
+            null,
+            [],
+            [
+              "object",
+              []
+            ]
+          ]
+        ],
+        [
+          "field",
+          [
+            "number_field",
+            "number_field",
+            null,
+            [],
+            [
+              "object",
+              []
+            ]
+          ]
+        ]
+      ]
+    })
+    onChange(
+      AtomicBlockUtils.insertAtomicBlock(
+        editorState,
+        entityKey,
+        '¶'
+      )
+    )
+  },
+
   render () {
     const {blockItemsGroups, editorState, onChange} = this.props
     const {open, positionStyle} = this.state
@@ -108,6 +152,7 @@ const BlockToolbar = React.createClass({
           </div>
           <div>
             <Items itemsGroups={blockItemsGroups} editorState={editorState} onChange={onChange}/>
+            <button onClick={this.insertAtomicBlock}>Insert atomic block</button>
           </div>
         </Popout>
       </div>

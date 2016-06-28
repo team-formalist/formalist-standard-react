@@ -10,6 +10,7 @@ const {hasCommandModifier} = KeyBindingUtil
 
 // Components
 import Toolbar from './toolbar'
+import AtomicBlock from './blocks/atomic'
 import PullquoteBlock from './blocks/pull-quote'
 
 const blockItemsGroupsMapping = [
@@ -63,6 +64,10 @@ const defaults = {
     'code',
   ],
   blockSet: {
+    atomic: {
+      component: AtomicBlock,
+      editable: false,
+    },
     pullquote: {
       component: PullquoteBlock,
     },
@@ -86,6 +91,7 @@ export default function blockToolbarPlugin (options = {}) {
   // Pull out the options
   const blockFormatters = options.blockFormatters || defaults.blockFormatters
   const blockSet = options.blockSet || defaults.blockSet
+  blockSet.atomic.props = {setReadOnly: options.setReadOnly}
   const blockRenderMap = Map(options.blockRenderMap || defaults.blockRenderMap)
 
   // Filter out the un-allowed block-item types
