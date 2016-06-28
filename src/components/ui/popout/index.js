@@ -205,7 +205,7 @@ const Popout = React.createClass({
           openByClickOn={openByClickOn}
           onOpen={onOpen}
           beforeClose={beforeClose}
-          onClose={onClose}
+          onClose={onClose || this.closePopout}
           onUpdate={onUpdate}>
           <div className={styles.positioner} style={position}>
             <div className={arrowClassNames} />

@@ -160,7 +160,7 @@ const Popunder = React.createClass({
           openByClickOn={openByClickOn}
           onOpen={onOpen}
           beforeClose={beforeClose}
-          onClose={onClose}
+          onClose={onClose || this.closePopunder}
           onUpdate={onUpdate}>
           <div ref='container' className={styles.container} style={position}>
             {children.slice(1)}
