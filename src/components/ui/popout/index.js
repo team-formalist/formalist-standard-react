@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
+import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './popout.mcss'
 
@@ -27,6 +28,7 @@ const arrowVertPosition = 16
  * @method getContainer
  */
 const Popout = React.createClass({
+  isOpened: false,
 
   propTypes: {
     beforeClose: React.PropTypes.func,
@@ -68,11 +70,21 @@ const Popout = React.createClass({
   },
 
   componentWillMount () {
-    window.addEventListener('resize', this.onResize)
+    const {closeOnOutsideClick} = this.props
+    document.addEventListener('resize', this.onResize)
+    if (closeOnOutsideClick) {
+      document.addEventListener('mouseup', this.handleOutsideMouseClick)
+      document.addEventListener('touchstart', this.handleOutsideMouseClick)
+    }
   },
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.onResize)
+    const {closeOnOutsideClick} = this.props
+    document.removeEventListener('resize', this.onResize)
+    if (closeOnOutsideClick) {
+      document.removeEventListener('mouseup', this.handleOutsideMouseClick)
+      document.removeEventListener('touchstart', this.handleOutsideMouseClick)
+    }
   },
 
   /**
@@ -83,7 +95,7 @@ const Popout = React.createClass({
     // Only bother if its rendered
     let position
     const { placement } = this.props
-    const referencePosition = this.refs.reference.getBoundingClientRect()
+    const referencePosition = this._reference.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
     let horzOffset = this.props.offset.horz
@@ -129,54 +141,95 @@ const Popout = React.createClass({
    */
   openPopout () {
     this.calculatePosition()
-    this.setState({
-      isOpened: true
-    })
+    this._portal.openPortal()
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopout () {
-    this.setState({
-      isOpened: false
-    })
+    this._portal.closePortal()
   },
 
   /**
    * Public: Toggle the `Portal`
    */
   togglePopout () {
-    this.setState({
-      isOpened: !this.state.isOpened
-    })
+    (this.isOpened) ? this.closePopout() : this.openPopout()
   },
 
   /**
    * Return the `container` node
    */
   getContainer () {
-    return this.refs.container
+    return this._container
   },
 
+  /**
+   * Close the portal if a click-outside occurs
+   * @param  {Event} e MouseUp/TouchStart event
+   * @return {Null}
+   */
+  handleOutsideMouseClick (e) {
+    if (!this.isOpened) {
+      return
+    }
+
+    // Extract the elements based on `ref` values. The actual portal element is
+    // nested within the react-portal instance as it gets rendered out of
+    // context
+    const portalEl = findDOMNode(this._portal.portal)
+    const referenceEl = findDOMNode(this._reference)
+
+    if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {
+      return
+    }
+
+    e.stopPropagation()
+    this._portal.closePortal()
+  },
+
+  /**
+   * Handle position on resize
+   * @param  {Event} e ResizeEvent
+   */
   onResize (e) {
     this.calculatePosition()
+  },
+
+  /**
+   * Keep track of open/close state
+   */
+  onOpen () {
+    this.isOpened = true
+    let {onOpen} = this.props
+    if (onOpen) {
+      onOpen()
+    }
+  },
+
+  /**
+   * Keep track of open/close state
+   */
+  onClose () {
+    this.isOpened = false
+    let {onClose} = this.props
+    if (onClose) {
+      onClose()
+    }
   },
 
   render () {
     // Extract Portal props
     let {
       closeOnEsc,
-      closeOnOutsideClick,
       openByClickOn,
-      onOpen,
       beforeClose,
-      onClose,
       onUpdate
     } = this.props
 
     let { placement } = this.props
-    let { isOpened, position } = this.state
+    let { position } = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -194,22 +247,20 @@ const Popout = React.createClass({
 
     return (
       <div>
-        <div ref='reference'>
+        <div ref={(c) => this._reference = c}>
           {reference}
         </div>
         <Portal
-          ref='portal'
-          isOpened={isOpened}
+          ref={(c) => this._portal = c}
           closeOnEsc={closeOnEsc}
-          closeOnOutsideClick={closeOnOutsideClick}
           openByClickOn={openByClickOn}
-          onOpen={onOpen}
+          onOpen={this.onOpen}
           beforeClose={beforeClose}
-          onClose={onClose || this.closePopout}
+          onClose={this.onClose}
           onUpdate={onUpdate}>
           <div className={styles.positioner} style={position}>
             <div className={arrowClassNames} />
-            <div ref='container' className={containerClassNames}>
+            <div ref={(c) => this._container = c} className={containerClassNames}>
               {children.slice(1)}
             </div>
           </div>

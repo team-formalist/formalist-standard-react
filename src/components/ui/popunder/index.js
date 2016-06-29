@@ -1,4 +1,5 @@
 import React from 'react'
+import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './popunder.mcss'
 
@@ -24,6 +25,8 @@ import styles from './popunder.mcss'
  * @method getContainer
  */
 const Popunder = React.createClass({
+  isOpened: false,
+
   propTypes: {
     beforeClose: React.PropTypes.func,
     children: React.PropTypes.node,
@@ -50,7 +53,6 @@ const Popunder = React.createClass({
 
   getInitialState () {
     return {
-      isOpened: false,
       position: {
         left: 0,
         top: 0
@@ -63,11 +65,21 @@ const Popunder = React.createClass({
   },
 
   componentWillMount () {
-    window.addEventListener('resize', this.onResize)
+    const {closeOnOutsideClick} = this.props
+    document.addEventListener('resize', this.onResize)
+    if (closeOnOutsideClick) {
+      document.addEventListener('mouseup', this.handleOutsideMouseClick)
+      document.addEventListener('touchstart', this.handleOutsideMouseClick)
+    }
   },
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.onResize)
+    const {closeOnOutsideClick} = this.props
+    document.removeEventListener('resize', this.onResize)
+    if (closeOnOutsideClick) {
+      document.removeEventListener('mouseup', this.handleOutsideMouseClick)
+      document.removeEventListener('touchstart', this.handleOutsideMouseClick)
+    }
   },
 
   /**
@@ -76,7 +88,7 @@ const Popunder = React.createClass({
    */
   calculatePosition () {
     // Only bother if its rendered
-    const referencePosition = this.refs.reference.getBoundingClientRect()
+    const referencePosition = this._reference.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
     let position = {
@@ -94,53 +106,94 @@ const Popunder = React.createClass({
    */
   openPopunder () {
     this.calculatePosition()
-    this.setState({
-      isOpened: true
-    })
+    this._portal.openPortal()
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopunder () {
-    this.setState({
-      isOpened: false
-    })
+    this._portal.openPortal()
   },
 
   /**
    * Public: Toggle the `Portal`
    */
   togglePopunder () {
-    this.setState({
-      isOpened: !this.state.isOpened
-    })
+    (this.isOpened) ? this.closePopunder() : this.openPopunder()
   },
 
   /**
    * Return the `container` node
    */
   getContainer () {
-    return this.refs.container
+    return this._container
   },
 
+  /**
+   * Close the portal if a click-outside occurs
+   * @param  {Event} e MouseUp/TouchStart event
+   * @return {Null}
+   */
+  handleOutsideMouseClick (e) {
+    if (!this.isOpened) {
+      return
+    }
+
+    // Extract the elements based on `ref` values. The actual portal element is
+    // nested within the react-portal instance as it gets rendered out of
+    // context
+    const portalEl = findDOMNode(this._portal.portal)
+    const referenceEl = findDOMNode(this._reference)
+
+    if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {
+      return
+    }
+
+    e.stopPropagation()
+    this._portal.closePortal()
+  },
+
+  /**
+   * Handle position on resize
+   * @param  {Event} e ResizeEvent
+   */
   onResize (e) {
     this.calculatePosition()
+  },
+
+  /**
+   * Keep track of open/close state
+   */
+  onOpen () {
+    this.isOpened = true
+    const {onOpen} = this.props
+    if (onOpen) {
+      onOpen()
+    }
+  },
+
+  /**
+   * Keep track of open/close state
+   */
+  onClose () {
+    this.isOpened = false
+    const {onClose} = this.props
+    if (onClose) {
+      onClose()
+    }
   },
 
   render () {
     // Extract Portal props
     let {
       closeOnEsc,
-      closeOnOutsideClick,
       openByClickOn,
-      onOpen,
       beforeClose,
-      onClose,
       onUpdate
     } = this.props
 
-    let { isOpened, position } = this.state
+    let { position } = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -149,18 +202,16 @@ const Popunder = React.createClass({
 
     return (
       <div>
-        <div ref='reference'>
+        <div ref={(c) => this._reference = c}>
           {reference}
         </div>
         <Portal
-          ref='portal'
-          isOpened={isOpened}
+          ref={(c) => this._portal = c}
           closeOnEsc={closeOnEsc}
-          closeOnOutsideClick={closeOnOutsideClick}
           openByClickOn={openByClickOn}
-          onOpen={onOpen}
+          onOpen={this.onOpen}
           beforeClose={beforeClose}
-          onClose={onClose || this.closePopunder}
+          onClose={this.onClose}
           onUpdate={onUpdate}>
           <div ref='container' className={styles.container} style={position}>
             {children.slice(1)}

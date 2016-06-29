@@ -1,4 +1,5 @@
 import React from 'react'
+import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './modal.mcss'
 
@@ -12,6 +13,7 @@ import styles from './modal.mcss'
  * @method getContainer
  */
 const Modal = React.createClass({
+  isOpened: false,
 
   propTypes: {
     beforeClose: React.PropTypes.func,
@@ -24,9 +26,19 @@ const Modal = React.createClass({
     onUpdate: React.PropTypes.func
   },
 
-  getInitialState () {
-    return {
-      isOpened: false
+  componentWillMount () {
+    const {closeOnOutsideClick} = this.props
+    if (closeOnOutsideClick) {
+      document.addEventListener('mouseup', this.handleOutsideMouseClick)
+      document.addEventListener('touchstart', this.handleOutsideMouseClick)
+    }
+  },
+
+  componentWillUnmount () {
+    const {closeOnOutsideClick} = this.props
+    if (closeOnOutsideClick) {
+      document.removeEventListener('mouseup', this.handleOutsideMouseClick)
+      document.removeEventListener('touchstart', this.handleOutsideMouseClick)
     }
   },
 
@@ -34,37 +46,56 @@ const Modal = React.createClass({
    * Public interface: Opens the `Portal`
    */
   openModal () {
-    this.setState({
-      isOpened: true
-    })
+    this._portal.openPortal()
   },
 
   /**
    * Public: Close the `Portal`
    */
   closeModal () {
-    this.setState({
-      isOpened: false
-    })
+    this._portal.closePortal()
   },
 
   /**
    * Public: Toggle the `Portal`
    */
   toggleModal () {
-    this.setState({
-      isOpened: !this.state.isOpened
-    })
+    (this.isOpened) ? this.closeModal() : this.openModal()
   },
 
   /**
    * Return the `container` node
    */
   getContainer () {
-    return this.refs.container
+    return this._container
+  },
+
+  /**
+   * Close the portal if a click-outside occurs
+   * @param  {Event} e MouseUp/TouchStart event
+   * @return {Null}
+   */
+  handleOutsideMouseClick (e) {
+    if (!this.isOpened) {
+      return
+    }
+
+    // Extract the elements based on `ref` values. The actual portal element is
+    // nested within the react-portal instance as it gets rendered out of
+    // context
+    const portalEl = findDOMNode(this._portal.portal)
+    const containerEl = findDOMNode(this._container)
+
+    if ((portalEl && portalEl.contains(e.target)) || (containerEl && containerEl.contains(e.target))) {
+      return
+    }
+
+    e.stopPropagation()
+    this._portal.closePortal()
   },
 
   onOpen (portalEl) {
+    this.isOpened = true
     document.body.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
     document.body.style.left = '0'
@@ -75,6 +106,7 @@ const Modal = React.createClass({
   },
 
   onClose (portalEl) {
+    this.isOpened = false
     document.body.style.overflow = ''
     document.body.style.position = ''
     document.body.style.left = ''
@@ -98,26 +130,21 @@ const Modal = React.createClass({
     // Extract Portal props
     const {
       closeOnEsc,
-      closeOnOutsideClick,
       openByClickOn,
       beforeClose,
       onUpdate
     } = this.props
 
-    const { isOpened } = this.state
-
     return (
       <Portal
-        ref='portal'
-        isOpened={isOpened}
+        ref={(c) => this._portal = c}
         closeOnEsc={closeOnEsc}
-        closeOnOutsideClick={closeOnOutsideClick}
         openByClickOn={openByClickOn}
         onOpen={this.onOpen}
         beforeClose={beforeClose}
         onClose={this.onClose}
         onUpdate={onUpdate}>
-        <div ref='container' className={styles.container}>
+        <div ref={(c) => this._container = c} className={styles.container}>
           <button className={styles.close} onClick={this.onCloseClick}>
             <span className={styles.closeText}>Close</span>
             <div className={styles.closeX}>&times;</div>
