@@ -130,7 +130,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   openSelector () {
-    this.refs.selector.openPopout()
+    this._selector.openPopout()
   },
 
   /**
@@ -138,7 +138,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   closeSelector () {
-    this.refs.selector.closePopout()
+    this._selector.closePopout()
   },
 
   /**
@@ -156,7 +156,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   toggleSelector () {
-    this.refs.selector.togglePopout()
+    this._selector.togglePopout()
   },
 
   /**
@@ -261,7 +261,7 @@ const SelectionField = React.createClass({
               <div className={styles.selectionPlaceholder}>
                 {placeholder || 'Make a selection'}
               </div>
-              <Popout ref='selector' placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
+              <Popout ref={(c) => this._selector = c} placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
