@@ -43,7 +43,6 @@ SelectDefault.propTypes = {
  *
  */
 const SelectionField = React.createClass({
-
   propTypes: {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
@@ -81,7 +80,8 @@ const SelectionField = React.createClass({
    */
   getInitialState () {
     return {
-      search: null
+      search: null,
+      searchFocus: false,
     }
   },
 
@@ -180,10 +180,32 @@ const SelectionField = React.createClass({
     })
   },
 
+  /**
+   * On search input focus
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchFocus (e) {
+    this.setState({
+      searchFocus: true
+    })
+  },
+
+  /**
+   * On search input blur
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchBlur (e) {
+    this.setState({
+      searchFocus: false
+    })
+  },
+
   render () {
-    const { attributes, config, errors, hint, label, name, value } = this.props
-    const { search } = this.state
-    const { options, placeholder, selector_label, render_option_as, render_selection_as } = attributes
+    const {attributes, config, errors, hint, label, name, value} = this.props
+    const {search, searchFocus} = this.state
+    const {options, placeholder, selector_label, render_option_as, render_selection_as} = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -261,7 +283,7 @@ const SelectionField = React.createClass({
               <div className={styles.selectionPlaceholder}>
                 {placeholder || 'Make a selection'}
               </div>
-              <Popout ref={(c) => this._selector = c} placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnOutsideClick>
+              <Popout ref={(c) => this._selector = c} placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!searchFocus || !search} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
@@ -271,6 +293,8 @@ const SelectionField = React.createClass({
                     type='search'
                     className={styles.search}
                     placeholder='Type to filter'
+                    onBlur={this.onSearchBlur}
+                    onFocus={this.onSearchFocus}
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
                     {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}
