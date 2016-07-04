@@ -145,7 +145,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   openSelector () {
-    this.refs.selector.openPopout()
+    this._selector.openPopout()
   },
 
   /**
@@ -153,7 +153,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   closeSelector () {
-    this.refs.selector.closePopout()
+    this._selector.closePopout()
   },
 
   /**
@@ -171,7 +171,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   toggleSelector () {
-    this.refs.selector.togglePopout()
+    this._selector.togglePopout()
   },
 
   /**
@@ -283,7 +283,7 @@ const SelectionField = React.createClass({
                   {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
-              <Popout ref='selector' placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
+              <Popout ref={(c) => this._selector = c} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
