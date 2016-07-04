@@ -80,7 +80,8 @@ const SelectionField = React.createClass({
    */
   getInitialState () {
     return {
-      search: null
+      search: null,
+      searchFocus: false,
     }
   },
 
@@ -195,10 +196,32 @@ const SelectionField = React.createClass({
     })
   },
 
+  /**
+   * On search input focus
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchFocus (e) {
+    this.setState({
+      searchFocus: true
+    })
+  },
+
+  /**
+   * On search input blur
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchBlur (e) {
+    this.setState({
+      searchFocus: false
+    })
+  },
+
   render () {
-    const { attributes, config, errors, hint, label, name, value } = this.props
-    const { instanceKey, search } = this.state
-    const { options, placeholder, selector_label, render_selection_as, render_option_as } = attributes
+    const {attributes, config, errors, hint, label, name, value} = this.props
+    const {instanceKey, search, searchFocus} = this.state
+    const {options, placeholder, selector_label, render_selection_as, render_option_as} = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -283,7 +306,7 @@ const SelectionField = React.createClass({
                   {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
-              <Popout ref={(c) => this._selector = c} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnOutsideClick>
+              <Popout ref={(c) => this._selector = c} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!searchFocus || !search} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
@@ -293,6 +316,8 @@ const SelectionField = React.createClass({
                     type='search'
                     className={styles.search}
                     placeholder='Type to filter'
+                    onBlur={this.onSearchBlur}
+                    onFocus={this.onSearchFocus}
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
                     {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}

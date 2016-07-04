@@ -13,21 +13,25 @@ import styles from './modal.mcss'
  * @method getContainer
  */
 const Modal = React.createClass({
-  isOpened: false,
-
   propTypes: {
     beforeClose: React.PropTypes.func,
     children: React.PropTypes.node,
     closeOnEsc: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
-    openByClickOn: React.PropTypes.node,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onUpdate: React.PropTypes.func
   },
 
+  getInitialState () {
+    return {
+      isOpened: false,
+    }
+  },
+
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
+    document.addEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
       document.addEventListener('touchstart', this.handleOutsideMouseClick)
@@ -36,6 +40,7 @@ const Modal = React.createClass({
 
   componentWillUnmount () {
     const {closeOnOutsideClick} = this.props
+    document.removeEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.removeEventListener('mouseup', this.handleOutsideMouseClick)
       document.removeEventListener('touchstart', this.handleOutsideMouseClick)
@@ -46,14 +51,18 @@ const Modal = React.createClass({
    * Public interface: Opens the `Portal`
    */
   openModal () {
-    this._portal.openPortal()
+    this.setState({
+      isOpened: true,
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closeModal () {
-    this._portal.closePortal()
+    this.setState({
+      isOpened: false,
+    })
   },
 
   /**
@@ -76,7 +85,7 @@ const Modal = React.createClass({
    * @return {Null}
    */
   handleOutsideMouseClick (e) {
-    if (!this.isOpened) {
+    if (!this.state.isOpened) {
       return
     }
 
@@ -91,11 +100,22 @@ const Modal = React.createClass({
     }
 
     e.stopPropagation()
-    this._portal.closePortal()
+    this.closeModal()
+  },
+
+  /**
+   * Close portal if escape is pressed
+   * @param  {KeyboardEvent} e
+   */
+  handleKeydown (e) {
+    const {closeOnEsc} = this.props
+    // ESCAPE = 27
+    if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
+      this.closePopunder();
+    }
   },
 
   onOpen (portalEl) {
-    this.isOpened = true
     document.body.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
     document.body.style.left = '0'
@@ -129,25 +149,22 @@ const Modal = React.createClass({
   render () {
     // Extract Portal props
     const {
-      closeOnEsc,
-      openByClickOn,
       beforeClose,
-      onUpdate
+      onUpdate,
     } = this.props
-
+    const {isOpened} = this.state
     return (
       <Portal
         ref={(c) => this._portal = c}
-        closeOnEsc={closeOnEsc}
-        openByClickOn={openByClickOn}
-        onOpen={this.onOpen}
         beforeClose={beforeClose}
+        isOpened={isOpened}
+        onOpen={this.onOpen}
         onClose={this.onClose}
         onUpdate={onUpdate}>
         <div ref={(c) => this._container = c} className={styles.container}>
           <button className={styles.close} onClick={this.onCloseClick}>
             <span className={styles.closeText}>Close</span>
-            <div className={styles.closeX}>&times;</div>
+            <div className={styles.closeX}>×</div>
           </button>
           <button className={styles.overlay} onClick={this.onOverlayClick} />
           <div className={styles.content}>

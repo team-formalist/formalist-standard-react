@@ -28,8 +28,6 @@ const arrowVertPosition = 16
  * @method getContainer
  */
 const Popout = React.createClass({
-  isOpened: false,
-
   propTypes: {
     beforeClose: React.PropTypes.func,
     children: React.PropTypes.node,
@@ -40,7 +38,6 @@ const Popout = React.createClass({
       vert: React.PropTypes.number,
       horz: React.PropTypes.number
     }),
-    openByClickOn: React.PropTypes.node,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
@@ -51,17 +48,18 @@ const Popout = React.createClass({
     return {
       placement: 'right',
       offset: {
-        default: 10
+        default: 10,
       }
     }
   },
 
   getInitialState () {
     return {
+      isOpened: false,
       position: {
         left: 0,
-        top: 0
-      }
+        top: 0,
+      },
     }
   },
 
@@ -72,6 +70,7 @@ const Popout = React.createClass({
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
     document.addEventListener('resize', this.onResize)
+    document.addEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
       document.addEventListener('touchstart', this.handleOutsideMouseClick)
@@ -81,6 +80,7 @@ const Popout = React.createClass({
   componentWillUnmount () {
     const {closeOnOutsideClick} = this.props
     document.removeEventListener('resize', this.onResize)
+    document.removeEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.removeEventListener('mouseup', this.handleOutsideMouseClick)
       document.removeEventListener('touchstart', this.handleOutsideMouseClick)
@@ -141,14 +141,18 @@ const Popout = React.createClass({
    */
   openPopout () {
     this.calculatePosition()
-    this._portal.openPortal()
+    this.setState({
+      isOpened: true,
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopout () {
-    this._portal.closePortal()
+    this.setState({
+      isOpened: false,
+    })
   },
 
   /**
@@ -171,7 +175,7 @@ const Popout = React.createClass({
    * @return {Null}
    */
   handleOutsideMouseClick (e) {
-    if (!this.isOpened) {
+    if (!this.state.isOpened) {
       return
     }
 
@@ -186,7 +190,19 @@ const Popout = React.createClass({
     }
 
     e.stopPropagation()
-    this._portal.closePortal()
+    this.closePopout()
+  },
+
+  /**
+   * Close portal if escape is pressed
+   * @param  {KeyboardEvent} e
+   */
+  handleKeydown (e) {
+    const {closeOnEsc} = this.props
+    // ESCAPE = 27
+    if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
+      this.closePopout();
+    }
   },
 
   /**
@@ -201,7 +217,6 @@ const Popout = React.createClass({
    * Keep track of open/close state
    */
   onOpen () {
-    this.isOpened = true
     let {onOpen} = this.props
     if (onOpen) {
       onOpen()
@@ -212,7 +227,6 @@ const Popout = React.createClass({
    * Keep track of open/close state
    */
   onClose () {
-    this.isOpened = false
     let {onClose} = this.props
     if (onClose) {
       onClose()
@@ -222,14 +236,12 @@ const Popout = React.createClass({
   render () {
     // Extract Portal props
     let {
-      closeOnEsc,
-      openByClickOn,
       beforeClose,
       onUpdate
     } = this.props
 
-    let { placement } = this.props
-    let { position } = this.state
+    let {placement} = this.props
+    let {isOpened, position} = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -252,10 +264,9 @@ const Popout = React.createClass({
         </div>
         <Portal
           ref={(c) => this._portal = c}
-          closeOnEsc={closeOnEsc}
-          openByClickOn={openByClickOn}
-          onOpen={this.onOpen}
           beforeClose={beforeClose}
+          isOpened={isOpened}
+          onOpen={this.onOpen}
           onClose={this.onClose}
           onUpdate={onUpdate}>
           <div className={styles.positioner} style={position}>
