@@ -25,8 +25,6 @@ import styles from './popunder.mcss'
  * @method getContainer
  */
 const Popunder = React.createClass({
-  isOpened: false,
-
   propTypes: {
     beforeClose: React.PropTypes.func,
     children: React.PropTypes.node,
@@ -36,7 +34,6 @@ const Popunder = React.createClass({
       left: React.PropTypes.number,
       top: React.PropTypes.number
     }),
-    openByClickOn: React.PropTypes.node,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onUpdate: React.PropTypes.func
@@ -53,6 +50,7 @@ const Popunder = React.createClass({
 
   getInitialState () {
     return {
+      isOpened: false,
       position: {
         left: 0,
         top: 0
@@ -67,6 +65,7 @@ const Popunder = React.createClass({
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
     document.addEventListener('resize', this.onResize)
+    document.addEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
       document.addEventListener('touchstart', this.handleOutsideMouseClick)
@@ -76,6 +75,7 @@ const Popunder = React.createClass({
   componentWillUnmount () {
     const {closeOnOutsideClick} = this.props
     document.removeEventListener('resize', this.onResize)
+    document.removeEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.removeEventListener('mouseup', this.handleOutsideMouseClick)
       document.removeEventListener('touchstart', this.handleOutsideMouseClick)
@@ -106,14 +106,18 @@ const Popunder = React.createClass({
    */
   openPopunder () {
     this.calculatePosition()
-    this._portal.openPortal()
+    this.setState({
+      isOpened: true,
+    })
   },
 
   /**
    * Public: Close the `Portal`
    */
   closePopunder () {
-    this._portal.openPortal()
+    this.setState({
+      isOpened: false,
+    })
   },
 
   /**
@@ -136,7 +140,7 @@ const Popunder = React.createClass({
    * @return {Null}
    */
   handleOutsideMouseClick (e) {
-    if (!this.isOpened) {
+    if (!this.state.isOpened) {
       return
     }
 
@@ -151,7 +155,19 @@ const Popunder = React.createClass({
     }
 
     e.stopPropagation()
-    this._portal.closePortal()
+    this.closePopunder()
+  },
+
+  /**
+   * Close portal if escape is pressed
+   * @param  {KeyboardEvent} e
+   */
+  handleKeydown (e) {
+    const {closeOnEsc} = this.props
+    // ESCAPE = 27
+    if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
+      this.closePopunder();
+    }
   },
 
   /**
@@ -166,7 +182,6 @@ const Popunder = React.createClass({
    * Keep track of open/close state
    */
   onOpen () {
-    this.isOpened = true
     const {onOpen} = this.props
     if (onOpen) {
       onOpen()
@@ -177,7 +192,6 @@ const Popunder = React.createClass({
    * Keep track of open/close state
    */
   onClose () {
-    this.isOpened = false
     const {onClose} = this.props
     if (onClose) {
       onClose()
@@ -188,12 +202,11 @@ const Popunder = React.createClass({
     // Extract Portal props
     let {
       closeOnEsc,
-      openByClickOn,
       beforeClose,
       onUpdate
     } = this.props
 
-    let { position } = this.state
+    let {isOpened, position} = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -207,13 +220,12 @@ const Popunder = React.createClass({
         </div>
         <Portal
           ref={(c) => this._portal = c}
-          closeOnEsc={closeOnEsc}
-          openByClickOn={openByClickOn}
-          onOpen={this.onOpen}
           beforeClose={beforeClose}
+          isOpened={isOpened}
+          onOpen={this.onOpen}
           onClose={this.onClose}
           onUpdate={onUpdate}>
-          <div ref='container' className={styles.container} style={position}>
+          <div ref={(c) => this._container = c} className={styles.container} style={position}>
             {children.slice(1)}
           </div>
         </Portal>
