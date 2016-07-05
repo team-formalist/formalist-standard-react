@@ -70,6 +70,11 @@
   font-size: 2rem;
 }
 
+.public-DraftEditor-content blockquote {
+  border-left: 2px #ddd solid;
+  padding-left: 2rem;
+}
+
 .public-DraftEditor-content h2 {
   font-weight: bold;
   font-size: 1.3rem;
@@ -78,9 +83,17 @@
 }
 
 .public-DraftStyleDefault-ltr {
-    direction: ltr;
-    text-align: left
+  direction: ltr;
+  text-align: left;
 }
+
+.rte-block__pullquote {
+  font-size: 2rem;
+}
+  .rte-block__pullquote .public-DraftStyleDefault-ltr {
+    text-align: center;
+  }
+
 .public-DraftStyleDefault-rtl {
     direction: rtl;
     text-align: right
