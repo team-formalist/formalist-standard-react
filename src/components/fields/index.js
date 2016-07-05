@@ -36,19 +36,19 @@ function wrapField (field, config = {}, globalConfig = {}) {
  */
 function fields (fieldsConfig = {}, globalConfig = {}) {
   return {
-    checkBox: wrapField(CheckBox, config.checkBox),
-    dateField: wrapField(DateField, config.dateField),
-    dateTimeField: wrapField(DateTimeField, config.dateTimeField),
-    hiddenField: wrapField(HiddenField, config.hiddenField),
-    multiSelectionField: wrapField(MultiSelectionField, config.multiSelectionField),
+    checkBox: wrapField(CheckBox, fieldsConfig.checkBox, globalConfig),
+    dateField: wrapField(DateField, fieldsConfig.dateField, globalConfig),
+    dateTimeField: wrapField(DateTimeField, fieldsConfig.dateTimeField, globalConfig),
+    hiddenField: wrapField(HiddenField, fieldsConfig.hiddenField, globalConfig),
+    multiSelectionField: wrapField(MultiSelectionField, fieldsConfig.multiSelectionField, globalConfig),
+    numberField: wrapField(NumberField, fieldsConfig.numberField, globalConfig),
+    radioButtons: wrapField(RadioButtons, fieldsConfig.radioButtons, globalConfig),
+    richTextArea: wrapField(RichTextArea, fieldsConfig.richTextArea, globalConfig),
+    selectBox: wrapField(SelectBox, fieldsConfig.selectBox, globalConfig),
+    selectionField: wrapField(SelectionField, fieldsConfig.selectionField, globalConfig),
+    textArea: wrapField(TextArea, fieldsConfig.textArea, globalConfig),
+    textField: wrapField(TextField, fieldsConfig.textField, globalConfig),
     multiUploadField: wrapField(MultiUploadField, fieldsConfig.multiUploadField, globalConfig),
-    numberField: wrapField(NumberField, config.numberField),
-    radioButtons: wrapField(RadioButtons, config.radioButtons),
-    richTextArea: wrapField(RichTextArea, config.richTextArea),
-    selectBox: wrapField(SelectBox, config.selectBox),
-    selectionField: wrapField(SelectionField, config.selectionField),
-    textArea: wrapField(TextArea, config.textArea),
-    textField: wrapField(TextField, config.textField),
     uploadField: wrapField(UploadField, fieldsConfig.uploadField, globalConfig),
   }
 }
