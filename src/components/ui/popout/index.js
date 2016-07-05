@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
+import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './popout.mcss'
 
@@ -27,7 +28,6 @@ const arrowVertPosition = 16
  * @method getContainer
  */
 const Popout = React.createClass({
-
   propTypes: {
     beforeClose: React.PropTypes.func,
     children: React.PropTypes.node,
@@ -39,7 +39,6 @@ const Popout = React.createClass({
       vert: React.PropTypes.number,
       horz: React.PropTypes.number
     }),
-    openByClickOn: React.PropTypes.node,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
@@ -50,7 +49,7 @@ const Popout = React.createClass({
     return {
       placement: 'right',
       offset: {
-        default: 10
+        default: 10,
       }
     }
   },
@@ -60,8 +59,8 @@ const Popout = React.createClass({
       isOpened: this.props.isOpened || false,
       position: {
         left: 0,
-        top: 0
-      }
+        top: 0,
+      },
     }
   },
 
@@ -79,11 +78,23 @@ const Popout = React.createClass({
   },
 
   componentWillMount () {
-    window.addEventListener('resize', this.onResize)
+    const {closeOnOutsideClick} = this.props
+    document.addEventListener('resize', this.onResize)
+    document.addEventListener('keydown', this.handleKeydown)
+    if (closeOnOutsideClick) {
+      document.addEventListener('mouseup', this.handleOutsideMouseClick)
+      document.addEventListener('touchstart', this.handleOutsideMouseClick)
+    }
   },
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.onResize)
+    const {closeOnOutsideClick} = this.props
+    document.removeEventListener('resize', this.onResize)
+    document.removeEventListener('keydown', this.handleKeydown)
+    if (closeOnOutsideClick) {
+      document.removeEventListener('mouseup', this.handleOutsideMouseClick)
+      document.removeEventListener('touchstart', this.handleOutsideMouseClick)
+    }
   },
 
   /**
@@ -94,11 +105,7 @@ const Popout = React.createClass({
     // Only bother if its rendered
     let position
     const { placement } = this.props
-    let referenceElement = this.refs.reference
-    if (this.refs.reference && this.refs.reference.firstChild) {
-      referenceElement = this.refs.reference.firstChild
-    }
-    const referencePosition = referenceElement.getBoundingClientRect()
+    const referencePosition = this._reference.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
     let horzOffset = this.props.offset.horz
@@ -145,7 +152,7 @@ const Popout = React.createClass({
   openPopout () {
     this.calculatePosition()
     this.setState({
-      isOpened: true
+      isOpened: true,
     })
   },
 
@@ -154,7 +161,7 @@ const Popout = React.createClass({
    */
   closePopout () {
     this.setState({
-      isOpened: false
+      isOpened: false,
     })
   },
 
@@ -162,36 +169,89 @@ const Popout = React.createClass({
    * Public: Toggle the `Portal`
    */
   togglePopout () {
-    this.setState({
-      isOpened: !this.state.isOpened
-    })
+    (this.isOpened) ? this.closePopout() : this.openPopout()
   },
 
   /**
    * Return the `container` node
    */
   getContainer () {
-    return this.refs.container
+    return this._container
   },
 
+  /**
+   * Close the portal if a click-outside occurs
+   * @param  {Event} e MouseUp/TouchStart event
+   * @return {Null}
+   */
+  handleOutsideMouseClick (e) {
+    if (!this.state.isOpened) {
+      return
+    }
+
+    // Extract the elements based on `ref` values. The actual portal element is
+    // nested within the react-portal instance as it gets rendered out of
+    // context
+    const portalEl = findDOMNode(this._portal.portal)
+    const referenceEl = findDOMNode(this._reference)
+
+    if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {
+      return
+    }
+
+    e.stopPropagation()
+    this.closePopout()
+  },
+
+  /**
+   * Close portal if escape is pressed
+   * @param  {KeyboardEvent} e
+   */
+  handleKeydown (e) {
+    const {closeOnEsc} = this.props
+    // ESCAPE = 27
+    if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
+      this.closePopout();
+    }
+  },
+
+  /**
+   * Handle position on resize
+   * @param  {Event} e ResizeEvent
+   */
   onResize (e) {
     this.calculatePosition()
+  },
+
+  /**
+   * Keep track of open/close state
+   */
+  onOpen () {
+    let {onOpen} = this.props
+    if (onOpen) {
+      onOpen()
+    }
+  },
+
+  /**
+   * Keep track of open/close state
+   */
+  onClose () {
+    let {onClose} = this.props
+    if (onClose) {
+      onClose()
+    }
   },
 
   render () {
     // Extract Portal props
     let {
-      closeOnEsc,
-      closeOnOutsideClick,
-      openByClickOn,
-      onOpen,
       beforeClose,
-      onClose,
       onUpdate
     } = this.props
 
-    let { placement } = this.props
-    let { isOpened, position } = this.state
+    let {placement} = this.props
+    let {isOpened, position} = this.state
 
     // Extract the reference element
     // AKA child.first
@@ -209,22 +269,19 @@ const Popout = React.createClass({
 
     return (
       <div>
-        <div ref='reference'>
+        <div ref={(c) => this._reference = c}>
           {reference}
         </div>
         <Portal
-          ref='portal'
-          isOpened={isOpened}
-          closeOnEsc={closeOnEsc}
-          closeOnOutsideClick={closeOnOutsideClick}
-          openByClickOn={openByClickOn}
-          onOpen={onOpen}
+          ref={(c) => this._portal = c}
           beforeClose={beforeClose}
-          onClose={onClose}
+          isOpened={isOpened}
+          onOpen={this.onOpen}
+          onClose={this.onClose}
           onUpdate={onUpdate}>
           <div className={styles.positioner} style={position}>
-            <div className={arrowClassNames}/>
-            <div ref='container' className={containerClassNames}>
+            <div className={arrowClassNames} />
+            <div ref={(c) => this._container = c} className={containerClassNames}>
               {children.slice(1)}
             </div>
           </div>

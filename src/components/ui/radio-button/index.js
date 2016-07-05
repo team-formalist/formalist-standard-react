@@ -57,7 +57,6 @@ const RadioButton = React.createClass({
     this.setState({focus: true})
   },
 
-
   render () {
     let { defaultChecked, label, name, onChange, value } = this.props
     let labelClassNames = classNames(
@@ -79,7 +78,7 @@ const RadioButton = React.createClass({
           defaultChecked={defaultChecked}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
-          onChange={onChange}/>
+          onChange={onChange} />
         <label
           className={labelClassNames}
           htmlFor={this.state.id}>

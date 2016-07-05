@@ -1,4 +1,4 @@
-import composeForm from 'formalist-compose'
+import composeForm, {createFormConfig} from 'formalist-compose'
 import formComponents from './components'
 import { displayVariants } from './components/fields'
 export const components = formComponents
@@ -13,5 +13,6 @@ export const fieldDisplayVariants = displayVariants
  * (potentially augmented by the `config`)
  */
 export default function template (customComponents = {}, config = {}) {
-  return composeForm(formComponents(customComponents, config))
+  const formConfig = createFormConfig(formComponents(customComponents, config))
+  return composeForm(formConfig)
 }

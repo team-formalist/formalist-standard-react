@@ -31,6 +31,14 @@ const DateTimeField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * onChange handler
    *
    * @param  {String} date Date as a dd/mm/yyyy formatted string
@@ -55,7 +63,7 @@ const DateTimeField = React.createClass({
 
     return (
       <div className={fieldClassNames}>
-        <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+        <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         <div className={styles.display}>
           <DateTimePicker
             id={name}
@@ -64,7 +72,7 @@ const DateTimeField = React.createClass({
             defaultValue={value}
             onChange={this.onChange} />
         </div>
-        {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+        {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
   }

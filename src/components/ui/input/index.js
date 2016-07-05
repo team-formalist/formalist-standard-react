@@ -67,7 +67,7 @@ const Input = React.createClass({
         {...this.props}
         className={inputClassNames}
         onBlur={this.onBlur}
-        onFocus={this.onFocus}/>
+        onFocus={this.onFocus} />
     )
   }
 })

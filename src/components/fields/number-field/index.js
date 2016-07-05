@@ -36,6 +36,14 @@ const NumberField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
@@ -82,7 +90,7 @@ const NumberField = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <Input
@@ -94,7 +102,7 @@ const NumberField = React.createClass({
             defaultValue={value}
             onChange={this.onChange}
             {...numberProps} />
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )

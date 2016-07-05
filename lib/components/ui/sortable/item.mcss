@@ -36,6 +36,7 @@
   padding: 1rem;
   transition-property: color;
   transition-duration: 100ms;
+  position: relative;
 }
   .handle:focus {
     outline: none;

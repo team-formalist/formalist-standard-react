@@ -1,0 +1,133 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value highlight: highlight from styles;
+@value highlightLight: highlightLight from styles;
+@value highlightDark: highlightDark from styles;
+@value greyTint: greyTint from styles;
+
+.base {
+  composes: base from '../shared.mcss';
+}
+.baseInline {
+  composes: baseInline from '../shared.mcss';
+}
+
+.parent {
+  position: relative;
+}
+
+.listItem {
+  composes: greyLightColor from styles;
+  composes: small sans from styles;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+}
+
+.previewItem {
+  composes: listItem;
+  background: greyTint;
+  border-radius: 0.25em;
+  overflow: hidden;
+  height: 40px;
+}
+
+.previewItem__details {
+  padding-left : 5px;
+}
+
+.listItem__img img {
+  background-color: #fff;
+  box-shadow: 0 2px 2px 0px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+  display: inline-block;
+  height: 40px;
+  margin-right: 20px;
+  padding: 2px;
+  width: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.previewItem .listItem__img img {
+  height: 30px;
+}
+
+.listItem__title {
+  composes: lineHeightNormal from styles;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 40px;
+}
+
+.listItem__title a {
+  color: highlight;
+}
+
+.progress__title {
+  composes: listItem__title;
+  color: #fff;
+}
+
+.progress_bar {
+  background: highlight;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  transition: width 0.5s ease-in-out;
+  width: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.validationMessage {
+  composes: sans normal errorColor errorLightBackground from styles;
+  margin-bottom: 5px;
+  padding: 8px 50px 8px 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.remove {
+  composes: primaryColor from styles;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 1rem;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition-duration: 100ms;
+  transition-property: color;
+  z-index: 2;
+}
+
+.remove:focus,
+.remove:hover {
+  color: error;
+}
+
+.removeText {
+  display: none;
+}
+
+.removeX {
+  composes: fallback large from styles;
+}
+
+.removeX:hover {
+  color: error;
+}
+
+.align_middle {
+  display: table;
+}
+
+.align_middle__content {
+  display: table-cell;
+  vertical-align: middle;
+  margin-top: -2px;
+}

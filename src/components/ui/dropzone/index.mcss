@@ -1,0 +1,168 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value highlight: highlight from styles;
+@value highlightLight: highlightLight from styles;
+@value highlightDark: highlightDark from styles;
+@value greyLight: greyLight from styles;
+@value greyTint: greyTint from styles;
+@value greyLight: greyLight from styles;
+@value greyMid: greyMid from styles;
+
+/**
+ * dropzone
+ * this element cannot always be positioned relative.
+ * when this field is 'relative' it's sortable children "lose" elements when dragging.
+ * This element does need to be 'relative' at times to display it's label element
+ * vertically aligned.
+ * When the dropzone is empty, or on window drag, we position this element 'relative'
+ */
+
+.dropzone {
+  composes: greyLightColor from styles;
+  composes: small sans from styles;
+  min-height: 71px;
+  transition: background-color 0.3s;
+  width: 100%;
+  z-index: 1;
+}
+
+.dropzone:hover {
+  cursor: pointer;
+}
+
+.dropzone__empty,
+.dropzone__drag_over {
+  position: relative;
+}
+
+.dropzone__drag_over > div {
+  opacity: 0;
+}
+
+/**
+ * dropzone__label__wrapper
+ * This is the coloured block that hides existing uploaded files.
+ * We only show this when dragging files on the window or when the dropzone
+ * is empty.
+ */
+
+.dropzone__label__wrapper {
+  background: transparent;
+  bottom: 0;
+  display: none;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+/* add a psuedo element with the dash border *behind* the label so
+that it doesn't glitchy state changes when hovered/dragged over */
+
+.dropzone__label__wrapper:after {
+  background: transparent;
+  border: 1px dashed greyLight;
+  bottom: 0;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -2;
+}
+
+.dropzone__disable_hover.dropzone__active:hover .dropzone__label__wrapper {
+  display: none;
+}
+
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active:hover .dropzone__label__wrapper {
+  display: block;
+}
+
+.dropzone__drag_over .dropzone__label__wrapper,
+.dropzone__active .dropzone__label__wrapper,
+.dropzone__empty .dropzone__label__wrapper {
+  display: block;
+}
+
+/* empty state */
+
+.dropzone__empty .dropzone__label__wrapper {
+  background: transparent;
+}
+
+.dropzone__empty:hover .dropzone__label__wrapper:after {
+  border-color: greyMid;
+}
+
+/* dragging on the window state */
+
+.dropzone__drag_over .dropzone__label__wrapper {
+  background: rgba(245,245,245, 0.7);
+}
+
+.dropzone__drag_over .dropzone__label__wrapper:after {
+  border-color: greyMid;
+}
+
+/* dragging on the window and then over the dropzone state */
+
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active .dropzone__label__wrapper,
+.dropzone__drag_over.dropzone__active .dropzone__label__wrapper {
+  background: rgba(127,194,234, 0.3);
+}
+
+.dropzone__disable_hover.dropzone__drag_over.dropzone__active .dropzone__label__wrapper:after,
+.dropzone__drag_over.dropzone__active .dropzone__label__wrapper:after {
+  border-color: highlight;
+}
+
+/**
+ * dropzone__label
+ * visibility of this element is dictated by dropzone__label__wrapper
+ */
+
+.dropzone__label {
+  color: greyLight;
+  display: inline-block;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: color 0.25s;
+  z-index: 1;
+}
+
+.dropzone__empty:hover .dropzone__label {
+  color: greyMid;
+}
+
+.dropzone__active .dropzone__label {
+  color: highlight;
+}
+
+.dropzone__drag_over .dropzone__label {
+  color: greyMid;
+}
+
+.dropzone__drag_over.dropzone__active .dropzone__label {
+  color: highlight;
+}
+
+/**
+ * dropzone button
+ * This button is positioned inside of the multi-upload-field component.
+ * Because the multi-upload-field cannot be positioned 'relative' by default
+ * (due to Sortable Items losing elements on drag) we have to float this to
+ * the right and apply negative margin to position it in the multi-upload-field
+ * field header
+ */
+
+ .dropzone__button {
+   composes: small buttonHighlight from '../../ui/buttons.mcss';
+   float: right;
+   margin-top: -30px;
+ }

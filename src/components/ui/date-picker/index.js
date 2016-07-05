@@ -58,11 +58,11 @@ const DatePicker = React.createClass({
   },
 
   showCurrentDate () {
-    this.refs.daypicker.showMonth(this.state.month)
+    this._daypicker.showMonth(this.state.month)
   },
 
   onInputFocus (e) {
-    this.refs.popunder.openPopunder()
+    this._popunder.openPopunder()
   },
 
   onDayClick (e, day) {
@@ -83,7 +83,7 @@ const DatePicker = React.createClass({
 
     return (
       <div className={className}>
-        <Popunder ref='popunder' closeOnEsc closeOnOutsideClick>
+        <Popunder ref={(c) => this._popunder = c}  closeOnEsc closeOnOutsideClick>
           <Input
             id={id}
             error={error}
@@ -93,7 +93,7 @@ const DatePicker = React.createClass({
             onFocus={this.onInputFocus} />
           <div className={styles.daypickerContainer}>
             <DayPicker
-              ref='daypicker'
+              ref={(c) => this._daypicker = c}
               locale='en-AU'
               localeUtils={localeUtils}
               initialMonth={this.state.month}

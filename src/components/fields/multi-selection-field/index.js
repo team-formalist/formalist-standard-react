@@ -67,12 +67,21 @@ const SelectionField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * Default state, blank search
    * @return {Object}
    */
   getInitialState () {
     return {
-      search: null
+      search: null,
+      searchFocus: false,
     }
   },
 
@@ -137,7 +146,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   openSelector () {
-    this.refs.selector.openPopout()
+    this._selector.openPopout()
   },
 
   /**
@@ -145,7 +154,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   closeSelector () {
-    this.refs.selector.closePopout()
+    this._selector.closePopout()
   },
 
   /**
@@ -163,7 +172,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   toggleSelector () {
-    this.refs.selector.togglePopout()
+    this._selector.togglePopout()
   },
 
   /**
@@ -187,10 +196,32 @@ const SelectionField = React.createClass({
     })
   },
 
+  /**
+   * On search input focus
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchFocus (e) {
+    this.setState({
+      searchFocus: true
+    })
+  },
+
+  /**
+   * On search input blur
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchBlur (e) {
+    this.setState({
+      searchFocus: false
+    })
+  },
+
   render () {
-    const { attributes, config, errors, hint, label, name, value } = this.props
-    const { instanceKey, search } = this.state
-    const { options, placeholder, selector_label, render_selection_as, render_option_as } = attributes
+    const {attributes, config, errors, hint, label, name, value} = this.props
+    const {instanceKey, search, searchFocus} = this.state
+    const {options, placeholder, selector_label, render_selection_as, render_option_as} = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -254,7 +285,7 @@ const SelectionField = React.createClass({
           key={option.id}
           className={styles.optionButton}
           onClick={onClick}>
-          <Option option={option}/>
+          <Option option={option} />
         </button>
       )
     })
@@ -262,7 +293,7 @@ const SelectionField = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div>
           <div className={styles.display}>
@@ -275,7 +306,7 @@ const SelectionField = React.createClass({
                   {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
-              <Popout ref='selector' placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
+              <Popout ref={(c) => this._selector = c} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!searchFocus || !search} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
@@ -285,6 +316,8 @@ const SelectionField = React.createClass({
                     type='search'
                     className={styles.search}
                     placeholder='Type to filter'
+                    onBlur={this.onSearchBlur}
+                    onFocus={this.onSearchFocus}
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
                     {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}
@@ -295,14 +328,14 @@ const SelectionField = React.createClass({
           </div>
           {
             (numberOfSelections > 0)
-            ? <div className={styles.selectedItems}>
+            ? <div id={name} className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
-                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option}/>)}
+                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option} />)}
               </Sortable>
             </div>
             : null
           }
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )

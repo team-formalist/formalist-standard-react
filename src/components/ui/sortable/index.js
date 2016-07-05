@@ -45,6 +45,7 @@ const Sortable = React.createClass({
      * @type {Function}
      */
     onSort: React.PropTypes.func,
+    canSort: React.PropTypes.bool,
     verticalControls: React.PropTypes.bool
   },
 
@@ -122,11 +123,13 @@ const Sortable = React.createClass({
 
   render () {
     const { instanceKey, items } = this.state
-    const { canRemove, onRemove, verticalControls } = this.props
-    const canSort = (items.length > 1)
+    const { canRemove, onRemove, verticalControls, canSort } = this.props
+    let isSortable = (canSort === false || items.length <= 1)
+      ? false
+      : true
 
     return (
-      <div className={styles.base}>
+      <div className={styles.base} data-name='sortable-item'>
         {items.map((item, index) => (
           <Item
             key={`${instanceKey}_${item.originalIndex}`}
@@ -135,7 +138,7 @@ const Sortable = React.createClass({
             onDrop={this.onDrop}
             index={index}
             originalIndex={item.originalIndex}
-            canSort={canSort}
+            canSort={isSortable}
             canRemove={canRemove}
             onRemove={onRemove}
             verticalControls={verticalControls}>

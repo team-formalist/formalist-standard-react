@@ -43,7 +43,6 @@ SelectDefault.propTypes = {
  *
  */
 const SelectionField = React.createClass({
-
   propTypes: {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
@@ -68,12 +67,21 @@ const SelectionField = React.createClass({
   },
 
   /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  /**
    * Default state, blank search
    * @return {Object}
    */
   getInitialState () {
     return {
-      search: null
+      search: null,
+      searchFocus: false,
     }
   },
 
@@ -122,7 +130,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   openSelector () {
-    this.refs.selector.openPopout()
+    this._selector.openPopout()
   },
 
   /**
@@ -130,7 +138,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   closeSelector () {
-    this.refs.selector.closePopout()
+    this._selector.closePopout()
   },
 
   /**
@@ -148,7 +156,7 @@ const SelectionField = React.createClass({
    * @return {Null}
    */
   toggleSelector () {
-    this.refs.selector.togglePopout()
+    this._selector.togglePopout()
   },
 
   /**
@@ -172,10 +180,32 @@ const SelectionField = React.createClass({
     })
   },
 
+  /**
+   * On search input focus
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchFocus (e) {
+    this.setState({
+      searchFocus: true
+    })
+  },
+
+  /**
+   * On search input blur
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSearchBlur (e) {
+    this.setState({
+      searchFocus: false
+    })
+  },
+
   render () {
-    const { attributes, config, errors, hint, label, name, value } = this.props
-    const { search } = this.state
-    const { options, placeholder, selector_label, render_option_as, render_selection_as } = attributes
+    const {attributes, config, errors, hint, label, name, value} = this.props
+    const {search, searchFocus} = this.state
+    const {options, placeholder, selector_label, render_option_as, render_selection_as} = attributes
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -228,7 +258,7 @@ const SelectionField = React.createClass({
           key={option.id}
           className={styles.optionButton}
           onClick={onClick}>
-          <Option option={option}/>
+          <Option option={option} />
         </button>
       )
     })
@@ -236,13 +266,13 @@ const SelectionField = React.createClass({
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           {(selection)
             ? <div className={styles.wrapper}>
-              <div className={styles.selection}>
-                <Selection option={selection}/>
+              <div id={name} className={styles.selection}>
+                <Selection option={selection} />
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>
@@ -253,7 +283,7 @@ const SelectionField = React.createClass({
               <div className={styles.selectionPlaceholder}>
                 {placeholder || 'Make a selection'}
               </div>
-              <Popout ref='selector' placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen}>
+              <Popout ref={(c) => this._selector = c} placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!searchFocus || !search} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
@@ -263,6 +293,8 @@ const SelectionField = React.createClass({
                     type='search'
                     className={styles.search}
                     placeholder='Type to filter'
+                    onBlur={this.onSearchBlur}
+                    onFocus={this.onSearchFocus}
                     onChange={this.onSearchChange} />
                   <div className={styles.optionsList}>
                     {renderedOptions.length > 0 ? renderedOptions : <p className={styles.noResults}>No matching results</p>}
@@ -271,7 +303,7 @@ const SelectionField = React.createClass({
               </Popout>
             </button>
           }
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )

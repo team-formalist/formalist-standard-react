@@ -19,6 +19,7 @@ const FieldContainer = React.createClass({
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
+    globalConfig: React.PropTypes.object,
     hashCode: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired,
     path: ImmutablePropTypes.list.isRequired,
@@ -26,6 +27,20 @@ const FieldContainer = React.createClass({
     store: React.PropTypes.object.isRequired,
     type: React.PropTypes.string.isRequired,
     value: React.PropTypes.any
+  },
+
+  /**
+   * Create `context` object for each field to access
+   */
+
+  childContextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
+  getChildContext () {
+    return {
+      globalConfig: this.props.globalConfig
+    }
   },
 
   shouldComponentUpdate (nextProps) {
@@ -103,7 +118,7 @@ const FieldContainer = React.createClass({
           errors={errors}
           attributes={attributes}
           label={label}
-          hint={hint}/>
+          hint={hint} />
       </div>
     )
   }
