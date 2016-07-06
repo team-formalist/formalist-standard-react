@@ -55,9 +55,20 @@ const RichTextArea = React.createClass({
    * @param  {EditorState} editorState State from the editor
    */
   onChange (editorState) {
+    const exporterOptions = {
+      entityModifiers: {
+        'formalist': (data) => {
+          const copy = Object.assign({}, data)
+          delete copy['ast']
+          return copy
+        }
+      },
+    }
     // Persist the value to the AST
     this.props.actions.edit(
-      (val) => { return exporter(editorState) }
+      (val) => {
+        return exporter(editorState, exporterOptions)
+      }
     )
     // Keep track of the state here
     this.setState({
