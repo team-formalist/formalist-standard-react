@@ -18,6 +18,10 @@ import './tmp.css'
  */
 const RichTextEditor = React.createClass({
   propTypes: {
+    embeddableForms: React.PropTypes.object,
+    blockFormatters: React.PropTypes.array,
+    boxSize: React.PropTypes.string,
+    inlineFormatters: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
@@ -44,14 +48,19 @@ const RichTextEditor = React.createClass({
    */
   configurePlugins () {
     const {
+      embeddableForms,
       blockFormatters,
-      inlineFormatters,
       boxSize,
+      inlineFormatters,
     } = this.props
     const autoListPlugin = createAutoListPlugin()
     const singleLinePlugin = createSingleLinePlugin()
+
+    // Configure the blockToolbarPlugin
+    // Pass through any
     const blockToolbarPlugin = createBlockToolbarPlugin({
       setReadOnly: this.setReadOnly,
+      embeddableForms,
       blockFormatters,
     })
     const inlineToolbarPlugin = createInlineToolbarPlugin({

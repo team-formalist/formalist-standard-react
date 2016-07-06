@@ -17,6 +17,7 @@ import styles from './toolbar.mcss'
 const BlockToolbar = React.createClass({
   propTypes: {
     blockItemsGroups: React.PropTypes.array,
+    embeddableForms: React.PropTypes.object,
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -89,38 +90,11 @@ const BlockToolbar = React.createClass({
     })
   },
 
-  insertAtomicBlock (e) {
+  insertAtomicBlock (form) {
     const {editorState, onChange} = this.props
-    e.preventDefault()
     const entityKey = Entity.create('formalist', 'IMMUTABLE', {
-      ast: [
-        [
-          "field",
-          [
-            "text_field",
-            "text_field",
-            null,
-            [],
-            [
-              "object",
-              []
-            ]
-          ]
-        ],
-        [
-          "field",
-          [
-            "number_field",
-            "number_field",
-            null,
-            [],
-            [
-              "object",
-              []
-            ]
-          ]
-        ]
-      ]
+      name: form.name,
+      ast: form.template,
     })
     onChange(
       AtomicBlockUtils.insertAtomicBlock(
@@ -131,9 +105,28 @@ const BlockToolbar = React.createClass({
     )
   },
 
+  renderEmbeddableFormsButtons (buttons) {
+    return buttons.map((button) => {
+      const onClick = (e) => {
+        e.preventDefault()
+        this.insertAtomicBlock(button)
+      }
+      return <button key={button.name} onClick={onClick}>{button.label || button.name}</button>
+    })
+  },
+
   render () {
-    const {blockItemsGroups, editorState, onChange} = this.props
+    const {blockItemsGroups, editorState, embeddableForms, onChange} = this.props
     const {open, positionStyle} = this.state
+
+    // Suck out our forms into a slightly friendly format
+    let embeddableFormsButtons = []
+    if (embeddableForms) {
+      embeddableFormsButtons = Object.keys(embeddableForms).map((identifier) => {
+        const form = embeddableForms[identifier]
+        return Object.assign({}, form, {name: identifier})
+      })
+    }
 
     return (
       <div>
@@ -152,7 +145,10 @@ const BlockToolbar = React.createClass({
           </div>
           <div>
             <Items itemsGroups={blockItemsGroups} editorState={editorState} onChange={onChange}/>
-            <button onClick={this.insertAtomicBlock}>Insert atomic block</button>
+            {(embeddableFormsButtons.length > 0)
+              ? this.renderEmbeddableFormsButtons(embeddableFormsButtons)
+              : null
+            }
           </div>
         </Popout>
       </div>

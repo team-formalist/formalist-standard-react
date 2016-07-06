@@ -3,12 +3,23 @@ import React from 'react'
 import {
   Entity,
 } from 'draft-js'
+import createDataObjectRenderer from 'formalist-data-object-renderer'
 
+const dataObjectRenderer = createDataObjectRenderer()
 let configuredTemplate
 
 const AtomicBlock = React.createClass({
 
+  getInitialState () {
+    return {
+      render: Date.now()
+    }
+  },
+
   componentWillMount () {
+    document.addEventListener('mouseup', this.handleOutsideMouseClick)
+    document.addEventListener('touchstart', this.handleOutsideMouseClick)
+
     // Memoize the configured template the first time this runs
     // We need to invoke this at execution time so that the circular
     // dependencies are properly resolved.
@@ -23,26 +34,41 @@ const AtomicBlock = React.createClass({
     this.form = configuredTemplate(ast)
 
     this.form.store.subscribe(() => {
-      const formState = this.form.store.getState()
-      Entity.mergeData(entityKey, {ast: formState})
+      const ast = this.form.store.getState()
+      const normalized = dataObjectRenderer(ast)
+      Entity.replaceData(entityKey, {
+        ast,
+        normalized,
+      })
+      this.setState({
+        render: Date.now()
+      })
     })
   },
 
   onFocus (e) {
-    const {blockProps} = this.props
-    blockProps.setReadOnly(true)
+    this.setReadOnly(true)
     console.log('focus')
   },
 
   onBlur (e) {
-    const {blockProps} = this.props
-    blockProps.setReadOnly(false)
+    this.setReadOnly(false)
     console.log('blur')
+  },
+
+  setReadOnly (readOnly) {
+    const {blockProps} = this.props
+    blockProps.setReadOnly(readOnly)
   },
 
   render () {
     return (
-      <div contentEditable={false} onFocus={this.onFocus} onBlur={this.onBlur} style={{backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem'}}>
+      <div
+        ref={(r) => this._blockContainer = r}
+        contentEditable={false}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        style={{backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem'}}>
         {this.form.render()}
       </div>
     )

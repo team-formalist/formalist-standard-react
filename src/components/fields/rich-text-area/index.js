@@ -15,6 +15,7 @@ import RichTextEditor from '../../ui/rich-text-editor'
 import exporter from 'draft-js-ast-exporter'
 import importer from 'draft-js-ast-importer'
 
+
 /**
  * Text Area field
  */
@@ -32,6 +33,7 @@ const RichTextArea = React.createClass({
       box_size: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
       inline_formatters: React.PropTypes.array,
       block_formatters: React.PropTypes.array,
+      embeddable_forms: React.PropTypes.object,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -100,6 +102,7 @@ const RichTextArea = React.createClass({
             onChange={this.onChange}
             inlineFormatters={attributes.inline_formatters}
             blockFormatters={attributes.block_formatters}
+            embeddableForms={attributes.embeddable_forms}
             boxSize={attributes.box_size}
             textSize={attributes.text_size}
             placeholder={attributes.placeholder} />

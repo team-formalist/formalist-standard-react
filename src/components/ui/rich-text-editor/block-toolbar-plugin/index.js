@@ -6,6 +6,7 @@ import {
   getDefaultKeyBinding,
   KeyBindingUtil,
 } from 'draft-js'
+import mergeDefaults from '../../../../utils/merge-defaults'
 const {hasCommandModifier} = KeyBindingUtil
 
 // Components
@@ -89,10 +90,21 @@ const defaults = {
  */
 export default function blockToolbarPlugin (options = {}) {
   // Pull out the options
-  const blockFormatters = options.blockFormatters || defaults.blockFormatters
-  const blockSet = options.blockSet || defaults.blockSet
-  blockSet.atomic.props = {setReadOnly: options.setReadOnly}
-  const blockRenderMap = Map(options.blockRenderMap || defaults.blockRenderMap)
+  options = mergeDefaults(defaults, options)
+  const {
+    blockFormatters,
+    blockRenderMap,
+    blockSet,
+    embeddableForms,
+    setReadOnly,
+  } = options
+
+  // Assign the default props for the atomic block
+  // Which includes _all_ our embedded form types
+  blockSet.atomic.props = {
+    setReadOnly,
+    embeddableForms,
+  }
 
   // Filter out the un-allowed block-item types
   const blockItemsGroups = blockItemsGroupsMapping.map((group) => {
@@ -134,7 +146,12 @@ export default function blockToolbarPlugin (options = {}) {
      * @return {ReactComponent} The curried component
      */
     BlockToolbar: (props) => {
-      props = Object.assign({}, {blockItemsGroups}, props)
+      // Merge a couple of props that are set up in the initial plugin
+      // creation
+      props = Object.assign({}, {
+        blockItemsGroups,
+        embeddableForms,
+      }, props)
       return (
         <Toolbar {...props}/>
       )
