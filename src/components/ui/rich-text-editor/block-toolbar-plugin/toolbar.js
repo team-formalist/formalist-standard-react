@@ -60,9 +60,9 @@ const BlockToolbar = React.createClass({
     const selection = editorState.getSelection()
     const selectedBlockKey = selection.getStartKey()
     const selectedBlock = document.querySelector(`[data-block][data-offset-key^='${selectedBlockKey}']`)
-    if (selectedBlock && this.positioner) {
+    if (selectedBlock && this._positioner) {
       const blockRect = selectedBlock.getBoundingClientRect()
-      const positionerParentRect = this.positioner.offsetParent.getBoundingClientRect()
+      const positionerParentRect = this._positioner.offsetParent.getBoundingClientRect()
       return {
         top: Math.floor(
           blockRect.top -
@@ -131,7 +131,7 @@ const BlockToolbar = React.createClass({
     return (
       <div>
         <Popout placement='bottom' isOpened={open} closeOnOutsideClick={true} closeOnEsc onClose={this.closeToolbar}>
-          <div style={positionStyle} className={styles.positioner} ref={(r) => this.positioner = r}>
+          <div style={positionStyle} className={styles.positioner} ref={(r) => this._positioner = r}>
             <button
               className={styles.toggle}
               onClick={(e) => {
