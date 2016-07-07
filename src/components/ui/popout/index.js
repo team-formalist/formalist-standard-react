@@ -103,9 +103,14 @@ const Popout = React.createClass({
    */
   calculatePosition () {
     // Only bother if its rendered
+    if (!this._reference) {
+      return
+    }
+
     let position
     const { placement } = this.props
-    const referencePosition = this._reference.getBoundingClientRect()
+    const referenceEl = this._reference.firstChild || this._reference
+    const referencePosition = referenceEl.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
     let horzOffset = this.props.offset.horz
