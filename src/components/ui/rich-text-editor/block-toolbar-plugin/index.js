@@ -90,8 +90,8 @@ const defaults = {
  */
 export default function blockToolbarPlugin (options = {}) {
   // Pull out the options
-  options = mergeDefaults(defaults, options)
-  const {
+  options = mergeDefaults({}, defaults, options)
+  let {
     blockFormatters,
     blockRenderMap,
     blockSet,
