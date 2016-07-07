@@ -34,12 +34,16 @@ const RichTextEditor = React.createClass({
   },
 
   getInitialState () {
-    const plugins = this.configurePlugins()
-
     return {
-      plugins,
       hasFocus: false,
     }
+  },
+
+  componentWillMount () {
+    const plugins = this.configurePlugins()
+    this.setState({
+      plugins,
+    })
   },
 
   /**
