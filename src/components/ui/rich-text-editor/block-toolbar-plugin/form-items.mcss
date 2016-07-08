@@ -7,11 +7,14 @@
   flex: 1;
 }
 
-.button {
-  display: block;
-  text-align: center;
+.list {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
 }
 
-  .buttonActive {
-    composes: sansBold from styles;
-  }
+.button {
+  composes: sans from styles;
+  display: block;
+  padding: 0.4em 0.8em;
+  white-space: nowrap;
+}

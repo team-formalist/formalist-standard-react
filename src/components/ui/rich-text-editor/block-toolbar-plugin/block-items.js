@@ -61,12 +61,21 @@ const BlockItems = React.createClass({
           [`${styles.buttonActive}`]: isActive,
         }
       )
+      const iconWrapperClassNames = classNames(
+        styles.iconWrapper,
+        {
+          [`${styles.iconWrapperActive}`]: isActive,
+        }
+      )
       return (
         <button key={displayItem.type} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
           this.toggleBlockType(getNextBlockTypeToApply(currentBlockType, types))
         }}>
-          {displayItem.label}
+          {(displayItem.icon)
+            ? <span title={displayItem.label} className={iconWrapperClassNames} dangerouslySetInnerHTML={{__html: displayItem.icon}}/>
+            : displayItem.label
+          }
         </button>
       )
     })
