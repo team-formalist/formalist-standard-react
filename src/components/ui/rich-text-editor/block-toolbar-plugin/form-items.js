@@ -1,8 +1,11 @@
 import React from 'react'
 import classNames from 'classnames'
 import {
+  AtomicBlockUtils,
+  Entity,
+  getVisibleSelectionRect,
   RichUtils,
-} from 'draft-js';
+} from 'draft-js'
 
 import styles from './form-items.mcss'
 

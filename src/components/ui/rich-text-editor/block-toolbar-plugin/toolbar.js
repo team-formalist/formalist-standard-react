@@ -1,9 +1,4 @@
 import React from 'react'
-import {
-  getVisibleSelectionRect,
-  Entity,
-  AtomicBlockUtils,
-} from 'draft-js'
 // Components
 import Popout from '../../popout'
 import BlockItems from './block-items'
