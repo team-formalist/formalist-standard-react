@@ -120,8 +120,18 @@ const BlockToolbar = React.createClass({
             </button>
           </div>
           <div className={styles.buttonsWrapper}>
-            <BlockItems itemsGroups={blockItemsGroups} editorState={editorState} onChange={onChange}/>
-            <FormItems embeddableForms={embeddableFormsButtons} editorState={editorState} onChange={onChange}/>
+            <BlockItems
+              itemsGroups={blockItemsGroups}
+              closeToolbar={this.closeToolbar}
+              openToolbar={this.openToolbar}
+              editorState={editorState}
+              onChange={onChange}/>
+            <FormItems
+              embeddableForms={embeddableFormsButtons}
+              closeToolbar={this.closeToolbar}
+              openToolbar={this.openToolbar}
+              editorState={editorState}
+              onChange={onChange}/>
           </div>
         </Popout>
       </div>
