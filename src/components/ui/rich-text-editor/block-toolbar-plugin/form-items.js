@@ -23,7 +23,7 @@ const FormItems = React.createClass({
   },
 
   insertAtomicBlock (form) {
-    const {editorState, onChange} = this.props
+    const {editorState, onChange, closeToolbar} = this.props
     const entityKey = Entity.create('formalist', 'IMMUTABLE', {
       name: form.name,
       ast: form.template,
@@ -35,6 +35,7 @@ const FormItems = React.createClass({
         '¶'
       )
     )
+    closeToolbar()
   },
 
   renderFormButtons (embeddableForms) {
@@ -43,7 +44,7 @@ const FormItems = React.createClass({
         e.preventDefault()
         this.insertAtomicBlock(form)
       }
-      return <button key={form.name} onClick={onClick}>{form.label || form.name}</button>
+      return <button className={styles.button} key={form.name} onClick={onClick}>{form.label || form.name}</button>
     })
   },
 
