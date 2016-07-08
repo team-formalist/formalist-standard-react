@@ -6,7 +6,8 @@ import {
 } from 'draft-js'
 // Components
 import Popout from '../../popout'
-import Items from './items'
+import BlockItems from './block-items'
+import FormItems from './form-items'
 // Styles
 import styles from './toolbar.mcss'
 
@@ -90,31 +91,6 @@ const BlockToolbar = React.createClass({
     })
   },
 
-  insertAtomicBlock (form) {
-    const {editorState, onChange} = this.props
-    const entityKey = Entity.create('formalist', 'IMMUTABLE', {
-      name: form.name,
-      ast: form.template,
-    })
-    onChange(
-      AtomicBlockUtils.insertAtomicBlock(
-        editorState,
-        entityKey,
-        '¶'
-      )
-    )
-  },
-
-  renderEmbeddableFormsButtons (buttons) {
-    return buttons.map((button) => {
-      const onClick = (e) => {
-        e.preventDefault()
-        this.insertAtomicBlock(button)
-      }
-      return <button key={button.name} onClick={onClick}>{button.label || button.name}</button>
-    })
-  },
-
   render () {
     const {blockItemsGroups, editorState, embeddableForms, onChange} = this.props
     const {open, positionStyle} = this.state
@@ -143,12 +119,9 @@ const BlockToolbar = React.createClass({
               <span className={styles.toggleText}>View block elements</span>
             </button>
           </div>
-          <div>
-            <Items itemsGroups={blockItemsGroups} editorState={editorState} onChange={onChange}/>
-            {(embeddableFormsButtons.length > 0)
-              ? this.renderEmbeddableFormsButtons(embeddableFormsButtons)
-              : null
-            }
+          <div className={styles.buttonsWrapper}>
+            <BlockItems itemsGroups={blockItemsGroups} editorState={editorState} onChange={onChange}/>
+            <FormItems embeddableForms={embeddableFormsButtons} editorState={editorState} onChange={onChange}/>
           </div>
         </Popout>
       </div>

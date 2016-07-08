@@ -42,3 +42,7 @@
 .toggleText {
   display: none;
 }
+
+.buttonsWrapper {
+  display: flex;
+}

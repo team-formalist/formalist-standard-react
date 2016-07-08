@@ -15,42 +15,27 @@ import AtomicBlock from './blocks/atomic'
 import PullquoteBlock from './blocks/pull-quote'
 
 const blockItemsGroupsMapping = [
-  {
-    label: 'Paragraph',
-    types: [
-      'unstyled',
-    ],
-  },
-  {
-    label: 'Heading',
-    types: [
-      'header-one',
-      'header-two',
-      'header-three',
-      'header-four',
-      'header-five',
-      'header-six',
-    ],
-  },
-  {
-    label: 'Unordered',
-    types: [
-      'unordered-list-item',
-    ],
-  },
-  {
-    label: 'Ordered',
-    types: [
-      'ordered-list-item',
-    ],
-  },
-  {
-    label: 'Quote',
-    types: [
-      'blockquote',
-      'pullquote',
-    ],
-  },
+  [
+    {type: 'unstyled', label: 'P' }
+  ],
+  [
+    {type: 'header-one', label: 'H1'},
+    {type: 'header-two', label: 'H2'},
+    {type: 'header-three', label: 'H3'},
+    {type: 'header-four', label: 'H4'},
+    {type: 'header-five', label: 'H5'},
+    {type: 'header-six', label: 'H6'},
+  ],
+  [
+    {type: 'unordered-list-item', label: 'UL' }
+  ],
+  [
+    {type: 'ordered-list-item', label: 'OL'},
+  ],
+  [
+    {type: 'blockquote', label: '>'},
+    {type: 'pullquote', label: '”'},
+  ],
 ]
 
 const defaults = {
@@ -108,13 +93,9 @@ export default function blockToolbarPlugin (options = {}) {
 
   // Filter out the un-allowed block-item types
   const blockItemsGroups = blockItemsGroupsMapping.map((group) => {
-    const types = group.types.filter((type) => blockFormatters.indexOf(type) > -1)
-    return {
-      label: group.label,
-      types
-    }
+    return group.filter((item) => blockFormatters.indexOf(item.type) > -1)
   }).filter((group) => {
-    return group.types.length > 0
+    return group.length > 0
   })
 
   return {

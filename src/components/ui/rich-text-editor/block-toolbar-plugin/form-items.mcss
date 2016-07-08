@@ -1,0 +1,17 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.container {
+  composes: greyLightBorder from styles;
+  border-style: solid;
+  border-left-width: 1px;
+  flex: 1;
+}
+
+.button {
+  display: block;
+  text-align: center;
+}
+
+  .buttonActive {
+    composes: sansBold from styles;
+  }
