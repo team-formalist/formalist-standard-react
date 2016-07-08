@@ -64,7 +64,7 @@ const Popunder = React.createClass({
 
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
-    document.addEventListener('resize', this.onResize)
+    window.addEventListener('resize', this.onResize)
     document.addEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
