@@ -48,12 +48,12 @@ const AtomicBlock = React.createClass({
 
   onFocus (e) {
     this.setReadOnly(true)
-    console.log('focus')
+    // console.log('focus')
   },
 
   onBlur (e) {
     this.setReadOnly(false)
-    console.log('blur')
+    // console.log('blur')
   },
 
   setReadOnly (readOnly) {
@@ -66,6 +66,7 @@ const AtomicBlock = React.createClass({
       <div
         ref={(r) => this._blockContainer = r}
         contentEditable={false}
+        onClick={this.onFocus}
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         style={{backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem'}}>

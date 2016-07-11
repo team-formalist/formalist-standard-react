@@ -70,6 +70,13 @@
   font-size: 2rem;
 }
 
+.public-DraftEditor-content pre {
+  font-family: monospace;
+}
+
+.public-DraftEditor-content pre pre .public-DraftStyleDefault-block {
+  margin-bottom: 0;
+}
 .public-DraftEditor-content blockquote {
   border-left: 2px #ddd solid;
   padding-left: 2rem;
@@ -207,6 +214,13 @@
   font-family: "Work Sans";
 }
 
+.public-DraftEditor-content > [data-contents=true] > pre {
+  background-color: #fafafa;
+  border-radius: 3px;
+  padding: 1.3rem 1.8rem;
+}
+
+.public-DraftEditor-content > [data-contents=true] > pre,
 .public-DraftStyleDefault-block {
   margin-bottom: 1.2rem;
 }
