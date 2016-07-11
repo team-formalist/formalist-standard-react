@@ -37,12 +37,21 @@ const InlineToolbarItems = React.createClass({
           [`${styles.buttonActive}`]: active,
         }
       )
+      const iconWrapperClassNames = classNames(
+        styles.iconWrapper,
+        {
+          [`${styles.iconWrapperActive}`]: active,
+        }
+      )
       return (
         <button key={item.label} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
           this.toggleStyle(item.style)
         }}>
-          {item.label}
+          {(item.icon)
+            ? <span title={item.label} className={iconWrapperClassNames} dangerouslySetInnerHTML={{__html: item.icon}}/>
+            : item.label
+          }
         </button>
       )
     })
