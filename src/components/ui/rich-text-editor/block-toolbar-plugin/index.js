@@ -80,6 +80,13 @@ const blockItemsGroupsMapping = [
       icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M0 0v12l6-6v-6h-6zm10 0v12l6-6v-6h-6z"/></svg>',
     },
   ],
+  [
+    {
+      type: 'code-block',
+      label: 'Code block',
+      icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l-6 12h2l6-12h-2zm-8 2l-2 4 2 4h2l-2-4 2-4h-2zm10 0l2 4-2 4h2l2-4-2-4h-2z"></svg>'
+    }
+  ],
 ]
 
 const defaults = {
@@ -91,7 +98,7 @@ const defaults = {
     'ordered-list-item',
     'blockquote',
     'pullquote',
-    'code',
+    'code-block',
   ],
   blockSet: {
     atomic: {
