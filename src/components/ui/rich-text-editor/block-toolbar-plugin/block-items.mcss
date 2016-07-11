@@ -26,7 +26,8 @@
   }
 
 .iconWrapper {
-  display: block;
+  display: flex;
+  align-items: center;
   fill: greyMid;
   height: 16px;
   width: 16px;
@@ -37,6 +38,6 @@
     fill: primary;
   }
   .iconWrapper svg {
-    height: 100%;
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
   }

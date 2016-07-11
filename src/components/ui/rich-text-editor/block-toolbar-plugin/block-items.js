@@ -2,8 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import {
   RichUtils,
-} from 'draft-js';
-
+} from 'draft-js'
 import styles from './block-items.mcss'
 
 /**
@@ -47,8 +46,7 @@ const BlockItems = React.createClass({
   },
 
   renderItemsGroups (itemsGroups) {
-    const {editorState} = this.props
-    const currentBlockType = RichUtils.getCurrentBlockType(editorState)
+    const {editorState, currentBlockType} = this.props
     return itemsGroups.map((group) => {
       const types = group.map((item) => item.type)
       const activeIndex = types.indexOf(currentBlockType)

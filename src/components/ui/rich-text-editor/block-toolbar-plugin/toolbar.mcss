@@ -1,5 +1,5 @@
 @value styles: 'formalist-theme/theme/index.mcss';
-@value greyLight, highlight: from styles;
+@value greyLight, greyMid, highlight: from styles;
 
 .positioner {
   left: 50%;
@@ -10,6 +10,21 @@
   transition-duration: 50ms;
   width: 0;
 }
+
+.iconWrapper {
+  align-items: center;
+  display: flex;
+  fill: greyMid;
+  height: 16px;
+  width: 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
+  .iconWrapper svg {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
 
 .toggle {
   composes: greyMidColor from styles;

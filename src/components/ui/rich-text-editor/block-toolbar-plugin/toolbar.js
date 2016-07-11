@@ -1,4 +1,7 @@
 import React from 'react'
+import {
+  RichUtils,
+} from 'draft-js'
 // Components
 import Popout from '../../popout'
 import BlockItems from './block-items'
@@ -89,6 +92,7 @@ const BlockToolbar = React.createClass({
   render () {
     const {blockItemsGroups, editorState, embeddableForms, onChange} = this.props
     const {open, positionStyle} = this.state
+    const currentBlockType = RichUtils.getCurrentBlockType(editorState)
 
     // Suck out our forms into a slightly friendly format
     let embeddableFormsButtons = []
@@ -98,6 +102,13 @@ const BlockToolbar = React.createClass({
         return Object.assign({}, form, {name: identifier})
       })
     }
+
+    // Extract the icon for the active block
+    const activeBlockItem = blockItemsGroups
+      .reduce((a, b) => a.concat(b), [])
+      .find((item) => {
+        return item.type === currentBlockType
+      })
 
     return (
       <div>
@@ -110,13 +121,17 @@ const BlockToolbar = React.createClass({
                 this.openToolbar()
               }}
               onMouseDown={(e) => e.preventDefault()}>
-              ¶
+              {(activeBlockItem.icon)
+                ? <span title={activeBlockItem.label} className={styles.iconWrapper} dangerouslySetInnerHTML={{__html: activeBlockItem.icon}}/>
+                : activeBlockItem.label
+              }
               <span className={styles.toggleText}>View block elements</span>
             </button>
           </div>
           <div className={styles.buttonsWrapper}>
             <BlockItems
               itemsGroups={blockItemsGroups}
+              currentBlockType={currentBlockType}
               closeToolbar={this.closeToolbar}
               openToolbar={this.openToolbar}
               editorState={editorState}
