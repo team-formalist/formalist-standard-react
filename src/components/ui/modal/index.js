@@ -1,5 +1,4 @@
 import React from 'react'
-import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './modal.mcss'
 
@@ -92,8 +91,8 @@ const Modal = React.createClass({
     // Extract the elements based on `ref` values. The actual portal element is
     // nested within the react-portal instance as it gets rendered out of
     // context
-    const portalEl = findDOMNode(this._portal.portal)
-    const containerEl = findDOMNode(this._container)
+    const portalEl = this._portal.portal
+    const containerEl = this._container
 
     if ((portalEl && portalEl.contains(e.target)) || (containerEl && containerEl.contains(e.target))) {
       return
