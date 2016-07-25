@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import React from 'react'
-import ReactDOM from 'react-dom'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
@@ -45,7 +44,7 @@ const TimePicker = React.createClass({
   },
 
   onInputFocus () {
-    this.refs.popunder.openPopunder()
+    this._popunder.openPopunder()
   },
 
   onTimeClick (time, e) {
@@ -55,8 +54,7 @@ const TimePicker = React.createClass({
       inputValue: time.format(dateFormats.humanTime)
     }, () => {
       // We have to explicitly set the value of the input
-      let inputEl = ReactDOM.findDOMNode(this.refs.timeInput)
-      inputEl.value = this.state.inputValue
+      this._timeInput.value = this.state.inputValue
     })
     this.props.onChange(time.format(dateFormats.time))
   },
@@ -106,7 +104,7 @@ const TimePicker = React.createClass({
       let onClick = this.onTimeClick.bind(this, date.clone())
       let item = <li key={date.format()} className={styles.item}>
         <button
-          ref={(isActive) ? 'buttonActive' : null}
+          ref={(r) => this._buttonActive = (isActive) ? r : null}
           className={buttonClassNames}
           onClick={onClick}>
            {date.format(dateFormats.humanTime)}
@@ -121,9 +119,9 @@ const TimePicker = React.createClass({
   },
 
   onPopunderOpen (e, domNode) {
-    if (this.refs.buttonActive && this.refs.popunder.getContainer()) {
-      let buttonEl = ReactDOM.findDOMNode(this.refs.buttonActive)
-      let containerEl = ReactDOM.findDOMNode(this.refs.popunder.getContainer())
+    if (this._buttonActive && this._popunder.getContainer()) {
+      let buttonEl = this._buttonActive
+      let containerEl = this._popunder.getContainer()
       containerEl.scrollTop = buttonEl.offsetTop
     }
   },
@@ -133,9 +131,9 @@ const TimePicker = React.createClass({
 
     return (
       <div className={styles.base}>
-        <Popunder ref='popunder' closeOnEsc closeOnOutsideClick onOpen={this.onPopunderOpen}>
+        <Popunder ref={(r) => this._popunder = r} closeOnEsc closeOnOutsideClick onOpen={this.onPopunderOpen}>
           <Input
-            ref='timeInput'
+            ref={(r) => this._timeInput = r}
             defaultValue={this.state.inputValue}
             error={error}
             placeholder={placeholder || 'Select or enter a time'}

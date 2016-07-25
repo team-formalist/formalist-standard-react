@@ -121,9 +121,9 @@ const BlockToolbar = React.createClass({
                 this.openToolbar()
               }}
               onMouseDown={(e) => e.preventDefault()}>
-              {(activeBlockItem.icon)
+              {(activeBlockItem && activeBlockItem.icon)
                 ? <span title={activeBlockItem.label} className={styles.iconWrapper} dangerouslySetInnerHTML={{__html: activeBlockItem.icon}}/>
-                : activeBlockItem.label
+                : (activeBlockItem) ? activeBlockItem.label : '¶'
               }
               <span className={styles.toggleText}>View block elements</span>
             </button>

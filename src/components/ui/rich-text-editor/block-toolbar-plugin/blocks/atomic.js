@@ -12,7 +12,7 @@ const AtomicBlock = React.createClass({
 
   getInitialState () {
     return {
-      render: Date.now()
+      isSelected: false
     }
   },
 
@@ -40,20 +40,59 @@ const AtomicBlock = React.createClass({
         ast,
         normalized,
       })
-      this.setState({
-        render: Date.now()
-      })
+      this.forceUpdate()
+    })
+
+    // Subscribe to the editorEmitter’s onChange event
+    const {editorEmitter} = this.props.blockProps
+    editorEmitter.on('change', this.onEditorChange)
+    editorEmitter.on('focus', this.checkEditorSelection)
+    editorEmitter.on('blur', this.checkEditorSelection)
+  },
+
+  componentWillUnmount () {
+    const {editorEmitter} = this.props.blockProps
+    editorEmitter.off('change', this.onEditorChange)
+    editorEmitter.off('focus', this.checkEditorSelection)
+    editorEmitter.off('blur', this.checkEditorSelection)
+  },
+
+  onEditorChange (editorState) {
+    this.checkEditorSelection(editorState)
+  },
+
+  onEditorFocus (editorState) {
+    this.checkEditorSelection(editorState)
+  },
+
+  checkEditorSelection (editorState) {
+    const {editorEmitter} = this.props.blockProps
+    const selection = editorState.getSelection()
+    let isSelected = false
+    // Is a collapsed selection at the start?
+    if (selection.isCollapsed() && selection.getAnchorOffset() === 0) {
+      const {block} = this.props
+      const blockKey = block.getKey()
+      const selectedBlockKey = selection.getFocusKey()
+      if (blockKey === selectedBlockKey) {
+        isSelected = true
+        editorEmitter.emit('atomic:selected', blockKey)
+      }
+    }
+    this.setState({
+      isSelected
     })
   },
 
   onFocus (e) {
+    this.setState({
+      isSelected: false,
+    })
     this.setReadOnly(true)
-    // console.log('focus')
   },
 
   onBlur (e) {
     this.setReadOnly(false)
-    // console.log('blur')
   },
 
   setReadOnly (readOnly) {
@@ -62,15 +101,22 @@ const AtomicBlock = React.createClass({
   },
 
   render () {
+    const {isSelected} = this.state
+    console.log('render')
     return (
-      <div
-        ref={(r) => this._blockContainer = r}
-        contentEditable={false}
-        onClick={this.onFocus}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        style={{backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem'}}>
-        {this.form.render()}
+      <div>
+        <div><br/></div>
+        <div
+          ref={(r) => this._blockContainer = r}
+          onClick={this.onFocus}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          style={{backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem'}}
+          contentEditable={false}>
+          <div>{this.props.block.getKey()}</div>
+          <div>{(isSelected) ? 'SELECTED' : ''}</div>
+          {this.form.render()}
+        </div>
       </div>
     )
   }

@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
 import {Editor} from 'draft-js'
 import {fromJS, Map} from 'immutable'
+import Emitter from 'component-emitter'
 // Plugins
 import createAutoListPlugin from 'draft-js-autolist-plugin'
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
@@ -35,11 +36,16 @@ const RichTextEditor = React.createClass({
 
   getInitialState () {
     return {
+      someProp: Date.now(),
       hasFocus: false,
     }
   },
 
   componentWillMount () {
+    // Create a per-instance event emitter to pass through to the atomic blocks
+    // so that we can subscribe to `onChange` events in the editor proper
+    // This is not really great, but there’s way for a prop
+    this.emitter = new Emitter()
     const plugins = this.configurePlugins()
     this.setState({
       plugins,
@@ -62,8 +68,9 @@ const RichTextEditor = React.createClass({
 
     // Configure the blockToolbarPlugin
     // Pass through any
-    const blockToolbarPlugin = createBlockToolbarPlugin({
+    this.blockToolbarPlugin = createBlockToolbarPlugin({
       setReadOnly: this.setReadOnly,
+      editorEmitter: this.emitter,
       embeddableForms,
       blockFormatters,
     })
@@ -79,20 +86,25 @@ const RichTextEditor = React.createClass({
     if (boxSize === 'single') {
       plugins = plugins.concat([singleLinePlugin])
     } else {
-      plugins = plugins.concat([autoListPlugin, blockToolbarPlugin])
+      plugins = plugins.concat([autoListPlugin, this.blockToolbarPlugin])
     }
+    console.log('this.blockToolbarPlugin', this.blockToolbarPlugin)
     // Extract the toolbar component for use in rendering
-    this.BlockToolbar  = blockToolbarPlugin.BlockToolbar
-    this.blockRenderMap  = blockToolbarPlugin.blockRenderMap
+    this.BlockToolbar  = this.blockToolbarPlugin.BlockToolbar
+    this.blockRenderMap  = this.blockToolbarPlugin.blockRenderMap
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     return plugins
   },
 
   onFocus (e) {
+    const {editorState} = this.props
+    this.emitter.emit('focus', editorState)
     this.setState({hasFocus: true})
   },
 
   onBlur (e) {
+    const {editorState} = this.props
+    this.emitter.emit('blur', editorState)
     this.setState({hasFocus: false})
   },
 
@@ -162,7 +174,12 @@ const RichTextEditor = React.createClass({
             editorState={editorState}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            onChange={onChange}
+            onChange={(editorState) => {
+              // Emit the onChange event so we can listen to it
+              // from within our atomic blocks
+              this.emitter.emit('change', editorState)
+              onChange(editorState)
+            }}
             readOnly={readOnly} />
         </div>
       </div>
