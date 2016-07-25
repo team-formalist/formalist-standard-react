@@ -60,9 +60,10 @@
   "dependencies": {
     "attache-upload": "^2.1.1",
     "classnames": "^2.2.5",
+    "component-emitter": "1.2.1",
     "draft-js-ast-exporter": "^0.0.1",
     "draft-js-ast-importer": "^0.0.1",
-    "draft-js-autolist-plugin": "^0.0.1",
+    "draft-js-autolist-plugin": "^0.0.2",
     "draft-js-block-breakout-plugin": "^0.0.2",
     "draft-js-plugins-editor": "^1.0.0",
     "draft-js-single-line-plugin": "^0.0.1",
