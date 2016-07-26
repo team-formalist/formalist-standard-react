@@ -65,7 +65,8 @@ const RichTextArea = React.createClass({
       entityModifiers: {
         'formalist': (data) => {
           const copy = Object.assign({}, data)
-          delete copy['ast']
+          delete copy['label']
+          delete copy['template']
           return copy
         }
       },
