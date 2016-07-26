@@ -2,6 +2,7 @@ import React from 'react'
 import {Map} from 'immutable'
 import {
   DefaultDraftBlockRenderMap,
+  EditorState,
   getDefaultKeyBinding,
   KeyBindingUtil,
   RichUtils,
@@ -14,7 +15,7 @@ import Toolbar from './toolbar'
 import AtomicBlock from './blocks/atomic'
 import PullquoteBlock from './blocks/pull-quote'
 import blockItemsGroupsMapping from './block-items/groups-mapping'
-import {removeAtomicBlock} from './utils'
+import {removeAtomicBlock, getNextBlockKey, getPreviousBlockKey} from './utils'
 
 const commands = {
   BACKSPACE_BLOCK: 'btp-backspace-block',
@@ -119,7 +120,7 @@ export default function blockToolbarPlugin (options = {}) {
      * @param  {KeyboardEvent} e Synthetic keyboard event from draftjs
      * @return {Command} String command based on the keyboard event
      */
-    keyBindingFn (e) {
+    keyBindingFn (e, {getEditorState, setEditorState}) {
       console.log('e', e.keyCode)
       if (selectedAtomicBlockKey !== null) {
         // 46 = DELETE, 8 = BACKSPACE
@@ -127,6 +128,22 @@ export default function blockToolbarPlugin (options = {}) {
           return commands.DELETE_BLOCK
         } else if (e.keyCode === 8) {
           return commands.BACKSPACE_BLOCK
+        } else {
+          // Move the selection to the block below so that the content pla
+          const editorState = getEditorState()
+          const selection = editorState.getSelection()
+          let contentState = editorState.getCurrentContent()
+          const nextBlockKey = getNextBlockKey(selectedAtomicBlockKey, editorState)
+          contentState = contentState.merge({
+            selectionBefore: selection,
+            selectionAfter: selection.merge({
+              anchorKey: nextBlockKey,
+              focusKey: nextBlockKey
+            })
+          })
+          setEditorState(
+            EditorState.push(editorState, contentState)
+          )
         }
       }
     },
@@ -163,28 +180,14 @@ export default function blockToolbarPlugin (options = {}) {
         const selection = editorState.getSelection()
         if (selection.isCollapsed()) {
           const contentState = editorState.getCurrentContent()
-          // Collate the blockMap into simple array of `[[key, type]]`s
-          const blockMapTypes = contentState.getBlockMap().toList().map((block) => {
-            return [block.getKey(), block.getType()]
-          })
-          const selectedBlockKey = selection.getAnchorKey()
-          const selectedBlockIndex = blockMapTypes.indexOf(
-            blockMapTypes.find((pair) => {
-              return pair[0] === selectedBlockKey
-            })
-          )
-          console.log('selectedBlockIndex', selectedBlockIndex)
           // Check if the _next_ block is an atomic block
-          let blockToCheck = (command === 'delete')
-            ? blockMapTypes.get(selectedBlockIndex + 1)
-            : blockMapTypes.get(selectedBlockIndex - 1)
+          let blockToCheckKey = (command === 'delete')
+            ? getNextBlockKey(selection.getAnchorKey(), editorState)
+            : getPreviousBlockKey(selection.getAnchorKey(), editorState)
 
-          console.log('blockMapTypes', blockMapTypes)
-          console.log('blockToCheck', blockToCheck)
-
-          if (blockToCheck && blockToCheck[1] === 'atomic') {
+          if (blockToCheckKey && contentState.getBlockForKey(blockToCheckKey).getType() === 'atomic') {
             setEditorState(
-              removeAtomicBlock(blockToCheck[0], editorState, (command !== 'delete'))
+              removeAtomicBlock(blockToCheckKey, editorState, (command !== 'delete'))
             )
             return true
           }
