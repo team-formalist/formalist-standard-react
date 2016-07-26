@@ -1,16 +1,19 @@
+import classNames from 'classnames'
 import template from '../../../../../'
 import React from 'react'
 import {
   Entity,
 } from 'draft-js'
 import createDataObjectRenderer from 'formalist-data-object-renderer'
+import styles from './atomic.mcss'
 
 const dataObjectRenderer = createDataObjectRenderer()
 let configuredTemplate
 
 const AtomicBlock = React.createClass({
-
   getInitialState () {
+    const entityKey = this.props.block.getEntityAt(0)
+    this.entity = Entity.get(entityKey)
     return {
       isSelected: false
     }
@@ -26,10 +29,8 @@ const AtomicBlock = React.createClass({
     configuredTemplate = configuredTemplate ||  template()
 
     // Extract the entity
-    const entityKey = this.props.block.getEntityAt(0)
-    const entity = Entity.get(entityKey)
-    const {ast} = entity.getData()
-    const type = entity.getType()
+    const {ast} = this.entity.getData()
+    const type = this.entity.getType()
 
     this.form = configuredTemplate(ast)
 
@@ -95,6 +96,10 @@ const AtomicBlock = React.createClass({
     this.setReadOnly(false)
   },
 
+  remove () {
+    console.log('REMOVE')
+  },
+
   setReadOnly (readOnly) {
     const {blockProps} = this.props
     blockProps.setReadOnly(readOnly)
@@ -102,20 +107,40 @@ const AtomicBlock = React.createClass({
 
   render () {
     const {isSelected} = this.state
-    console.log('render')
+    const {label} = this.entity.getData()
+
+    const containerClassNames = classNames(
+      styles.container,
+      {
+        [`${styles.containerSelected}`]: isSelected
+      }
+    )
+
     return (
-      <div>
-        <div><br/></div>
+      <div className={styles.wrapper} data-debug-block-key={this.props.block.getKey()}>
+        <div className={styles.caret}><br/></div>
         <div
           ref={(r) => this._blockContainer = r}
+          className={containerClassNames}
           onClick={this.onFocus}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          style={{backgroundColor: '#fff', padding: '1.5rem', marginBottom: '1.5rem'}}
           contentEditable={false}>
-          <div>{this.props.block.getKey()}</div>
-          <div>{(isSelected) ? 'SELECTED' : ''}</div>
-          {this.form.render()}
+          <div className={styles.header}>
+            <h3 className={styles.label}>{label}</h3>
+            <div className={styles.toolbar}>
+              <button className={styles.remove} onClick={(e) => {
+                e.preventDefault()
+                this.remove()
+              }}>
+                <span className={styles.removeText}>Remove</span>
+                <div className={styles.removeX}>×</div>
+              </button>
+            </div>
+          </div>
+          <div className={styles.content}>
+            {this.form.render()}
+          </div>
         </div>
       </div>
     )

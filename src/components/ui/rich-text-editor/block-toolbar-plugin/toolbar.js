@@ -114,19 +114,22 @@ const BlockToolbar = React.createClass({
       <div>
         <Popout placement='bottom' isOpened={open} closeOnOutsideClick={true} closeOnEsc onClose={this.closeToolbar}>
           <div style={positionStyle} className={styles.positioner} ref={(r) => this._positioner = r}>
-            <button
-              className={styles.toggle}
-              onClick={(e) => {
-                e.preventDefault()
-                this.openToolbar()
-              }}
-              onMouseDown={(e) => e.preventDefault()}>
-              {(activeBlockItem && activeBlockItem.icon)
-                ? <span title={activeBlockItem.label} className={styles.iconWrapper} dangerouslySetInnerHTML={{__html: activeBlockItem.icon}}/>
-                : (activeBlockItem) ? activeBlockItem.label : '¶'
-              }
-              <span className={styles.toggleText}>View block elements</span>
-            </button>
+            {(currentBlockType !== 'atomic')
+              ? <button
+                className={styles.toggle}
+                onClick={(e) => {
+                  e.preventDefault()
+                  this.openToolbar()
+                }}
+                onMouseDown={(e) => e.preventDefault()}>
+                {(activeBlockItem && activeBlockItem.icon)
+                  ? <span title={activeBlockItem.label} className={styles.iconWrapper} dangerouslySetInnerHTML={{__html: activeBlockItem.icon}}/>
+                  : (activeBlockItem) ? activeBlockItem.label : '¶'
+                }
+                <span className={styles.toggleText}>View block elements</span>
+              </button>
+              : null
+            }
           </div>
           <div className={styles.buttonsWrapper}>
             <BlockItems
