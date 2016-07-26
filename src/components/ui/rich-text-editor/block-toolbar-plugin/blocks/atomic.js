@@ -12,8 +12,8 @@ let configuredTemplate
 
 const AtomicBlock = React.createClass({
   getInitialState () {
-    const entityKey = this.props.block.getEntityAt(0)
-    this.entity = Entity.get(entityKey)
+    this.entityKey = this.props.block.getEntityAt(0)
+    this.entity = Entity.get(this.entityKey)
     return {
       isSelected: false
     }
@@ -37,7 +37,7 @@ const AtomicBlock = React.createClass({
     this.form.store.subscribe(() => {
       const ast = this.form.store.getState()
       const normalized = dataObjectRenderer(ast)
-      Entity.replaceData(entityKey, {
+      Entity.replaceData(this.entityKey, {
         ast,
         normalized,
       })

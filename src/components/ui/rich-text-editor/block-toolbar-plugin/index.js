@@ -177,19 +177,34 @@ export default function blockToolbarPlugin (options = {}) {
           )
           return true
         }
-      } else if (command === 'delete' || command === 'backspace') {
+      } else if (command === 'delete') {
         const editorState = getEditorState()
+        const contentState = editorState.getCurrentContent()
         const selection = editorState.getSelection()
-        if (selection.isCollapsed()) {
-          const contentState = editorState.getCurrentContent()
+        // At the end of the block?
+        const selectedBlockKey = selection.getAnchorKey()
+        const selectedBlock = contentState.getBlockForKey(selectedBlockKey)
+        if (selection.isCollapsed() && selection.getAnchorOffset() === selectedBlock.getLength()) {
           // Check if the _next_ block is an atomic block
-          let blockToCheckKey = (command === 'delete')
-            ? getNextBlockKey(selection.getAnchorKey(), editorState)
-            : getPreviousBlockKey(selection.getAnchorKey(), editorState)
+          let blockToCheckKey = getNextBlockKey(selectedBlockKey, editorState)
 
           if (blockToCheckKey && contentState.getBlockForKey(blockToCheckKey).getType() === 'atomic') {
             setEditorState(
-              removeAtomicBlock(blockToCheckKey, editorState, (command !== 'delete'))
+              removeAtomicBlock(blockToCheckKey, editorState, false)
+            )
+            return true
+          }
+        }
+      } else if (command === 'backspace') {
+        const editorState = getEditorState()
+        const selection = editorState.getSelection()
+        if (selection.isCollapsed() && selection.getAnchorOffset() === 0) {
+          const contentState = editorState.getCurrentContent()
+          // Check if the _next_ block is an atomic block
+          let blockToCheckKey = getPreviousBlockKey(selection.getAnchorKey(), editorState)
+          if (blockToCheckKey && contentState.getBlockForKey(blockToCheckKey).getType() === 'atomic') {
+            setEditorState(
+              removeAtomicBlock(blockToCheckKey, editorState, true)
             )
             return true
           }
