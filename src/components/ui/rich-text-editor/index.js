@@ -88,7 +88,6 @@ const RichTextEditor = React.createClass({
     } else {
       plugins = plugins.concat([autoListPlugin, this.blockToolbarPlugin])
     }
-    console.log('this.blockToolbarPlugin', this.blockToolbarPlugin)
     // Extract the toolbar component for use in rendering
     this.BlockToolbar  = this.blockToolbarPlugin.BlockToolbar
     this.blockRenderMap  = this.blockToolbarPlugin.blockRenderMap
