@@ -97,7 +97,9 @@ const AtomicBlock = React.createClass({
   },
 
   remove () {
-    console.log('REMOVE')
+    const {block, blockProps} = this.props
+    this.setReadOnly(false)
+    blockProps.remove(block.getKey())
   },
 
   setReadOnly (readOnly) {
@@ -131,6 +133,7 @@ const AtomicBlock = React.createClass({
             <div className={styles.toolbar}>
               <button className={styles.remove} onClick={(e) => {
                 e.preventDefault()
+                e.stopPropagation()
                 this.remove()
               }}>
                 <span className={styles.removeText}>Remove</span>

@@ -106,9 +106,12 @@ export default function blockToolbarPlugin (options = {}) {
           const atomicProps = mergeDefaults({
             editorEmitter,
             embeddableForms,
-            getEditorState,
-            setEditorState,
             setReadOnly,
+            remove: function (key) {
+              setEditorState(
+                removeAtomicBlock(key, getEditorState())
+              )
+            },
           }, blockSet[type].props)
           return mergeDefaults({}, {props: atomicProps}, blockSet[type])
         }
@@ -121,7 +124,6 @@ export default function blockToolbarPlugin (options = {}) {
      * @return {Command} String command based on the keyboard event
      */
     keyBindingFn (e, {getEditorState, setEditorState}) {
-      console.log('e', e.keyCode)
       if (selectedAtomicBlockKey !== null) {
         // 46 = DELETE, 8 = BACKSPACE
         if (e.keyCode === 46) {
