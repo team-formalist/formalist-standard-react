@@ -29,17 +29,18 @@ const AtomicBlock = React.createClass({
     configuredTemplate = configuredTemplate ||  template()
 
     // Extract the entity
-    const {ast} = this.entity.getData()
+    const entityData = this.entity.getData()
     const type = this.entity.getType()
 
-    this.form = configuredTemplate(ast)
+    this.form = configuredTemplate(entityData.template)
 
     this.form.store.subscribe(() => {
-      const ast = this.form.store.getState()
-      const normalized = dataObjectRenderer(ast)
+      const formTemplate = this.form.store.getState()
       Entity.replaceData(this.entityKey, {
-        ast,
-        normalized,
+        name: entityData.name,
+        label: entityData.label,
+        template: formTemplate,
+        data: dataObjectRenderer(formTemplate),
       })
       this.forceUpdate()
     })
