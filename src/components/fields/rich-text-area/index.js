@@ -38,7 +38,10 @@ const RichTextArea = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.array
+    value:  React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      ImmutablePropTypes.list,
+    ]),
   },
 
   componentWillMount () {
@@ -46,6 +49,7 @@ const RichTextArea = React.createClass({
 
   getInitialState () {
     let {value} = this.props
+    value = (value && value.toJS) ? value.toJS() : value
     return {
       editorState: (value) ? EditorState.createWithContent(importer(value)) : EditorState.createEmpty()
     }
