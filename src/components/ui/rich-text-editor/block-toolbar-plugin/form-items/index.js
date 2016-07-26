@@ -26,6 +26,7 @@ const FormItems = React.createClass({
     const {editorState, onChange, closeToolbar} = this.props
     const entityKey = Entity.create('formalist', 'IMMUTABLE', {
       name: form.name,
+      label: form.label,
       ast: form.template,
     })
     onChange(
