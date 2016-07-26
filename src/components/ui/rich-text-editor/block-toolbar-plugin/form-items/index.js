@@ -6,8 +6,11 @@ import {
   getVisibleSelectionRect,
   RichUtils,
 } from 'draft-js'
-
+import createDataObjectRenderer from 'formalist-data-object-renderer'
 import styles from './form-items.mcss'
+
+// Initialise the dataObjectRenderer
+const dataObjectRenderer = createDataObjectRenderer()
 
 const FormItems = React.createClass({
   propTypes: {
@@ -27,7 +30,8 @@ const FormItems = React.createClass({
     const entityKey = Entity.create('formalist', 'IMMUTABLE', {
       name: form.name,
       label: form.label,
-      ast: form.template,
+      template: form.template,
+      data: dataObjectRenderer(form.template),
     })
     onChange(
       AtomicBlockUtils.insertAtomicBlock(
