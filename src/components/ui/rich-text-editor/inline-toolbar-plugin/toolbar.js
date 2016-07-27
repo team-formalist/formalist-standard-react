@@ -2,6 +2,7 @@ import React from 'react'
 import {
   getVisibleSelectionRect,
 } from 'draft-js'
+import {selectionContainsEntity} from 'draft-js-utils'
 // Components
 import Popout from '../../popout'
 import InlineToolbarItems from './items'
@@ -22,7 +23,8 @@ const Toolbar = React.createClass({
   propTypes: {
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
-    inlineItems: React.PropTypes.array,
+    formatters: React.PropTypes.array,
+    entities: React.PropTypes.array,
     onChange: React.PropTypes.func.isRequired,
   },
 
@@ -83,17 +85,31 @@ const Toolbar = React.createClass({
   },
 
   render () {
-    const {editorState, inlineItems, onChange} = this.props
+    const {editorState, formatters, entities, onChange} = this.props
     const {visible, positionStyle} = this.state
 
-    // Only display if we have some `inlineItems` configured
-    if (inlineItems.length > 0) {
+    // Iterate through each entity
+      // Create a strategy
+        // Use that to find entities
+    const selectedEntities = entities.map((entity) => {
+      const entitySearch = selectionContainsEntity(entity.decorator.strategy)
+      if (entitySearch(editorState)) {
+        return entity
+      } else {
+        return false
+      }
+    }).filter((val) => val !== false)
+    console.log('selectedEntities', selectedEntities)
+    // const currentEntity = selectionContainsEntity(editorState.getSelection())
+
+    // Only display if we have some `formatters` configured
+    if (formatters.length > 0) {
       return (
         <div>
           <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true}>
             <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
             <div>
-              <InlineToolbarItems items={inlineItems} editorState={editorState} onChange={onChange}/>
+              <InlineToolbarItems formatters={formatters} editorState={editorState} onChange={onChange}/>
             </div>
           </Popout>
         </div>
