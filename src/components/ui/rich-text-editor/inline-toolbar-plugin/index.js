@@ -8,12 +8,13 @@ import mergeDefaults from '../../../../utils/merge-defaults'
 const {hasCommandModifier} = KeyBindingUtil
 // Components
 import Toolbar from './toolbar'
+import linkDecorator from './entities/link'
 
 /**
  * The inline item mappings
  * @type {Array}
  */
-const inlineFormattersMapping = [
+const formattersMapping = [
   {
     command: 'bold',
     label: 'Bold',
@@ -47,7 +48,7 @@ const inlineFormattersMapping = [
 ]
 
 
-const inlineEntitiesMapping = [
+const entitiesMapping = [
   {
     type: 'link',
     label: 'Link',
@@ -56,21 +57,18 @@ const inlineEntitiesMapping = [
       label: 'Edit link',
       // handler: EditLink,
     },
-    // decorator: {
-    //   strategy: findLinkEntities,
-    //   component: Link,
-    // },
+    decorator: linkDecorator,
   }
 ]
 
 
 const defaults = {
-  inlineFormatters: [
+  allowedFormatters: [
     'bold',
     'italic',
     'code',
   ],
-  inlineEntities: [
+  allowedEntities: [
     'link',
   ],
 }
@@ -87,12 +85,23 @@ export default function inlineToolbarPlugin (options = {}) {
   // Pull out the options
   options = mergeDefaults({}, defaults, options)
   const {
-    inlineFormatters,
-    inlineEntities,
+    allowedFormatters,
+    allowedEntities,
   } = options
-  const inlineItems = inlineFormattersMapping.filter((item) => inlineFormatters.indexOf(item.command) > -1)
+  const formatters = formattersMapping.filter((item) => allowedFormatters.indexOf(item.command) > -1)
+  const entities = entitiesMapping.filter((entity) => allowedEntities.indexOf(entity.type) > -1)
+
+  // Collate the decorators from the inlineEntitiesMaping
+  const decorators = entities.map((mapping) => {
+    return mapping.decorator
+  })
 
   return {
+    /**
+     * Pass through the decorators
+     */
+    decorators,
+
     /**
      * handleKeyCommand
      *
@@ -104,10 +113,10 @@ export default function inlineToolbarPlugin (options = {}) {
      * @return {Boolean} Handled or not?
      */
     handleKeyCommand: function handleKeyCommand (command, { getEditorState, setEditorState }) {
-      const inlineItem = inlineItems.find((item) => item.command === command)
-      if (inlineItem) {
+      const formatter = formatters.find((item) => item.command === command)
+      if (formatter) {
         setEditorState(
-          RichUtils.toggleInlineStyle(getEditorState(), inlineItem.style)
+          RichUtils.toggleInlineStyle(getEditorState(), formatter.style)
         )
         return true
       }
@@ -135,7 +144,7 @@ export default function inlineToolbarPlugin (options = {}) {
      * @return {ReactComponent} The curried component
      */
     InlineToolbar: (props) => {
-      props = Object.assign({}, {inlineItems}, props)
+      props = Object.assign({}, {formatters, entities}, props)
       return (
         <Toolbar {...props}/>
       )
