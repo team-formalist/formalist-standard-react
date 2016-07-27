@@ -1,8 +1,9 @@
 import React from 'react'
 import {
+  Entity,
   getVisibleSelectionRect,
 } from 'draft-js'
-import {selectionContainsEntity} from 'draft-js-utils'
+import {getSelectedEntityKey, getSelectedEntityTypes} from '../utils'
 // Components
 import Popout from '../../popout'
 import InlineToolbarItems from './items'
@@ -87,29 +88,40 @@ const Toolbar = React.createClass({
   render () {
     const {editorState, formatters, entities, onChange} = this.props
     const {visible, positionStyle} = this.state
+    let SelectedEntityHandler = null
+    let selectedEntity
 
-    // Iterate through each entity
-      // Create a strategy
-        // Use that to find entities
-    const selectedEntities = entities.map((entity) => {
-      const entitySearch = selectionContainsEntity(entity.decorator.strategy)
-      if (entitySearch(editorState)) {
-        return entity
-      } else {
-        return false
-      }
-    }).filter((val) => val !== false)
-    console.log('selectedEntities', selectedEntities)
-    // const currentEntity = selectionContainsEntity(editorState.getSelection())
+    // Get selected entity _types_
+    // This should prob be in a separate component
+    const selectedEntityTypes = getSelectedEntityTypes(editorState)
+    console.log('selectedEntityTypes', (selectedEntityTypes) ? selectedEntityTypes.toJS() : selectedEntityTypes)
+
+    // Retrieve the selected entity if there is one
+    // and pull out any handlers we have available
+    const selectedEntityKey = getSelectedEntityKey(editorState)
+    if (selectedEntityKey) {
+      selectedEntity = Entity.get(selectedEntityKey)
+      const selectedEntityType = selectedEntity.getType()
+      const {handler} = entities.find((entity) => entity.type.toLowerCase() === selectedEntityType.toLowerCase())
+      SelectedEntityHandler = handler
+    }
+
+    console.log('!!!', SelectedEntityHandler)
 
     // Only display if we have some `formatters` configured
-    if (formatters.length > 0) {
+    if (formatters.length > 0 || entities.length > 0) {
+      // We need to cancel onMouseDown to avoid the buttons capturing focus
       return (
         <div>
           <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true}>
             <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
-            <div>
+            <div onMouseDown={(e) => e.preventDefault()}>
               <InlineToolbarItems formatters={formatters} editorState={editorState} onChange={onChange}/>
+              {
+                (SelectedEntityHandler)
+                ? <SelectedEntityHandler entity={selectedEntity} editorState={editorState} onChange={onChange}/>
+                : null
+              }
             </div>
           </Popout>
         </div>

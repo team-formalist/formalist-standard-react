@@ -1,6 +1,11 @@
 import {
   EditorState,
+  Entity,
 } from 'draft-js'
+
+function uniq (e, i, arr) {
+  return arr.lastIndexOf(e) === i
+}
 
 /**
  * Remove an atomic block with a `key` and return an `editorState`
@@ -94,4 +99,67 @@ function getSurroundingBlockKeys (currentBlockKey, editorState) {
     blockMapKeys[selectedBlockIndex - 1],
     blockMapKeys[selectedBlockIndex + 1]
   ]
+}
+
+/**
+ * Naively assumes a singular block for now.
+ */
+function getCharacterListForSelection (editorState, selection) {
+  selection = selection || editorState.getSelection()
+  const startKey = selection.getStartKey()
+  const endKey = selection.getEndKey()
+  const startOffset = selection.getStartOffset()
+  const endOffset = selection.getEndOffset()
+  const contentState = editorState.getCurrentContent()
+  const currentBlock = contentState.getBlockForKey(startKey)
+  return currentBlock.getCharacterList().slice(startOffset, endOffset)
+}
+
+/**
+ * getSelectedEntityKey
+ */
+
+export function getSelectedEntityKey (editorState) {
+  const currentSelection = editorState.getSelection()
+  const startKey = currentSelection.getStartKey()
+  const endKey = currentSelection.getEndKey()
+  const isSameBlock = startKey === endKey
+  // Only check if we’re in a single block
+  if (isSameBlock && !currentSelection.isCollapsed()) {
+    const characterList = getCharacterListForSelection(editorState, currentSelection)
+    const entities = characterList.map((character) => {
+      return character.getEntity()
+    }).filter(uniq)
+    // If we have one entity for the entire string, return it
+    if (entities.count() === 1) {
+      return entities.first()
+    }
+  }
+  // Default to returning false
+  return false
+}
+
+/**
+ * getSelectedEntityTypes
+ */
+
+export function getSelectedEntityTypes (editorState) {
+  const currentSelection = editorState.getSelection()
+  const startKey = currentSelection.getStartKey()
+  const endKey = currentSelection.getEndKey()
+  const isSameBlock = startKey === endKey
+  // Only check if we’re in a single block
+  if (isSameBlock && !currentSelection.isCollapsed()) {
+    const characterList = getCharacterListForSelection(editorState, currentSelection)
+    const entities = characterList.map((character) => {
+      const entityKey = character.getEntity()
+      return (entityKey) ? Entity.get(entityKey).getType() : null
+    }).filter(uniq)
+
+    if (entities.count() > 0) {
+      return entities
+    }
+  }
+  // Default to returning false
+  return false
 }

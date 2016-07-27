@@ -60,10 +60,9 @@ const InlineToolbarItems = React.createClass({
 
   render () {
     const {formatters} = this.props
-    // We need to cancel onMouseDown to avoid the buttons capturing focus
     return (
       <div>
-        <ul className={styles.list} onMouseDown={(e) => e.preventDefault()}>
+        <ul className={styles.list}>
           {this.renderFormatters(formatters)}
         </ul>
       </div>

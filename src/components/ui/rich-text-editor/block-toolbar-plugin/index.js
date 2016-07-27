@@ -15,7 +15,7 @@ import Toolbar from './toolbar'
 import AtomicBlock from './blocks/atomic'
 import PullquoteBlock from './blocks/pull-quote'
 import blockItemsGroupsMapping from './block-items/groups-mapping'
-import {removeAtomicBlock, getNextBlockKey, getPreviousBlockKey} from './utils'
+import {removeAtomicBlock, getNextBlockKey, getPreviousBlockKey} from '../utils'
 
 const commands = {
   BACKSPACE_BLOCK: 'btp-backspace-block',

@@ -4,7 +4,7 @@ import {
   CompositeDecorator,
 } from "draft-js"
 
-export class Link extends Component {
+class Link extends Component {
   render () {
     const {url} = Entity.get(this.props.entityKey).getData();
     return (
@@ -19,7 +19,7 @@ Link.propTypes = {
   entityKey: React.PropTypes.string.isRequired,
 }
 
-export function findLinkEntities (contentBlock, callback) {
+function findLinkEntities (contentBlock, callback) {
   contentBlock.findEntityRanges(
     (character) => {
       const entityKey = character.getEntity()
@@ -37,4 +37,52 @@ const decorator = {
   component: Link,
 }
 
-export default decorator
+class ActionHandler extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      editing: false,
+    }
+  }
+
+  handleEdit () {
+    this.setState({
+      editing: true
+    })
+  }
+
+  onSubmit () {
+
+  }
+
+  render() {
+    const {entity} = this.props
+    const {editing} = this.state
+    const data = entity.getData()
+    return (
+      <div>
+        {
+          (editing)
+          ? <form onSubmit={this.onSubmit}>
+              <input type='text' defaultValue={data.url}/>
+              <button>Change</button>
+            </form>
+          : <div>
+              <span>{data.url}</span>
+              <button onClick={(e) => {
+                e.preventDefault()
+                this.handleEdit()
+              }}>Edit</button>
+              <button>Remove</button>
+            </div>
+        }
+      </div>
+    )
+  }
+}
+
+export default {
+  handler: ActionHandler,
+  decorator,
+}
