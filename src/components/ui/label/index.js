@@ -8,12 +8,12 @@ const Label = React.createClass({
     className: React.PropTypes.string
   },
   render () {
-    let textBoxClassNames = classNames(
+    let labelBoxClassNames = classNames(
       this.props.className,
       styles.base
     )
     return (
-      <label {...this.props} className={textBoxClassNames} />
+      <label {...this.props} className={labelBoxClassNames} />
     )
   }
 })
