@@ -141,7 +141,7 @@ const Toolbar = React.createClass({
                 (SelectedEntityHandler)
                 ? <div className={styles.entityWrapper}>
                     <SelectedEntityHandler
-                      entity={selectedEntity}
+                      entityKey={selectedEntityKey}
                       editorState={editorState}
                       onChange={onChange}
                       forceVisible={this.forceVisible}
