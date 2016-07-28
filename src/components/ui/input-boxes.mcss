@@ -39,21 +39,21 @@
 /* Sizes */
 
 .xsmall {
-  composes: xsmall from styles;
+  composes: xsmall from './theme/typography.mcss';
 }
 
 .small {
-  composes: small from styles;
+  composes: small from './theme/typography.mcss';
 }
 
 .normal {
-  composes: normal from styles;
+  composes: normal from './theme/typography.mcss';
 }
 
 .large {
-  composes: large from styles;
+  composes: large from './theme/typography.mcss';
 }
 
 .xlarge {
-  composes: xlarge from styles;
+  composes: xlarge from './theme/typography.mcss';
 }
