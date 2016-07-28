@@ -58,6 +58,10 @@ const Select = React.createClass({
     }
   },
 
+  onChange (e) {
+    this.props.onChange(e, e.target.value)
+  },
+
   render () {
     let labelClassNames = classNames(
       styles.label,
@@ -89,6 +93,7 @@ const Select = React.createClass({
           className={inputClassNames}
           onBlur={this.onBlur}
           onFocus={this.onFocus}>
+          onChange={this.onChange}>
           {placeholder}
           {this.props.children}
         </select>

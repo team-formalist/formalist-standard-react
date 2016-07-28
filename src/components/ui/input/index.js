@@ -52,6 +52,10 @@ const Input = React.createClass({
     }
   },
 
+  onChange (e) {
+    this.props.onChange(e, e.target.value)
+  },
+
   render () {
     let inputClassNames = classNames(
       this.props.className,
@@ -65,6 +69,7 @@ const Input = React.createClass({
     return (
       <input
         {...this.props}
+        onChange={this.onChange}
         className={inputClassNames}
         onBlur={this.onBlur}
         onFocus={this.onFocus} />

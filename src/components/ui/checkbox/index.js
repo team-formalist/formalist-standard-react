@@ -54,11 +54,11 @@ const Checkbox = React.createClass({
   },
 
   onChange (e) {
-    this.props.onChange(e.target.checked)
+    this.props.onChange(e, e.target.checked)
   },
 
   render () {
-    let { defaultChecked, label, name, value } = this.props
+    let {defaultChecked, label, name, value} = this.props
     let labelClassNames = classNames(
       styles.label,
       {

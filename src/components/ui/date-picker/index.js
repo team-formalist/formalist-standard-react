@@ -38,21 +38,20 @@ const DatePicker = React.createClass({
     }
   },
 
-  onInputChange (e) {
-    let inputValue = e.target.value
+  onInputChange (e, value) {
     // Change the current month only if the value entered by the user is a valid
     // date, according to the `L` format
-    if (moment(inputValue, 'l', true).isValid()) {
+    if (moment(value, 'l', true).isValid()) {
       this.setState({
-        month: moment(inputValue, 'l').toDate(),
-        value: inputValue
+        month: moment(value, 'l').toDate(),
+        value,
       }, this.showCurrentDate)
       // Pass the value back
-      let storedValue = moment(inputValue, 'l').format('YYYY-MM-DD')
+      let storedValue = moment(value, 'l').format('YYYY-MM-DD')
       this.props.onChange(storedValue)
     } else {
       this.setState({
-        value: inputValue
+        value,
       }, this.showCurrentDate)
     }
   },

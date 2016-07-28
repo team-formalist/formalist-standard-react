@@ -36,8 +36,7 @@ const TimePicker = React.createClass({
     }
   },
 
-  onInputChange (e) {
-    let value = e.target.value
+  onInputChange (e, value) {
     let time = moment(value, dateFormats.humanTime)
     this.time = time
     this.props.onChange(time.format(dateFormats.time))
