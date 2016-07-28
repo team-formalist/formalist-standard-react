@@ -3,6 +3,7 @@ import {
   Entity,
   CompositeDecorator,
 } from "draft-js"
+import styles from './link.mcss'
 
 class Link extends Component {
   render () {
@@ -25,7 +26,7 @@ function findLinkEntities (contentBlock, callback) {
       const entityKey = character.getEntity()
       return (
         entityKey !== null &&
-        Entity.get(entityKey).getType() === "LINK"
+        Entity.get(entityKey).getType().toLowerCase() === "link"
       )
     },
     callback
@@ -41,40 +42,79 @@ class ActionHandler extends Component {
   constructor(props) {
     super(props)
 
+    const {entity} = props
+    const data = entity.getData()
+    // And absence of data means we want to edit it immediately
     this.state = {
-      editing: false,
+      editing: (data.url == null),
+    }
+    this.persistPopover = this.persistPopover.bind(this)
+  }
+
+  componentWillMount () {
+    const {entity, forceVisible} = this.props
+    const entityData = entity.getData()
+    if (entityData.url == null) {
+      this.persistPopover()
     }
   }
 
+  persistPopover () {
+    const {forceVisible} = this.props
+    forceVisible(true)
+  }
+
+  unpersistPopover () {
+    const {forceVisible} = this.props
+    forceVisible(false)
+  }
+
   handleEdit () {
+    this.persistPopover()
     this.setState({
       editing: true
     })
   }
 
-  onSubmit () {
-
+  onSubmit (e) {
+    e.preventDefault()
+    unpersistPopover()
   }
 
   render() {
-    const {entity} = this.props
+    const {entity, remove, forceVisible} = this.props
     const {editing} = this.state
     const data = entity.getData()
     return (
-      <div>
+      <div ref={(r) => this._container = r}>
         {
           (editing)
           ? <form onSubmit={this.onSubmit}>
-              <input type='text' defaultValue={data.url}/>
-              <button>Change</button>
+              <input
+                ref={(r) => this._url = r}
+                type='text'
+                defaultValue={data.url}/>
+              <button>Save link</button>
             </form>
-          : <div>
-              <span>{data.url}</span>
-              <button onClick={(e) => {
-                e.preventDefault()
-                this.handleEdit()
-              }}>Edit</button>
-              <button>Remove</button>
+          : <div className={styles.displayWrapper}>
+              <a href={data.url} target='_blank' className={styles.handlerUrl}>{data.url}</a>
+              <button
+                className={styles.editButton}
+                onClick={(e) => {
+                  e.preventDefault()
+                  this.handleEdit()
+                }}>
+                Change
+              </button>
+              <button
+                className={styles.removeButton}
+                onClick={(e) => {
+                  e.preventDefault()
+                  remove(entity)
+                }}>
+                <span className={styles.removeText}>Remove</span>
+                <span className={styles.removeX}>×</span>
+              </button>
             </div>
         }
       </div>

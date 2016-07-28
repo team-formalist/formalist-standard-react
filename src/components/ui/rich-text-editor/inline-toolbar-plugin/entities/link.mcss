@@ -1,0 +1,48 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value primary, error, highlight from styles;
+
+/* composes: xsmall buttonHighlight from '../../../buttons.mcss'; */
+
+.displayWrapper {
+  display: flex;
+}
+
+.handlerUrl {
+  composes: mono primaryColor from styles;
+  max-width: 25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+  .handlerUrl:hover {
+    color: error;
+    text-decoration: underline;
+  }
+
+.editButton {
+  margin-left: 1.2rem;
+  margin-right: 0.8rem;
+}
+
+.editButton {
+  composes: highlightColor from styles;
+  text-decoration: underline;
+}
+  .editButton:hover,
+  .editButton:focus {
+    color: error;
+  }
+
+  .removeText {
+    display: none;
+  }
+
+  .removeX {
+    composes: errorColor fallback large from styles;
+    display: inline-block;
+    line-height: 1rem;
+  }
+    .removeX:hover {
+      color: primary;
+    }

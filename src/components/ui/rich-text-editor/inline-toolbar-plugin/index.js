@@ -50,7 +50,9 @@ const formattersMapping = [
 
 const entitiesMapping = [
   {
-    type: 'link',
+    type: 'LINK',
+    mutability: 'MUTABLE',
+    defaultData: {},
     label: 'Link',
     icon: '<svg width="17" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M11.826 0c-.363.02-.726.06-1.069.181-.544.201-1.069.503-1.512.945-.349.221-.528.632-.451 1.038.077.405.395.722.802.8.406.077.819-.101 1.04-.449.222-.221.484-.342.766-.443.706-.241 1.573-.141 2.137.443.786.784.786 2.092 0 2.896l-3.025 3.017c-.887.885-1.613.965-2.137.945-.524-.02-.827-.261-.827-.261-.317-.18-.706-.177-1.02.007-.314.184-.507.521-.504.885.003.364.199.698.516.878 0 0 .686.443 1.694.503s2.42-.322 3.65-1.569l3.025-3.017c1.573-1.569 1.573-4.103 0-5.652-.565-.563-1.23-.905-1.956-1.066-.363-.08-.766-.08-1.129-.06v-.02zm-4.033 4.646c-1.008-.04-2.4.302-3.589 1.509l-3.025 3.017c-1.573 1.569-1.573 4.103 0 5.652 1.129 1.126 2.742 1.448 4.154.945.544-.201 1.069-.503 1.512-.945.349-.221.528-.632.451-1.038-.077-.405-.395-.722-.802-.8-.406-.077-.819.101-1.04.449-.222.221-.484.342-.766.443-.706.241-1.573.141-2.137-.443-.786-.784-.786-2.092 0-2.896l3.025-3.017c.807-.805 1.512-.905 2.077-.885.565.02.948.181.948.181.323.242.759.268 1.109.066.35-.201.545-.591.497-.991-.048-.4-.331-.732-.719-.845 0 0-.686-.402-1.694-.443v.04z"/></svg>',
     handler: linkEntity.handler,
@@ -86,7 +88,7 @@ export default function inlineToolbarPlugin (options = {}) {
     allowedEntities,
   } = options
   const formatters = formattersMapping.filter((item) => allowedFormatters.indexOf(item.command) > -1)
-  const entities = entitiesMapping.filter((entity) => allowedEntities.indexOf(entity.type) > -1)
+  const entities = entitiesMapping.filter((entity) => allowedEntities.indexOf(entity.type.toLowerCase()) > -1)
 
   // Collate the decorators from the inlineEntitiesMaping
   const decorators = entities.map((mapping) => {
