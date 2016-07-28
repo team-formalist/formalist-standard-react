@@ -8,7 +8,7 @@ import Input from '../../../src/components/ui/file-input'
 const props = {
   className: 'foo',
   name: 'baz',
-  onChange: () => {}
+  onChange: () => {},
 }
 
 test('File Input:', (nest) => {
