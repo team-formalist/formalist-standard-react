@@ -89,6 +89,10 @@
   letter-spacing: 0.15em;
 }
 
+.public-DraftEditor-content a {
+  color: #3980ab;
+}
+
 .public-DraftStyleDefault-ltr {
   direction: ltr;
   text-align: left;

@@ -106,7 +106,7 @@ greys
 
 @value highlight: #7fc2ea;
 @value highlightLight: #dff1fc;
-@value highlightDark: #3980AB;
+@value highlightDark: #3980ab;
 
 .highlightColor {
   color: highlight;
