@@ -70,6 +70,21 @@ class ActionHandler extends Component {
     }
   }
 
+  // TODO: Ideally we focus on load when we‘re creating a link for the first
+  // time, but unfortunately there’s no simple hook for this because
+  // componentDidMount gets called whenever the selection changes for some
+  // reason
+
+  componentDidUpdate (prevProps, prevState) {
+    // If we change from not to editing, focus the input
+    if (this._url) {
+      const input = this._url.getInput()
+      if (input && this.state.editing === true && prevState.editing === false) {
+        input.focus()
+      }
+    }
+  }
+
   persistPopover () {
     const {forceVisible} = this.props
     forceVisible(true)
@@ -89,6 +104,13 @@ class ActionHandler extends Component {
 
   onChange (key, e, value) {
     const {changeData} = this.state
+
+    // Ensure URLs are well-formed
+    // I.e., must start with `.`, `/`, `#`
+    if (key === 'url' && !/^(\.|\/|#|https?:\/\/|mailto:|ftp:)/.test(value)) {
+      value = `http://${value}`
+    }
+
     const newChangeData = Object.assign({}, changeData, {
       [`${key}`]: value
     })
@@ -126,6 +148,7 @@ class ActionHandler extends Component {
                   name={`url-${id}`}
                   onChange={this.onChange.bind(this, 'url')}
                   placeholder='http://'
+                  ref={(r) => this._url = r}
                   size='small'
                   type='text'/>
               </div>
