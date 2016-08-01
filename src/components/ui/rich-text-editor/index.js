@@ -122,7 +122,7 @@ const RichTextEditor = React.createClass({
   onContentClick (e) {
     e.preventDefault()
     if (e.target === this.contentEl) {
-      this.editor.focus()
+      this._editor.focus()
     }
   },
 
@@ -166,7 +166,7 @@ const RichTextEditor = React.createClass({
             editorState={editorState}
             onChange={onChange} />
           <PluginsEditor
-            ref={(c) => this.editor = c}
+            ref={(c) => this._editor = c}
             blockRenderMap={this.blockRenderMap}
             placeholder={placeholder}
             plugins={this.state.plugins}
