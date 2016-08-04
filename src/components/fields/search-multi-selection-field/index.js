@@ -1,16 +1,18 @@
 import React, {Component} from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
+import { List } from 'immutable'
 import extractComponent from '../../../utils/extract-component'
 
 // Import components
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
+import Sortable from '../../ui/sortable'
 import Popout from '../../ui/popout'
 import SearchSelector from '../../ui/search-selector'
 
 // Import styles
-import styles from './search-selection-field.mcss'
+import styles from './search-multi-selection-field.mcss'
 
 /**
  * Default component for representing a "selected/selection" item
@@ -42,14 +44,14 @@ SelectDefault.propTypes = {
  * Handles the singular select of a
  *
  */
-class SearchSelectionField extends Component {
+class SearchMultiSelectionField extends Component {
 
   constructor (props) {
     super(props)
 
     // Initial state
     this.state = {
-      selection: props.selection,
+      selections: props.selections,
       selectorFocus: false,
       selectorQuery: null,
     }
@@ -57,8 +59,9 @@ class SearchSelectionField extends Component {
     // Bindings
     this.onChange = this.onChange.bind(this)
     this.onChooseClick = this.onChooseClick.bind(this)
-    this.onRemoveClick = this.onRemoveClick.bind(this)
     this.onSelection = this.onSelection.bind(this)
+    this.onRemove = this.onRemove.bind(this)
+    this.onDrop = this.onDrop.bind(this)
     this.openSelector = this.openSelector.bind(this)
     this.closeSelector = this.closeSelector.bind(this)
     this.toggleSelector = this.toggleSelector.bind(this)
@@ -73,14 +76,14 @@ class SearchSelectionField extends Component {
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (value, selection) {
+  onChange (values, selections) {
     this.props.actions.edit(
       (val) => {
-        return value
+        return values
       }
     )
     this.setState({
-      selection,
+      selections,
     })
   }
 
@@ -95,11 +98,35 @@ class SearchSelectionField extends Component {
 
   /**
    * When selected item is removed
+   * @param {Number} index Index of the item to remove
    * @return {Null}
    */
-  onRemoveClick (e) {
-    e.preventDefault()
-    this.onChange(null, null)
+  onRemove (index) {
+    const {value} = this.props
+    const {selections} = this.state
+    this.onChange(
+      value.delete(index),
+      selections.delete(index)
+    )
+  }
+
+  /**
+   * When selected item is removed
+   * @return {Null}
+   */
+  onDrop (newOrder) {
+    const value = this.props.value.slice()
+    const selections = this.state.selections.slice()
+    const updatedValue = newOrder.map((index) => (
+      value.get(index)
+    ))
+    const updatedSelections = newOrder.map((index) => (
+      selections.get(index)
+    ))
+    this.onChange(
+      List(updatedValue),
+      List(updatedSelections)
+    )
   }
 
   /**
@@ -107,8 +134,19 @@ class SearchSelectionField extends Component {
    * @return {Null}
    */
   onSelection (id, selection) {
-    this.closeSelector()
-    this.onChange(id, selection)
+    let {value} = this.props
+    value = value || List()
+    // Exists already? Remove it
+    const index = value.indexOf(id)
+    if (index > -1) {
+      this.onRemove(index)
+    } else {
+      const {selections} = this.state
+      this.onChange(
+        value.push(id),
+        selections.push(selection)
+      )
+    }
   }
 
   /**
@@ -174,7 +212,7 @@ class SearchSelectionField extends Component {
   render () {
     const {attributes, config, errors, hint, label, name, value} = this.props
     const {placeholder, selector_label, render_option_as, render_selection_as} = attributes
-    const {selection, selectorFocus, selectorQuery} = this.state
+    const {selections, selectorFocus, selectorQuery} = this.state
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -199,47 +237,50 @@ class SearchSelectionField extends Component {
       }
     }
 
+    // Selections
+    const numberOfSelections = selections.count()
+
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
-          {(selection)
-            ? <div className={styles.wrapper}>
-              <div id={name} className={styles.selection}>
-                <Selection option={selection} />
-              </div>
-              <button className={styles.remove} onClick={this.onRemoveClick}>
-                <span className={styles.removeText}>Remove</span>
-                <div className={styles.removeX}>×</div>
-              </button>
+          <button className={styles.wrapper} onClick={this.onChooseClick}>
+            <div className={styles.selectionPlaceholder}>
+              {placeholder || 'Make a selection'}
+              {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
             </div>
-            : <button className={styles.wrapper} onClick={this.onChooseClick}>
-              <div className={styles.selectionPlaceholder}>
-                {placeholder || 'Make a selection'}
+            <Popout ref={(r) => this._popout = r} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!selectorFocus || !selectorQuery} closeOnOutsideClick>
+              <div className={styles.openSelectorButton}>
+                {selector_label || 'Select'}
               </div>
-              <Popout ref={(r) => this._popout = r} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!selectorFocus || !selectorQuery} closeOnOutsideClick>
-                <div className={styles.openSelectorButton}>
-                  {selector_label || 'Select'}
-                </div>
-                <SearchSelector
-                  ref={(r) => this._selector = r}
-                  onSelection={this.onSelection}
-                  onBlur={this.onSelectorBlur}
-                  onFocus={this.onSelectorFocus}
-                  onQueryChange={this.onSelectorQueryChange}
-                  optionComponent={Option}
-                  params={attributes.search_params}
-                  perPage={attributes.search_per_page}
-                  query={selectorQuery}
-                  threshold={attributes.search_threshold}
-                  url={attributes.search_url} />
-              </Popout>
-            </button>
-          }
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+              <SearchSelector
+                ref={(r) => this._selector = r}
+                onSelection={this.onSelection}
+                onBlur={this.onSelectorBlur}
+                onFocus={this.onSelectorFocus}
+                onQueryChange={this.onSelectorQueryChange}
+                optionComponent={Option}
+                params={attributes.search_params}
+                perPage={attributes.search_per_page}
+                query={selectorQuery}
+                selectedIds={(value) ? value.toJS() : []}
+                threshold={attributes.search_threshold}
+                url={attributes.search_url} />
+            </Popout>
+          </button>
         </div>
+        {
+          (numberOfSelections > 0)
+          ? <div id={name} className={styles.selectedItems}>
+            <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
+              {selections.map((option, index) => <Selection key={`${index}_${option.id}`} option={option} />)}
+            </Sortable>
+          </div>
+          : null
+        }
+        {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
   }
@@ -248,7 +289,7 @@ class SearchSelectionField extends Component {
 /**
  * Enable parent to pass context
  */
-SearchSelectionField.contextTypes = {
+SearchMultiSelectionField.contextTypes = {
  globalConfig: React.PropTypes.object
 }
 
@@ -256,7 +297,7 @@ SearchSelectionField.contextTypes = {
  * PropTypes
  * @type {Object}
  */
-SearchSelectionField.propTypes = {
+SearchMultiSelectionField.propTypes = {
   actions: React.PropTypes.object,
   name: React.PropTypes.string,
   config: React.PropTypes.object,
@@ -265,6 +306,7 @@ SearchSelectionField.propTypes = {
     hint: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     inline: React.PropTypes.bool,
+    selections: ImmutablePropTypes.list,
     search_url: React.PropTypes.string,
     search_per_page: React.PropTypes.number,
     search_params: React.PropTypes.object,
@@ -276,10 +318,11 @@ SearchSelectionField.propTypes = {
   hint: React.PropTypes.string,
   label: React.PropTypes.string,
   errors: ImmutablePropTypes.list,
-  value: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ])
+  value: ImmutablePropTypes.list
 }
 
-export default SearchSelectionField
+SearchMultiSelectionField.defaultProps = {
+  selections: List(),
+}
+
+export default SearchMultiSelectionField

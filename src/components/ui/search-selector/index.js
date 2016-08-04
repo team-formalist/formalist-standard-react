@@ -127,7 +127,7 @@ class SearchSelector extends Component {
   }
 
   render () {
-    const {onSelection, optionComponent} = this.props
+    const {onSelection, optionComponent, selectedIds} = this.props
     const {loading, results, pagination} = this.state
 
     // Has query?
@@ -136,14 +136,21 @@ class SearchSelector extends Component {
     // Render each option
     const Option = optionComponent
     const options = results.map((option) => {
+      const selected = (selectedIds.indexOf(option.id) > -1)
       let onClick = function (e) {
         e.preventDefault()
         onSelection(option.id, option)
       }.bind(this)
+      const optionButtonClassNames = classNames(
+        styles.optionButton,
+        {
+          [`${styles.optionButtonSelected}`]: selected,
+        }
+      )
       return (
         <button
           key={option.id}
-          className={styles.optionButton}
+          className={optionButtonClassNames}
           onClick={onClick}>
           <Option option={option} />
         </button>

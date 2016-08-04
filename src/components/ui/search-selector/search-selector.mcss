@@ -1,5 +1,5 @@
 @value styles: 'formalist-theme/theme/index.mcss';
-@value greyLight from styles;
+@value greyLight, highlight from styles;
 
 .base {
   min-width: 40rem;
@@ -10,16 +10,13 @@
   max-height: 60rem;
   overflow-y: scroll;
   overflow-scroll: touch;
-  padding-top: 0.5rem;
 }
 
 .search {
-  composes: normal sans greyTintBorder from styles;
+  composes: normal sans from styles;
   appearance: none;
-  border-width: 0;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
   box-sizing: border-box;
+  border: none;
   box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.02);
   padding: 0.5em 0.5em 0.7em 0.5em;
   position: relative;
@@ -60,8 +57,11 @@
   }
 
 .pagination {
-  composes: normal sans from styles;
+  composes: normal sans greyTintBorder from styles;
   box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.05);
+  border-width: 0;
+  border-top-width: 1px;
+  border-top-style: solid;
   position: relative;
   z-index: 1;
 }
@@ -70,16 +70,25 @@
   composes: small sans greyTintBorder whiteBackground from styles;
   border-width: 0;
   border-bottom-width: 1px;
+  border-top-width: 1px;
   border-style: solid;
   cursor: pointer;
   display: block;
   padding: 0.7rem 1rem;
+  margin-bottom: -1px;
   text-align: left;
   width: 100%;
 }
   .optionButton:hover {
     text-decoration: underline;
   }
+
+.optionButtonSelected {
+  composes: highlightLightBackground highlightDarkColor from styles;
+  border-color: color(#7fc2ea tint(40%));
+  position: relative;
+  z-index: 1;
+}
 
 .noResults {
   text-align: center;
