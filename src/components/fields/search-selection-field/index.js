@@ -50,7 +50,9 @@ class SearchSelectionField extends Component {
 
     // Initial state
     this.state = {
-      selection: props.selection
+      selection: props.selection,
+      selectorFocus: false,
+      selectorQuery: null,
     }
 
     // Bindings
@@ -62,6 +64,9 @@ class SearchSelectionField extends Component {
     this.closeSelector = this.closeSelector.bind(this)
     this.toggleSelector = this.toggleSelector.bind(this)
     this.onPopoutOpen = this.onPopoutOpen.bind(this)
+    this.onSelectorBlur = this.onSelectorBlur.bind(this)
+    this.onSelectorFocus = this.onSelectorFocus.bind(this)
+    this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this)
   }
 
   /**
@@ -139,10 +144,38 @@ class SearchSelectionField extends Component {
     this._selector.focusSearch()
   }
 
+  /**
+   * On selector focus
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSelectorFocus (e) {
+    this.setState({
+      selectorFocus: true,
+    })
+  }
+
+  /**
+   * On selector blur
+   * @param  {Event} e Keyboard event
+   * @return {Null}
+   */
+  onSelectorBlur (e) {
+    this.setState({
+      selectorFocus: false,
+    })
+  }
+
+  onSelectorQueryChange (selectorQuery) {
+    this.setState({
+      selectorQuery,
+    })
+  }
+
   render () {
     const {attributes, config, errors, hint, label, name, value} = this.props
     const {placeholder, selector_label, render_option_as, render_selection_as} = attributes
-    const {selection} = this.state
+    const {selection, selectorFocus, selectorQuery} = this.state
     const hasErrors = (errors.count() > 0)
 
     // Set up field classes
@@ -187,16 +220,20 @@ class SearchSelectionField extends Component {
               <div className={styles.selectionPlaceholder}>
                 {placeholder || 'Make a selection'}
               </div>
-              <Popout ref={(r) => this._popout = r} placement='left' closeOnEsc onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={true} closeOnOutsideClick>
+              <Popout ref={(r) => this._popout = r} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!selectorFocus || !selectorQuery} closeOnOutsideClick>
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
                 <SearchSelector
                   ref={(r) => this._selector = r}
                   onSelection={this.onSelection}
+                  onBlur={this.onSelectorBlur}
+                  onFocus={this.onSelectorFocus}
+                  onQueryChange={this.onSelectorQueryChange}
                   optionComponent={Option}
                   params={attributes.search_params}
                   perPage={attributes.search_per_page}
+                  query={selectorQuery}
                   threshold={attributes.search_threshold}
                   url={attributes.search_url} />
               </Popout>

@@ -19,7 +19,7 @@ class SearchSelector extends Component {
 
     // Instance vars
     this.page = 1
-    this.query = null
+    this.query = props.query
     // Persistent request object
     this.currentRequest = null
 
@@ -34,14 +34,16 @@ class SearchSelector extends Component {
     this.doSearch = debounce(this.doSearch.bind(this), 250)
     this.onSearchChange = this.onSearchChange.bind(this)
     this.onSearchSuccess = this.onSearchSuccess.bind(this)
+    this.onSearchBlur = this.onSearchBlur.bind(this)
+    this.onSearchFocus = this.onSearchFocus.bind(this)
     this.goToPage = this.goToPage.bind(this)
   }
 
   componentWillMount () {
-    const {threshold} = this.props
+    const {threshold, query} = this.props
     // Do a search for nothing on load if threshold is 0
-    if (threshold === 0) {
-      this.doSearch('')
+    if (query && query.length >= threshold) {
+      this.doSearch(query)
     }
   }
 
@@ -85,11 +87,26 @@ class SearchSelector extends Component {
     }
   }
 
+  onSearchBlur (e) {
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
+  onSearchFocus (e) {
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
   onSearchChange (e) {
     const query = e.target.value
     // Reset page value to default
     this.page = 1
     this.doSearch(query)
+    if (this.props.onQueryChange) {
+      this.props.onQueryChange(query)
+    }
   }
 
   onSearchSuccess (rsp) {
@@ -146,7 +163,10 @@ class SearchSelector extends Component {
           ref={(r) => this._search = r}
           type='text'
           className={styles.search}
+          defaultValue={this.query}
           placeholder='Type to search'
+          onBlur={this.onSearchBlur}
+          onFocus={this.onSearchFocus}
           onChange={this.onSearchChange} />
         {
           (loading) ? <Spinner className={styles.spinner}/> : null
