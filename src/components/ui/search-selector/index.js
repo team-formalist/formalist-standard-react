@@ -25,6 +25,7 @@ class SearchSelector extends Component {
 
     // Default state
     this.state = {
+      hasSearched: false,
       loading: false,
       results: [],
       pagination: {},
@@ -77,12 +78,14 @@ class SearchSelector extends Component {
 
       this.setState({
         loading: true,
+        hasSearched: true,
       })
     } else {
       this.setState({
         loading: false,
         results: [],
-        pagination: {}
+        pagination: {},
+        hasSearched: true,
       })
     }
   }
@@ -128,7 +131,7 @@ class SearchSelector extends Component {
 
   render () {
     const {onSelection, optionComponent, selectedIds} = this.props
-    const {loading, results, pagination} = this.state
+    const {hasSearched, loading, results, pagination} = this.state
 
     // Has query?
     const hasQuery = (this.query != null && this.query !== '')
@@ -188,7 +191,7 @@ class SearchSelector extends Component {
                 {options}
               </div>
             </div>
-          : (hasQuery && !loading) ? <p className={styles.noResults}>No results matching your search</p> : null
+          : (hasSearched && hasQuery && !loading) ? <p className={styles.noResults}>No results matching your search</p> : null
         }
       </div>
     )
