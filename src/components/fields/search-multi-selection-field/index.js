@@ -49,9 +49,13 @@ class SearchMultiSelectionField extends Component {
   constructor (props) {
     super(props)
 
+    // Keep as a property so can always know the "true" set
+    this.cachedSelections = props.selections
+    this.cachedValue = props.value
+
     // Initial state
     this.state = {
-      selections: props.selections,
+      selections: this.cachedSelections,
       selectorFocus: false,
       selectorQuery: null,
     }
@@ -71,15 +75,21 @@ class SearchMultiSelectionField extends Component {
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.cachedValue = nextProps.value
+  }
+
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (values, selections) {
+  onChange (value, selections) {
+    this.cachedValue = value
+    this.cachedSelections = selections
     this.props.actions.edit(
       (val) => {
-        return values
+        return value
       }
     )
     this.setState({
@@ -102,11 +112,9 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   onRemove (index) {
-    const {value} = this.props
-    const {selections} = this.state
     this.onChange(
-      value.delete(index),
-      selections.delete(index)
+      this.cachedValue.delete(index),
+      this.cachedSelections.delete(index)
     )
   }
 
@@ -115,8 +123,8 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   onDrop (newOrder) {
-    const value = this.props.value.slice()
-    const selections = this.state.selections.slice()
+    const value = this.cachedValue.slice()
+    const selections = this.cachedSelections.slice()
     const updatedValue = newOrder.map((index) => (
       value.get(index)
     ))
@@ -134,17 +142,16 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   onSelection (id, selection) {
-    let {value} = this.props
+    let value = this.cachedValue
     value = value || List()
     // Exists already? Remove it
     const index = value.indexOf(id)
     if (index > -1) {
       this.onRemove(index)
     } else {
-      const {selections} = this.state
       this.onChange(
         value.push(id),
-        selections.push(selection)
+        this.cachedSelections.push(selection)
       )
     }
   }
