@@ -82,7 +82,7 @@ const SelectBox = React.createClass({
         <div className={styles.display}>
           <Select
             id={name}
-            defaultValue={value}
+            defaultValue={(value != null && value.toString) ? value.toString() : value}
             placeholder={attributes.placeholder}
             error={hasErrors}
             onChange={this.onChange}>
