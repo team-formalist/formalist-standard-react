@@ -25,13 +25,13 @@ const FormItems = React.createClass({
     }
   },
 
-  insertAtomicBlock (form) {
+  insertAtomicBlock (formConfig) {
     const {editorState, onChange, closeToolbar} = this.props
     const entityKey = Entity.create('formalist', 'IMMUTABLE', {
-      name: form.name,
-      label: form.label,
-      template: form.template,
-      data: dataObjectRenderer(form.template),
+      name: formConfig.name,
+      label: formConfig.label,
+      form: formConfig.form,
+      data: dataObjectRenderer(formConfig.form),
     })
     onChange(
       AtomicBlockUtils.insertAtomicBlock(

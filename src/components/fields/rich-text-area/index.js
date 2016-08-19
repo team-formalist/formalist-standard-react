@@ -66,7 +66,7 @@ const RichTextArea = React.createClass({
         'formalist': (data) => {
           const copy = Object.assign({}, data)
           delete copy['label']
-          delete copy['template']
+          delete copy['form']
           return copy
         }
       },
