@@ -39,6 +39,7 @@ const RichTextArea = React.createClass({
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
     value:  React.PropTypes.oneOfType([
+      React.PropTypes.string,
       React.PropTypes.array,
       ImmutablePropTypes.list,
     ]),
@@ -49,7 +50,10 @@ const RichTextArea = React.createClass({
 
   getInitialState () {
     let {value} = this.props
+    // Convert from an Immutable structure?
     value = (value && value.toJS) ? value.toJS() : value
+    // Convert from a string?
+    value = (typeof value === 'string') ? JSON.parse(value) : value
     return {
       editorState: (value) ? EditorState.createWithContent(importer(value)) : EditorState.createEmpty()
     }
