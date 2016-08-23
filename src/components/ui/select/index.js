@@ -85,14 +85,17 @@ const Select = React.createClass({
     let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option> // eslint-disable-line react/jsx-boolean-value
     let defaultValue = this.props.defaultValue || this.props.valueSeed
 
+    // Extract any other props
+    const {id} = this.props
+
     return (
       <label className={labelClassNames}>
         <select
-          {...this.props}
+          id={id}
           defaultValue={defaultValue}
           className={inputClassNames}
           onBlur={this.onBlur}
-          onFocus={this.onFocus}>
+          onFocus={this.onFocus}
           onChange={this.onChange}>
           {placeholder}
           {this.props.children}
