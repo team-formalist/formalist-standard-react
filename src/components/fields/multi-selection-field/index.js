@@ -220,7 +220,7 @@ const SelectionField = React.createClass({
 
   render () {
     const {attributes, config, errors, hint, label, name, value} = this.props
-    const {instanceKey, search, searchFocus} = this.state
+    const {search, searchFocus} = this.state
     const {options, placeholder, selector_label, render_selection_as, render_option_as} = attributes
     const hasErrors = (errors.count() > 0)
 
@@ -330,7 +330,7 @@ const SelectionField = React.createClass({
             (numberOfSelections > 0)
             ? <div id={name} className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
-                {selections.map((option, index) => <Selection key={`${instanceKey}_${index}_${option.id}`} option={option} />)}
+                {selections.map((option, index) => <Selection key={`${index}_${option.id}`} option={option} />)}
               </Sortable>
             </div>
             : null

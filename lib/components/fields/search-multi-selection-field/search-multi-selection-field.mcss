@@ -47,6 +47,7 @@
   margin-bottom: -0.4rem;
 }
 
+
 /**
  * Selections
  */
@@ -85,7 +86,7 @@
   }
 
 .optionButton {
-  composes: normal sans greyTintBorder whiteBackground from styles;
+  composes: small sans greyTintBorder whiteBackground from styles;
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;
@@ -107,4 +108,3 @@
 .optionButton em {
   font-style: italic;
 }
-

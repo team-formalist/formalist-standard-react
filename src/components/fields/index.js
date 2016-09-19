@@ -8,6 +8,8 @@ import MultiSelectionField from './multi-selection-field'
 import NumberField from './number-field'
 import RadioButtons from './radio-buttons'
 import RichTextArea from './rich-text-area'
+import SearchSelectionField from './search-selection-field'
+import SearchMultiSelectionField from './search-multi-selection-field'
 import SelectBox from './select-box'
 import SelectionField from './selection-field'
 import TextArea from './text-area'
@@ -44,6 +46,8 @@ function fields (fieldsConfig = {}, globalConfig = {}) {
     numberField: wrapField(NumberField, fieldsConfig.numberField, globalConfig),
     radioButtons: wrapField(RadioButtons, fieldsConfig.radioButtons, globalConfig),
     richTextArea: wrapField(RichTextArea, fieldsConfig.richTextArea, globalConfig),
+    searchSelectionField: wrapField(SearchSelectionField, fieldsConfig.searchSelectionField, globalConfig),
+    searchMultiSelectionField: wrapField(SearchMultiSelectionField, fieldsConfig.searchMultiSelectionField, globalConfig),
     selectBox: wrapField(SelectBox, fieldsConfig.selectBox, globalConfig),
     selectionField: wrapField(SelectionField, fieldsConfig.selectionField, globalConfig),
     textArea: wrapField(TextArea, fieldsConfig.textArea, globalConfig),
