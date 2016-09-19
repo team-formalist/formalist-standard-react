@@ -26,17 +26,16 @@
     outline: none;
   }
 
-.selectionItems {
-  composes: normal sans from styles;
-  margin-top: 1px;
-}
-
-.selectionPlaceholder {
+.selection {
   align-items: center;
   display: flex;
   flex: 1;
   text-align: left;
   min-height: 2rem;
+}
+
+.selectionPlaceholder {
+  composes: selection;
   composes: greyMidColor normal sans from styles;
 }
 
@@ -45,6 +44,33 @@
   margin-right: -0.3rem;
   margin-top: -0.2rem;
   margin-bottom: -0.4rem;
+}
+
+/* Selection exists */
+
+.remove {
+  composes: primaryColor from styles;
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.17em;
+  margin-top: -0.3rem;
+  margin-bottom: -0.3rem;
+  transition-property: color;
+  transition-duration: 100ms;
+}
+  .remove:focus,
+  .remove:hover {
+    color: error;
+  }
+
+.removeText {
+  display: none;
+}
+
+.removeX {
+  composes: fallback large from styles;
 }
 
 /**
@@ -85,7 +111,7 @@
   }
 
 .optionButton {
-  composes: normal sans greyTintBorder whiteBackground from styles;
+  composes: small sans greyTintBorder whiteBackground from styles;
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;
@@ -107,4 +133,3 @@
 .optionButton em {
   font-style: italic;
 }
-

@@ -47,33 +47,6 @@
   margin-bottom: -0.4rem;
 }
 
-/* Selection exists */
-
-.remove {
-  composes: primaryColor from styles;
-  appearance: none;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.17em;
-  margin-top: -0.3rem;
-  margin-bottom: -0.3rem;
-  transition-property: color;
-  transition-duration: 100ms;
-}
-  .remove:focus,
-  .remove:hover {
-    color: error;
-  }
-
-.removeText {
-  display: none;
-}
-
-.removeX {
-  composes: fallback large from styles;
-}
-
 /**
  * Selections
  */

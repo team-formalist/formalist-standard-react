@@ -1,0 +1,32 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value error from styles;
+
+.base {
+  display: flex;
+  padding: 0.7rem 1rem;
+}
+
+.info {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.buttons {
+  margin-left: auto;
+  margin-right: 0;
+}
+  .prevButton {
+    margin-right: 1rem;
+  }
+  .prevButton:hover,
+  .nextButton:hover {
+    color: error;
+  }
+
+.buttonText {
+  text-decoration: underline;
+}
+
+.buttonArrow {
+  composes: fallback from styles;
+}
