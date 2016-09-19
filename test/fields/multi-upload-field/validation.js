@@ -11,7 +11,7 @@ test('File Validation', (nest) => {
       lastModifiedDate: new Date(),
       webkitRelativePath: '',
       size: 5000000000,
-      type: 'image/rtf'
+      type: 'image/rtf',
     }
 
     let status = validate(file)
@@ -27,7 +27,7 @@ test('File Validation', (nest) => {
 
     let file = {
       size: 500,
-      type: 'image/png'
+      type: 'image/png',
     }
 
     let status = validate(file, fileTypeRegex, fileTypeRegexMessage, maxFileSize, maxFileSizeMessage)
@@ -44,7 +44,7 @@ test('File Validation', (nest) => {
 
     let file = {
       size: 999999999999,
-      type: 'image/png'
+      type: 'image/png',
     }
 
     let status = validate(file, fileTypeRegex, fileTypeRegexMessage, maxFileSize, maxFileSizeMessage)

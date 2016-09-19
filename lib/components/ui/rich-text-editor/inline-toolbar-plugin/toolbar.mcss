@@ -1,0 +1,14 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+/* @value breakpointSmall from styles; */
+
+.positioner {
+  position: absolute;
+  height: 0;
+}
+
+.entityWrapper {
+  composes: greyTintBorder from styles;
+  border-top-width: 1px;
+  border-top-style: solid;
+  padding: 0.8rem 1rem 1rem;
+}

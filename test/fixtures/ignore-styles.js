@@ -5,7 +5,7 @@ const DEFAULT_EXTENSIONS = [
   '.sass',
   '.stylus',
   '.styl',
-  '.less'
+  '.less',
 ]
 
 let oldHandlers = {}

@@ -46,8 +46,7 @@ const TextField = React.createClass({
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e) {
-    let value = e.target.value
+  onChange (e, value) {
     this.props.actions.edit(
       (val) => { return value }
     )

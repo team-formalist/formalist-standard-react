@@ -63,27 +63,37 @@ const RadioButton = React.createClass({
       styles.label,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.focus}`]: this.state.focus,
       }
     )
 
     return (
       <div className={styles.button}>
-        <input
-          className={styles.input}
-          id={this.state.id}
-          type='radio'
-          name={name}
-          value={value}
-          defaultChecked={defaultChecked}
+        <button onClick={(e) => {
+            e.preventDefault()
+            if (this._input) {
+              e.stopPropagation()
+              this.props.onChange({target: { value: this.props.value}})
+            }
+          }}
           onBlur={this.onBlur}
-          onFocus={this.onFocus}
-          onChange={onChange} />
-        <label
-          className={labelClassNames}
-          htmlFor={this.state.id}>
-            {label}
-        </label>
+          onFocus={this.onFocus}>
+          <input
+            ref={(c) => this._input = c}
+            className={styles.input}
+            id={this.state.id}
+            type='radio'
+            name={name}
+            value={value}
+            checked={defaultChecked}
+            disabled={this.state.focus}
+            onChange={onChange} />
+          <label
+            className={labelClassNames}
+            htmlFor={this.state.id}>
+              {label}
+          </label>
+        </button>
       </div>
     )
   }

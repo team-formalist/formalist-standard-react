@@ -58,6 +58,10 @@ const Select = React.createClass({
     }
   },
 
+  onChange (e) {
+    this.props.onChange(e, e.target.value)
+  },
+
   render () {
     let labelClassNames = classNames(
       styles.label,

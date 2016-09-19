@@ -1,5 +1,4 @@
 import React from 'react'
-import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './popunder.mcss'
 
@@ -64,7 +63,7 @@ const Popunder = React.createClass({
 
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
-    document.addEventListener('resize', this.onResize)
+    window.addEventListener('resize', this.onResize)
     document.addEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
@@ -147,8 +146,8 @@ const Popunder = React.createClass({
     // Extract the elements based on `ref` values. The actual portal element is
     // nested within the react-portal instance as it gets rendered out of
     // context
-    const portalEl = findDOMNode(this._portal.portal)
-    const referenceEl = findDOMNode(this._reference)
+    const portalEl = this._portal.portal
+    const referenceEl = this._reference
 
     if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {
       return

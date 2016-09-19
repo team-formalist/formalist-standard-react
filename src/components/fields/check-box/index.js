@@ -45,7 +45,7 @@ const CheckBox = React.createClass({
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (value) {
+  onChange (e, value) {
     this.props.actions.edit(
       (val) => { return value }
     )

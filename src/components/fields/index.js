@@ -7,12 +7,13 @@ import HiddenField from './hidden-field'
 import MultiSelectionField from './multi-selection-field'
 import NumberField from './number-field'
 import RadioButtons from './radio-buttons'
+import RichTextArea from './rich-text-area'
 import SearchSelectionField from './search-selection-field'
 import SearchMultiSelectionField from './search-multi-selection-field'
 import SelectBox from './select-box'
 import SelectionField from './selection-field'
-import TextField from './text-field'
 import TextArea from './text-area'
+import TextField from './text-field'
 import MultiUploadField from './multi-upload-field'
 import UploadField from './upload-field'
 
@@ -44,6 +45,7 @@ function fields (fieldsConfig = {}, globalConfig = {}) {
     multiSelectionField: wrapField(MultiSelectionField, fieldsConfig.multiSelectionField, globalConfig),
     numberField: wrapField(NumberField, fieldsConfig.numberField, globalConfig),
     radioButtons: wrapField(RadioButtons, fieldsConfig.radioButtons, globalConfig),
+    richTextArea: wrapField(RichTextArea, fieldsConfig.richTextArea, globalConfig),
     searchSelectionField: wrapField(SearchSelectionField, fieldsConfig.searchSelectionField, globalConfig),
     searchMultiSelectionField: wrapField(SearchMultiSelectionField, fieldsConfig.searchMultiSelectionField, globalConfig),
     selectBox: wrapField(SelectBox, fieldsConfig.selectBox, globalConfig),
@@ -51,7 +53,7 @@ function fields (fieldsConfig = {}, globalConfig = {}) {
     textArea: wrapField(TextArea, fieldsConfig.textArea, globalConfig),
     textField: wrapField(TextField, fieldsConfig.textField, globalConfig),
     multiUploadField: wrapField(MultiUploadField, fieldsConfig.multiUploadField, globalConfig),
-    uploadField: wrapField(UploadField, fieldsConfig.uploadField, globalConfig)
+    uploadField: wrapField(UploadField, fieldsConfig.uploadField, globalConfig),
   }
 }
 

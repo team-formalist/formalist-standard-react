@@ -13,7 +13,7 @@ import styles from './text-area.mcss'
 /**
  * Text Area field
  */
-const TextField = React.createClass({
+const TextArea = React.createClass({
 
   propTypes: {
     actions: React.PropTypes.object,
@@ -93,4 +93,4 @@ const TextField = React.createClass({
   }
 })
 
-export default TextField
+export default TextArea

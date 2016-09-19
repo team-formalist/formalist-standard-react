@@ -6,7 +6,8 @@
     },
     sourceType: "module"
   },
-  "rules": {
+  rules: {
+    "comma-dangle": [2, "always-multiline"],
     "camelcase": [0, {"properties": "never"}]
   },
   extends: [

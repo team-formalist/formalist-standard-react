@@ -1,0 +1,43 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value primary, greyMid: from styles;
+
+.container {
+  composes: greyLightBorder from styles;
+  border-style: solid;
+  border-right-width: 1px;
+  margin-right: -1px;
+  flex: 1;
+}
+
+.list {
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+}
+
+.button {
+  composes: greyMidColor from styles;
+  display: block;
+  padding: 0.4em 0.8em;
+  text-align: center;
+}
+
+  .buttonActive {
+    composes: primaryColor sansBold from styles;
+  }
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  fill: greyMid;
+  height: 16px;
+  width: 16px;
+  margin-left: auto;
+  margin-right: auto;
+}
+  .iconWrapperActive {
+    fill: primary;
+  }
+  .iconWrapper svg {
+    margin-left: auto;
+    margin-right: auto;
+  }

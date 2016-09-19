@@ -1,6 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
+import uid from 'uid'
 
 // Import components
 import FieldErrors from '../common/errors'
@@ -33,6 +34,13 @@ const RadioButtons = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number
     ])
+  },
+
+  getInitialState () {
+    // Create unique id for the group
+    return {
+      groupId: `${name}__${uid(10)}`
+    }
   },
 
   /**
@@ -93,7 +101,7 @@ const RadioButtons = React.createClass({
             return (
               <RadioButton
                 key={i}
-                name={name}
+                name={this.state.groupId}
                 label={optionLabel}
                 error={hasErrors}
                 value={optionValue}

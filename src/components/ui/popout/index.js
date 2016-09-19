@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import React from 'react'
-import {findDOMNode} from 'react-dom'
 import Portal from 'react-portal'
 import styles from './popout.mcss'
 
@@ -33,6 +32,7 @@ const Popout = React.createClass({
     children: React.PropTypes.node,
     closeOnEsc: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
+    isOpened: React.PropTypes.bool,
     offset: React.PropTypes.shape({
       default: React.PropTypes.number,
       vert: React.PropTypes.number,
@@ -55,11 +55,20 @@ const Popout = React.createClass({
 
   getInitialState () {
     return {
-      isOpened: false,
+      isOpened: this.props.isOpened || false,
       position: {
         left: 0,
         top: 0,
       },
+    }
+  },
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.isOpened != null) {
+      this.setState({
+        isOpened: nextProps.isOpened
+      })
+      window.requestAnimationFrame(this.calculatePosition)
     }
   },
 
@@ -69,7 +78,7 @@ const Popout = React.createClass({
 
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
-    document.addEventListener('resize', this.onResize)
+    window.addEventListener('resize', this.onResize)
     document.addEventListener('keydown', this.handleKeydown)
     if (closeOnOutsideClick) {
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
@@ -93,9 +102,14 @@ const Popout = React.createClass({
    */
   calculatePosition () {
     // Only bother if its rendered
+    if (!this._reference) {
+      return
+    }
+
     let position
     const { placement } = this.props
-    const referencePosition = this._reference.getBoundingClientRect()
+    const referenceEl = this._reference.firstChild || this._reference
+    const referencePosition = referenceEl.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
     let horzOffset = this.props.offset.horz
@@ -104,29 +118,29 @@ const Popout = React.createClass({
       horzOffset = horzOffset || this.props.offset.default
       vertOffset = vertOffset || 0
       position = {
-        left: referencePosition.left + scrollX - horzOffset,
-        top: referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
+        left: Math.round(referencePosition.left + scrollX - horzOffset),
+        top: Math.round(referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition))
       }
     } else if (placement === 'right') {
       horzOffset = horzOffset || this.props.offset.default
       vertOffset = vertOffset || 0
       position = {
-        left: referencePosition.left + scrollX + referencePosition.width + horzOffset,
-        top: referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition)
+        left: Math.round(referencePosition.left + scrollX + referencePosition.width + horzOffset),
+        top: Math.round(referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition))
       }
     } else if (placement === 'top') {
       horzOffset = horzOffset || 0
       vertOffset = vertOffset || this.props.offset.default
       position = {
-        left: referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset,
-        top: referencePosition.top + scrollY - vertOffset
+        left: Math.round(referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset),
+        top: Math.round(referencePosition.top + scrollY - vertOffset)
       }
     } else if (placement === 'bottom') {
       horzOffset = horzOffset || 0
       vertOffset = vertOffset || this.props.offset.default
       position = {
-        left: referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset,
-        top: referencePosition.top + scrollY + referencePosition.height + vertOffset
+        left: Math.round(referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset),
+        top: Math.round(referencePosition.top + scrollY + referencePosition.height + vertOffset)
       }
     }
 
@@ -182,8 +196,8 @@ const Popout = React.createClass({
     // Extract the elements based on `ref` values. The actual portal element is
     // nested within the react-portal instance as it gets rendered out of
     // context
-    const portalEl = findDOMNode(this._portal.portal)
-    const referenceEl = findDOMNode(this._reference)
+    const portalEl = this._portal.portal
+    const referenceEl = this._reference
 
     if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {
       return

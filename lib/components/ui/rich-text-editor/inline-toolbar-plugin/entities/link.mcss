@@ -1,0 +1,74 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value primary, error, highlight from styles;
+
+.displayWrapper {
+  display: flex;
+}
+
+.handlerUrl {
+  composes: mono primaryColor from styles;
+  max-width: 25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+  .handlerUrl:hover {
+    color: error;
+    text-decoration: underline;
+  }
+
+.field {
+  display: flex;
+  align-items: center;
+  min-width: 35rem;
+  margin-bottom: 0.5rem;
+}
+  .fieldCheckbox {
+    margin-left: 4rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .label {
+    composes: small from '../../../theme/typography.mcss';
+    text-align: right;
+    padding-right: 1rem;
+    width: 4rem;
+  }
+
+.actions {
+  margin-top: 0.8rem;
+  margin-bottom: 0.5rem;
+  margin-left: 4rem;
+}
+
+.saveButton {
+  composes: small buttonHighlight from '../../../buttons.mcss';
+}
+
+.editButton {
+  margin-left: 1.2rem;
+  margin-right: 0.8rem;
+}
+
+.editButton {
+  composes: highlightColor from styles;
+  text-decoration: underline;
+}
+  .editButton:hover,
+  .editButton:focus {
+    color: error;
+  }
+
+  .removeText {
+    display: none;
+  }
+
+  .removeX {
+    composes: errorColor fallback large from styles;
+    display: inline-block;
+    line-height: 1rem;
+  }
+    .removeX:hover {
+      color: primary;
+    }
