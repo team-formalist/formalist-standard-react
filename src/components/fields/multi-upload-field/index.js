@@ -14,6 +14,7 @@ import styles from './index.mcss'
 import Sortable from '../../ui/sortable'
 import {hasImageFormatType, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
 import extractComponent from '../../../utils/extract-component'
+import parseRegexFromString from '../../../utils/parse-regex-from-string'
 
 /**
  * MultiUploadField
@@ -34,11 +35,11 @@ const MultiUploadField = React.createClass({
   propTypes: {
     actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
-      maxFileSize: React.PropTypes.number,
-      maxFileSizeMessage: React.PropTypes.string,
+      max_file_size: React.PropTypes.number,
+      max_file_size_message: React.PropTypes.string,
       multiple: React.PropTypes.bool,
-      permittedFileTypeMessage: React.PropTypes.string,
-      permittedFileTypeRegex: React.PropTypes.object,
+      permitted_file_type_message: React.PropTypes.string,
+      permitted_file_type_regex: React.PropTypes.string,
       presign_url: React.PropTypes.string,
       render_uploaded_as: React.PropTypes.string,
       upload_action_label: React.PropTypes.string,
@@ -395,10 +396,10 @@ const MultiUploadField = React.createClass({
     }
 
     const {
-      permittedFileTypeRegex,
-      permittedFileTypeMessage,
-      maxFileSize,
-      maxFileSizeMessage
+      permitted_file_type_regex,
+      permitted_file_type_message,
+      max_file_size,
+      max_file_size_message
     } = attributes
 
     let status
@@ -407,9 +408,11 @@ const MultiUploadField = React.createClass({
       ? this.state.invalidFiles.slice(0)
       : []
 
-    // iterate and validate each file
+    const permittedFileTypeRegex = parseRegexFromString(permitted_file_type_regex)
+
+    // Iterate and validate each file
     files.map((file) => {
-      status = validate(file, permittedFileTypeRegex, permittedFileTypeMessage, maxFileSize, maxFileSizeMessage)
+      status = validate(file, permittedFileTypeRegex, permitted_file_type_message, max_file_size, max_file_size_message)
 
       if (!status.success) {
         invalidFiles.push({

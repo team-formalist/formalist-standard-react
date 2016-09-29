@@ -1,5 +1,5 @@
 /**
- * validate
+ * Validate
  * Take a file, validate and return a Promise
  * Pass a `status` object back with Promise
  * @param  {File Object} file

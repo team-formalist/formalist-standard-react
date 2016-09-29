@@ -28,11 +28,11 @@ Here are the potential props we can have for the `multi-upload-field`.
 | **presign_url**          | String | `true`   | `presign_url: 'http://url_to/presign'`                    |                     | URL to XHR `presign`. `presign` should return `url`, `expiration`, `hmac` and `uuid` to perform upload. |
 | **token**                | String | `false`  | `token: 'XYZ'`                                                            | `null`              | optional csrf-token |
 | **multiple**             | Bool   | `false`  | `multiple: false`                                                         | `true`              | Differentiate between multiple or singular uploads |
-| **permittedFileTypeRegex**        | Regex  | `false`  | `fileTypeRegex: /image\/(`jpg`)$/`                       | `null`              | Provide an explicit file type validation rule |
-| **permittedFileTypeMessage** | String | `false`  | `fileTypeRegexMessage: 'Supported image formats are JPEG, PNG, and GIF.'` | `null`              | Supporting validation message for the `fileTypeRegex` prop |
-| **maxFileSize**          | Number | `false`  | `maxFileSize: 5000000`                                                    | `null`              | Provide an explicit maximum file size validation rule |
-| **maxFileSizeMessage**   | String | `false`  | `maxFileSizeMessage: 'The file you tried to upload exceed our limit (5MB)'` | `null`              | Supporting validation message for the `maxFileSize` prop |
-| **buttonText**           | String | `false`  | `buttonText: 'Upload file'`                                               | Fallback to `label`, otherwise 'Drop/Upload File(s)' | Provide custom button text |
+| **permitted_file_type_regex**        | Regex  | `false`  | `permitted_file_type_regex: /image\/(`jpg`)$/`                       | `null`              | Provide an explicit file type validation rule |
+| **permitted_file_type_message** | String | `false`  | `permitted_file_type_message: 'Supported image formats are JPEG, PNG, and GIF.'` | `null`              | Supporting validation message for the `fileTypeRegex` prop |
+| **max_file_size**          | Number | `false`  | `max_file_size: 5000000`                                                    | `null`              | Provide an explicit maximum file size validation rule |
+| **max_file_size_message**   | String | `false`  | `max_file_size_message: 'The file you tried to upload exceed our limit (5MB)'` | `null`              | Supporting validation message for the `maxFileSize` prop |
+| **upload_action_label**           | String | `false`  | `upload_action_label: 'Upload file'`                                               | Fallback to `label`, otherwise 'Drop/Upload File(s)' | Provide custom button text |
 
 ##### uploadedFiles
 
