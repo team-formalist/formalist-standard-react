@@ -71,8 +71,8 @@ const RichTextEditor = React.createClass({
     this.blockToolbarPlugin = createBlockToolbarPlugin({
       setReadOnly: this.setReadOnly,
       editorEmitter: this.emitter,
-      embeddableForms,
       blockFormatters,
+      embeddableForms,
     })
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       inlineFormatters
