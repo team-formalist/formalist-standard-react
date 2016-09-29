@@ -45,9 +45,6 @@ const RichTextArea = React.createClass({
     ]),
   },
 
-  componentWillMount () {
-  },
-
   getInitialState () {
     let {value} = this.props
     // Convert from an Immutable structure?
