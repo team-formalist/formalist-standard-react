@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import withoutKeys from '../../../utils/without-keys'
 import styles from './text-box.mcss'
 
 // Components
@@ -87,8 +88,12 @@ const TextBox = React.createClass({
       },
       `${styles[this.props.textSize]}`
     )
+
+    const propsToPass = withoutKeys(this.props, ['error', 'textSize', 'boxSize', 'className', 'onBlur', 'onFocus'])
+
     return (
-      <Textarea {...this.props}
+      <Textarea
+        {...propsToPass}
         {...boxSize(this.props.boxSize)}
         className={textBoxClassNames}
         onBlur={this.onBlur}

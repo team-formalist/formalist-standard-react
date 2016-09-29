@@ -1,5 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
+import withoutKeys from '../../../utils/without-keys'
 import styles from './input.mcss'
 
 /**
@@ -19,6 +20,7 @@ const Input = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
+    onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     onFocus: React.PropTypes.func,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
@@ -73,10 +75,13 @@ const Input = React.createClass({
       },
       `${styles[this.props.size]}`
     )
+
+    const propsToPass = withoutKeys(this.props, ['error', 'size', 'className', 'onBlur', 'onChange', 'onFocus'])
+
     return (
       <input
         ref={(r) => this._input = r}
-        {...this.props}
+        {...propsToPass}
         onChange={this.onChange}
         className={inputClassNames}
         onBlur={this.onBlur}
