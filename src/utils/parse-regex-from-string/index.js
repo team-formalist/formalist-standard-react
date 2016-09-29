@@ -5,6 +5,7 @@
  * @return {RegExp} Parsed regex
  */
 export default function parseRegexFromString(format) {
+  if (format == null) return null
   if (format instanceof RegExp) {
     return format;
   } else {
