@@ -19,6 +19,14 @@ const AtomicBlock = React.createClass({
     }
   },
 
+  /**
+   * Enable parent to pass context
+   */
+
+  contextTypes: {
+    globalConfig: React.PropTypes.object
+  },
+
   componentWillMount () {
     document.addEventListener('mouseup', this.handleOutsideMouseClick)
     document.addEventListener('touchstart', this.handleOutsideMouseClick)
@@ -26,12 +34,13 @@ const AtomicBlock = React.createClass({
     // Memoize the configured template the first time this runs
     // We need to invoke this at execution time so that the circular
     // dependencies are properly resolved.
-    configuredTemplate = configuredTemplate ||  template()
+    configuredTemplate = configuredTemplate ||  template(null, {global: this.context.globalConfig})
 
     // Extract the entity
     const entityData = this.entity.getData()
     const type = this.entity.getType()
 
+    // Create the formalist form with config
     this.form = configuredTemplate(entityData.form)
 
     this.form.store.subscribe(() => {
