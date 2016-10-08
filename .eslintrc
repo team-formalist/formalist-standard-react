@@ -8,7 +8,8 @@
   },
   rules: {
     "comma-dangle": [2, "always-multiline"],
-    "camelcase": [0, {"properties": "never"}]
+    "camelcase": [0, {"properties": "never"}],
+    "react/jsx-no-bind": [2, {"ignoreRefs": true}]
   },
   extends: [
     "standard",
