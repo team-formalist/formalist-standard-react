@@ -49,14 +49,14 @@ const Toolbar = React.createClass({
     const selectionVisible = !selection.isCollapsed() && editorHasFocus
 
     this.setState({
-      visible: forceVisible || selectionVisible
+      visible: forceVisible || selectionVisible,
     })
 
     if (selectionVisible) {
       // We have to wait a tick to calculate the position
       window.requestAnimationFrame(() => {
         this.setState({
-          positionStyle: this.calculatePosition()
+          positionStyle: this.calculatePosition(),
         })
       })
     }
@@ -64,7 +64,7 @@ const Toolbar = React.createClass({
 
   forceVisible (force) {
     this.setState({
-      forceVisible: force
+      forceVisible: force,
     })
   },
 
@@ -104,7 +104,7 @@ const Toolbar = React.createClass({
 
   onPopoutClose () {
     this.setState({
-      forceVisible: false
+      forceVisible: false,
     })
   },
 
@@ -127,36 +127,50 @@ const Toolbar = React.createClass({
     // Only display if we have some `formatters` configured
     if (formatters.length > 0 || entities.length > 0) {
       // We need to cancel onMouseDown to avoid the buttons capturing focus
+      // TODO Asses whether to remove this binding
+      /* eslint-disable react/jsx-no-bind */
       return (
         <div>
-          <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick={true} onClose={this.onPopoutClose}>
-            <div className={styles.positioner} ref={(r) => this.positioner = r} style={positionStyle}>&nbsp;</div>
+          <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick onClose={this.onPopoutClose}>
+            <div
+              className={styles.positioner}
+              ref={(r) => { this.positioner = r }}
+              style={positionStyle}>
+               &nbsp;
+            </div>
             <div onMouseDown={(e) => {
-                if (!forceVisible) {
-                  e.preventDefault()
-                }
-              }}>
-              <InlineToolbarItems formatters={formatters} entities={entities} editorState={editorState} onChange={onChange}/>
+              if (!forceVisible) {
+                e.preventDefault()
+              }
+            }}>
+              <InlineToolbarItems
+                formatters={formatters}
+                entities={entities}
+                editorState={editorState}
+                onChange={onChange}
+              />
               {
                 (SelectedEntityHandler)
                 ? <div className={styles.entityWrapper}>
-                    <SelectedEntityHandler
-                      entityKey={selectedEntityKey}
-                      editorState={editorState}
-                      onChange={onChange}
-                      forceVisible={this.forceVisible}
-                      remove={this.removeEntity}/>
-                  </div>
+                  <SelectedEntityHandler
+                    entityKey={selectedEntityKey}
+                    editorState={editorState}
+                    onChange={onChange}
+                    forceVisible={this.forceVisible}
+                    remove={this.removeEntity}
+                  />
+                </div>
                 : null
               }
             </div>
           </Popout>
         </div>
       )
+      /* eslint-enable react/jsx-no-bind */
     } else {
       return null
     }
-  }
+  },
 })
 
 export default Toolbar

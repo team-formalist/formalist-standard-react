@@ -43,7 +43,7 @@ const BlockToolbar = React.createClass({
     // We have to wait a tick to calculate the position
     window.requestAnimationFrame(() => {
       this.setState({
-        positionStyle: this.calculatePosition()
+        positionStyle: this.calculatePosition(),
       })
     })
   },
@@ -55,7 +55,7 @@ const BlockToolbar = React.createClass({
    * @return {Object} Description of the position/size of the positioner
    */
   calculatePosition () {
-    const {editorState, setReadOnly} = this.props
+    const {editorState} = this.props
     const selection = editorState.getSelection()
     const selectedBlockKey = selection.getStartKey()
     const selectedBlock = document.querySelector(`[data-block][data-offset-key^='${selectedBlockKey}']`)
@@ -79,13 +79,13 @@ const BlockToolbar = React.createClass({
 
   openToolbar () {
     this.setState({
-      open: true
+      open: true,
     })
   },
 
   closeToolbar () {
     this.setState({
-      open: false
+      open: false,
     })
   },
 
@@ -110,10 +110,16 @@ const BlockToolbar = React.createClass({
         return item.type === currentBlockType
       })
 
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div>
-        <Popout placement='bottom' isOpened={open} closeOnOutsideClick={true} closeOnEsc onClose={this.closeToolbar}>
-          <div style={positionStyle} className={styles.positioner} ref={(r) => this._positioner = r}>
+        <Popout placement='bottom' isOpened={open} closeOnOutsideClick closeOnEsc onClose={this.closeToolbar}>
+          <div
+            style={positionStyle}
+            className={styles.positioner}
+            ref={(r) => { this._positioner = r }}
+          >
             {(currentBlockType !== 'atomic')
               ? <button
                 className={styles.toggle}
@@ -123,7 +129,11 @@ const BlockToolbar = React.createClass({
                 }}
                 onMouseDown={(e) => e.preventDefault()}>
                 {(activeBlockItem && activeBlockItem.icon)
-                  ? <span title={activeBlockItem.label} className={styles.iconWrapper} dangerouslySetInnerHTML={{__html: activeBlockItem.icon}}/>
+                  ? <span
+                    title={activeBlockItem.label}
+                    className={styles.iconWrapper}
+                    dangerouslySetInnerHTML={{__html: activeBlockItem.icon}}
+                  />
                   : (activeBlockItem) ? activeBlockItem.label : '¶'
                 }
                 <span className={styles.toggleText}>View block elements</span>
@@ -138,18 +148,21 @@ const BlockToolbar = React.createClass({
               closeToolbar={this.closeToolbar}
               openToolbar={this.openToolbar}
               editorState={editorState}
-              onChange={onChange}/>
+              onChange={onChange}
+            />
             <FormItems
               embeddableForms={embeddableFormsButtons}
               closeToolbar={this.closeToolbar}
               openToolbar={this.openToolbar}
               editorState={editorState}
-              onChange={onChange}/>
+              onChange={onChange}
+            />
           </div>
         </Popout>
       </div>
     )
-  }
+    /* eslint-enable react/jsx-no-bind */
+  },
 })
 
 export default BlockToolbar

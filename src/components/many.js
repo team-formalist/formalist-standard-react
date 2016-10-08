@@ -14,7 +14,7 @@ import styles from './many.mcss'
 
 const ManySet = React.createClass({
   propTypes: {
-    children: ImmutablePropTypes.list
+    children: ImmutablePropTypes.list,
   },
 
   render () {
@@ -23,7 +23,7 @@ const ManySet = React.createClass({
         {this.props.children}
       </div>
     )
-  }
+  },
 })
 
 const Many = React.createClass({
@@ -39,10 +39,10 @@ const Many = React.createClass({
     attributes: ImmutablePropTypes.mapContains({
       label: React.PropTypes.string,
       placeholder: React.PropTypes.string,
-      action_label: React.PropTypes.string
+      action_label: React.PropTypes.string,
     }),
     template: React.PropTypes.object,
-    children: ImmutablePropTypes.list
+    children: ImmutablePropTypes.list,
   },
 
   /**
@@ -52,7 +52,7 @@ const Many = React.createClass({
    */
   getInitialState () {
     return {
-      contentsKey: Date.now()
+      contentsKey: Date.now(),
     }
   },
 
@@ -76,7 +76,7 @@ const Many = React.createClass({
 
   updateContentsKey () {
     this.setState({
-      contentsKey: Date.now()
+      contentsKey: Date.now(),
     })
   },
 
@@ -91,7 +91,7 @@ const Many = React.createClass({
 
     store.batchDispatch([
       addManyContent(path),
-      validateMany(path, validation(validationRules))
+      validateMany(path, validation(validationRules)),
     ])
     this.updateContentsKey()
   },
@@ -108,7 +108,7 @@ const Many = React.createClass({
 
     store.batchDispatch([
       deleteManyContent(childPath),
-      validateMany(path, validation(validationRules))
+      validateMany(path, validation(validationRules)),
     ])
     this.updateContentsKey()
   },
@@ -123,7 +123,7 @@ const Many = React.createClass({
 
     store.batchDispatch([
       reorderManyContents(path, newOrder),
-      validateMany(path, validation(validationRules))
+      validateMany(path, validation(validationRules)),
     ])
     this.updateContentsKey()
   },
@@ -141,7 +141,7 @@ const Many = React.createClass({
     let labelClassNames = classNames(
       styles.label,
       {
-        [`${styles.labelErrors}`]: hasErrors
+        [`${styles.labelErrors}`]: hasErrors,
       }
     )
 
@@ -171,7 +171,7 @@ const Many = React.createClass({
         {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
-  }
+  },
 })
 
 export default Many

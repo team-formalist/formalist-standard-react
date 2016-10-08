@@ -34,8 +34,8 @@ const SelectDefault = ({option}) => (
 
 SelectDefault.propTypes = {
   option: React.PropTypes.shape({
-    label: React.PropTypes.string
-  })
+    label: React.PropTypes.string,
+  }),
 }
 
 /**
@@ -58,12 +58,12 @@ const SelectionField = React.createClass({
       inline: React.PropTypes.bool,
       selector_label: React.PropTypes.string,
       render_option_as: React.PropTypes.string,
-      render_selection_as: React.PropTypes.string
+      render_selection_as: React.PropTypes.string,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: ImmutablePropTypes.list
+    value: ImmutablePropTypes.list,
   },
 
   /**
@@ -71,7 +71,7 @@ const SelectionField = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -163,7 +163,7 @@ const SelectionField = React.createClass({
    */
   onPopoutClose () {
     this.setState({
-      search: null
+      search: null,
     })
   },
 
@@ -192,7 +192,7 @@ const SelectionField = React.createClass({
   onSearchChange (e) {
     const search = e.target.value
     this.setState({
-      search: search
+      search: search,
     })
   },
 
@@ -203,7 +203,7 @@ const SelectionField = React.createClass({
    */
   onSearchFocus (e) {
     this.setState({
-      searchFocus: true
+      searchFocus: true,
     })
   },
 
@@ -214,7 +214,7 @@ const SelectionField = React.createClass({
    */
   onSearchBlur (e) {
     this.setState({
-      searchFocus: false
+      searchFocus: false,
     })
   },
 
@@ -228,7 +228,7 @@ const SelectionField = React.createClass({
     const fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -276,10 +276,13 @@ const SelectionField = React.createClass({
 
     // Build the set of options
     const renderedOptions = filteredOptions.map((option) => {
+      // TODO Asses whether to remove this binding
+      /* eslint-disable react/jsx-no-bind */
       let onClick = function (e) {
         e.preventDefault()
         this.onSelection(option.id)
       }.bind(this)
+      /* eslint-enable react/jsx-no-bind */
       return (
         <button
           key={option.id}
@@ -306,7 +309,14 @@ const SelectionField = React.createClass({
                   {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
                 </div>
               </div>
-              <Popout ref={(c) => this._selector = c} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!searchFocus || !search} closeOnOutsideClick>
+              <Popout
+                ref={(c) => { this._selector = c }}
+                placement='left'
+                onClose={this.onPopoutClose}
+                onOpen={this.onPopoutOpen}
+                closeOnEsc={!searchFocus || !search}
+                closeOnOutsideClick
+              >
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
@@ -339,7 +349,7 @@ const SelectionField = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default SelectionField

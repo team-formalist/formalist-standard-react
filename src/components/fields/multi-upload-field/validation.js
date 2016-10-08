@@ -14,7 +14,7 @@ export default function (file, permittedFileTypeRegex = null, permittedFileTypeM
     return {
       file: file,
       message: permittedFileTypeMessage,
-      success: false
+      success: false,
     }
   }
 
@@ -22,12 +22,12 @@ export default function (file, permittedFileTypeRegex = null, permittedFileTypeM
     return {
       file: file,
       message: maxFileSizeMessage,
-      success: false
+      success: false,
     }
   }
 
   return {
     file,
-    success
+    success,
   }
 }

@@ -1,10 +1,7 @@
 import React from 'react'
-import classNames from 'classnames'
 import {
   AtomicBlockUtils,
   Entity,
-  getVisibleSelectionRect,
-  RichUtils,
 } from 'draft-js'
 import createDataObjectRenderer from 'formalist-data-object-renderer'
 import styles from './form-items.mcss'
@@ -17,11 +14,12 @@ const FormItems = React.createClass({
     embeddableForms: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
+    closeToolbar: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps () {
     return {
-      embeddableForms: []
+      embeddableForms: [],
     }
   },
 
@@ -58,6 +56,9 @@ const FormItems = React.createClass({
     if (embeddableForms.length === 0) {
       return null
     }
+
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.container}>
         <ul className={styles.list} onMouseDown={(e) => e.preventDefault()}>
@@ -65,7 +66,8 @@ const FormItems = React.createClass({
         </ul>
       </div>
     )
-  }
+    /* eslint-enable react/jsx-no-bind */
+  },
 })
 
 export default FormItems

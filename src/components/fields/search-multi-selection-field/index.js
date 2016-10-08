@@ -34,8 +34,8 @@ const SelectDefault = ({option}) => (
 
 SelectDefault.propTypes = {
   option: React.PropTypes.shape({
-    label: React.PropTypes.string
-  })
+    label: React.PropTypes.string,
+  }),
 }
 
 /**
@@ -226,7 +226,7 @@ class SearchMultiSelectionField extends Component {
     const fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -258,12 +258,19 @@ class SearchMultiSelectionField extends Component {
               {placeholder || 'Make a selection'}
               {(numberOfSelections > 0) ? ` (${numberOfSelections} selected)` : null}
             </div>
-            <Popout ref={(r) => this._popout = r} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!selectorFocus || !selectorQuery} closeOnOutsideClick>
+            <Popout
+              ref={(r) => { this._popout = r }}
+              placement='left'
+              onClose={this.onPopoutClose}
+              onOpen={this.onPopoutOpen}
+              closeOnEsc={!selectorFocus || !selectorQuery}
+              closeOnOutsideClick
+            >
               <div className={styles.openSelectorButton}>
                 {selector_label || 'Select'}
               </div>
               <SearchSelector
-                ref={(r) => this._selector = r}
+                ref={(r) => { this._selector = r }}
                 onSelection={this.onSelection}
                 onBlur={this.onSelectorBlur}
                 onFocus={this.onSelectorFocus}
@@ -274,7 +281,8 @@ class SearchMultiSelectionField extends Component {
                 query={selectorQuery}
                 selectedIds={(value) ? value.toJS() : []}
                 threshold={attributes.search_threshold}
-                url={attributes.search_url} />
+                url={attributes.search_url}
+              />
             </Popout>
           </button>
         </div>
@@ -297,7 +305,7 @@ class SearchMultiSelectionField extends Component {
  * Enable parent to pass context
  */
 SearchMultiSelectionField.contextTypes = {
- globalConfig: React.PropTypes.object
+  globalConfig: React.PropTypes.object,
 }
 
 /**
@@ -320,12 +328,13 @@ SearchMultiSelectionField.propTypes = {
     search_threshold: React.PropTypes.number,
     selector_label: React.PropTypes.string,
     render_option_as: React.PropTypes.string,
-    render_selection_as: React.PropTypes.string
+    render_selection_as: React.PropTypes.string,
   }),
   hint: React.PropTypes.string,
   label: React.PropTypes.string,
   errors: ImmutablePropTypes.list,
-  value: ImmutablePropTypes.list
+  selections: ImmutablePropTypes.list,
+  value: ImmutablePropTypes.list,
 }
 
 SearchMultiSelectionField.defaultProps = {

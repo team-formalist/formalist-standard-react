@@ -1,14 +1,9 @@
 import React from 'react'
-import {Map} from 'immutable'
 import {
   DefaultDraftBlockRenderMap,
   EditorState,
-  getDefaultKeyBinding,
-  KeyBindingUtil,
-  RichUtils,
 } from 'draft-js'
 import mergeDefaults from '../../../../utils/merge-defaults'
-const {hasCommandModifier} = KeyBindingUtil
 
 // Components
 import Toolbar from './toolbar'
@@ -36,7 +31,6 @@ const defaults = {
   blockSet: {
     atomic: {
       component: AtomicBlock,
-      // editable: true,
     },
     pullquote: {
       component: PullquoteBlock,
@@ -140,8 +134,8 @@ export default function blockToolbarPlugin (options = {}) {
             selectionBefore: selection,
             selectionAfter: selection.merge({
               anchorKey: nextBlockKey,
-              focusKey: nextBlockKey
-            })
+              focusKey: nextBlockKey,
+            }),
           })
           setEditorState(
             EditorState.push(editorState, contentState)
@@ -164,8 +158,8 @@ export default function blockToolbarPlugin (options = {}) {
           selectionBefore: selection,
           selectionAfter: selection.merge({
             anchorKey: nextBlockKey,
-            focusKey: nextBlockKey
-          })
+            focusKey: nextBlockKey,
+          }),
         })
         setEditorState(
           EditorState.push(editorState, contentState)
@@ -258,8 +252,8 @@ export default function blockToolbarPlugin (options = {}) {
         embeddableForms,
       }, props)
       return (
-        <Toolbar {...props}/>
+        <Toolbar {...props} />
       )
-    }
+    },
   }
 }

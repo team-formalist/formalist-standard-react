@@ -13,9 +13,9 @@ const itemSource = {
     return {
       instanceKey: props.instanceKey,
       index: props.index,
-      originalIndex: props.originalIndex
+      originalIndex: props.originalIndex,
     }
-  }
+  },
 }
 
 /**
@@ -72,7 +72,7 @@ const itemTarget = {
     // but it's good here for the sake of performance
     // to avoid expensive index searches.
     monitor.getItem().index = hoverIndex
-  }
+  },
 }
 
 /**
@@ -138,7 +138,7 @@ const Item = React.createClass({
      * @type {ReactElement}
      */
     children: React.PropTypes.node.isRequired,
-    verticalControls: React.PropTypes.bool
+    verticalControls: React.PropTypes.bool,
   },
 
   /**
@@ -164,13 +164,13 @@ const Item = React.createClass({
   render () {
     const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging, verticalControls } = this.props
     const inline = {
-      opacity: (isDragging) ? 0 : 1
+      opacity: (isDragging) ? 0 : 1,
     }
 
     const controlsClasses = classNames(
       styles.controls,
       {
-        [`${styles.controlsVertical}`]: verticalControls
+        [`${styles.controlsVertical}`]: verticalControls,
       }
     )
 
@@ -194,7 +194,7 @@ const Item = React.createClass({
         </div>
       )
     )
-  }
+  },
 })
 
 /**
@@ -202,7 +202,7 @@ const Item = React.createClass({
  * Set up items to behave as drop targets for sorting
  */
 const DropTargetDecorator = DropTarget('item', itemTarget, (connect) => ({
-  connectDropTarget: connect.dropTarget()
+  connectDropTarget: connect.dropTarget(),
 }))
 
 /**
@@ -212,7 +212,7 @@ const DropTargetDecorator = DropTarget('item', itemTarget, (connect) => ({
 const DragSourceDecorator = DragSource('item', itemSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   connectDragPreview: connect.dragPreview(),
-  isDragging: monitor.isDragging()
+  isDragging: monitor.isDragging(),
 }))
 
 /**

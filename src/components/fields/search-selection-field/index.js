@@ -32,8 +32,8 @@ const SelectDefault = ({option}) => (
 
 SelectDefault.propTypes = {
   option: React.PropTypes.shape({
-    label: React.PropTypes.string
-  })
+    label: React.PropTypes.string,
+  }),
 }
 
 /**
@@ -172,7 +172,7 @@ class SearchSelectionField extends Component {
   }
 
   render () {
-    const {attributes, config, errors, hint, label, name, value} = this.props
+    const {attributes, config, errors, hint, label, name} = this.props
     const {placeholder, selector_label, render_option_as, render_selection_as} = attributes
     const {selection, selectorFocus, selectorQuery} = this.state
     const hasErrors = (errors.count() > 0)
@@ -181,7 +181,7 @@ class SearchSelectionField extends Component {
     const fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -219,12 +219,19 @@ class SearchSelectionField extends Component {
               <div className={styles.selectionPlaceholder}>
                 {placeholder || 'Make a selection'}
               </div>
-              <Popout ref={(r) => this._popout = r} placement='left' onClose={this.onPopoutClose} onOpen={this.onPopoutOpen} closeOnEsc={!selectorFocus || !selectorQuery} closeOnOutsideClick>
+              <Popout
+                ref={(r) => { this._popout = r }}
+                placement='left'
+                onClose={this.onPopoutClose}
+                onOpen={this.onPopoutOpen}
+                closeOnEsc={!selectorFocus || !selectorQuery}
+                closeOnOutsideClick
+              >
                 <div className={styles.openSelectorButton}>
                   {selector_label || 'Select'}
                 </div>
                 <SearchSelector
-                  ref={(r) => this._selector = r}
+                  ref={(r) => { this._selector = r }}
                   onSelection={this.onSelection}
                   onBlur={this.onSelectorBlur}
                   onFocus={this.onSelectorFocus}
@@ -234,7 +241,8 @@ class SearchSelectionField extends Component {
                   perPage={attributes.search_per_page}
                   query={selectorQuery}
                   threshold={attributes.search_threshold}
-                  url={attributes.search_url} />
+                  url={attributes.search_url}
+                />
               </Popout>
             </button>
           }
@@ -249,7 +257,7 @@ class SearchSelectionField extends Component {
  * Enable parent to pass context
  */
 SearchSelectionField.contextTypes = {
- globalConfig: React.PropTypes.object
+  globalConfig: React.PropTypes.object,
 }
 
 /**
@@ -271,15 +279,16 @@ SearchSelectionField.propTypes = {
     search_threshold: React.PropTypes.number,
     selector_label: React.PropTypes.string,
     render_option_as: React.PropTypes.string,
-    render_selection_as: React.PropTypes.string
+    render_selection_as: React.PropTypes.string,
   }),
   hint: React.PropTypes.string,
   label: React.PropTypes.string,
   errors: ImmutablePropTypes.list,
+  selection: React.PropTypes.object,
   value: React.PropTypes.oneOfType([
     React.PropTypes.string,
-    React.PropTypes.number
-  ])
+    React.PropTypes.number,
+  ]),
 }
 
 export default SearchSelectionField

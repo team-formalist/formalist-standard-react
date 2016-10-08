@@ -23,7 +23,7 @@ export default React.createClass({
     multiple: React.PropTypes.bool,
     children: React.PropTypes.node,
     disableClick: React.PropTypes.bool,
-    hideDropZoneBtn: React.PropTypes.bool
+    hideDropZoneBtn: React.PropTypes.bool,
   },
 
   /**
@@ -32,7 +32,7 @@ export default React.createClass({
 
   getDefaultProps () {
     return {
-      disableClick: false
+      disableClick: false,
     }
   },
 
@@ -43,7 +43,7 @@ export default React.createClass({
   getInitialState () {
     return {
       files: [],
-      isActive: false
+      isActive: false,
     }
   },
 
@@ -57,7 +57,7 @@ export default React.createClass({
     const isActive = e.dataTransfer.types[0] === 'Files'
     if (isActive === this.state.isActive) return
     this.setState({
-      isActive
+      isActive,
     })
   },
 
@@ -70,7 +70,7 @@ export default React.createClass({
     e.preventDefault()
     if (!this.state.isActive) return
     this.setState({
-      isActive: false
+      isActive: false,
     })
   },
 
@@ -108,7 +108,7 @@ export default React.createClass({
     const {onChange} = this.props
     if (typeof (onChange) === 'function') onChange(files)
     this.setState({
-      files: files
+      files: files,
     })
   },
 
@@ -189,7 +189,7 @@ export default React.createClass({
       children,
       disableClick,
       hideDropZoneBtn,
-      label
+      label,
     } = this.props
 
     let dropZoneClassNames = classNames(
@@ -197,7 +197,7 @@ export default React.createClass({
       {
         [`${styles.dropzone__empty}`]: !children,
         [`${styles.dropzone__disable_hover}`]: children,
-        [`${styles.dropzone__drag_over}`]: isActive
+        [`${styles.dropzone__drag_over}`]: isActive,
       }
     )
 
@@ -224,5 +224,5 @@ export default React.createClass({
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
     )
-  }
+  },
 })

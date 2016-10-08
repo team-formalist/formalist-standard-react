@@ -15,7 +15,7 @@ function customError (name, error) {
   return {
     error,
     message: error.message,
-    name
+    name,
   }
 }
 
@@ -34,7 +34,7 @@ function responseStatus (res) {
   } else {
     let error = new Error(res.statusText)
     error.response = res
-    throw customError ('responseStatus', error)
+    throw customError('responseStatus', error)
   }
 }
 
@@ -49,7 +49,6 @@ function parseJSON (res) {
   return JSON.parse(res.text)
 }
 
-
 /**
  * searchRequest
  * @return  {Promise}
@@ -62,7 +61,7 @@ function searchRequest (url, params, id) {
       .query(params)
       .set({
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       })
       .end((err, res) => {
         if (err) return reject(customError('searchRequest', err))
@@ -96,6 +95,6 @@ export default function search (url, params = {}) {
         .catch((err) => {
           reject(err)
         })
-    })
+    }),
   }
 }

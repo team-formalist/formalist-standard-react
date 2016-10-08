@@ -21,14 +21,14 @@ const DateField = React.createClass({
       label: React.PropTypes.string,
       hint: React.PropTypes.string,
       placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool
+      inline: React.PropTypes.bool,
     }),
     errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     name: React.PropTypes.string,
     config: React.PropTypes.object,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
   },
 
   /**
@@ -36,7 +36,7 @@ const DateField = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -58,7 +58,7 @@ const DateField = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -76,7 +76,7 @@ const DateField = React.createClass({
         {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
-  }
+  },
 })
 
 export default DateField

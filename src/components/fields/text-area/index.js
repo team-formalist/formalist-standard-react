@@ -26,12 +26,12 @@ const TextArea = React.createClass({
       inline: React.PropTypes.bool,
       code: React.PropTypes.bool,
       box_size: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
-      text_size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
+      text_size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
   },
 
   /**
@@ -39,7 +39,7 @@ const TextArea = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -62,13 +62,13 @@ const TextArea = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
     // Set up input classes
     let inputClassNames = classNames({
-      [`${styles.code}`]: attributes.code
+      [`${styles.code}`]: attributes.code,
     })
 
     return (
@@ -90,7 +90,7 @@ const TextArea = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default TextArea

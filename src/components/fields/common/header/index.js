@@ -13,7 +13,7 @@ const FieldHeader = React.createClass({
     id: React.PropTypes.string,
     label: React.PropTypes.string,
     hint: React.PropTypes.string,
-    error: React.PropTypes.bool
+    error: React.PropTypes.bool,
   },
 
   shouldComponentUpdate (nextProps) {
@@ -28,13 +28,13 @@ const FieldHeader = React.createClass({
     let labelClassNames = classNames(styles.base,
       styles.label,
       {
-        [`${styles.error}`]: this.props.error
+        [`${styles.error}`]: this.props.error,
       }
     )
     let hintClassNames = classNames(styles.base,
       styles.hint,
       {
-        [`${styles.error}`]: this.props.error
+        [`${styles.error}`]: this.props.error,
       }
     )
     return (
@@ -43,7 +43,7 @@ const FieldHeader = React.createClass({
         {(hint) ? <span className={hintClassNames}>{hint}</span> : null}
       </div>
     )
-  }
+  },
 })
 
 export default FieldHeader

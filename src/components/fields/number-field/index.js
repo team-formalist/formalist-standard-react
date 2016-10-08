@@ -25,14 +25,14 @@ const NumberField = React.createClass({
       inline: React.PropTypes.bool,
       step: React.PropTypes.number,
       min: React.PropTypes.number,
-      max: React.PropTypes.number
+      max: React.PropTypes.number,
     }),
     name: React.PropTypes.string,
     config: React.PropTypes.object,
     value: React.PropTypes.number,
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
-    errors: ImmutablePropTypes.list
+    errors: ImmutablePropTypes.list,
   },
 
   /**
@@ -40,7 +40,7 @@ const NumberField = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -67,13 +67,13 @@ const NumberField = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
     // Set up input classes
     let inputClassNames = classNames({
-      [`${styles.code}`]: attributes.code
+      [`${styles.code}`]: attributes.code,
     })
 
     // Configure specific number attributes from the attributes
@@ -105,7 +105,7 @@ const NumberField = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default NumberField

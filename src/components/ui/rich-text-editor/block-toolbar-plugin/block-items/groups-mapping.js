@@ -4,7 +4,7 @@ export default [
       type: 'unstyled',
       label: 'Paragraph',
       icon: '<svg width="10" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M9.287 0h-4.616c-3.034 0-4.671 1.49-4.671 3.862 0 2.317 1.637 3.807 4.285 3.844v8.294h1.343v-14.768h2.372v14.768h1.287v-16z"/></svg>',
-    }
+    },
   ],
   [
     {
@@ -43,13 +43,13 @@ export default [
       type: 'unordered-list-item',
       label: 'Unordered list',
       icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M1 0c-.56 0-1 .44-1 1s.44 1 1 1 1-.44 1-1-.44-1-1-1zm3 0v2h12v-2h-12zm-3 5c-.56 0-1 .44-1 1s.44 1 1 1 1-.44 1-1-.44-1-1-1zm3 0v2h12v-2h-12zm-3 5c-.56 0-1 .44-1 1s.44 1 1 1 1-.44 1-1-.44-1-1-1zm3 0v2h12v-2h-12z"/></svg>',
-    }
+    },
   ],
   [
     {
       type: 'ordered-list-item',
       label: 'Ordered list',
-      icon: '<svg width="16" height="14" xmlns="http://www.w3.org/2000/svg"><g><path d="M6 1v2h10v-2h-10zm0 7h10v-2h-10v2zm0 3v2h10v-2h-10z"/><path d="M3.286 4.026v-3.958h-1.22l-1.23.854v1.08l1.166-.803h.065v2.827h-1.23v.974h3.619v-.974h-1.169zm-2.707 6.587v.021h1.148v-.024c0-.407.294-.694.718-.694.403 0 .673.243.673.605 0 .297-.195.554-.909 1.21l-1.559 1.432v.837h3.75v-.978h-2.078v-.065l.813-.714c.868-.762 1.196-1.258 1.196-1.812 0-.875-.742-1.463-1.842-1.463-1.142 0-1.911.66-1.911 1.644z"/></g></svg>'
+      icon: '<svg width="16" height="14" xmlns="http://www.w3.org/2000/svg"><g><path d="M6 1v2h10v-2h-10zm0 7h10v-2h-10v2zm0 3v2h10v-2h-10z"/><path d="M3.286 4.026v-3.958h-1.22l-1.23.854v1.08l1.166-.803h.065v2.827h-1.23v.974h3.619v-.974h-1.169zm-2.707 6.587v.021h1.148v-.024c0-.407.294-.694.718-.694.403 0 .673.243.673.605 0 .297-.195.554-.909 1.21l-1.559 1.432v.837h3.75v-.978h-2.078v-.065l.813-.714c.868-.762 1.196-1.258 1.196-1.812 0-.875-.742-1.463-1.842-1.463-1.142 0-1.911.66-1.911 1.644z"/></g></svg>',
     },
   ],
   [
@@ -68,7 +68,7 @@ export default [
     {
       type: 'code-block',
       label: 'Code block',
-      icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l-6 12h2l6-12h-2zm-8 2l-2 4 2 4h2l-2-4 2-4h-2zm10 0l2 4-2 4h2l2-4-2-4h-2z"></svg>'
-    }
+      icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l-6 12h2l6-12h-2zm-8 2l-2 4 2 4h2l-2-4 2-4h-2zm10 0l2 4-2 4h2l2-4-2-4h-2z"></svg>',
+    },
   ],
 ]

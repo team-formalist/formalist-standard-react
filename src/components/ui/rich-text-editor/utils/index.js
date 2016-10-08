@@ -50,8 +50,8 @@ export function removeAtomicBlock (key, editorState, focusAfter = true) {
       anchorOffset: selectionOffset,
       focusKey: selectionBlockKey,
       focusOffset: selectionOffset,
-      isBackward: false
-    })
+      isBackward: false,
+    }),
   })
   // Set the state
   return EditorState.push(editorState, contentState, 'delete-character')
@@ -97,7 +97,7 @@ function getSurroundingBlockKeys (currentBlockKey, editorState) {
   const selectedBlockIndex = blockMapKeys.indexOf(currentBlockKey)
   return [
     blockMapKeys[selectedBlockIndex - 1],
-    blockMapKeys[selectedBlockIndex + 1]
+    blockMapKeys[selectedBlockIndex + 1],
   ]
 }
 
@@ -107,7 +107,6 @@ function getSurroundingBlockKeys (currentBlockKey, editorState) {
 function getCharacterListForSelection (editorState, selection) {
   selection = selection || editorState.getSelection()
   const startKey = selection.getStartKey()
-  const endKey = selection.getEndKey()
   const startOffset = selection.getStartOffset()
   const endOffset = selection.getEndOffset()
   const contentState = editorState.getCurrentContent()

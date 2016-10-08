@@ -11,4 +11,8 @@ class Spinner extends Component {
   }
 }
 
+Spinner.propTypes = {
+  className: React.PropTypes.string,
+}
+
 export default Spinner

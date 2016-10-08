@@ -1,7 +1,9 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
-import {convertToRaw, EditorState, Entity, Modifier, RichUtils} from 'draft-js'
+import {
+  EditorState,
+} from 'draft-js'
 
 // Import components
 import FieldErrors from '../common/errors'
@@ -15,12 +17,10 @@ import RichTextEditor from '../../ui/rich-text-editor'
 import exporter from 'draft-js-ast-exporter'
 import importer from 'draft-js-ast-importer'
 
-
 /**
  * Text Area field
  */
 const RichTextArea = React.createClass({
-
   propTypes: {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
@@ -38,7 +38,7 @@ const RichTextArea = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value:  React.PropTypes.oneOfType([
+    value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.array,
       ImmutablePropTypes.list,
@@ -52,7 +52,7 @@ const RichTextArea = React.createClass({
     // Convert from a string?
     value = (typeof value === 'string') ? JSON.parse(value) : value
     return {
-      editorState: (value) ? EditorState.createWithContent(importer(value)) : EditorState.createEmpty()
+      editorState: (value) ? EditorState.createWithContent(importer(value)) : EditorState.createEmpty(),
     }
   },
 
@@ -69,7 +69,7 @@ const RichTextArea = React.createClass({
           delete copy['label']
           delete copy['form']
           return copy
-        }
+        },
       },
     }
     // Persist the value to the AST
@@ -80,12 +80,12 @@ const RichTextArea = React.createClass({
     )
     // Keep track of the state here
     this.setState({
-      editorState
+      editorState,
     })
   },
 
   render () {
-    const {attributes, errors, hint, label, name, value} = this.props
+    const {attributes, errors, hint, label, name} = this.props
     const {editorState} = this.state
     let hasErrors = (errors.count() > 0)
 
@@ -93,14 +93,14 @@ const RichTextArea = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors}/>
+          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <RichTextEditor
@@ -111,13 +111,13 @@ const RichTextArea = React.createClass({
             embeddableForms={attributes.embeddable_forms}
             boxSize={attributes.box_size}
             textSize={attributes.text_size}
-            placeholder={attributes.placeholder} />
-          {(hasErrors) ? <FieldErrors errors={errors}/> : null}
+            placeholder={attributes.placeholder}
+          />
+          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )
-  }
+  },
 })
-
 
 export default RichTextArea

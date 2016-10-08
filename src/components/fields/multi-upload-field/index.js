@@ -43,7 +43,7 @@ const MultiUploadField = React.createClass({
       presign_url: React.PropTypes.string,
       render_uploaded_as: React.PropTypes.string,
       upload_action_label: React.PropTypes.string,
-      upload_prompt: React.PropTypes.string
+      upload_prompt: React.PropTypes.string,
     }),
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
@@ -53,8 +53,8 @@ const MultiUploadField = React.createClass({
     name: React.PropTypes.string,
     value: React.PropTypes.oneOfType([
       ImmutablePropTypes.list,
-      React.PropTypes.object
-    ])
+      React.PropTypes.object,
+    ]),
   },
 
   /**
@@ -62,7 +62,7 @@ const MultiUploadField = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -72,7 +72,7 @@ const MultiUploadField = React.createClass({
 
   getDefaultProps () {
     return {
-      multiple: true
+      multiple: true,
     }
   },
 
@@ -105,7 +105,7 @@ const MultiUploadField = React.createClass({
     }
 
     return {
-      files
+      files,
     }
   },
 
@@ -144,7 +144,7 @@ const MultiUploadField = React.createClass({
 
     files = files.concat(newValueProps)
     this.setState({
-      files
+      files,
     })
   },
 
@@ -170,13 +170,13 @@ const MultiUploadField = React.createClass({
       const {name, size, type, lastModifiedDate} = file
       return {
         file,
-        fileAttributes : {
-          file_name: name
+        fileAttributes: {
+          file_name: name,
         },
         size,
         type,
         lastModifiedDate: lastModifiedDate.toString(),
-        uid: generateUniqueID(name)
+        uid: generateUniqueID(name),
       }
     }
 
@@ -226,7 +226,7 @@ const MultiUploadField = React.createClass({
     })
 
     this.setState({
-      files
+      files,
     })
   },
 
@@ -258,7 +258,7 @@ const MultiUploadField = React.createClass({
     files.splice(indexOfFile, 1, copy)
 
     this.setState({
-      files
+      files,
     })
 
     this.onUpdate(files)
@@ -311,7 +311,7 @@ const MultiUploadField = React.createClass({
     })
 
     this.setState({
-      files
+      files,
     })
   },
 
@@ -329,11 +329,11 @@ const MultiUploadField = React.createClass({
 
     XHRErrorMessages.push({
       uid: uid(10),
-      message
+      message,
     })
 
     this.setState({
-      XHRErrorMessages
+      XHRErrorMessages,
     })
   },
 
@@ -399,7 +399,7 @@ const MultiUploadField = React.createClass({
       permitted_file_type_regex,
       permitted_file_type_message,
       max_file_size,
-      max_file_size_message
+      max_file_size_message,
     } = attributes
 
     let status
@@ -418,7 +418,7 @@ const MultiUploadField = React.createClass({
         invalidFiles.push({
           file,
           uid: uid(10),
-          message: status.message
+          message: status.message,
         })
       } else {
         validFiles.push(file)
@@ -428,7 +428,7 @@ const MultiUploadField = React.createClass({
     // store invalid files to `invalidFiles`
     if (invalidFiles.length) {
       this.setState({
-        invalidFiles
+        invalidFiles,
       })
     }
 
@@ -446,7 +446,7 @@ const MultiUploadField = React.createClass({
       : uploadingFiles
 
     this.setState({
-      files: allFiles
+      files: allFiles,
     })
 
     // upload each valid file and passing in a progress event handler
@@ -467,7 +467,7 @@ const MultiUploadField = React.createClass({
     const files = sortArrayByOrder(existingFiles, newOrder)
 
     this.setState({
-      files
+      files,
     })
 
     this.onUpdate(files)
@@ -508,7 +508,7 @@ const MultiUploadField = React.createClass({
 
     files.splice(index, 1)
     this.setState({
-      files
+      files,
     })
 
     this.onUpdate(files)
@@ -527,7 +527,7 @@ const MultiUploadField = React.createClass({
     const invalidFiles = this.removeKeyFromState('invalidFiles', key)
 
     this.setState({
-      invalidFiles
+      invalidFiles,
     })
   },
 
@@ -544,7 +544,7 @@ const MultiUploadField = React.createClass({
     const XHRErrorMessages = this.removeKeyFromState('XHRErrorMessages', key)
 
     this.setState({
-      XHRErrorMessages
+      XHRErrorMessages,
     })
   },
 
@@ -569,7 +569,10 @@ const MultiUploadField = React.createClass({
           <div
             className={styles.removeX}
             onClick={this.removeXHRErrorMessage}
-            data-key={index}>×</div>
+            data-key={index}
+          >
+            ×
+          </div>
         </button>
       </div>
     )
@@ -662,7 +665,7 @@ const MultiUploadField = React.createClass({
     const titleClassNames = classNames(
       {
         [`${styles.listItem__title}`]: !isProgressTitle,
-        [`${styles.progress__title}`]: isProgressTitle
+        [`${styles.progress__title}`]: isProgressTitle,
       }
     )
 
@@ -705,7 +708,7 @@ const MultiUploadField = React.createClass({
       : null
 
     let currentProgress = {
-      width: progress > 0 ? (progress + '%') : '0%'
+      width: progress > 0 ? (progress + '%') : '0%',
     }
 
     return (
@@ -895,14 +898,14 @@ const MultiUploadField = React.createClass({
     let {
       XHRErrorMessages,
       files,
-      invalidFiles
+      invalidFiles,
     } = this.state
 
     // Set up field classes
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -932,7 +935,7 @@ const MultiUploadField = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default MultiUploadField

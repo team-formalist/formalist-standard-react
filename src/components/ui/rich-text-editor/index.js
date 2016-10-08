@@ -1,8 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
-import {Editor} from 'draft-js'
-import {fromJS, Map} from 'immutable'
 import Emitter from 'component-emitter'
 // Plugins
 import createAutoListPlugin from 'draft-js-autolist-plugin'
@@ -75,7 +73,7 @@ const RichTextEditor = React.createClass({
       embeddableForms,
     })
     const inlineToolbarPlugin = createInlineToolbarPlugin({
-      inlineFormatters
+      inlineFormatters,
     })
     // Build up the list of plugins
     let plugins = [
@@ -89,8 +87,8 @@ const RichTextEditor = React.createClass({
       plugins = plugins.concat([autoListPlugin, this.blockToolbarPlugin])
     }
     // Extract the toolbar component for use in rendering
-    this.BlockToolbar  = this.blockToolbarPlugin.BlockToolbar
-    this.blockRenderMap  = this.blockToolbarPlugin.blockRenderMap
+    this.BlockToolbar = this.blockToolbarPlugin.BlockToolbar
+    this.blockRenderMap = this.blockToolbarPlugin.blockRenderMap
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     return plugins
   },
@@ -135,7 +133,7 @@ const RichTextEditor = React.createClass({
     } = this
 
     let placeholderBlockType = false
-    const contentState = editorState.getCurrentContent();
+    const contentState = editorState.getCurrentContent()
     if (!contentState.hasText()) {
       placeholderBlockType = contentState.getBlockMap().first().getType()
     }
@@ -144,29 +142,36 @@ const RichTextEditor = React.createClass({
     let contentClassNames = classNames(
       styles.content,
       {
-        [`${styles['contentPlaceholder--' + placeholderBlockType]}`]: (placeholderBlockType && styles['contentPlaceholder--' + placeholderBlockType])
+        [`${styles['contentPlaceholder--' + placeholderBlockType]}`]: (placeholderBlockType && styles['contentPlaceholder--' + placeholderBlockType]),
       }
     )
 
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.base}>
         {(boxSize !== 'single')
           ? <div className={styles.gutter}>
-              <BlockToolbar
-                blockFormatters={blockFormatters}
-                editorHasFocus={hasFocus}
-                editorState={editorState}
-                onChange={onChange} />
-            </div>
+            <BlockToolbar
+              blockFormatters={blockFormatters}
+              editorHasFocus={hasFocus}
+              editorState={editorState}
+              onChange={onChange}
+            />
+          </div>
           : null
         }
-        <div className={contentClassNames} ref={(c) => this.contentEl = c} onClick={this.onContentClick}>
+        <div
+          className={contentClassNames}
+          ref={(c) => { this.contentEl = c }}
+          onClick={this.onContentClick}
+        >
           <InlineToolbar
             editorHasFocus={hasFocus}
             editorState={editorState}
             onChange={onChange} />
           <PluginsEditor
-            ref={(c) => this._editor = c}
+            ref={(c) => { this._editor = c }}
             blockRenderMap={this.blockRenderMap}
             placeholder={placeholder}
             plugins={this.state.plugins}
@@ -179,11 +184,13 @@ const RichTextEditor = React.createClass({
               this.emitter.emit('change', editorState)
               onChange(editorState)
             }}
-            readOnly={readOnly} />
+            readOnly={readOnly}
+          />
         </div>
       </div>
     )
-  }
+    /* eslint-enable react/jsx-no-bind */
+  },
 })
 
 export default RichTextEditor

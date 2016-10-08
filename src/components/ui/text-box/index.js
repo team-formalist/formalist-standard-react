@@ -16,23 +16,23 @@ function boxSize (size) {
   let rows = {
     single: {
       rows: 1,
-      maxRows: 1
+      maxRows: 1,
     },
     small: {
       minRows: 3,
-      maxRows: 6
+      maxRows: 6,
     },
     normal: {
       minRows: 5,
-      maxRows: 10
+      maxRows: 10,
     },
     large: {
       minRows: 8,
-      maxRows: 16
+      maxRows: 16,
     },
     xlarge: {
-      minRows: 12
-    }
+      minRows: 12,
+    },
   }
   return (size) ? rows[size] : rows['normal']
 }
@@ -47,20 +47,20 @@ const TextBox = React.createClass({
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     textSize: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge'])
+    boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
   },
 
   getDefaultProps () {
     return {
       error: false,
       textSize: 'normal',
-      boxSize: 'normal'
+      boxSize: 'normal',
     }
   },
 
   getInitialState () {
     return {
-      focus: false
+      focus: false,
     }
   },
 
@@ -84,7 +84,7 @@ const TextBox = React.createClass({
       styles.textBox,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.focus}`]: this.state.focus,
       },
       `${styles[this.props.textSize]}`
     )
@@ -99,7 +99,7 @@ const TextBox = React.createClass({
         onBlur={this.onBlur}
         onFocus={this.onFocus} />
     )
-  }
+  },
 })
 
 export default TextBox

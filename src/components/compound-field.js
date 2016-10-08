@@ -12,7 +12,7 @@ const CompoundField = ({children}) => {
 }
 
 CompoundField.propTypes = {
-  children: ImmutablePropTypes.list
+  children: ImmutablePropTypes.list,
 }
 
 export default CompoundField

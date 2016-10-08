@@ -9,7 +9,7 @@ import styles from './errors.mcss'
 const FieldErrors = React.createClass({
 
   propTypes: {
-    errors: ImmutablePropTypes.list.isRequired
+    errors: ImmutablePropTypes.list.isRequired,
   },
 
   shouldComponentUpdate (nextProps) {
@@ -32,7 +32,7 @@ const FieldErrors = React.createClass({
         </ul>
       </div>
     )
-  }
+  },
 })
 
 export default FieldErrors

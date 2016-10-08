@@ -1,8 +1,7 @@
-import React, {Component} from "react"
+import React, {Component} from 'react'
 import {
   Entity,
-  CompositeDecorator,
-} from "draft-js"
+} from 'draft-js'
 import uid from 'uid'
 // Components
 import Input from '../../../input'
@@ -12,7 +11,7 @@ import styles from './link.mcss'
 
 class Link extends Component {
   render () {
-    const {url} = Entity.get(this.props.entityKey).getData();
+    const {url} = Entity.get(this.props.entityKey).getData()
     return (
       <a href={url} title={url}>
         {this.props.children}
@@ -23,6 +22,10 @@ class Link extends Component {
 
 Link.propTypes = {
   entityKey: React.PropTypes.string.isRequired,
+  children: React.PropTypes.oneOfType([
+    React.PropTypes.arrayOf(React.PropTypes.node),
+    React.PropTypes.node,
+  ]),
 }
 
 function findLinkEntities (contentBlock, callback) {
@@ -31,7 +34,7 @@ function findLinkEntities (contentBlock, callback) {
       const entityKey = character.getEntity()
       return (
         entityKey !== null &&
-        Entity.get(entityKey).getType().toLowerCase() === "link"
+        Entity.get(entityKey).getType().toLowerCase() === 'link'
       )
     },
     callback
@@ -44,7 +47,7 @@ const decorator = {
 }
 
 class ActionHandler extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     const {entityKey} = props
@@ -54,7 +57,7 @@ class ActionHandler extends Component {
     this.state = {
       id: uid(10),
       editing: (entityData.url == null),
-      changeData: entityData
+      changeData: entityData,
     }
     this.persistPopover = this.persistPopover.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -62,7 +65,7 @@ class ActionHandler extends Component {
   }
 
   componentWillMount () {
-    const {entityKey, forceVisible} = this.props
+    const {entityKey} = this.props
     const entity = Entity.get(entityKey)
     const entityData = entity.getData()
     if (entityData.url == null) {
@@ -98,7 +101,7 @@ class ActionHandler extends Component {
   handleEdit () {
     this.persistPopover()
     this.setState({
-      editing: true
+      editing: true,
     })
   }
 
@@ -112,7 +115,7 @@ class ActionHandler extends Component {
     }
 
     const newChangeData = Object.assign({}, changeData, {
-      [`${key}`]: value
+      [`${key}`]: value,
     })
     this.setState({
       changeData: newChangeData,
@@ -123,81 +126,91 @@ class ActionHandler extends Component {
     e.preventDefault()
     const {entityKey} = this.props
     const {changeData} = this.state
-    const entity = Entity.get(entityKey)
     Entity.replaceData(entityKey, changeData)
     this.setState({
-      editing: false
+      editing: false,
     })
     this.unpersistPopover()
   }
 
-  render() {
-    const {entityKey, remove, forceVisible} = this.props
+  render () {
+    const {entityKey, remove} = this.props
     const {editing, id} = this.state
     const entity = Entity.get(entityKey)
     const entityData = entity.getData()
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
-      <div ref={(r) => this._container = r}>
+      <div ref={(r) => { this._container = r }}>
         {
           (editing)
           ? <form onSubmit={this.onSubmit}>
-              <div className={styles.field}>
-                <Label className={styles.label} for={`url-${id}`}>Link</Label>
-                <Input
-                  defaultValue={entityData.url}
-                  name={`url-${id}`}
-                  onChange={this.onChange.bind(this, 'url')}
-                  placeholder='http://'
-                  ref={(r) => this._url = r}
-                  size='small'
-                  type='text'/>
-              </div>
-              <div className={styles.field}>
-                <Label className={styles.label} for={`title-${id}`}>Title</Label>
-                <Input
-                  defaultValue={entityData.title}
-                  name={`title-${id}`}
-                  onChange={this.onChange.bind(this, 'title')}
-                  placeholder='Description of link'
-                  size='small'
-                  type='text'/>
-              </div>
-              <div className={styles.fieldCheckbox}>
-                <Checkbox
-                  defaultChecked={(entityData.newWindow === true)}
-                  label='Open in new window?'
-                  name={`newWindow-${id}`}
-                  onChange={this.onChange.bind(this, 'newWindow')}
-                  />
-              </div>
-              <div className={styles.actions}>
-                <button className={styles.saveButton}>Save link</button>
-              </div>
-            </form>
-          : <div className={styles.displayWrapper}>
-              <a href={entityData.url} target='_blank' className={styles.handlerUrl}>{entityData.url}</a>
-              <button
-                className={styles.editButton}
-                onClick={(e) => {
-                  e.preventDefault()
-                  this.handleEdit()
-                }}>
-                Change
-              </button>
-              <button
-                className={styles.removeButton}
-                onClick={(e) => {
-                  e.preventDefault()
-                  remove(entity)
-                }}>
-                <span className={styles.removeText}>Remove</span>
-                <span className={styles.removeX}>×</span>
-              </button>
+            <div className={styles.field}>
+              <Label className={styles.label} for={`url-${id}`}>Link</Label>
+              <Input
+                defaultValue={entityData.url}
+                name={`url-${id}`}
+                onChange={this.onChange.bind(this, 'url')}
+                placeholder='http://'
+                ref={(r) => { this._url = r }}
+                size='small'
+                type='text'
+              />
             </div>
+            <div className={styles.field}>
+              <Label className={styles.label} for={`title-${id}`}>Title</Label>
+              <Input
+                defaultValue={entityData.title}
+                name={`title-${id}`}
+                onChange={this.onChange.bind(this, 'title')}
+                placeholder='Description of link'
+                size='small'
+                type='text'
+              />
+            </div>
+            <div className={styles.fieldCheckbox}>
+              <Checkbox
+                defaultChecked={(entityData.newWindow === true)}
+                label='Open in new window?'
+                name={`newWindow-${id}`}
+                onChange={this.onChange.bind(this, 'newWindow')}
+              />
+            </div>
+            <div className={styles.actions}>
+              <button className={styles.saveButton}>Save link</button>
+            </div>
+          </form>
+          : <div className={styles.displayWrapper}>
+            <a href={entityData.url} target='_blank' className={styles.handlerUrl}>{entityData.url}</a>
+            <button
+              className={styles.editButton}
+              onClick={(e) => {
+                e.preventDefault()
+                this.handleEdit()
+              }}>
+              Change
+            </button>
+            <button
+              className={styles.removeButton}
+              onClick={(e) => {
+                e.preventDefault()
+                remove(entity)
+              }}>
+              <span className={styles.removeText}>Remove</span>
+              <span className={styles.removeX}>×</span>
+            </button>
+          </div>
         }
       </div>
     )
+    /* eslint-enable react/jsx-no-bind */
   }
+}
+
+ActionHandler.propTypes = {
+  entityKey: React.PropTypes.number.isRequired,
+  forceVisible: React.PropTypes.func.isRequired,
+  remove: React.PropTypes.func.isRequired,
 }
 
 export default {

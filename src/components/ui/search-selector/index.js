@@ -140,10 +140,10 @@ class SearchSelector extends Component {
     const Option = optionComponent
     const options = results.map((option) => {
       const selected = (selectedIds.indexOf(option.id) > -1)
-      let onClick = function (e) {
+      let onClick = (e) => {
         e.preventDefault()
         onSelection(option.id, option)
-      }.bind(this)
+      }
       const optionButtonClassNames = classNames(
         styles.optionButton,
         {
@@ -170,7 +170,7 @@ class SearchSelector extends Component {
     return (
       <div className={styles.base}>
         <input
-          ref={(r) => this._search = r}
+          ref={(r) => { this._search = r }}
           type='text'
           className={styles.search}
           defaultValue={this.query}
@@ -179,18 +179,18 @@ class SearchSelector extends Component {
           onFocus={this.onSearchFocus}
           onChange={this.onSearchChange} />
         {
-          (loading) ? <Spinner className={styles.spinner}/> : null
+          (loading) ? <Spinner className={styles.spinner} /> : null
         }
         {
           (options.length > 0)
           ? <div className={resultClassNames}>
-              <div className={styles.pagination}>
-                <Pagination currentPage={this.page} totalPages={pagination.total_pages} goToPage={this.goToPage}/>
-              </div>
-              <div className={styles.list}>
-                {options}
-              </div>
+            <div className={styles.pagination}>
+              <Pagination currentPage={this.page} totalPages={pagination.total_pages} goToPage={this.goToPage} />
             </div>
+            <div className={styles.list}>
+              {options}
+            </div>
+          </div>
           : (hasSearched && hasQuery && !loading) ? <p className={styles.noResults}>No results matching your search</p> : null
         }
       </div>
@@ -203,11 +203,7 @@ class SearchSelector extends Component {
  * @type {Object}
  */
 SearchSelector.defaultProps = {
-  optionComponent: ({option}) => (
-    <div>
-      {option.label}
-    </div>
-  ),
+  optionComponent: OptionComponent,
   selectedIds: [],
   perPage: 20,
   threshold: 1,
@@ -218,13 +214,32 @@ SearchSelector.defaultProps = {
  * @type {Object}
  */
 SearchSelector.propTypes = {
+  onBlur: React.PropTypes.func,
+  onFocus: React.PropTypes.func,
+  onQueryChange: React.PropTypes.func,
   onSelection: React.PropTypes.func.isRequired,
   optionComponent: React.PropTypes.func,
   selectedIds: React.PropTypes.array,
   params: React.PropTypes.object,
   perPage: React.PropTypes.number,
+  query: React.PropTypes.string,
   threshold: React.PropTypes.number,
   url: React.PropTypes.string.isRequired,
+}
+
+/**
+ * Default Option Component for the search selector
+ */
+function OptionComponent ({option}) {
+  return (
+    <div>
+      {option.label}
+    </div>
+  )
+}
+
+OptionComponent.propTypes = {
+  option: React.PropTypes.object,
 }
 
 export default SearchSelector

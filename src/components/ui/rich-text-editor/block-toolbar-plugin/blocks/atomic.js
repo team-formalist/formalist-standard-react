@@ -11,11 +11,20 @@ const dataObjectRenderer = createDataObjectRenderer()
 let configuredTemplate
 
 const AtomicBlock = React.createClass({
+  propTypes: {
+    block: React.PropTypes.object.isRequired,
+    blockProps: React.PropTypes.shape({
+      editorEmitter: React.PropTypes.object.isRequired,
+      remove: React.PropTypes.func.isRequired,
+      setReadOnly: React.PropTypes.func.isRequired,
+    }),
+  },
+
   getInitialState () {
     this.entityKey = this.props.block.getEntityAt(0)
     this.entity = Entity.get(this.entityKey)
     return {
-      isSelected: false
+      isSelected: false,
     }
   },
 
@@ -24,7 +33,7 @@ const AtomicBlock = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   componentWillMount () {
@@ -34,11 +43,10 @@ const AtomicBlock = React.createClass({
     // Memoize the configured template the first time this runs
     // We need to invoke this at execution time so that the circular
     // dependencies are properly resolved.
-    configuredTemplate = configuredTemplate ||  template(null, {global: this.context.globalConfig})
+    configuredTemplate = configuredTemplate || template(null, {global: this.context.globalConfig})
 
     // Extract the entity
     const entityData = this.entity.getData()
-    const type = this.entity.getType()
 
     // Create the formalist form with config
     this.form = configuredTemplate(entityData.form)
@@ -91,7 +99,7 @@ const AtomicBlock = React.createClass({
       }
     }
     this.setState({
-      isSelected
+      isSelected,
     })
   },
 
@@ -124,15 +132,17 @@ const AtomicBlock = React.createClass({
     const containerClassNames = classNames(
       styles.container,
       {
-        [`${styles.containerSelected}`]: isSelected
+        [`${styles.containerSelected}`]: isSelected,
       }
     )
 
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.wrapper} data-debug-block-key={this.props.block.getKey()}>
-        <div className={styles.caret}><br/></div>
+        <div className={styles.caret}><br /></div>
         <div
-          ref={(r) => this._blockContainer = r}
+          ref={(r) => { this._blockContainer = r }}
           className={containerClassNames}
           onClick={this.onFocus}
           onFocus={this.onFocus}
@@ -157,7 +167,8 @@ const AtomicBlock = React.createClass({
         </div>
       </div>
     )
-  }
+    /* eslint-enable react/jsx-no-bind */
+  },
 })
 
 export default AtomicBlock

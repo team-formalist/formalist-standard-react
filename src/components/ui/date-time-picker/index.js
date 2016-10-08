@@ -12,7 +12,7 @@ import styles from './date-time-picker.mcss'
 const dateFormats = {
   utc: 'YYYY-MM-DDTHH:mm:ssZ',
   date: 'YYYY-MM-DD',
-  time: 'HH:mm:ss'
+  time: 'HH:mm:ss',
 }
 
 const DateTimePicker = React.createClass({
@@ -21,7 +21,7 @@ const DateTimePicker = React.createClass({
     error: React.PropTypes.bool,
     id: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
   },
 
   getInitialState () {
@@ -31,13 +31,13 @@ const DateTimePicker = React.createClass({
         this.dateTime = parsedDateTime
         return {
           date: parsedDateTime.format(dateFormats.date),
-          time: parsedDateTime.format(dateFormats.time)
+          time: parsedDateTime.format(dateFormats.time),
         }
       }
     }
     return {
       date: null,
-      time: null
+      time: null,
     }
   },
 
@@ -48,7 +48,7 @@ const DateTimePicker = React.createClass({
         this.dateTime = this.dateTime.set({
           year: parsedDate.year(),
           month: parsedDate.month(),
-          date: parsedDate.date()
+          date: parsedDate.date(),
         })
       } else {
         this.dateTime = parsedDate
@@ -68,7 +68,7 @@ const DateTimePicker = React.createClass({
         this.dateTime = this.dateTime.set({
           hours: parsedTime.hours(),
           minutes: parsedTime.minutes(),
-          seconds: parsedTime.seconds()
+          seconds: parsedTime.seconds(),
         })
       } else {
         this.dateTime = parsedTime
@@ -95,17 +95,19 @@ const DateTimePicker = React.createClass({
             error={error}
             placeholder={placeholder}
             defaultValue={dateValue}
-            onChange={this.onDateChange} />
+            onChange={this.onDateChange}
+          />
         </div>
         <div className={styles.timePicker}>
           <TimePicker
             error={error}
             defaultValue={timeValue}
-            onChange={this.onTimeChange} />
+            onChange={this.onTimeChange}
+          />
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default DateTimePicker
