@@ -51,9 +51,6 @@ const TimePicker = React.createClass({
     this.time = time
     this.setState({
       inputValue: time.format(dateFormats.humanTime)
-    }, () => {
-      // We have to explicitly set the value of the input
-      this._timeInput.value = this.state.inputValue
     })
     this.props.onChange(time.format(dateFormats.time))
   },
@@ -127,13 +124,14 @@ const TimePicker = React.createClass({
 
   render () {
     let { error, placeholder } = this.props
+    let { inputValue } = this.state
 
     return (
       <div className={styles.base}>
         <Popunder ref={(r) => this._popunder = r} closeOnEsc closeOnOutsideClick onOpen={this.onPopunderOpen}>
           <Input
-            ref={(r) => this._timeInput = r}
-            defaultValue={this.state.inputValue}
+            key={inputValue}
+            defaultValue={inputValue}
             error={error}
             placeholder={placeholder || 'Select or enter a time'}
             onFocus={this.onInputFocus}
