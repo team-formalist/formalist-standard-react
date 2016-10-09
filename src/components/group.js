@@ -8,7 +8,7 @@ const Group = React.createClass({
     hashCode: React.PropTypes.number.isRequired,
     type: React.PropTypes.string,
     attributes: ImmutablePropTypes.map,
-    children: ImmutablePropTypes.list
+    children: ImmutablePropTypes.list,
   },
 
   shouldComponentUpdate (nextProps) {
@@ -31,7 +31,7 @@ const Group = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default Group

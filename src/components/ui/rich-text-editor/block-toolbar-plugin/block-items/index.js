@@ -12,7 +12,7 @@ import styles from './block-items.mcss'
  * @param  {Array} types List of the allowed types
  * @return {String} Name of the next block type to apply
  */
-function getNextBlockTypeToApply(currentType, types) {
+function getNextBlockTypeToApply (currentType, types) {
   const index = types.indexOf(currentType)
   if (index === -1) {
     return types[0]
@@ -27,6 +27,7 @@ function getNextBlockTypeToApply(currentType, types) {
  */
 const BlockItems = React.createClass({
   propTypes: {
+    currentBlockType: React.PropTypes.string,
     itemsGroups: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -34,7 +35,7 @@ const BlockItems = React.createClass({
 
   getDefaultProps () {
     return {
-      itemsGroups: []
+      itemsGroups: [],
     }
   },
 
@@ -46,7 +47,7 @@ const BlockItems = React.createClass({
   },
 
   renderItemsGroups (itemsGroups) {
-    const {editorState, currentBlockType} = this.props
+    const {currentBlockType} = this.props
     return itemsGroups.map((group) => {
       const types = group.map((item) => item.type)
       const activeIndex = types.indexOf(currentBlockType)
@@ -65,17 +66,25 @@ const BlockItems = React.createClass({
           [`${styles.iconWrapperActive}`]: isActive,
         }
       )
+
+      // TODO Asses whether to remove this binding
+      /* eslint-disable react/jsx-no-bind */
       return (
         <button key={displayItem.type} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
           this.toggleBlockType(getNextBlockTypeToApply(currentBlockType, types))
         }}>
           {(displayItem.icon)
-            ? <span title={displayItem.label} className={iconWrapperClassNames} dangerouslySetInnerHTML={{__html: displayItem.icon}}/>
+            ? <span
+              title={displayItem.label}
+              className={iconWrapperClassNames}
+              dangerouslySetInnerHTML={{__html: displayItem.icon}}
+            />
             : displayItem.label
           }
         </button>
       )
+      /* eslint-enable react/jsx-no-bind */
     })
   },
 
@@ -84,6 +93,8 @@ const BlockItems = React.createClass({
     if (itemsGroups.length === 0) {
       return null
     }
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.container}>
         <ul className={styles.list} onMouseDown={(e) => e.preventDefault()}>
@@ -91,7 +102,8 @@ const BlockItems = React.createClass({
         </ul>
       </div>
     )
-  }
+    /* eslint-enable react/jsx-no-bind */
+  },
 })
 
 export default BlockItems

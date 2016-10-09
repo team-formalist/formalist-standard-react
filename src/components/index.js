@@ -12,7 +12,7 @@ export default function components (customComponents = {}, config = {}) {
     compoundField: CompoundFieldFactory,
     group: GroupFactory,
     many: ManyFactory,
-    section: SectionFactory
+    section: SectionFactory,
   }
   return Object.assign(base, customComponents)
 }

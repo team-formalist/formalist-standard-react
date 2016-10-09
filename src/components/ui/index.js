@@ -35,5 +35,5 @@ export default {
   TextBox,
   TimePicker,
   FileInput,
-  Dropzone
+  Dropzone,
 }

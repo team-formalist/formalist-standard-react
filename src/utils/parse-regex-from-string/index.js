@@ -4,12 +4,12 @@
  * into /foo/gi
  * @return {RegExp} Parsed regex
  */
-export default function parseRegexFromString(format) {
+export default function parseRegexFromString (format) {
   if (format == null) return null
   if (format instanceof RegExp) {
-    return format;
+    return format
   } else {
-    var matches = format.match(/^\/(.+)(?:\/([gimy]+)?)/);
-    return new RegExp(matches[1], matches[2]);
+    var matches = format.match(/^\/(.+)(?:\/([gimy]+)?)/)
+    return new RegExp(matches[1], matches[2])
   }
 }

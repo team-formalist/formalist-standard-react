@@ -30,22 +30,22 @@ const RadioButton = React.createClass({
     value: React.PropTypes.oneOfType([
       React.PropTypes.bool,
       React.PropTypes.number,
-      React.PropTypes.string
-    ])
+      React.PropTypes.string,
+    ]),
   },
 
   getDefaultProps () {
     return {
       disabled: false,
       error: false,
-      size: 'normal'
+      size: 'normal',
     }
   },
 
   getInitialState () {
     return {
       id: uid(10),
-      focus: false
+      focus: false,
     }
   },
 
@@ -67,19 +67,23 @@ const RadioButton = React.createClass({
       }
     )
 
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.button}>
-        <button onClick={(e) => {
+        <button
+          onClick={(e) => {
             e.preventDefault()
             if (this._input) {
               e.stopPropagation()
-              this.props.onChange({target: { value: this.props.value}})
+              this.props.onChange({target: {value: this.props.value}})
             }
           }}
           onBlur={this.onBlur}
-          onFocus={this.onFocus}>
+          onFocus={this.onFocus}
+        >
           <input
-            ref={(c) => this._input = c}
+            ref={(c) => { this._input = c }}
             className={styles.input}
             id={this.state.id}
             type='radio'
@@ -87,16 +91,19 @@ const RadioButton = React.createClass({
             value={value}
             checked={defaultChecked}
             disabled={this.state.focus}
-            onChange={onChange} />
+            onChange={onChange}
+          />
           <label
             className={labelClassNames}
-            htmlFor={this.state.id}>
-              {label}
+            htmlFor={this.state.id}
+          >
+            {label}
           </label>
         </button>
       </div>
     )
-  }
+    /* eslint-enable react/jsx-no-bind */
+  },
 })
 
 export default RadioButton

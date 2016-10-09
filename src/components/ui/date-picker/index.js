@@ -22,19 +22,19 @@ const DatePicker = React.createClass({
     id: React.PropTypes.string,
     month: React.PropTypes.number,
     onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
   },
 
   getInitialState () {
     return {
       value: (this.props.defaultValue) ? moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
-      month: this.props.month || new Date()
+      month: this.props.month || new Date(),
     }
   },
 
   getDefaultProps () {
     return {
-      placeholder: 'Select a date'
+      placeholder: 'Select a date',
     }
   },
 
@@ -68,7 +68,7 @@ const DatePicker = React.createClass({
     let value = moment(day).format('l')
     this.setState({
       value: value,
-      month: day
+      month: day,
     })
     // Pass the value back
     let storedValue = moment(value, 'l').format('YYYY-MM-DD')
@@ -82,29 +82,35 @@ const DatePicker = React.createClass({
 
     return (
       <div className={className}>
-        <Popunder ref={(c) => this._popunder = c}  closeOnEsc closeOnOutsideClick>
+        <Popunder
+          ref={(c) => { this._popunder = c }}
+          closeOnEsc
+          closeOnOutsideClick
+        >
           <Input
             id={id}
             error={error}
             placeholder={placeholder}
             value={value}
             onChange={this.onInputChange}
-            onFocus={this.onInputFocus} />
+            onFocus={this.onInputFocus}
+          />
           <div className={styles.daypickerContainer}>
             <DayPicker
-              ref={(c) => this._daypicker = c}
+              ref={(c) => { this._daypicker = c }}
               locale='en-AU'
               localeUtils={localeUtils}
               initialMonth={this.state.month}
               modifiers={{
-                selected: (day) => DateUtils.isSameDay(selectedDay, day)
+                selected: (day) => DateUtils.isSameDay(selectedDay, day),
               }}
-              onDayClick={this.onDayClick} />
+              onDayClick={this.onDayClick}
+            />
           </div>
         </Popunder>
       </div>
     )
-  }
+  },
 })
 
 export default DatePicker

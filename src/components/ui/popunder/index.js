@@ -31,19 +31,19 @@ const Popunder = React.createClass({
     closeOnOutsideClick: React.PropTypes.bool,
     offset: React.PropTypes.shape({
       left: React.PropTypes.number,
-      top: React.PropTypes.number
+      top: React.PropTypes.number,
     }),
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func
+    onUpdate: React.PropTypes.func,
   },
 
   getDefaultProps () {
     return {
       offset: {
         left: 0,
-        top: 0
-      }
+        top: 0,
+      },
     }
   },
 
@@ -52,8 +52,8 @@ const Popunder = React.createClass({
       isOpened: false,
       position: {
         left: 0,
-        top: 0
-      }
+        top: 0,
+      },
     }
   },
 
@@ -92,10 +92,10 @@ const Popunder = React.createClass({
     const scrollY = window.scrollY
     let position = {
       left: referencePosition.left + scrollX + this.props.offset.left,
-      top: referencePosition.top + scrollY + referencePosition.height + this.props.offset.top
+      top: referencePosition.top + scrollY + referencePosition.height + this.props.offset.top,
     }
     this.setState({
-      position
+      position,
     })
     return position
   },
@@ -165,7 +165,7 @@ const Popunder = React.createClass({
     const {closeOnEsc} = this.props
     // ESCAPE = 27
     if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
-      this.closePopunder();
+      this.closePopunder()
     }
   },
 
@@ -200,9 +200,8 @@ const Popunder = React.createClass({
   render () {
     // Extract Portal props
     let {
-      closeOnEsc,
       beforeClose,
-      onUpdate
+      onUpdate,
     } = this.props
 
     let {isOpened, position} = this.state
@@ -214,23 +213,27 @@ const Popunder = React.createClass({
 
     return (
       <div>
-        <div ref={(c) => this._reference = c}>
+        <div ref={(c) => { this._reference = c }}>
           {reference}
         </div>
         <Portal
-          ref={(c) => this._portal = c}
+          ref={(c) => { this._portal = c }}
           beforeClose={beforeClose}
           isOpened={isOpened}
           onOpen={this.onOpen}
           onClose={this.onClose}
           onUpdate={onUpdate}>
-          <div ref={(c) => this._container = c} className={styles.container} style={position}>
+          <div
+            ref={(c) => { this._container = c }}
+            className={styles.container}
+            style={position}
+          >
             {children.slice(1)}
           </div>
         </Portal>
       </div>
     )
-  }
+  },
 })
 
 export default Popunder

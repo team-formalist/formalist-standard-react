@@ -12,7 +12,7 @@ import styles from './time-picker.mcss'
 
 const dateFormats = {
   time: 'HH:mm:ss',
-  humanTime: 'hh:mma'
+  humanTime: 'hh:mma',
 }
 
 const TimePicker = React.createClass({
@@ -21,7 +21,7 @@ const TimePicker = React.createClass({
     defaultValue: React.PropTypes.string,
     error: React.PropTypes.bool,
     onChange: React.PropTypes.func,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
   },
 
   getInitialState () {
@@ -32,7 +32,7 @@ const TimePicker = React.createClass({
       inputValue = parsedTime.format(dateFormats.humanTime)
     }
     return {
-      inputValue: inputValue
+      inputValue: inputValue,
     }
   },
 
@@ -50,7 +50,7 @@ const TimePicker = React.createClass({
     e.preventDefault()
     this.time = time
     this.setState({
-      inputValue: time.format(dateFormats.humanTime)
+      inputValue: time.format(dateFormats.humanTime),
     })
     this.props.onChange(time.format(dateFormats.time))
   },
@@ -64,7 +64,7 @@ const TimePicker = React.createClass({
     let date = moment().set({
       hours: 0,
       minutes: 0,
-      seconds: 0
+      seconds: 0,
     })
     // Get the end of the day
     let end = moment().endOf('day')
@@ -93,17 +93,18 @@ const TimePicker = React.createClass({
       let buttonClassNames = classNames(
         styles.button,
         {
-          [`${styles.buttonActive}`]: isActive
+          [`${styles.buttonActive}`]: isActive,
         }
       )
 
       let onClick = this.onTimeClick.bind(this, date.clone())
       let item = <li key={date.format()} className={styles.item}>
         <button
-          ref={(r) => this._buttonActive = (isActive) ? r : null}
+          ref={(r) => { this._buttonActive = (isActive) ? r : null }}
           className={buttonClassNames}
-          onClick={onClick}>
-           {date.format(dateFormats.humanTime)}
+          onClick={onClick}
+        >
+          {date.format(dateFormats.humanTime)}
         </button>
       </li>
       items.push(item)
@@ -128,19 +129,25 @@ const TimePicker = React.createClass({
 
     return (
       <div className={styles.base}>
-        <Popunder ref={(r) => this._popunder = r} closeOnEsc closeOnOutsideClick onOpen={this.onPopunderOpen}>
+        <Popunder
+          ref={(r) => { this._popunder = r }}
+          closeOnEsc
+          closeOnOutsideClick
+          onOpen={this.onPopunderOpen}
+        >
           <Input
             key={inputValue}
             defaultValue={inputValue}
             error={error}
             placeholder={placeholder || 'Select or enter a time'}
             onFocus={this.onInputFocus}
-            onChange={this.onInputChange} />
+            onChange={this.onInputChange}
+          />
           {this.renderTimeList()}
         </Popunder>
       </div>
     )
-  }
+  },
 })
 
 export default TimePicker

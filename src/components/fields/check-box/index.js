@@ -24,12 +24,12 @@ const CheckBox = React.createClass({
       label: React.PropTypes.string,
       hint: React.PropTypes.string,
       placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool
+      inline: React.PropTypes.bool,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.bool
+    value: React.PropTypes.bool,
   },
 
   /**
@@ -37,7 +37,7 @@ const CheckBox = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -59,7 +59,7 @@ const CheckBox = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -83,7 +83,7 @@ const CheckBox = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default CheckBox

@@ -27,21 +27,21 @@ const Checkbox = React.createClass({
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    value: React.PropTypes.bool
+    value: React.PropTypes.bool,
   },
 
   getDefaultProps () {
     return {
       disabled: false,
       error: false,
-      size: 'normal'
+      size: 'normal',
     }
   },
 
   getInitialState () {
     return {
       id: uid(10),
-      focus: false
+      focus: false,
     }
   },
 
@@ -63,7 +63,7 @@ const Checkbox = React.createClass({
       styles.label,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.focus}`]: this.state.focus,
       }
     )
 
@@ -78,15 +78,17 @@ const Checkbox = React.createClass({
           defaultChecked={defaultChecked}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+        />
         <label
           className={labelClassNames}
-          htmlFor={this.state.id}>
-            {label}
+          htmlFor={this.state.id}
+        >
+          {label}
         </label>
       </div>
     )
-  }
+  },
 })
 
 export default Checkbox

@@ -22,11 +22,13 @@ const Select = React.createClass({
     children: React.PropTypes.node,
     error: React.PropTypes.bool,
     defaultValue: React.PropTypes.string,
+    id: React.PropTypes.string,
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
+    onChange: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    valueSeed: React.PropTypes.string
+    valueSeed: React.PropTypes.string,
   },
 
   getDefaultProps () {
@@ -34,13 +36,13 @@ const Select = React.createClass({
       error: false,
       placeholder: 'Select an option',
       size: 'normal',
-      valueSeed: uid(10)
+      valueSeed: uid(10),
     }
   },
 
   getInitialState () {
     return {
-      focus: false
+      focus: false,
     }
   },
 
@@ -67,7 +69,7 @@ const Select = React.createClass({
       styles.label,
       {
         [`${styles.labelError}`]: this.props.error,
-        [`${styles.labelFocus}`]: this.state.focus
+        [`${styles.labelFocus}`]: this.state.focus,
       }
     )
     let inputClassNames = classNames(
@@ -75,7 +77,7 @@ const Select = React.createClass({
       styles.select,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.focus}`]: this.state.focus,
       },
       `${styles[this.props.size]}`
     )
@@ -102,7 +104,7 @@ const Select = React.createClass({
         </select>
       </label>
     )
-  }
+  },
 })
 
 export default Select

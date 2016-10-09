@@ -12,7 +12,7 @@ const Attr = ({children}) => {
 }
 
 Attr.propTypes = {
-  children: ImmutablePropTypes.list
+  children: ImmutablePropTypes.list,
 }
 
 export default Attr

@@ -2,12 +2,6 @@ import React, {Component} from 'react'
 import styles from './pagination.mcss'
 
 class Pagination extends Component {
-  constructor (props) {
-    super(props)
-
-    // Bindings
-  }
-
   nextPage () {
     const {currentPage, goToPage, totalPages} = this.props
     if (currentPage < totalPages) {
@@ -25,6 +19,8 @@ class Pagination extends Component {
   renderJumpSelect (currentPage, totalPages, goToPage) {
     // Create an array with the number of pages
     const pages = Array.apply(null, {length: totalPages}).map(Number.call, Number)
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <select
         onChange={(e) => goToPage(e.target.value)}
@@ -37,6 +33,7 @@ class Pagination extends Component {
         }
       </select>
     )
+    /* eslint-enable react/jsx-no-bind */
   }
 
   render () {
@@ -44,6 +41,8 @@ class Pagination extends Component {
 
     const jumpSelect = this.renderJumpSelect(currentPage, totalPages, goToPage)
 
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.base}>
         <div className={styles.info}>
@@ -71,6 +70,7 @@ class Pagination extends Component {
         </div>
       </div>
     )
+    /* eslint-enable react/jsx-no-bind */
   }
 }
 

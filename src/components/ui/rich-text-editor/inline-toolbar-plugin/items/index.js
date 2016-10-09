@@ -69,17 +69,24 @@ class InlineToolbarItems extends Component {
           [`${styles.iconWrapperActive}`]: active,
         }
       )
+      // TODO Asses whether to remove this binding
+      /* eslint-disable react/jsx-no-bind */
       return (
         <button key={formatter.label} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
           this.toggleFormat(formatter.style)
         }}>
           {(formatter.icon)
-            ? <span title={formatter.label} className={iconWrapperClassNames} dangerouslySetInnerHTML={{__html: formatter.icon}}/>
+            ? <span
+              title={formatter.label}
+              className={iconWrapperClassNames}
+              dangerouslySetInnerHTML={{__html: formatter.icon}}
+            />
             : formatter.label
           }
         </button>
       )
+      /* eslint-enable react/jsx-no-bind */
     })
   }
 
@@ -100,17 +107,24 @@ class InlineToolbarItems extends Component {
           [`${styles.iconWrapperActive}`]: active,
         }
       )
+      // TODO Asses whether to remove this binding
+      /* eslint-disable react/jsx-no-bind */
       return (
         <button key={entity.label} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
           this.toggleEntity(entity, active)
         }}>
           {(entity.icon)
-            ? <span title={entity.label} className={iconWrapperClassNames} dangerouslySetInnerHTML={{__html: entity.icon}}/>
+            ? <span
+              title={entity.label}
+              className={iconWrapperClassNames}
+              dangerouslySetInnerHTML={{__html: entity.icon}}
+            />
             : entity.label
           }
         </button>
       )
+      /* eslint-enable react/jsx-no-bind */
     })
   }
 

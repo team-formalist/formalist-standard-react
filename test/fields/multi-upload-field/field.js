@@ -10,11 +10,11 @@ const props = {
   label: 'bar',
   name: 'baz',
   attributes: {
-    inline: true
+    inline: true,
   },
   errors: {
-    count () {}
-  }
+    count () {},
+  },
 }
 
 test('File Upload:', (nest) => {

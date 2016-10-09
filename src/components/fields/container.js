@@ -26,7 +26,7 @@ const FieldContainer = React.createClass({
     rules: ImmutablePropTypes.list,
     store: React.PropTypes.object.isRequired,
     type: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any
+    value: React.PropTypes.any,
   },
 
   /**
@@ -34,12 +34,12 @@ const FieldContainer = React.createClass({
    */
 
   childContextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   getChildContext () {
     return {
-      globalConfig: this.props.globalConfig
+      globalConfig: this.props.globalConfig,
     }
   },
 
@@ -61,7 +61,7 @@ const FieldContainer = React.createClass({
       path,
       rules,
       store,
-      value
+      value,
     } = this.props
     let Field = field
 
@@ -92,16 +92,16 @@ const FieldContainer = React.createClass({
         }
         return store.batchDispatch([
           editField(path, val),
-          validateField(path, validate(editedValue))
+          validateField(path, validate(editedValue)),
         ])
-      }
+      },
     }
 
     // Set up standard classNames
     let containerClassNames = classNames(
       styles.base,
       {
-        [`${styles.errors}`]: (errors.count() > 0)
+        [`${styles.errors}`]: (errors.count() > 0),
       }
     )
 
@@ -121,7 +121,7 @@ const FieldContainer = React.createClass({
           hint={hint} />
       </div>
     )
-  }
+  },
 })
 
 export default FieldContainer

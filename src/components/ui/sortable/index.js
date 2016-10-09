@@ -46,7 +46,7 @@ const Sortable = React.createClass({
      */
     onSort: React.PropTypes.func,
     canSort: React.PropTypes.bool,
-    verticalControls: React.PropTypes.bool
+    verticalControls: React.PropTypes.bool,
   },
 
   getInitialState () {
@@ -55,9 +55,9 @@ const Sortable = React.createClass({
       items: React.Children.map(this.props.children, (child, index) => (
         {
           component: child,
-          originalIndex: index
+          originalIndex: index,
         }
-      ))
+      )),
     }
   },
 
@@ -66,9 +66,9 @@ const Sortable = React.createClass({
       items: React.Children.map(nextProps.children, (child, index) => (
         {
           component: child,
-          originalIndex: index
+          originalIndex: index,
         }
-      ))
+      )),
     })
   },
 
@@ -115,18 +115,16 @@ const Sortable = React.createClass({
       items: {
         $splice: [
           [dragIndex, 1],
-          [hoverIndex, 0, dragItem]
-        ]
-      }
+          [hoverIndex, 0, dragItem],
+        ],
+      },
     }))
   },
 
   render () {
     const { instanceKey, items } = this.state
     const { canRemove, onRemove, verticalControls, canSort } = this.props
-    let isSortable = (canSort === false || items.length <= 1)
-      ? false
-      : true
+    let isSortable = !(canSort === false || items.length <= 1)
 
     return (
       <div className={styles.base} data-name='sortable-item'>
@@ -147,7 +145,7 @@ const Sortable = React.createClass({
         ))}
       </div>
     )
-  }
+  },
 })
 
 export default DragDropContext(HTML5Backend)(Sortable)

@@ -23,20 +23,20 @@ const Input = React.createClass({
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     onFocus: React.PropTypes.func,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge'])
+    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
   },
 
   getDefaultProps () {
     return {
       error: false,
       size: 'normal',
-      type: 'text'
+      type: 'text',
     }
   },
 
   getInitialState () {
     return {
-      focus: false
+      focus: false,
     }
   },
 
@@ -71,7 +71,7 @@ const Input = React.createClass({
       styles.input,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus
+        [`${styles.focus}`]: this.state.focus,
       },
       `${styles[this.props.size]}`
     )
@@ -80,14 +80,15 @@ const Input = React.createClass({
 
     return (
       <input
-        ref={(r) => this._input = r}
+        ref={(r) => { this._input = r }}
         {...propsToPass}
         onChange={this.onChange}
         className={inputClassNames}
         onBlur={this.onBlur}
-        onFocus={this.onFocus} />
+        onFocus={this.onFocus}
+      />
     )
-  }
+  },
 })
 
 export default Input

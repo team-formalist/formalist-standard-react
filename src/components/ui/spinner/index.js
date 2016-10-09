@@ -6,9 +6,13 @@ class Spinner extends Component {
   render () {
     const spinnerClassNames = classNames(styles.spinner, this.props.className)
     return (
-      <div className={spinnerClassNames}></div>
+      <div className={spinnerClassNames} />
     )
   }
+}
+
+Spinner.propTypes = {
+  className: React.PropTypes.string,
 }
 
 export default Spinner

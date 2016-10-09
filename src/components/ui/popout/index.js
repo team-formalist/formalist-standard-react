@@ -36,12 +36,12 @@ const Popout = React.createClass({
     offset: React.PropTypes.shape({
       default: React.PropTypes.number,
       vert: React.PropTypes.number,
-      horz: React.PropTypes.number
+      horz: React.PropTypes.number,
     }),
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
-    placement: React.PropTypes.string
+    placement: React.PropTypes.string,
   },
 
   getDefaultProps () {
@@ -49,7 +49,7 @@ const Popout = React.createClass({
       placement: 'right',
       offset: {
         default: 10,
-      }
+      },
     }
   },
 
@@ -66,7 +66,7 @@ const Popout = React.createClass({
   componentWillReceiveProps (nextProps) {
     if (nextProps.isOpened != null) {
       this.setState({
-        isOpened: nextProps.isOpened
+        isOpened: nextProps.isOpened,
       })
       window.requestAnimationFrame(this.calculatePosition)
     }
@@ -119,33 +119,33 @@ const Popout = React.createClass({
       vertOffset = vertOffset || 0
       position = {
         left: Math.round(referencePosition.left + scrollX - horzOffset),
-        top: Math.round(referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition))
+        top: Math.round(referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition)),
       }
     } else if (placement === 'right') {
       horzOffset = horzOffset || this.props.offset.default
       vertOffset = vertOffset || 0
       position = {
         left: Math.round(referencePosition.left + scrollX + referencePosition.width + horzOffset),
-        top: Math.round(referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition))
+        top: Math.round(referencePosition.top + scrollY + vertOffset + (referencePosition.height / 2 - arrowVertPosition)),
       }
     } else if (placement === 'top') {
       horzOffset = horzOffset || 0
       vertOffset = vertOffset || this.props.offset.default
       position = {
         left: Math.round(referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset),
-        top: Math.round(referencePosition.top + scrollY - vertOffset)
+        top: Math.round(referencePosition.top + scrollY - vertOffset),
       }
     } else if (placement === 'bottom') {
       horzOffset = horzOffset || 0
       vertOffset = vertOffset || this.props.offset.default
       position = {
         left: Math.round(referencePosition.left + scrollX + (referencePosition.width / 2) + horzOffset),
-        top: Math.round(referencePosition.top + scrollY + referencePosition.height + vertOffset)
+        top: Math.round(referencePosition.top + scrollY + referencePosition.height + vertOffset),
       }
     }
 
     this.setState({
-      position
+      position,
     })
     return position
   },
@@ -215,7 +215,7 @@ const Popout = React.createClass({
     const {closeOnEsc} = this.props
     // ESCAPE = 27
     if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
-      this.closePopout();
+      this.closePopout()
     }
   },
 
@@ -251,7 +251,7 @@ const Popout = React.createClass({
     // Extract Portal props
     let {
       beforeClose,
-      onUpdate
+      onUpdate,
     } = this.props
 
     let {placement} = this.props
@@ -273,11 +273,11 @@ const Popout = React.createClass({
 
     return (
       <div>
-        <div ref={(c) => this._reference = c}>
+        <div ref={(c) => { this._reference = c }}>
           {reference}
         </div>
         <Portal
-          ref={(c) => this._portal = c}
+          ref={(c) => { this._portal = c }}
           beforeClose={beforeClose}
           isOpened={isOpened}
           onOpen={this.onOpen}
@@ -285,14 +285,14 @@ const Popout = React.createClass({
           onUpdate={onUpdate}>
           <div className={styles.positioner} style={position}>
             <div className={arrowClassNames} />
-            <div ref={(c) => this._container = c} className={containerClassNames}>
+            <div ref={(c) => { this._container = c }} className={containerClassNames}>
               {children.slice(1)}
             </div>
           </div>
         </Portal>
       </div>
     )
-  }
+  },
 })
 
 export default Popout

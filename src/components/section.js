@@ -9,7 +9,7 @@ const Section = React.createClass({
     type: React.PropTypes.string,
     attributes: ImmutablePropTypes.map,
     name: React.PropTypes.string,
-    children: ImmutablePropTypes.list
+    children: ImmutablePropTypes.list,
   },
 
   shouldComponentUpdate (nextProps) {
@@ -30,7 +30,7 @@ const Section = React.createClass({
         </div>
       </section>
     )
-  }
+  },
 })
 
 export default Section

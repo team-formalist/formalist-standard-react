@@ -24,15 +24,15 @@ const SelectBox = React.createClass({
       hint: React.PropTypes.string,
       placeholder: React.PropTypes.string,
       options: React.PropTypes.array.isRequired,
-      inline: React.PropTypes.bool
+      inline: React.PropTypes.bool,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
-      React.PropTypes.number
-    ])
+      React.PropTypes.number,
+    ]),
   },
 
   /**
@@ -40,7 +40,7 @@ const SelectBox = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -62,7 +62,7 @@ const SelectBox = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -84,26 +84,27 @@ const SelectBox = React.createClass({
             defaultValue={(value != null && value.toString) ? value.toString() : value}
             placeholder={attributes.placeholder}
             error={hasErrors}
-            onChange={this.onChange}>
-              {options.map((option, i) => {
-                let value, label
-                if (Array.isArray(option)) {
-                  value = option[0]
-                  label = option[1] || value
-                } else {
-                  value = option
-                  label = option
-                }
-                return (
-                  <option key={i} value={value}>{label}</option>
-                )
-              })}
+            onChange={this.onChange}
+          >
+            {options.map((option, i) => {
+              let value, label
+              if (Array.isArray(option)) {
+                value = option[0]
+                label = option[1] || value
+              } else {
+                value = option
+                label = option
+              }
+              return (
+                <option key={i} value={value}>{label}</option>
+              )
+            })}
           </Select>
           {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default SelectBox

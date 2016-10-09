@@ -19,7 +19,7 @@ const Modal = React.createClass({
     closeOnOutsideClick: React.PropTypes.bool,
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func
+    onUpdate: React.PropTypes.func,
   },
 
   getInitialState () {
@@ -110,7 +110,7 @@ const Modal = React.createClass({
     const {closeOnEsc} = this.props
     // ESCAPE = 27
     if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
-      this.closePopunder();
+      this.closeModal()
     }
   },
 
@@ -152,15 +152,16 @@ const Modal = React.createClass({
       onUpdate,
     } = this.props
     const {isOpened} = this.state
+
     return (
       <Portal
-        ref={(c) => this._portal = c}
+        ref={(c) => { this._portal = c }}
         beforeClose={beforeClose}
         isOpened={isOpened}
         onOpen={this.onOpen}
         onClose={this.onClose}
         onUpdate={onUpdate}>
-        <div ref={(c) => this._container = c} className={styles.container}>
+        <div ref={(c) => { this._container = c }} className={styles.container}>
           <button className={styles.close} onClick={this.onCloseClick}>
             <span className={styles.closeText}>Close</span>
             <div className={styles.closeX}>×</div>
@@ -172,7 +173,7 @@ const Modal = React.createClass({
         </div>
       </Portal>
     )
-  }
+  },
 })
 
 export default Modal

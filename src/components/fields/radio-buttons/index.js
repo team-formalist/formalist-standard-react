@@ -25,21 +25,22 @@ const RadioButtons = React.createClass({
       hint: React.PropTypes.string,
       placeholder: React.PropTypes.string,
       options: React.PropTypes.array.isRequired,
-      inline: React.PropTypes.bool
+      inline: React.PropTypes.bool,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
     value: React.PropTypes.oneOfType([
       React.PropTypes.string,
-      React.PropTypes.number
-    ])
+      React.PropTypes.number,
+    ]),
   },
 
   getInitialState () {
+    const {name} = this.props
     // Create unique id for the group
     return {
-      groupId: `${name}__${uid(10)}`
+      groupId: `${name}__${uid(10)}`,
     }
   },
 
@@ -48,7 +49,7 @@ const RadioButtons = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -71,7 +72,7 @@ const RadioButtons = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
@@ -113,7 +114,7 @@ const RadioButtons = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default RadioButtons

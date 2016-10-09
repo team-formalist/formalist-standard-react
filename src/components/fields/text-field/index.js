@@ -25,12 +25,12 @@ const TextField = React.createClass({
       placeholder: React.PropTypes.string,
       inline: React.PropTypes.bool,
       code: React.PropTypes.bool,
-      password: React.PropTypes.bool
+      password: React.PropTypes.bool,
     }),
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.string
+    value: React.PropTypes.string,
   },
 
   /**
@@ -38,7 +38,7 @@ const TextField = React.createClass({
    */
 
   contextTypes: {
-    globalConfig: React.PropTypes.object
+    globalConfig: React.PropTypes.object,
   },
 
   /**
@@ -61,13 +61,13 @@ const TextField = React.createClass({
     let fieldClassNames = classNames(
       styles.base,
       {
-        [`${styles.baseInline}`]: attributes.inline
+        [`${styles.baseInline}`]: attributes.inline,
       }
     )
 
     // Set up input classes
     let inputClassNames = classNames({
-      [`${styles.code}`]: attributes.code
+      [`${styles.code}`]: attributes.code,
     })
 
     return (
@@ -88,7 +88,7 @@ const TextField = React.createClass({
         </div>
       </div>
     )
-  }
+  },
 })
 
 export default TextField

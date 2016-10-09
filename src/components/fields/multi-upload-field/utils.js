@@ -77,5 +77,5 @@ export {
   sortArrayByOrder,
   generateUniqueID,
   noOp,
-  filterUniqueObjects
+  filterUniqueObjects,
 }

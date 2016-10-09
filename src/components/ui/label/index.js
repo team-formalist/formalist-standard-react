@@ -5,7 +5,7 @@ import styles from './label.mcss'
 
 const Label = React.createClass({
   propTypes: {
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
   },
   render () {
     let labelBoxClassNames = classNames(
@@ -15,7 +15,7 @@ const Label = React.createClass({
     return (
       <label {...this.props} className={labelBoxClassNames} />
     )
-  }
+  },
 })
 
 export default Label

@@ -19,7 +19,7 @@ export default React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    onChange: React.PropTypes.func.isRequired,
   },
 
   /**
@@ -28,7 +28,7 @@ export default React.createClass({
 
   getDefaultProps () {
     return {
-      resetInput: false
+      resetInput: false,
     }
   },
 
@@ -84,5 +84,5 @@ export default React.createClass({
           onChange={onChange} />
       </div>
     )
-  }
+  },
 })
