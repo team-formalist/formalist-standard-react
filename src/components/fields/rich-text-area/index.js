@@ -62,6 +62,7 @@ const RichTextArea = React.createClass({
    * @param  {EditorState} editorState State from the editor
    */
   onChange (editorState) {
+    const {value} = this.props
     const exporterOptions = {
       entityModifiers: {
         'formalist': (data) => {
@@ -72,12 +73,21 @@ const RichTextArea = React.createClass({
         }
       },
     }
-    // Persist the value to the AST
-    this.props.actions.edit(
-      (val) => {
-        return exporter(editorState, exporterOptions)
-      }
-    )
+    const currentContent = editorState.getCurrentContent()
+    const hasText = currentContent.hasText()
+    const newValue = (hasText) ? exporter(editorState, exporterOptions) : null
+    const hasChangedToNull = (newValue === null && value !== null)
+
+    // Persist the value to the AST, but only if it is:
+    // * Not null
+    // * Has changed to null
+    if (newValue != null || hasChangedToNull) {
+      this.props.actions.edit(
+        (val) => {
+          return newValue
+        }
+      )
+    }
     // Keep track of the state here
     this.setState({
       editorState
