@@ -155,9 +155,9 @@ const MultiUploadField = React.createClass({
    * The uid is generated using the actual file's name.
    * Example:
    * {
-   * 		file_name: small.jpg,
-   * 		file: {file},
-   * 		uid: "wyertyiopdop_small.jpg"
+   *  file_name: small.jpg,
+   *  file: {file},
+   *  uid: "wyertyiopdop_small.jpg"
    * }
    *
    * @param {array || object} val - a existing file object or an array of dropped files

@@ -91,11 +91,13 @@ const RadioButton = React.createClass({
             value={value}
             checked={defaultChecked}
             disabled={this.state.focus}
-            onChange={onChange} />
+            onChange={onChange}
+          />
           <label
             className={labelClassNames}
-            htmlFor={this.state.id}>
-              {label}
+            htmlFor={this.state.id}
+          >
+            {label}
           </label>
         </button>
       </div>

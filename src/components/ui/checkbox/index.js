@@ -78,11 +78,13 @@ const Checkbox = React.createClass({
           defaultChecked={defaultChecked}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+        />
         <label
           className={labelClassNames}
-          htmlFor={this.state.id}>
-            {label}
+          htmlFor={this.state.id}
+        >
+          {label}
         </label>
       </div>
     )

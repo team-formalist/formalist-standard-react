@@ -102,8 +102,9 @@ const TimePicker = React.createClass({
         <button
           ref={(r) => { this._buttonActive = (isActive) ? r : null }}
           className={buttonClassNames}
-          onClick={onClick}>
-           {date.format(dateFormats.humanTime)}
+          onClick={onClick}
+        >
+          {date.format(dateFormats.humanTime)}
         </button>
       </li>
       items.push(item)
@@ -132,14 +133,16 @@ const TimePicker = React.createClass({
           ref={(r) => { this._popunder = r }}
           closeOnEsc
           closeOnOutsideClick
-          onOpen={this.onPopunderOpen}>
+          onOpen={this.onPopunderOpen}
+        >
           <Input
             key={inputValue}
             defaultValue={inputValue}
             error={error}
             placeholder={placeholder || 'Select or enter a time'}
             onFocus={this.onInputFocus}
-            onChange={this.onInputChange} />
+            onChange={this.onInputChange}
+          />
           {this.renderTimeList()}
         </Popunder>
       </div>

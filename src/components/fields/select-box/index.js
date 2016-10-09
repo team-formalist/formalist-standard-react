@@ -84,20 +84,21 @@ const SelectBox = React.createClass({
             defaultValue={(value != null && value.toString) ? value.toString() : value}
             placeholder={attributes.placeholder}
             error={hasErrors}
-            onChange={this.onChange}>
-              {options.map((option, i) => {
-                let value, label
-                if (Array.isArray(option)) {
-                  value = option[0]
-                  label = option[1] || value
-                } else {
-                  value = option
-                  label = option
-                }
-                return (
-                  <option key={i} value={value}>{label}</option>
-                )
-              })}
+            onChange={this.onChange}
+          >
+            {options.map((option, i) => {
+              let value, label
+              if (Array.isArray(option)) {
+                value = option[0]
+                label = option[1] || value
+              } else {
+                value = option
+                label = option
+              }
+              return (
+                <option key={i} value={value}>{label}</option>
+              )
+            })}
           </Select>
           {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
