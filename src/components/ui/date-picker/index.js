@@ -11,11 +11,7 @@ import Popunder from '../popunder'
 import styles from './date-picker.mcss'
 
 // Set up simple localeUtils that always sets first day of week to Monday
-//
-// FIXME This should be set to `1` so that we start weeks on a Monday, but we’re
-// waiting for this PR to be merged into `react-day-picker`:
-// https://github.com/gpbl/react-day-picker/pull/220
-const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 0})
+const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 1})
 
 const DatePicker = React.createClass({
   propTypes: {
