@@ -313,8 +313,8 @@ const SelectionField = React.createClass({
               </Popout>
             </button>
           }
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
+        {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
   },
