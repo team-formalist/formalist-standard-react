@@ -23,20 +23,20 @@ const Select = React.createClass({
     error: React.PropTypes.bool,
     defaultValue: React.PropTypes.string,
     id: React.PropTypes.string,
+    clearable: React.PropTypes.bool,
     onFocus: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     onChange: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    valueSeed: React.PropTypes.string,
   },
 
   getDefaultProps () {
     return {
+      clearable: true,
       error: false,
       placeholder: 'Select an option',
       size: 'normal',
-      valueSeed: uid(10),
     }
   },
 
@@ -65,27 +65,43 @@ const Select = React.createClass({
   },
 
   render () {
+    const {
+      children,
+      className,
+      clearable,
+      defaultValue,
+      error,
+      placeholder,
+      size,
+    } = this.props
+    const {focus} = this.state
+
     let labelClassNames = classNames(
       styles.label,
       {
-        [`${styles.labelError}`]: this.props.error,
-        [`${styles.labelFocus}`]: this.state.focus,
+        [`${styles.labelError}`]: error,
+        [`${styles.labelFocus}`]: focus,
       }
     )
     let inputClassNames = classNames(
-      this.props.className,
+      className,
       styles.select,
       {
-        [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus,
+        [`${styles.error}`]: error,
+        [`${styles.focus}`]: focus,
       },
-      `${styles[this.props.size]}`
+      `${styles[size]}`
     )
 
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
-    let placeholder = <option value={this.props.valueSeed} hidden={true} disabled={true}>{this.props.placeholder}</option> // eslint-disable-line react/jsx-boolean-value
-    let defaultValue = this.props.defaultValue || this.props.valueSeed
+    let placeholderOption = <option
+        value=''
+        hidden={!clearable}
+        disabled={!clearable}
+      >
+        {placeholder}
+      </option>
 
     // Extract any other props
     const {id} = this.props
@@ -94,13 +110,13 @@ const Select = React.createClass({
       <label className={labelClassNames}>
         <select
           id={id}
-          defaultValue={defaultValue}
+          defaultValue={defaultValue || ''}
           className={inputClassNames}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
           onChange={this.onChange}>
-          {placeholder}
-          {this.props.children}
+          {placeholderOption}
+          {children}
         </select>
       </label>
     )

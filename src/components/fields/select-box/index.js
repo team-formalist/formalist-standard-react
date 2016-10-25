@@ -66,6 +66,10 @@ const SelectBox = React.createClass({
       }
     )
 
+    // Reach into the validation attributes to determine whether the select
+    // should be clearable (i.e., it’s not required)
+    const clearable = !(attributes.validation && attributes.validation.filled === true)
+
     // Extract options
     let options = attributes.options
     // Return nothing if we have no values
@@ -85,6 +89,7 @@ const SelectBox = React.createClass({
             placeholder={attributes.placeholder}
             error={hasErrors}
             onChange={this.onChange}
+            clearable={clearable}
           >
             {options.map((option, i) => {
               let value, label
