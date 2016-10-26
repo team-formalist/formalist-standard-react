@@ -120,7 +120,7 @@ export default React.createClass({
 
   onClick (e) {
     e.preventDefault()
-    this.refs.dropzone.open()
+    this._dropzone.open()
   },
 
   /**
@@ -209,13 +209,13 @@ export default React.createClass({
             : null}
 
           <Dropzone
+            ref={(r) => this._dropzone = r }
             disableClick={disableClick}
             activeClassName={styles.dropzone__active}
             className={dropZoneClassNames}
             multiple={multiple}
             onDragStart={this.onDragStart}
             onDrop={this.onDrop}
-            ref='dropzone'
             style={{}}>
             {children}
             {this.renderLabel(label)}
