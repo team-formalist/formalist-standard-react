@@ -118,7 +118,6 @@ const RichTextEditor = React.createClass({
    * @param  {MouseEvent} e
    */
   onContentClick (e) {
-    e.preventDefault()
     if (e.target === this.contentEl) {
       this._editor.focus()
     }
