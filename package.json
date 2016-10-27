@@ -65,7 +65,7 @@
     "draft-js-ast-importer": "^0.0.3",
     "draft-js-autolist-plugin": "^0.0.2",
     "draft-js-block-breakout-plugin": "^0.0.2",
-    "draft-js-plugins-editor": "^1.0.0",
+    "draft-js-plugins-editor": "^2.0.0-beta5",
     "draft-js-single-line-plugin": "^0.0.1",
     "es6-promise": "^3.2.1",
     "formalist-compose": "icelab/formalist-compose",
