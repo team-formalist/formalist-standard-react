@@ -208,7 +208,10 @@ class ActionHandler extends Component {
 }
 
 ActionHandler.propTypes = {
-  entityKey: React.PropTypes.number.isRequired,
+  entityKey: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number,
+  ]).isRequired,
   forceVisible: React.PropTypes.func.isRequired,
   remove: React.PropTypes.func.isRequired,
 }
