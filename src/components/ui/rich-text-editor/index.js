@@ -2,6 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
 import Emitter from 'component-emitter'
+import {belongsToAtomicBlock} from './utils'
 // Plugins
 import createAutoListPlugin from 'draft-js-autolist-plugin'
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
@@ -106,7 +107,7 @@ const RichTextEditor = React.createClass({
   },
 
   /**
-   * Set the editor to read-only (or note)
+   * Set the editor to read-only (or not)
    * @param {Boolean} readOnly
    */
   setReadOnly (readOnly) {
@@ -118,6 +119,10 @@ const RichTextEditor = React.createClass({
    * @param  {MouseEvent} e
    */
   onContentClick (e) {
+    const atomic = belongsToAtomicBlock(e.target)
+    if (!atomic && this.state.readOnly === true) {
+      this.setReadOnly(false)
+    }
     if (e.target === this.contentEl) {
       this._editor.focus()
     }

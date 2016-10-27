@@ -162,3 +162,22 @@ export function getSelectedEntityTypes (editorState) {
   // Default to returning false
   return false
 }
+
+
+/**
+ * Belongs to Atomic Block
+ * Iterates through the parents of `target` and determines whether it is or 
+ * is contained by an atomic block by looking for a specific attr
+ */
+
+export function belongsToAtomicBlock (target) {
+  if (!target || target.parentNode == null) {
+    return false
+  }
+  let isAtomic = target.getAttribute('data-atomic')
+  if (isAtomic) {
+    return true
+  } else {
+    return belongsToAtomicBlock(target.parentNode)
+  }
+}
