@@ -1,5 +1,4 @@
 import React from 'react'
-import uid from 'uid'
 import classNames from 'classnames'
 import styles from './select.mcss'
 
@@ -96,12 +95,12 @@ const Select = React.createClass({
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
     let placeholderOption = <option
-        value=''
-        hidden={!clearable}
-        disabled={!clearable}
-      >
-        {placeholder}
-      </option>
+      value=''
+      hidden={!clearable}
+      disabled={!clearable}
+    >
+      {placeholder}
+    </option>
 
     // Extract any other props
     const {id} = this.props

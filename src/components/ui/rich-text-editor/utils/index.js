@@ -163,10 +163,9 @@ export function getSelectedEntityTypes (editorState) {
   return false
 }
 
-
 /**
  * Belongs to Atomic Block
- * Iterates through the parents of `target` and determines whether it is or 
+ * Iterates through the parents of `target` and determines whether it is or
  * is contained by an atomic block by looking for a specific attr
  */
 

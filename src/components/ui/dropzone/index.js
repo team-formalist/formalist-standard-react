@@ -209,7 +209,7 @@ export default React.createClass({
             : null}
 
           <Dropzone
-            ref={(r) => this._dropzone = r }
+            ref={(r) => { this._dropzone = r }}
             disableClick={disableClick}
             activeClassName={styles.dropzone__active}
             className={dropZoneClassNames}
