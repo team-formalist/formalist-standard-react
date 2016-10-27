@@ -146,7 +146,7 @@ class ActionHandler extends Component {
           (editing)
           ? <form onSubmit={this.onSubmit}>
             <div className={styles.field}>
-              <Label className={styles.label} for={`url-${id}`}>Link</Label>
+              <Label className={styles.label} htmlFor={`url-${id}`}>Link</Label>
               <Input
                 defaultValue={entityData.url}
                 name={`url-${id}`}
@@ -158,7 +158,7 @@ class ActionHandler extends Component {
               />
             </div>
             <div className={styles.field}>
-              <Label className={styles.label} for={`title-${id}`}>Title</Label>
+              <Label className={styles.label} htmlFor={`title-${id}`}>Title</Label>
               <Input
                 defaultValue={entityData.title}
                 name={`title-${id}`}
