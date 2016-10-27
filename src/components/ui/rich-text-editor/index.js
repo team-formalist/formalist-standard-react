@@ -43,8 +43,17 @@ const RichTextEditor = React.createClass({
   componentWillMount () {
     // Create a per-instance event emitter to pass through to the atomic blocks
     // so that we can subscribe to `onChange` events in the editor proper
-    // This is not really great, but there’s way for a prop
+    // This is not really great, but there’s no way for this to get
+    // passed down through props atm
     this.emitter = new Emitter()
+    // Atomic blocks trigger an `atomic:change` event when they update their
+    // embedded entity data. We have to listen to it and trigger an `onChange`
+    // of the current data to get things to propagate around _immediately_.
+    this.emitter.on('atomic:change', () => {
+      const {editorState} = this.props
+      this.onChange(editorState)
+    })
+
     const plugins = this.configurePlugins()
     this.setState({
       plugins,
@@ -128,8 +137,17 @@ const RichTextEditor = React.createClass({
     }
   },
 
+  /**
+   * onChange
+   */
+  onChange (editorState) {
+    const {onChange} = this.props
+    this.emitter.emit('change', editorState)
+    onChange(editorState)
+  },
+
   render () {
-    const {boxSize, blockFormatters, editorState, onChange, placeholder} = this.props
+    const {boxSize, blockFormatters, editorState, placeholder} = this.props
     const {hasFocus, readOnly} = this.state
     const {
       BlockToolbar,
@@ -160,7 +178,7 @@ const RichTextEditor = React.createClass({
               blockFormatters={blockFormatters}
               editorHasFocus={hasFocus}
               editorState={editorState}
-              onChange={onChange}
+              onChange={this.onChange}
             />
           </div>
           : null
@@ -173,7 +191,7 @@ const RichTextEditor = React.createClass({
           <InlineToolbar
             editorHasFocus={hasFocus}
             editorState={editorState}
-            onChange={onChange} />
+            onChange={this.onChange} />
           <PluginsEditor
             ref={(c) => { this._editor = c }}
             blockRenderMap={this.blockRenderMap}
@@ -182,12 +200,7 @@ const RichTextEditor = React.createClass({
             editorState={editorState}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
-            onChange={(editorState) => {
-              // Emit the onChange event so we can listen to it
-              // from within our atomic blocks
-              this.emitter.emit('change', editorState)
-              onChange(editorState)
-            }}
+            onChange={this.onChange}
             readOnly={readOnly}
           />
         </div>

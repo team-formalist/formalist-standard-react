@@ -59,6 +59,8 @@ const AtomicBlock = React.createClass({
         form: formTemplate,
         data: dataObjectRenderer(formTemplate),
       })
+      // Let the RTE parent component know that the entity data has changed
+      editorEmitter.emit('atomic:change')
       this.forceUpdate()
     })
 
@@ -139,7 +141,7 @@ const AtomicBlock = React.createClass({
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
-      <div className={styles.wrapper} data-debug-block-key={this.props.block.getKey()}>
+      <div data-atomic className={styles.wrapper} data-debug-block-key={this.props.block.getKey()}>
         <div className={styles.caret}><br /></div>
         <div
           ref={(r) => { this._blockContainer = r }}
