@@ -65,25 +65,52 @@ const defaults = {
   allowedEntities: [
     'link',
   ],
+  customStyleMap: {
+    CODE: {
+      fontFamily: 'inconsolata, monospace',
+      lineHeight: 1.35,
+      wordWrap: 'break-word',
+    },
+  },
+  additionalFormatters: [],
+  additionalEntities: [],
 }
 
 /**
  * Plugin for the inline toolbar
 
- * @param  {Array} options.inlineFormatters Optional list of inline commands to
- * allow. Will default to defaults.allowedInlineFormatters
+ * @param  {Array} options.allowedFormatters Optional list of inline commands to
+ * allow. Will default to defaults.allowedFormatters
  *
  * @return {Object} draft-js-editor-plugin compatible object
  */
 export default function inlineToolbarPlugin (options = {}) {
   // Pull out the options
-  options = mergeDefaults({}, defaults, options)
-  const {
+  options = mergeDefaults({}, options, defaults)
+  let {
     allowedFormatters,
     allowedEntities,
+    additionalFormatters,
+    additionalEntities,
+    customStyleMap,
   } = options
-  const formatters = formattersMapping.filter((item) => allowedFormatters.indexOf(item.command) > -1)
-  const entities = entitiesMapping.filter((entity) => allowedEntities.indexOf(entity.type.toLowerCase()) > -1)
+
+  // FIXME
+  // At the moment this means we override _all_ allowed formatters options here
+  // to pass through the additional ones. We really need to reconcile the two
+  // lists more effectively
+  allowedFormatters = allowedFormatters.concat(additionalFormatters.map((formatter) => formatter.command))
+
+  // Reconcile the lists of formatters and entities from various sources
+  const formatters = formattersMapping.concat(additionalFormatters).filter((item) => allowedFormatters.indexOf(item.command) > -1)
+  const entities = entitiesMapping.concat(additionalEntities).filter((entity) => allowedEntities.indexOf(entity.type.toLowerCase()) > -1)
+
+  // Update the customStyleMap
+  additionalFormatters.forEach((formatter) => {
+    if (formatter.styleMap) {
+      customStyleMap[formatter.style] = formatter.styleMap
+    }
+  })
 
   // Collate the decorators from the inlineEntitiesMaping
   const decorators = entities.map((mapping) => {
@@ -123,13 +150,7 @@ export default function inlineToolbarPlugin (options = {}) {
      * https://github.com/facebook/draft-js/pull/354 is merged.
      * @type {Object}
      */
-    customStyleMap: {
-      CODE: {
-        fontFamily: 'inconsolata, monospace',
-        lineHeight: 1.35,
-        wordWrap: 'break-word',
-      },
-    },
+    customStyleMap,
 
     /**
      * Export the `InlineToolbar` component with curried `options`
