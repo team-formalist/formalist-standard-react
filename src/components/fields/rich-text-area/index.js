@@ -95,7 +95,7 @@ const RichTextArea = React.createClass({
   },
 
   render () {
-    const {attributes, errors, hint, label, name} = this.props
+    const {attributes, config, errors, hint, label, name} = this.props
     const {editorState} = this.state
     let hasErrors = (errors.count() > 0)
 
@@ -115,6 +115,7 @@ const RichTextArea = React.createClass({
         <div className={styles.display}>
           <RichTextEditor
             editorState={editorState}
+            config={config}
             onChange={this.onChange}
             inlineFormatters={attributes.inline_formatters}
             blockFormatters={attributes.block_formatters}

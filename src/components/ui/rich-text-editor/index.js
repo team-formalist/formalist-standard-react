@@ -21,6 +21,7 @@ const RichTextEditor = React.createClass({
     embeddableForms: React.PropTypes.object,
     blockFormatters: React.PropTypes.array,
     boxSize: React.PropTypes.string,
+    config: React.PropTypes.object,
     inlineFormatters: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
@@ -66,11 +67,16 @@ const RichTextEditor = React.createClass({
    */
   configurePlugins () {
     const {
-      embeddableForms,
       blockFormatters,
       boxSize,
+      config,
+      embeddableForms,
       inlineFormatters,
     } = this.props
+
+    // Extract config for each type of toolbar
+    const {block, inline} = config
+
     const autoListPlugin = createAutoListPlugin()
     const singleLinePlugin = createSingleLinePlugin()
 
@@ -81,9 +87,11 @@ const RichTextEditor = React.createClass({
       editorEmitter: this.emitter,
       blockFormatters,
       embeddableForms,
+      ...block,
     })
     const inlineToolbarPlugin = createInlineToolbarPlugin({
-      inlineFormatters,
+      allowedFormatters: inlineFormatters,
+      ...inline,
     })
     // Build up the list of plugins
     let plugins = [
