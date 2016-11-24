@@ -7,6 +7,8 @@ import Spinner from '../spinner'
 
 import styles from './search-selector.mcss'
 
+export {search}
+
 function abortCurrentSearch (req) {
   if (req && req.abort) {
     req.abort()

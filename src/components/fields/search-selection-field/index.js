@@ -7,7 +7,7 @@ import extractComponent from '../../../utils/extract-component'
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Popout from '../../ui/popout'
-import SearchSelector from '../../ui/search-selector'
+import SearchSelector, {search} from '../../ui/search-selector'
 
 // Import styles
 import styles from './search-selection-field.mcss'
@@ -47,13 +47,8 @@ class SearchSelectionField extends Component {
   constructor (props) {
     super(props)
 
-    // Extract existing selection from attributes
-    const {attributes} = props
-    const {selection} = attributes
-
     // Initial state
     this.state = {
-      selection,
       selectorFocus: false,
       selectorQuery: null,
     }
@@ -70,6 +65,31 @@ class SearchSelectionField extends Component {
     this.onSelectorBlur = this.onSelectorBlur.bind(this)
     this.onSelectorFocus = this.onSelectorFocus.bind(this)
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this)
+  }
+
+  /**
+   * componentWillMount
+   * Do an XHR request for the additional selection data
+   * @return {Null}
+   */
+  componentWillMount () {
+    // Do an XHR request for the additional selection data
+    const {attributes, value} = this.props
+    if (value) {
+      const {search_url} = attributes
+      const req = search(search_url, {
+        ids: value,
+      })
+      req.response
+        .then((rsp) => {
+          if (rsp.results && rsp.results.length > 0) {
+            const selection = rsp.results[0]
+            this.setState({
+              selection,
+            })
+          }
+        })
+    }
   }
 
   /**

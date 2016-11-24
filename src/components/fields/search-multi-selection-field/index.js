@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
-import { List } from 'immutable'
+import {List} from 'immutable'
 import extractComponent from '../../../utils/extract-component'
 
 // Import components
@@ -9,7 +9,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Sortable from '../../ui/sortable'
 import Popout from '../../ui/popout'
-import SearchSelector from '../../ui/search-selector'
+import SearchSelector, {search} from '../../ui/search-selector'
 
 // Import styles
 import styles from './search-multi-selection-field.mcss'
@@ -50,13 +50,11 @@ class SearchMultiSelectionField extends Component {
     super(props)
 
     // Extract existing selection from attributes
-    const {attributes} = props
-    const {selections} = attributes
+    const {value} = props
 
-    // Keep as a property so can always know the "true" set
-    // and convert to a list
-    this.cachedSelections = List(selections)
-    this.cachedValue = props.value
+    // Keep value as a cached property
+    this.cachedSelections = List()
+    this.cachedValue = value
 
     // Initial state
     this.state = {
@@ -82,6 +80,34 @@ class SearchMultiSelectionField extends Component {
 
   componentWillReceiveProps (nextProps) {
     this.cachedValue = nextProps.value
+  }
+
+  /**
+   * componentWillMount
+   * Do an XHR request for the additional selections data
+   * @return {Null}
+   */
+  componentWillMount () {
+    // Do an XHR request for the additional selection data
+    const {attributes, value} = this.props
+    if (value) {
+      const {search_url} = attributes
+      const req = search(search_url, {
+        ids: value.join(','),
+      })
+      req.response
+        .then((rsp) => {
+          if (rsp.results && rsp.results.length > 0) {
+            const selections = List(rsp.results)
+            // Keep as a property so can always know the "true" set
+            // and convert to a list
+            this.cachedSelections = selections
+            this.setState({
+              selections,
+            })
+          }
+        })
+    }
   }
 
   /**
@@ -326,13 +352,11 @@ SearchMultiSelectionField.propTypes = {
     hint: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     inline: React.PropTypes.bool,
-    selections: ImmutablePropTypes.list,
     search_url: React.PropTypes.string,
     search_per_page: React.PropTypes.number,
     search_params: React.PropTypes.object,
     search_threshold: React.PropTypes.number,
     selector_label: React.PropTypes.string,
-    selections: React.PropTypes.array,
     render_option_as: React.PropTypes.string,
     render_selection_as: React.PropTypes.string,
   }),
