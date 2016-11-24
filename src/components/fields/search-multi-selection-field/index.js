@@ -49,8 +49,13 @@ class SearchMultiSelectionField extends Component {
   constructor (props) {
     super(props)
 
+    // Extract existing selection from attributes
+    const {attributes} = props
+    const {selections} = attributes
+
     // Keep as a property so can always know the "true" set
-    this.cachedSelections = props.selections
+    // and convert to a list
+    this.cachedSelections = List(selections)
     this.cachedValue = props.value
 
     // Initial state
@@ -327,13 +332,13 @@ SearchMultiSelectionField.propTypes = {
     search_params: React.PropTypes.object,
     search_threshold: React.PropTypes.number,
     selector_label: React.PropTypes.string,
+    selections: React.PropTypes.array,
     render_option_as: React.PropTypes.string,
     render_selection_as: React.PropTypes.string,
   }),
   hint: React.PropTypes.string,
   label: React.PropTypes.string,
   errors: ImmutablePropTypes.list,
-  selections: ImmutablePropTypes.list,
   value: ImmutablePropTypes.list,
 }
 

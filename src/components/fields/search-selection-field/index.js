@@ -47,9 +47,13 @@ class SearchSelectionField extends Component {
   constructor (props) {
     super(props)
 
+    // Extract existing selection from attributes
+    const {attributes} = props
+    const {selection} = attributes
+
     // Initial state
     this.state = {
-      selection: props.selection,
+      selection,
       selectorFocus: false,
       selectorQuery: null,
     }
@@ -278,13 +282,13 @@ SearchSelectionField.propTypes = {
     search_params: React.PropTypes.object,
     search_threshold: React.PropTypes.number,
     selector_label: React.PropTypes.string,
+    selection: React.PropTypes.object,
     render_option_as: React.PropTypes.string,
     render_selection_as: React.PropTypes.string,
   }),
   hint: React.PropTypes.string,
   label: React.PropTypes.string,
   errors: ImmutablePropTypes.list,
-  selection: React.PropTypes.object,
   value: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number,
