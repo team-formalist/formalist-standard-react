@@ -43,7 +43,7 @@ class SearchSelector extends Component {
   componentWillMount () {
     const {threshold, query} = this.props
     // Do a search for nothing on load if threshold is 0
-    if (query && query.length >= threshold) {
+    if (query && query.length >= threshold || threshold === 0) {
       this.doSearch(query)
     }
   }
@@ -64,7 +64,7 @@ class SearchSelector extends Component {
     abortCurrentSearch(this.currentRequest)
 
     // Only search if have enough characters
-    if (this.query.length >= threshold) {
+    if (this.query && this.query.length >= threshold || threshold === 0) {
       // Save the current request
       const data = Object.assign({}, params, {
         q: this.query,
