@@ -78,7 +78,7 @@ class SearchSelectionField extends Component {
     if (value) {
       const {search_url} = attributes
       const req = search(search_url, {
-        ids: value,
+        "ids[]": [value],
       })
       req.response
         .then((rsp) => {
