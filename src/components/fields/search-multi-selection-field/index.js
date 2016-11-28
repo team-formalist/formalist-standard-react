@@ -90,7 +90,7 @@ class SearchMultiSelectionField extends Component {
   componentWillMount () {
     // Do an XHR request for the additional selection data
     const {attributes, value} = this.props
-    if (value) {
+    if (value && value.count() > 0) {
       const {search_url} = attributes
       const req = search(search_url, {
         "ids[]": value.toJS(),
