@@ -93,7 +93,7 @@ class SearchMultiSelectionField extends Component {
     if (value && value.count() > 0) {
       const {search_url} = attributes
       const req = search(search_url, {
-        "ids[]": value.toJS(),
+        'ids[]': value.toJS(),
       })
       req.response
         .then((rsp) => {
