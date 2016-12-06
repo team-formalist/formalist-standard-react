@@ -9,7 +9,7 @@ import TimePicker from '../time-picker'
 // Styles
 import styles from './date-time-picker.mcss'
 
-const dateFormats = {
+export const dateFormats = {
   utc: 'YYYY-MM-DDTHH:mm:ssZ',
   date: 'YYYY-MM-DD',
   time: 'HH:mm:ss',
@@ -17,7 +17,7 @@ const dateFormats = {
 
 const DateTimePicker = React.createClass({
   propTypes: {
-    defaultValue: React.PropTypes.string,
+    value: React.PropTypes.string,
     error: React.PropTypes.bool,
     id: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
@@ -25,8 +25,8 @@ const DateTimePicker = React.createClass({
   },
 
   getInitialState () {
-    if (this.props.defaultValue) {
-      let parsedDateTime = moment(this.props.defaultValue, dateFormats.utc)
+    if (this.props.value) {
+      let parsedDateTime = moment(this.props.value, dateFormats.utc)
       if (parsedDateTime.isValid()) {
         this.dateTime = parsedDateTime
         return {
@@ -38,6 +38,19 @@ const DateTimePicker = React.createClass({
     return {
       date: null,
       time: null,
+    }
+  },
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.value && nextProps.value !== this.props.value) {
+      let parsedDateTime = moment(nextProps.value, dateFormats.utc)
+      if (parsedDateTime.isValid()) {
+        this.dateTime = parsedDateTime
+        this.setState({
+          date: parsedDateTime.format(dateFormats.date),
+          time: parsedDateTime.format(dateFormats.time),
+        })
+      }
     }
   },
 
@@ -94,14 +107,14 @@ const DateTimePicker = React.createClass({
             id={id}
             error={error}
             placeholder={placeholder}
-            defaultValue={dateValue}
+            value={dateValue}
             onChange={this.onDateChange}
           />
         </div>
         <div className={styles.timePicker}>
           <TimePicker
             error={error}
-            defaultValue={timeValue}
+            value={timeValue}
             onChange={this.onTimeChange}
           />
         </div>

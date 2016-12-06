@@ -1,11 +1,12 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
+import moment from 'moment'
 
 // Import the display types
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
-import DateTimePicker from '../../ui/date-time-picker'
+import DateTimePicker, {dateFormats} from '../../ui/date-time-picker'
 
 // Import styles
 import styles from './date-time-field.mcss'
@@ -49,6 +50,13 @@ const DateTimeField = React.createClass({
     )
   },
 
+  /**
+   * setToNow
+   */
+  setToNow () {
+    this.onChange(moment().format(dateFormats.utc))
+  },
+
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
     let hasErrors = (errors.count() > 0)
@@ -63,13 +71,19 @@ const DateTimeField = React.createClass({
 
     return (
       <div className={fieldClassNames}>
+        <button className={styles.nowButton} onClick={(e) => {
+          e.preventDefault()
+          this.setToNow()
+        }}>
+          Set to now
+        </button>
         <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         <div className={styles.display}>
           <DateTimePicker
             id={name}
             error={hasErrors}
             placeholder={attributes.placeholder}
-            defaultValue={value}
+            value={value}
             onChange={this.onChange} />
         </div>
         {(hasErrors) ? <FieldErrors errors={errors} /> : null}

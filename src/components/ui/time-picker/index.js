@@ -18,7 +18,7 @@ const dateFormats = {
 const TimePicker = React.createClass({
 
   propTypes: {
-    defaultValue: React.PropTypes.string,
+    value: React.PropTypes.string,
     error: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
@@ -26,13 +26,25 @@ const TimePicker = React.createClass({
 
   getInitialState () {
     let inputValue
-    let parsedTime = moment(this.props.defaultValue, dateFormats.time)
+    let parsedTime = moment(this.props.value, dateFormats.time)
     if (parsedTime.isValid()) {
       this.time = parsedTime
       inputValue = parsedTime.format(dateFormats.humanTime)
     }
     return {
       inputValue: inputValue,
+    }
+  },
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.value && nextProps.value !== this.props.value) {
+      let parsedTime = moment(nextProps.value, dateFormats.time)
+      if (parsedTime.isValid()) {
+        this.time = parsedTime
+        this.setState({
+          inputValue: parsedTime.format(dateFormats.humanTime)
+        })
+      }
     }
   },
 
