@@ -91,7 +91,7 @@
     "react-dnd-html5-backend": "^2.1.2",
     "react-dropzone": "^3.5.0",
     "react-immutable-proptypes": "^2.1.0",
-    "react-portal": "^2.2.1",
+    "react-portal": "^3.0.0",
     "react-textarea-autosize": "^4.0.2",
     "shallow-equals": "0.0.0",
     "superagent": "^1.8.3",
