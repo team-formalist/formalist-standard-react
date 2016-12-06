@@ -4,3 +4,9 @@
   .baseInline {
     composes: baseInline from '../shared.mcss';
   }
+
+.nowButton {
+  composes: small buttonHighlight from '../../ui/buttons.mcss';
+  float: right;
+  margin-top: -0.3rem;
+}
