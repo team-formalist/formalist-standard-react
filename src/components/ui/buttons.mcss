@@ -7,13 +7,15 @@
   cursor: pointer;
 }
 
-.buttonPrimary {
+.buttonSecondary {
   composes: button;
-  composes: whiteColor primaryBackground from styles;
+  composes: highlightLightBackground highlightColor from styles;
 }
-  .buttonHighlight:hover {
+  .buttonSecondary:hover {
     background-color: error;
+    color: white;
   }
+
 .buttonHighlight {
   composes: button;
   composes: whiteColor highlightBackground from styles;

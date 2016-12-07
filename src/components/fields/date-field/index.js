@@ -1,6 +1,7 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
+import moment from 'moment'
 
 // Import the display types
 import FieldErrors from '../common/errors'
@@ -42,12 +43,19 @@ const DateField = React.createClass({
   /**
    * onChange handler
    *
-   * @param  {String} date Date as a dd/mm/yyyy formatted string
+   * @param  {String} date Date as a YYYY-MM-DD formatted string
    */
   onChange (date) {
     this.props.actions.edit(
       (val) => { return date }
     )
+  },
+
+  /**
+   * setDateToNow
+   */
+  setDateToNow () {
+    this.onChange(moment().format('YYYY-MM-DD'))
   },
 
   render () {
@@ -61,21 +69,29 @@ const DateField = React.createClass({
         [`${styles.baseInline}`]: attributes.inline,
       }
     )
-
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={fieldClassNames}>
+        <button className={styles.nowButton} onClick={(e) => {
+          e.preventDefault()
+          this.setDateToNow()
+        }}>
+          Set to today
+        </button>
         <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         <div className={styles.display}>
           <DatePicker
             id={name}
             error={hasErrors}
             placeholder={attributes.placeholder}
-            defaultValue={value}
+            value={value}
             onChange={this.onChange} />
         </div>
         {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
+    /* eslint-enable react/jsx-no-bind */
   },
 })
 

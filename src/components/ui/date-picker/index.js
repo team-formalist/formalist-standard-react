@@ -13,10 +13,24 @@ import styles from './date-picker.mcss'
 // Set up simple localeUtils that always sets first day of week to Monday
 const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 1})
 
+/**
+ * Expand date from YYYY-MM-DD to l
+ */
+function expandDate (dateString) {
+  return moment(dateString, 'YYYY-MM-DD').format('l')
+}
+
+/**
+ * Compress date from l to YYYY-MM-DD
+ */
+function compressDate (dateString) {
+  return moment(dateString, 'l').format('YYYY-MM-DD')
+}
+
 const DatePicker = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
-    defaultValue: React.PropTypes.string,
+    value: React.PropTypes.string,
     error: React.PropTypes.bool,
     id: React.PropTypes.string,
     month: React.PropTypes.number,
@@ -26,7 +40,7 @@ const DatePicker = React.createClass({
 
   getInitialState () {
     return {
-      value: (this.props.defaultValue) ? moment(this.props.defaultValue, 'YYYY-MM-DD').format('l') : '',
+      value: (this.props.value) ? expandDate(this.props.value) : '',
       month: this.props.month || new Date(),
     }
   },
@@ -34,6 +48,14 @@ const DatePicker = React.createClass({
   getDefaultProps () {
     return {
       placeholder: 'Select a date',
+    }
+  },
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.value && nextProps.value !== this.props.value) {
+      this.setState({
+        value: expandDate(nextProps.value),
+      })
     }
   },
 
@@ -46,7 +68,7 @@ const DatePicker = React.createClass({
         value,
       }, this.showCurrentDate)
       // Pass the value back
-      let storedValue = moment(value, 'l').format('YYYY-MM-DD')
+      let storedValue = compressDate(value)
       this.props.onChange(storedValue)
     } else {
       this.setState({
@@ -70,7 +92,7 @@ const DatePicker = React.createClass({
       month: day,
     })
     // Pass the value back
-    let storedValue = moment(value, 'l').format('YYYY-MM-DD')
+    let storedValue = compressDate(value)
     this.props.onChange(storedValue)
   },
 
