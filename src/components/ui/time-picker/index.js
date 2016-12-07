@@ -42,7 +42,7 @@ const TimePicker = React.createClass({
       if (parsedTime.isValid()) {
         this.time = parsedTime
         this.setState({
-          inputValue: parsedTime.format(dateFormats.humanTime)
+          inputValue: parsedTime.format(dateFormats.humanTime),
         })
       }
     }

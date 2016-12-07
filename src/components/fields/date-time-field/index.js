@@ -68,7 +68,8 @@ const DateTimeField = React.createClass({
         [`${styles.baseInline}`]: attributes.inline,
       }
     )
-
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={fieldClassNames}>
         <button className={styles.nowButton} onClick={(e) => {
@@ -89,6 +90,7 @@ const DateTimeField = React.createClass({
         {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
+    /* eslint-enable react/jsx-no-bind */
   },
 })
 
