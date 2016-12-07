@@ -77,7 +77,7 @@ const DateField = React.createClass({
           e.preventDefault()
           this.setDateToNow()
         }}>
-          Set date to now
+          Set to today
         </button>
         <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         <div className={styles.display}>
