@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
 import classNames from 'classnames'
 import debounce from 'lodash.debounce'
-import search from './search'
+import search from '../../../utils/search'
 import Pagination from './pagination'
 import Spinner from '../spinner'
 
 import styles from './search-selector.mcss'
-
-export {search}
 
 function abortCurrentSearch (req) {
   if (req && req.abort) {

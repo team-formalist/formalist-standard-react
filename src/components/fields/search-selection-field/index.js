@@ -246,7 +246,6 @@ class SearchSelectionField extends Component {
               <Popout
                 ref={(r) => { this._popout = r }}
                 placement='left'
-                onClose={this.onPopoutClose}
                 onOpen={this.onPopoutOpen}
                 closeOnEsc={!selectorFocus || !selectorQuery}
                 closeOnOutsideClick

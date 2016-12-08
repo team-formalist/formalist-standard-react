@@ -1,6 +1,7 @@
 import React from 'react'
 import Portal from 'react-portal'
 import styles from './popunder.mcss'
+import classNames from 'classnames'
 
 /**
  * A "popunder" component. Creates a element that hangs under the passed
@@ -27,6 +28,7 @@ const Popunder = React.createClass({
   propTypes: {
     beforeClose: React.PropTypes.func,
     children: React.PropTypes.node,
+    className: React.PropTypes.string,
     closeOnEsc: React.PropTypes.bool,
     closeOnOutsideClick: React.PropTypes.bool,
     offset: React.PropTypes.shape({
@@ -36,6 +38,7 @@ const Popunder = React.createClass({
     onOpen: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onUpdate: React.PropTypes.func,
+    containerClassName: React.PropTypes.string,
   },
 
   getDefaultProps () {
@@ -201,7 +204,9 @@ const Popunder = React.createClass({
     // Extract Portal props
     let {
       beforeClose,
+      className,
       onUpdate,
+      containerClassName,
     } = this.props
 
     let {isOpened, position} = this.state
@@ -210,9 +215,15 @@ const Popunder = React.createClass({
     // AKA child.first
     let children = React.Children.toArray(this.props.children)
     let reference = children[0]
+    let portalContent = children.slice(1)
+
+    const containerClassNames = classNames(
+      styles.container,
+      containerClassName
+    )
 
     return (
-      <div>
+      <div className={className}>
         <div ref={(c) => { this._reference = c }}>
           {reference}
         </div>
@@ -225,10 +236,10 @@ const Popunder = React.createClass({
           onUpdate={onUpdate}>
           <div
             ref={(c) => { this._container = c }}
-            className={styles.container}
+            className={containerClassNames}
             style={position}
           >
-            {children.slice(1)}
+            {portalContent}
           </div>
         </Portal>
       </div>
