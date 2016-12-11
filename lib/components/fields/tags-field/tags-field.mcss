@@ -32,12 +32,19 @@
   min-width: 200px;
 }
 
+.popunderContainer {}
+
 .popunderContainerHidden {
   display: none;
 }
 
   .tagInputWrapper {
     position: relative;
+  }
+  .tagInputWrapperNoSearch {
+    flex: 1;
+    position: relative;
+    min-width: 200px;
   }
 
   .tagInput {
@@ -60,3 +67,11 @@
   top: 0.9rem;
   z-index: 2;
 }
+
+.removeButton {
+  display: inline-block;
+  margin-left: 0.4em;
+}
+  .removeButton:hover {
+    color: error;
+  }
