@@ -11,6 +11,6 @@
   text-align: left;
   width: 100%;
 }
-  .optionButton:hover {
+  .optionButtonFocus {
     text-decoration: underline;
   }

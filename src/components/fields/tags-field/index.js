@@ -30,7 +30,7 @@ class TagsField extends Component {
       inputQuery: '',
       tagsLoading: false,
       canSearch: (search_url != null),
-      searchThreshold: search_threshold || 1
+      searchThreshold: search_threshold || 1,
     }
 
     // Bindings
@@ -94,7 +94,9 @@ class TagsField extends Component {
     if (canSearch && inputQuery.length >= searchThreshold) {
       this._popunder.openPopunder()
     } else {
-      this._popunder.closePopunder()
+      if (canSearch) {
+        this._popunder.closePopunder()
+      }
       this.setState({
         inputQuery: '',
         tagsLoading: false,
@@ -157,8 +159,45 @@ class TagsField extends Component {
     return false
   }
 
+  /**
+   * Render existing tags
+   * @return {ReactElement}
+   */
+  renderTagsList () {
+    const {value} = this.props
+    return (
+      value.map((tag, i) => {
+        const key = `${tag}-${i}`
+        const onClick = (e) => {
+          e.preventDefault()
+          // Remove only if the span is clicked on
+          if (e.target.nodeName === 'SPAN') {
+            this.removeTag(i)
+          }
+        }
+        const onKeyDown = (e) => {
+          if (e.keyCode === keyCodes.DELETE || e.keyCode === keyCodes.BACKSPACE) {
+            this.removeTag(i)
+          }
+        }
+
+        return (
+          <button
+            key={key}
+            className={styles.tag}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+          >
+            {tag}
+            <span className={styles.removeButton}>×</span>
+          </button>
+        )
+      })
+    )
+  }
+
   render () {
-    const {attributes, config, errors, hint, label, name, value} = this.props
+    const {attributes, errors, hint, label, name} = this.props
     let {placeholder, search_url, search_params} = attributes
     const {canSearch, inputFocus, inputQuery, searchThreshold, tagsLoading} = this.state
     const hasErrors = (errors.count() > 0)
@@ -181,12 +220,14 @@ class TagsField extends Component {
     )
 
     const popunderContainerClassName = classNames(
-      'foobar',
+      styles.popunderContainer,
       {
         [`${styles.popunderContainerHidden}`]: tagsLoading,
       }
     )
 
+    // TODO Asses whether to remove this binding
+    /* eslint-disable react/jsx-no-bind */
     return (
       <div className={fieldClassNames}>
         <div className={styles.header}>
@@ -194,18 +235,7 @@ class TagsField extends Component {
         </div>
         <div className={displayClassNames}>
           <div className={styles.tagList}>
-            {value.map((tag, i) => {
-              const key = `${tag}-${i}`
-              return (
-                <span key={key} className={styles.tag}>
-                  {tag}
-                  <button onClick={(e) => {
-                    e.preventDefault()
-                    this.removeTag(i)
-                  }}>×</button>
-                </span>
-              )
-            })}
+            {this.renderTagsList()}
             {(canSearch)
               ? <Popunder
                 ref={(r) => { this._popunder = r }}
@@ -218,7 +248,7 @@ class TagsField extends Component {
               >
                 <div className={styles.tagInputWrapper}>
                   <input
-                    ref={(r) => this._input = r}
+                    ref={(r) => { this._input = r }}
                     className={styles.tagInput}
                     onChange={this.onInputChange}
                     onKeyDown={this.onInputKeyDown}
@@ -247,11 +277,14 @@ class TagsField extends Component {
                   }}
                 />
               </Popunder>
-              : <div className={styles.tagInputWrapper}>
+              : <div className={styles.tagInputWrapperNoSearch}>
                 <input
+                  ref={(r) => { this._input = r }}
                   className={styles.tagInput}
                   onChange={this.onInputChange}
                   onKeyDown={this.onInputKeyDown}
+                  onBlur={this.onInputBlur}
+                  onFocus={this.onInputFocus}
                   placeholder={placeholder}
                 />
               </div>
@@ -261,9 +294,9 @@ class TagsField extends Component {
         </div>
       </div>
     )
+    /* eslint-enable react/jsx-no-bind */
   }
 }
-
 
 /**
  * Enable parent to pass context
