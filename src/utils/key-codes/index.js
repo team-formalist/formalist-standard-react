@@ -1,6 +1,10 @@
 export default {
-  ESCAPE: 27,
-  ENTER: 13,
-  DELETE: 46,
   BACKSPACE: 8,
+  DELETE: 46,
+  DOWN: 40,
+  ENTER: 13,
+  ESCAPE: 27,
+  LEFT: 37,
+  RIGHT: 39,
+  UP: 38,
 }
