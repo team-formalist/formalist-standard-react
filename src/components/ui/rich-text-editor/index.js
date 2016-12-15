@@ -9,6 +9,7 @@ import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import createSingleLinePlugin from 'draft-js-single-line-plugin'
 import createBlockToolbarPlugin from './block-toolbar-plugin'
 import createInlineToolbarPlugin from './inline-toolbar-plugin'
+import createSoftNewlinesKeyboardPlugin from './soft-newlines-keyboard-plugin'
 // Styles
 import styles from './rich-text-editor.mcss'
 import './tmp.css'
@@ -97,6 +98,7 @@ const RichTextEditor = React.createClass({
     let plugins = [
       inlineToolbarPlugin,
       createBlockBreakoutPlugin(),
+      createSoftNewlinesKeyboardPlugin(),
     ]
     // Add singleLine plugin if the boxSize matches
     if (boxSize === 'single') {
