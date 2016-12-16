@@ -56,7 +56,7 @@ function insertBlockAfterCurrentBlock (editorState, blockType, editableBlockType
       type: blockType,
       text: '',
       characterList: List(),
-    })]
+    })],
   ]
   // If current block is the last block, or the next block isn't editable,
   // ensure we inject a new editable block afterwards to try and keep the editor
@@ -71,7 +71,7 @@ function insertBlockAfterCurrentBlock (editorState, blockType, editableBlockType
         type: 'unstyled',
         text: '',
         characterList: List(),
-      })]
+      })],
     ])
   }
 
@@ -91,6 +91,7 @@ const BlockItems = React.createClass({
   propTypes: {
     currentBlockType: React.PropTypes.string,
     itemsGroups: React.PropTypes.array,
+    editableBlockTypes: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
   },

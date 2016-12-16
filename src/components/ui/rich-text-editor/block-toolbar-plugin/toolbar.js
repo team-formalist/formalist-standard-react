@@ -16,6 +16,7 @@ import styles from './toolbar.mcss'
 const BlockToolbar = React.createClass({
   propTypes: {
     blockItemsGroups: React.PropTypes.array,
+    editableBlockTypes: React.PropTypes.array,
     embeddableForms: React.PropTypes.object,
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
