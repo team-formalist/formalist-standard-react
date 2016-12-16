@@ -53,13 +53,12 @@ const defaults = {
   },
 }
 
-
 /**
  * Reduce grouops and return a list of editable types
  * @param  {Array} groups
  * @return {Array}
  */
-function getEditableBlockTypesFromGroups(groups) {
+function getEditableBlockTypesFromGroups (groups) {
   return groups.reduce((a, b) => a.concat(b), [])
     .filter((item) => {
       return item.editable !== false
@@ -93,7 +92,6 @@ function removeBlockBeforeCurrent (editorState) {
   })
   return EditorState.push(editorState, newContentState, 'remove-range')
 }
-
 
 /**
  * Plugin for the block toolbar

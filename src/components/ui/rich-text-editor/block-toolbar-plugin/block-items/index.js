@@ -57,7 +57,7 @@ function insertBlockAfterCurrentBlock (editorState, blockType, editableBlockType
       type: blockType,
       text: '',
       characterList: List(),
-    })]
+    })],
   ]
   // If current block is the last block, or the next block isn't editable,
   // ensure we inject a new editable block afterwards to try and keep the editor
@@ -72,7 +72,7 @@ function insertBlockAfterCurrentBlock (editorState, blockType, editableBlockType
         type: 'unstyled',
         text: '',
         characterList: List(),
-      })]
+      })],
     ])
   }
 
@@ -92,6 +92,7 @@ class BlockItems extends React.Component {
   static propTypes = {
     currentBlockType: PropTypes.string,
     itemsGroups: PropTypes.array,
+    editableBlockTypes: React.PropTypes.array,
     editorState: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
   };

@@ -14,14 +14,15 @@ import styles from './toolbar.mcss'
  * Block Toolbar
  *
  */
-class BlockToolbar extends React.Component {
-  static propTypes = {
-    blockItemsGroups: PropTypes.array,
-    embeddableForms: PropTypes.object,
-    editorHasFocus: PropTypes.bool.isRequired,
-    editorState: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
+const BlockToolbar = React.createClass({
+  propTypes: {
+    blockItemsGroups: React.PropTypes.array,
+    editableBlockTypes: React.PropTypes.array,
+    embeddableForms: React.PropTypes.object,
+    editorHasFocus: React.PropTypes.bool.isRequired,
+    editorState: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+  },
 
   state = {
     open: false,
