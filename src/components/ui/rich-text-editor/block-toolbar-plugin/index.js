@@ -9,12 +9,14 @@ import mergeDefaults from '../../../../utils/merge-defaults'
 import Toolbar from './toolbar'
 import AtomicBlock from './blocks/atomic'
 import PullquoteBlock from './blocks/pull-quote'
+import HorizontalRuleBlock from './blocks/horizontal-rule'
 import blockItemsGroupsMapping from './block-items/groups-mapping'
 import {removeAtomicBlock, getNextBlockKey, getPreviousBlockKey} from '../utils'
 
 const commands = {
   BACKSPACE_BLOCK: 'btp-backspace-block',
   DELETE_BLOCK: 'btp-delete-block',
+  BACKSPACE_UNEDITABLE_BLOCK: 'btp-backspace-uneditable-block',
 }
 
 const defaults = {
@@ -27,6 +29,7 @@ const defaults = {
     'blockquote',
     'pullquote',
     'code-block',
+    'horizontal-rule',
   ],
   blockSet: {
     atomic: {
@@ -35,13 +38,62 @@ const defaults = {
     pullquote: {
       component: PullquoteBlock,
     },
+    'horizontal-rule': {
+      component: HorizontalRuleBlock,
+      editable: false,
+    },
   },
   blockRenderMap: {
     pullquote: {
       element: 'blockquote',
     },
+    'horizontal-rule': {
+      element: 'div',
+    },
   },
 }
+
+
+/**
+ * Reduce grouops and return a list of editable types
+ * @param  {Array} groups
+ * @return {Array}
+ */
+function getEditableBlockTypesFromGroups(groups) {
+  return groups.reduce((a, b) => a.concat(b), [])
+    .filter((item) => {
+      return item.editable !== false
+    })
+    .map((item) => item.type)
+}
+
+/**
+ * Remove the block before the current one
+ * @param  {EditorState} editorState Current editor state
+ * @return {EditorState} Updated editor state
+ */
+function removeBlockBeforeCurrent (editorState) {
+  const selection = editorState.getSelection()
+  const contentState = editorState.getCurrentContent()
+  const previousBlock = contentState.getBlockBefore(selection.getEndKey())
+  const blockMap = contentState.getBlockMap()
+  // Split the blocks
+  const blocksBefore = blockMap.toSeq().takeUntil(function (v) {
+    return v === previousBlock
+  })
+  const blocksAfter = blockMap.toSeq().skipUntil(function (v) {
+    return v === previousBlock
+  }).rest()
+  // Rejoin without the current block
+  const newBlocks = blocksBefore.concat(blocksAfter).toOrderedMap()
+  const newContentState = contentState.merge({
+    blockMap: newBlocks,
+    selectionBefore: selection,
+    selectionAfter: selection,
+  })
+  return EditorState.push(editorState, newContentState, 'remove-range')
+}
+
 
 /**
  * Plugin for the block toolbar
@@ -67,11 +119,23 @@ export default function blockToolbarPlugin (options = {}) {
   } = options
 
   // Filter out the un-allowed block-item types
-  const blockItemsGroups = blockItemsGroupsMapping.map((group) => {
+  let blockItemsGroups = blockItemsGroupsMapping.map((group) => {
     return group.filter((item) => blockFormatters.indexOf(item.type) > -1)
   }).filter((group) => {
     return group.length > 0
   })
+  // Suck in editable attributes from the blockSet definitions since they
+  // need to be defined there to pass into draft.
+  blockItemsGroups.map((group) => {
+    return group.map((item) => {
+      const blockSetDefinition = blockSet[item.type]
+      if (blockSetDefinition && blockSetDefinition.editable === false) {
+        item.editable = false
+      }
+      return item
+    })
+  })
+  const editableBlockTypes = getEditableBlockTypesFromGroups(blockItemsGroups)
 
   // Keep track of when an atomic block is selected
   editorEmitter.on('change', (key) => {
@@ -141,6 +205,22 @@ export default function blockToolbarPlugin (options = {}) {
             EditorState.push(editorState, contentState)
           )
         }
+      } else if (e.keyCode === 8) {
+        // Handle case where BACKSPACE before an uneditable block results in
+        // screwed up selections
+        const editorState = getEditorState()
+        const selection = editorState.getSelection()
+        const contentState = editorState.getCurrentContent()
+        const atStartOfBlock = selection.isCollapsed() && selection.getEndOffset() === 0
+        // Are we at the start of the current block?
+        if (atStartOfBlock) {
+          const previousBlock = contentState.getBlockBefore(selection.getEndKey())
+          const previousBlockEditable = editableBlockTypes.indexOf(previousBlock.getType()) > -1
+          // Is previous block uneditable?
+          if (!previousBlockEditable) {
+            return commands.BACKSPACE_UNEDITABLE_BLOCK
+          }
+        }
       }
     },
 
@@ -196,6 +276,11 @@ export default function blockToolbarPlugin (options = {}) {
           )
           return true
         }
+      } else if (command === commands.BACKSPACE_UNEDITABLE_BLOCK) {
+        setEditorState(
+          removeBlockBeforeCurrent(getEditorState())
+        )
+        return true
       } else if (command === 'delete') {
         const editorState = getEditorState()
         const contentState = editorState.getCurrentContent()
@@ -249,6 +334,7 @@ export default function blockToolbarPlugin (options = {}) {
       // creation
       props = Object.assign({}, {
         blockItemsGroups,
+        editableBlockTypes,
         embeddableForms,
       }, props)
       return (
