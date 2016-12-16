@@ -90,7 +90,7 @@ const BlockToolbar = React.createClass({
   },
 
   render () {
-    const {blockItemsGroups, editorState, embeddableForms, onChange} = this.props
+    const {blockItemsGroups, editableBlockTypes, editorState, embeddableForms, onChange} = this.props
     const {open, positionStyle} = this.state
     const currentBlockType = RichUtils.getCurrentBlockType(editorState)
 
@@ -144,6 +144,7 @@ const BlockToolbar = React.createClass({
           <div className={styles.buttonsWrapper}>
             <BlockItems
               itemsGroups={blockItemsGroups}
+              editableBlockTypes={editableBlockTypes}
               currentBlockType={currentBlockType}
               closeToolbar={this.closeToolbar}
               openToolbar={this.openToolbar}

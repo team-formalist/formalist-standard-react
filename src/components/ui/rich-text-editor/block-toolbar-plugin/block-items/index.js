@@ -1,8 +1,12 @@
 import React from 'react'
 import classNames from 'classnames'
 import {
+  genKey,
+  ContentBlock,
+  EditorState,
   RichUtils,
 } from 'draft-js'
+import {List} from 'immutable'
 import styles from './block-items.mcss'
 
 /**
@@ -23,6 +27,64 @@ function getNextBlockTypeToApply (currentType, types) {
 }
 
 /**
+ * Insert a new block of `blockType` after the current block
+ * @param  {EditorState} editorState
+ * @param  {String} blockType Block type to insert
+ * @param  {Array} editableBlockTypes List of editable types
+ * @return {EditorState} Modified EditorState
+ */
+function insertBlockAfterCurrentBlock (editorState, blockType, editableBlockTypes) {
+  const selection = editorState.getSelection()
+  const contentState = editorState.getCurrentContent()
+  const currentBlock = contentState.getBlockForKey(selection.getEndKey())
+
+  const blockMap = contentState.getBlockMap()
+  // Split the blocks
+  const blocksBefore = blockMap.toSeq().takeUntil(function (v) {
+    return v === currentBlock
+  })
+  const blocksAfter = blockMap.toSeq().skipUntil(function (v) {
+    return v === currentBlock
+  }).rest()
+
+  const newBlockKey = genKey()
+  const emptyBlockKey = genKey()
+  let newBlocks = [
+    [currentBlock.getKey(), currentBlock],
+    [newBlockKey, new ContentBlock({
+      key: newBlockKey,
+      type: blockType,
+      text: '',
+      characterList: List(),
+    })]
+  ]
+  // If current block is the last block, or the next block isn't editable,
+  // ensure we inject a new editable block afterwards to try and keep the editor
+  // state reasonably consistent.
+  const nextBlock = contentState.getBlockAfter(currentBlock.getKey())
+  const nextBlockIsEditable = nextBlock && editableBlockTypes.indexOf(nextBlock.getType()) > -1
+  const isLastBlock = currentBlock === contentState.getLastBlock()
+  if (!nextBlockIsEditable || isLastBlock) {
+    newBlocks = newBlocks.concat([
+      [emptyBlockKey, new ContentBlock({
+        key: emptyBlockKey,
+        type: 'unstyled',
+        text: '',
+        characterList: List(),
+      })]
+    ])
+  }
+
+  const newBlockMap = blocksBefore.concat(newBlocks, blocksAfter).toOrderedMap()
+  const newContentState = contentState.merge({
+    blockMap: newBlockMap,
+    selectionBefore: selection,
+    selectionAfter: selection,
+  })
+  return EditorState.push(editorState, newContentState, 'insert-fragment')
+}
+
+/**
  * Block items buttons
  */
 const BlockItems = React.createClass({
@@ -36,14 +98,22 @@ const BlockItems = React.createClass({
   getDefaultProps () {
     return {
       itemsGroups: [],
+      editableBlockTypes: [],
     }
   },
 
   toggleBlockType (blockType) {
     const {editorState, onChange} = this.props
-    onChange(
-      RichUtils.toggleBlockType(editorState, blockType)
-    )
+    const editable = (this.props.editableBlockTypes.indexOf(blockType) > -1)
+    if (editable) {
+      onChange(
+        RichUtils.toggleBlockType(editorState, blockType)
+      )
+    } else {
+      onChange(
+        insertBlockAfterCurrentBlock(editorState, blockType, this.props.editableBlockTypes)
+      )
+    }
   },
 
   renderItemsGroups (itemsGroups) {
@@ -72,7 +142,8 @@ const BlockItems = React.createClass({
       return (
         <button key={displayItem.type} className={buttonClassNames} onClick={(e) => {
           e.preventDefault()
-          this.toggleBlockType(getNextBlockTypeToApply(currentBlockType, types))
+          const nextBlockType = getNextBlockTypeToApply(currentBlockType, types)
+          this.toggleBlockType(nextBlockType)
         }}>
           {(displayItem.icon)
             ? <span

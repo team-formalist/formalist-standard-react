@@ -74,6 +74,14 @@
   font-family: monospace;
 }
 
+.public-DraftEditor-content hr {
+  background: none;
+  margin: 2rem auto;
+  border: none;
+  border-bottom: 2px #ddd solid;
+  max-width: 40rem;
+}
+
 .public-DraftEditor-content pre pre .public-DraftStyleDefault-block {
   margin-bottom: 0;
 }

@@ -71,4 +71,11 @@ export default [
       icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l-6 12h2l6-12h-2zm-8 2l-2 4 2 4h2l-2-4 2-4h-2zm10 0l2 4-2 4h2l2-4-2-4h-2z"></svg>',
     },
   ],
+  [
+    {
+      type: 'horizontal-rule',
+      label: 'Divider',
+      icon: '<svg width="16" height="12" xmlns="http://www.w3.org/2000/svg"><path d="M10 0l-6 12h2l6-12h-2zm-8 2l-2 4 2 4h2l-2-4 2-4h-2zm10 0l2 4-2 4h2l2-4-2-4h-2z"></svg>',
+    },
+  ],
 ]
