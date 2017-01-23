@@ -1,10 +1,6 @@
 # Formalist Standard React
 
-## CSS
-
-Assumes you’re using a global `reset` like [Eric Meyer’s 2.0 version](http://meyerweb.com/eric/tools/css/reset/).
-
-The CSS in this project is required to be compiled as [CSS Modules](https://github.com/css-modules/css-modules). It makes no opinions about the compilation of your CSS apart from that, so you can configure your build tool of choice as you like.
+A form renderer for Formalist built using React.
 
 ## Testing
 
@@ -157,3 +153,11 @@ properties so as to not modify the originla File itself.
   uid: "wyertyiopdop_small.jpg"
 }
 ```
+
+# Usage
+
+## CSS
+
+Assumes you’re using a global `reset` like [Eric Meyer’s 2.0 version](http://meyerweb.com/eric/tools/css/reset/).
+
+The CSS in this project is required to be compiled as [CSS Modules](https://github.com/css-modules/css-modules). It makes no opinions about the compilation of your CSS apart from that, so you can configure your build tool of choice as you like.
