@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {List} from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import keyCodes from '../../../utils/key-codes'
@@ -150,9 +151,10 @@ class TagsField extends Component {
    * Add tag to end of list
    */
   addTag (tag) {
-    const {value} = this.props
-    const valid = tag && tag !== '' && !value.includes(tag)
+    let {value} = this.props
+    const valid = tag && tag !== ''
     if (valid) {
+      value = value || List()
       this.onChange(value.push(tag))
       return true
     }
