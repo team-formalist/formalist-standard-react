@@ -7,7 +7,7 @@ import extractComponent from '../../../utils/extract-component'
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Popout from '../../ui/popout'
-import SearchSelector, {search} from '../../ui/search-selector'
+import SearchSelector, {searchMethod as search} from '../../ui/search-selector'
 
 // Import styles
 import styles from './search-selection-field.mcss'

@@ -13,6 +13,10 @@ function abortCurrentSearch (req) {
   }
 }
 
+// Export the imported search method as a default for this component
+export const searchMethod = search
+
+// Component
 class SearchSelector extends Component {
   constructor (props) {
     super(props)
