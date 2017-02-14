@@ -165,35 +165,39 @@ class TagsField extends Component {
    */
   renderTagsList () {
     const {value} = this.props
-    return (
-      value.map((tag, i) => {
-        const key = `${tag}-${i}`
-        const onClick = (e) => {
-          e.preventDefault()
-          // Remove only if the span is clicked on
-          if (e.target.nodeName === 'SPAN') {
-            this.removeTag(i)
+    if (value) {
+      return (
+        value.map((tag, i) => {
+          const key = `${tag}-${i}`
+          const onClick = (e) => {
+            e.preventDefault()
+            // Remove only if the span is clicked on
+            if (e.target.nodeName === 'SPAN') {
+              this.removeTag(i)
+            }
           }
-        }
-        const onKeyDown = (e) => {
-          if (e.keyCode === keyCodes.DELETE || e.keyCode === keyCodes.BACKSPACE) {
-            this.removeTag(i)
+          const onKeyDown = (e) => {
+            if (e.keyCode === keyCodes.DELETE || e.keyCode === keyCodes.BACKSPACE) {
+              this.removeTag(i)
+            }
           }
-        }
 
-        return (
-          <button
-            key={key}
-            className={styles.tag}
-            onClick={onClick}
-            onKeyDown={onKeyDown}
-          >
-            {tag}
-            <span className={styles.removeButton}>×</span>
-          </button>
-        )
-      })
-    )
+          return (
+            <button
+              key={key}
+              className={styles.tag}
+              onClick={onClick}
+              onKeyDown={onKeyDown}
+            >
+              {tag}
+              <span className={styles.removeButton}>×</span>
+            </button>
+          )
+        })
+      )
+    } else {
+      return null
+    }
   }
 
   render () {
