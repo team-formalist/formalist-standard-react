@@ -1,6 +1,6 @@
 {
   "name": "formalist-standard-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A standard form implementation for Formalist using React",
   "main": "lib/index.js",
   "scripts": {
