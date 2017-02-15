@@ -1,6 +1,6 @@
 {
   "name": "formalist-standard-react",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A standard form implementation for Formalist using React",
   "main": "lib/index.js",
   "scripts": {
@@ -69,9 +69,9 @@
     "draft-js-plugins-editor": "^2.0.0-beta5",
     "draft-js-single-line-plugin": "^0.0.1",
     "es6-promise": "^3.2.1",
-    "formalist-compose": "icelab/formalist-compose",
-    "formalist-data-object-renderer": "icelab/formalist-data-object-renderer",
-    "formalist-validation": "icelab/formalist-validation",
+    "formalist-compose": "^0.0.1",
+    "formalist-data-object-renderer": "^0.0.1",
+    "formalist-validation": "^0.0.1",
     "fuzzy": "0.1.1",
     "is-number": "^2.1.0",
     "lodash.assigninwith": "^4.0.7",

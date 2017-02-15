@@ -167,7 +167,8 @@ const MultiUploadField = React.createClass({
   createFileObjects (val) {
     // format the object
     function formatObject (file) {
-      const {name, size, type, lastModifiedDate} = file
+      const {name, size, type, lastModifiedDate, lastModified} = file
+      const lastModifiedAsString = (lastModifiedDate) ? lastModifiedDate.toString() : lastModified.toString()
       return {
         file,
         fileAttributes: {
@@ -175,7 +176,7 @@ const MultiUploadField = React.createClass({
         },
         size,
         type,
-        lastModifiedDate: lastModifiedDate.toString(),
+        lastModifiedDate: lastModifiedAsString,
         uid: generateUniqueID(name),
       }
     }
