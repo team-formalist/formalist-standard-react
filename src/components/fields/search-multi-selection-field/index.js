@@ -9,7 +9,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Sortable from '../../ui/sortable'
 import Popout from '../../ui/popout'
-import SearchSelector, {search} from '../../ui/search-selector'
+import SearchSelector, {searchMethod as search} from '../../ui/search-selector'
 
 // Import styles
 import styles from './search-multi-selection-field.mcss'

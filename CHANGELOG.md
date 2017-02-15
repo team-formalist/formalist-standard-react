@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v0.0.5 2017-02-15
+
+* Fix error in import reference for search-multi-selection field, bump deps
+
 # v0.0.4 2017-02-14
 
 * Add tags field.
