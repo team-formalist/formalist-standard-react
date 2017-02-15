@@ -12,6 +12,7 @@ import SearchSelectionField from './search-selection-field'
 import SearchMultiSelectionField from './search-multi-selection-field'
 import SelectBox from './select-box'
 import SelectionField from './selection-field'
+import TagsField from './tags-field'
 import TextArea from './text-area'
 import TextField from './text-field'
 import MultiUploadField from './multi-upload-field'
@@ -50,6 +51,7 @@ function fields (fieldsConfig = {}, globalConfig = {}) {
     searchMultiSelectionField: wrapField(SearchMultiSelectionField, fieldsConfig.searchMultiSelectionField, globalConfig),
     selectBox: wrapField(SelectBox, fieldsConfig.selectBox, globalConfig),
     selectionField: wrapField(SelectionField, fieldsConfig.selectionField, globalConfig),
+    tagsField: wrapField(TagsField, fieldsConfig.tagsField, globalConfig),
     textArea: wrapField(TextArea, fieldsConfig.textArea, globalConfig),
     textField: wrapField(TextField, fieldsConfig.textField, globalConfig),
     multiUploadField: wrapField(MultiUploadField, fieldsConfig.multiUploadField, globalConfig),

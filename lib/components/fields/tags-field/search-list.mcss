@@ -1,0 +1,16 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+
+.optionButton {
+  composes: small sans greyTintBorder whiteBackground from styles;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+  display: block;
+  padding: 0.7rem 1rem;
+  text-align: left;
+  width: 100%;
+}
+  .optionButtonFocus {
+    text-decoration: underline;
+  }

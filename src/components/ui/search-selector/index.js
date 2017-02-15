@@ -1,13 +1,11 @@
 import React, {Component} from 'react'
 import classNames from 'classnames'
 import debounce from 'lodash.debounce'
-import search from './search'
+import search from '../../../utils/search'
 import Pagination from './pagination'
 import Spinner from '../spinner'
 
 import styles from './search-selector.mcss'
-
-export {search}
 
 function abortCurrentSearch (req) {
   if (req && req.abort) {
@@ -15,6 +13,10 @@ function abortCurrentSearch (req) {
   }
 }
 
+// Export the imported search method as a default for this component
+export const searchMethod = search
+
+// Component
 class SearchSelector extends Component {
   constructor (props) {
     super(props)

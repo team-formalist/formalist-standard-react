@@ -7,7 +7,7 @@ import extractComponent from '../../../utils/extract-component'
 import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Popout from '../../ui/popout'
-import SearchSelector, {search} from '../../ui/search-selector'
+import SearchSelector, {searchMethod as search} from '../../ui/search-selector'
 
 // Import styles
 import styles from './search-selection-field.mcss'
@@ -246,7 +246,6 @@ class SearchSelectionField extends Component {
               <Popout
                 ref={(r) => { this._popout = r }}
                 placement='left'
-                onClose={this.onPopoutClose}
                 onOpen={this.onPopoutOpen}
                 closeOnEsc={!selectorFocus || !selectorQuery}
                 closeOnOutsideClick

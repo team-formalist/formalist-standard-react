@@ -1,0 +1,77 @@
+@value styles: 'formalist-theme/theme/index.mcss';
+@value error, fontSansBoldWeight, greyMid, highlightLight: from styles;
+
+.base {
+  composes: base from '../shared.mcss';
+}
+  .baseInline {
+    composes: baseInline from '../shared.mcss';
+  }
+
+.display {
+  composes: inputBox from '../../ui/input-boxes.mcss';
+  padding-bottom: 0.3em;
+}
+  .displayFocus {
+    composes: focus from '../../ui/input-boxes.mcss';
+  }
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+}
+  .tag {
+    composes: button normal from '../../ui/buttons.mcss';
+    composes: greyMidBorder primaryColor whiteBackground from styles;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+.popunderWrapper {
+  flex: 1;
+  min-width: 200px;
+}
+
+.popunderContainer {}
+
+.popunderContainerHidden {
+  display: none;
+}
+
+  .tagInputWrapper {
+    position: relative;
+  }
+  .tagInputWrapperNoSearch {
+    flex: 1;
+    position: relative;
+    min-width: 200px;
+  }
+
+  .tagInput {
+    composes: normal from styles;
+    border: none;
+    background: transparent;
+    padding: 0.4em 0;
+    margin-left: 0.5em;
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
+    width: 100%;
+  }
+    .tagInput:focus {
+      outline: none;
+    }
+
+.spinner {
+  position: absolute;
+  right: 1rem;
+  top: 0.9rem;
+  z-index: 2;
+}
+
+.removeButton {
+  display: inline-block;
+  margin-left: 0.4em;
+}
+  .removeButton:hover {
+    color: error;
+  }
