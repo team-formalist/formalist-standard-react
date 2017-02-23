@@ -253,7 +253,9 @@ const MultiUploadField = React.createClass({
 
     // apply the 'original_url' to existing `fileAttributes`
     copy.fileAttributes['original_url'] = this.buildPath(upload_url, response.path)
-    copy.fileAttributes['thumbnail_url'] = fileObject.file.preview
+    if (hasImageFormatType(copy.fileAttributes['file_name'])) {
+      copy.fileAttributes['thumbnail_url'] = fileObject.file.preview
+    }
 
     let files = this.state.files.slice(0)
     const indexOfFile = files.findIndex(file => file.uid === fileObject.uid)
