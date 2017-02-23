@@ -253,6 +253,7 @@ const MultiUploadField = React.createClass({
 
     // apply the 'original_url' to existing `fileAttributes`
     copy.fileAttributes['original_url'] = this.buildPath(upload_url, response.path)
+    copy.fileAttributes['thumbnail_url'] = fileObject.file.preview
 
     let files = this.state.files.slice(0)
     const indexOfFile = files.findIndex(file => file.uid === fileObject.uid)
@@ -287,15 +288,19 @@ const MultiUploadField = React.createClass({
 
   /**
    * normaliseFileExport
-   * Remove 'file_name' and 'original_url' from the fileObject.fileAttributes object
+   * Remove 'file_name', 'original_url', 'thumbnail_url' from the fileObject.fileAttributes object
    * return the object
    * @param {object} obj
    */
 
   normaliseFileExport (obj) {
+    const keysToRemove = [
+      'file_name', 'original_url', 'thumbnail_url',
+    ]
     let copy = Object.assign({}, obj.fileAttributes)
-    delete copy.file_name
-    delete copy.original_url
+    keysToRemove.forEach((key) => {
+      delete copy[key]
+    })
     return copy
   },
 
@@ -641,16 +646,15 @@ const MultiUploadField = React.createClass({
    * renderThumbnail
    * Return a thumbnail image based on `thumbnail_url` or building one from 'original_url'
    * @param  {string} thumbnail_url
-   * @param  {string} original_url
    * @param  {string} file_name
    * @return {vnode}
    */
 
-  renderThumbnail (thumbnail_url, original_url, file_name) {
-    if (!thumbnail_url && !original_url) return
+  renderThumbnail (thumbnail_url, file_name) {
+    if (!thumbnail_url) return
 
     return (
-      <img src={thumbnail_url || this.buildThumbnailPath(original_url, '50x')} alt={file_name} />
+      <img src={thumbnail_url} alt={file_name} />
     )
   },
 
@@ -705,7 +709,7 @@ const MultiUploadField = React.createClass({
     const {preview} = file
     const hasThumbnail = hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(preview, null, file_name)
+      ? this.renderThumbnail(preview, file_name)
       : null
 
     let currentProgress = {
@@ -767,7 +771,7 @@ const MultiUploadField = React.createClass({
     const {file_name, thumbnail_url, original_url} = fileAttributes
     const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
     const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, original_url, file_name)
+      ? this.renderThumbnail(thumbnail_url, file_name)
       : null
 
     return (
