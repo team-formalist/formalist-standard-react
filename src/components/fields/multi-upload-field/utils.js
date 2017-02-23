@@ -9,7 +9,7 @@ import isEqual from 'lodash.isequal'
  */
 
 function hasImageFormatType (filename) {
-  return (/.(jpg|jpeg|gif|png|bmp|svg)$/).test(filename)
+  return (/.(jpg|jpeg|gif|png|bmp|svg)$/i).test(filename)
 }
 
 /**
