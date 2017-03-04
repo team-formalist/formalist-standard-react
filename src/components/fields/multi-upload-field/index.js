@@ -4,6 +4,7 @@ import uid from 'uid'
 import classNames from 'classnames'
 import {upload, presign, abortXHRRequest} from 'attache-upload'
 import Immutable from 'immutable'
+import { events } from 'formalist-compose'
 
 // Import components
 import FieldErrors from '../common/errors'
@@ -45,6 +46,7 @@ const MultiUploadField = React.createClass({
       upload_action_label: React.PropTypes.string,
       upload_prompt: React.PropTypes.string,
     }),
+    bus: React.PropTypes.object,
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     hint: React.PropTypes.string,
@@ -89,6 +91,9 @@ const MultiUploadField = React.createClass({
     value = (value) ? value.toJS() : value
     let files = []
 
+    // Set a per instance ID for talking to the bus
+    this.instanceId = uid()
+
     // check if 'value' exists.
     // if it's an 'object' and put it in array
     if (value != null) {
@@ -106,6 +111,7 @@ const MultiUploadField = React.createClass({
 
     return {
       files,
+      uploadQueue: [],
     }
   },
 
@@ -205,6 +211,7 @@ const MultiUploadField = React.createClass({
    */
 
   abortUploadRequest (file) {
+    this.removeFromUploadQueue(file.uid)
     abortXHRRequest(file.uid)
   },
 
@@ -271,7 +278,7 @@ const MultiUploadField = React.createClass({
   /**
    * onUpdate
    * If `multiple` return the array of file(s), otherwise just the first
-   * normalise each fileObject, returning it's fileAttributes object
+   * normalise each fileObject, returning its fileAttributes object
    * @param  {array} files
    * @return {array/object}
    */
@@ -362,6 +369,9 @@ const MultiUploadField = React.createClass({
     const {csrfToken} = this.context.globalConfig
     let upload_url
 
+    // Push into uploadQueue
+    this.addToUploadQueue(fileObject.uid)
+
     presign(presign_url, csrfToken)
       .then((presignResponse) => {
         // assign the return 'url' to upload_url so
@@ -370,6 +380,7 @@ const MultiUploadField = React.createClass({
         return upload(presignResponse, fileObject, onProgress)
       })
       .then((uploadResponse) => {
+        this.removeFromUploadQueue(fileObject.uid)
         return this.updateUploadedFiles(fileObject, uploadResponse, upload_url)
       })
       .catch((err) => {
@@ -377,11 +388,47 @@ const MultiUploadField = React.createClass({
         if (name === 'presignRequest' || name === 'uploadRequest' || name === 'responseStatus') {
           this.removeFailedUpload(fileObject)
           this.storeXHRErrorMessage(err.message)
+          this.removeFromUploadQueue(fileObject.uid)
         } else {
           console.error(err)
           throw err
         }
       })
+  },
+
+  /**
+   * Add a file to the upload queue identified by its uid
+  */
+  addToUploadQueue (id) {
+    const {bus} = this.props
+    let {uploadQueue} = this.state
+    uploadQueue = uploadQueue.concat([id])
+    this.setState({
+      uploadQueue,
+    })
+    // If the queue is 1, then we have changed from idle to busy
+    if (uploadQueue.length === 1) {
+      bus.emit(events.internal.FIELD_BUSY, this.instanceId)
+    }
+  },
+
+  /**
+   * Remove a file to the upload queue identified by its uid
+  */
+  removeFromUploadQueue (id) {
+    const {bus} = this.props
+    let uploadQueue = this.state.uploadQueue.slice()
+    const index = uploadQueue.indexOf(id)
+    if (index > -1) {
+      uploadQueue.splice(index, 1)
+      this.setState({
+        uploadQueue,
+      })
+    }
+    // If the queue is 0, then we have changed from busy to idle
+    if (uploadQueue.length === 0) {
+      bus.emit(events.internal.FIELD_IDLE, this.instanceId)
+    }
   },
 
   /**
@@ -442,7 +489,7 @@ const MultiUploadField = React.createClass({
 
     if (!validFiles.length) return
 
-    // Create 'file objects' of valid files and assign to `previewFiles`
+    // Create 'file objects' of valid files and assign to `uploadingFiles`
     var uploadingFiles = validFiles.map((file) => {
       return this.createFileObjects(file)
     })
@@ -868,7 +915,7 @@ const MultiUploadField = React.createClass({
    */
 
   renderFiles (files) {
-    let isSortable = true
+    let isSortable = this.state.uploadQueue.length === 0
     const {config, attributes} = this.props
     const {render_uploaded_as} = attributes
 
