@@ -8,14 +8,16 @@ import { actions } from 'formalist-compose'
 const { deleteField, editField, validateField } = actions
 
 /**
- * Container class for fields.Consolidates common attributes and actions into a
- * single place.
+ * Container class for fields.
+ *
+ * Consolidates common attributes and actions into a single place.
  *
  */
 const FieldContainer = React.createClass({
 
   propTypes: {
     attributes: ImmutablePropTypes.map,
+    bus: React.PropTypes.object.isRequired,
     config: React.PropTypes.object,
     errors: ImmutablePropTypes.list,
     field: React.PropTypes.func.isRequired,
@@ -54,6 +56,7 @@ const FieldContainer = React.createClass({
   render () {
     let {
       attributes,
+      bus,
       config,
       errors,
       field,
@@ -111,6 +114,7 @@ const FieldContainer = React.createClass({
       <div className={containerClassNames}>
         <Field
           actions={fieldActions}
+          bus={bus}
           config={config}
           name={name}
           value={value}
