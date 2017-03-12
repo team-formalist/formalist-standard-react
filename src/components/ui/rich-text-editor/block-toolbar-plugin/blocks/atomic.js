@@ -51,8 +51,8 @@ const AtomicBlock = React.createClass({
     // Create the formalist form with config
     this.form = configuredTemplate(entityData.form)
 
-    this.form.store.subscribe(() => {
-      const formTemplate = this.form.store.getState()
+    this.form.on('change', (getState) => {
+      const formTemplate = getState()
       Entity.replaceData(this.entityKey, {
         name: entityData.name,
         label: entityData.label,
