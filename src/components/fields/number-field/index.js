@@ -14,9 +14,8 @@ import styles from './number-field.mcss'
 /**
  * Number field
  */
-const NumberField = React.createClass({
-
-  propTypes: {
+class NumberField extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
       label: React.PropTypes.string,
@@ -33,22 +32,22 @@ const NumberField = React.createClass({
     hint: React.PropTypes.string,
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e, value) {
+  onChange = (e, value) => {
     if (isNumber(value)) {
       value = parseFloat(value)
     } else {
@@ -57,7 +56,7 @@ const NumberField = React.createClass({
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -105,7 +104,7 @@ const NumberField = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default NumberField

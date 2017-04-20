@@ -14,9 +14,8 @@ import styles from './check-box.mcss'
  * Base class for the `check_box`
  *
  */
-const CheckBox = React.createClass({
-
-  propTypes: {
+class CheckBox extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
     config: React.PropTypes.object,
@@ -30,26 +29,26 @@ const CheckBox = React.createClass({
     label: React.PropTypes.string,
     errors: ImmutablePropTypes.list,
     value: React.PropTypes.bool,
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e, value) {
+  onChange = (e, value) => {
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -83,7 +82,7 @@ const CheckBox = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default CheckBox

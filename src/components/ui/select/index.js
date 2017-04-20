@@ -15,8 +15,8 @@ import styles from './select.mcss'
  * - large
  *
  */
-const Select = React.createClass({
-  propTypes: {
+class Select extends React.Component {
+  static propTypes = {
     className: React.PropTypes.string,
     children: React.PropTypes.node,
     error: React.PropTypes.bool,
@@ -28,40 +28,36 @@ const Select = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-  },
+  };
 
-  getDefaultProps () {
-    return {
-      clearable: true,
-      error: false,
-      placeholder: 'Select an option',
-      size: 'normal',
-    }
-  },
+  static defaultProps = {
+    clearable: true,
+    error: false,
+    placeholder: 'Select an option',
+    size: 'normal',
+  };
 
-  getInitialState () {
-    return {
-      focus: false,
-    }
-  },
+  state = {
+    focus: false,
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({focus: true})
     if (this.props.onFocus) {
       this.props.onFocus(e)
     }
-  },
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setState({focus: false})
     if (this.props.onBlur) {
       this.props.onBlur(e)
     }
-  },
+  };
 
-  onChange (e) {
+  onChange = (e) => {
     this.props.onChange(e, e.target.value)
-  },
+  };
 
   render () {
     const {
@@ -119,7 +115,7 @@ const Select = React.createClass({
         </select>
       </label>
     )
-  },
-})
+  }
+}
 
 export default Select

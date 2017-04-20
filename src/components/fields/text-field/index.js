@@ -13,9 +13,8 @@ import styles from './text-field.mcss'
 /**
  * Text field
  */
-const TextField = React.createClass({
-
-  propTypes: {
+class TextField extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
     config: React.PropTypes.object,
@@ -34,26 +33,26 @@ const TextField = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number,
     ]),
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e, value) {
+  onChange = (e, value) => {
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -91,7 +90,7 @@ const TextField = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default TextField

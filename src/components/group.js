@@ -2,14 +2,13 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './group.mcss'
 
-const Group = React.createClass({
-
-  propTypes: {
+class Group extends React.Component {
+  static propTypes = {
     hashCode: React.PropTypes.number.isRequired,
     type: React.PropTypes.string,
     attributes: ImmutablePropTypes.map,
     children: ImmutablePropTypes.list,
-  },
+  };
 
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
@@ -17,7 +16,7 @@ const Group = React.createClass({
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
     return (this.props.hashCode !== nextProps.hashCode)
-  },
+  }
 
   render () {
     let { attributes, children } = this.props
@@ -31,8 +30,8 @@ const Group = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default Group
 export let GroupFactory = React.createFactory(Group)

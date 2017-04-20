@@ -78,9 +78,8 @@ const itemTarget = {
 /**
  * Item
  */
-const Item = React.createClass({
-
-  propTypes: {
+class Item extends React.Component {
+  static propTypes = {
 
     /**
      * Current index of the item in context of the sortable
@@ -139,27 +138,27 @@ const Item = React.createClass({
      */
     children: React.PropTypes.node.isRequired,
     verticalControls: React.PropTypes.bool,
-  },
+  };
 
   /**
    * Send current `index` to the onRemove callback
    * @param  {Event} e Click event
    */
-  onRemoveClick (e) {
+  onRemoveClick = (e) => {
     e.preventDefault()
     const { canRemove, onRemove } = this.props
     if (canRemove && onRemove) {
       onRemove(this.props.index, e)
     }
-  },
+  };
 
   /**
    * Stop the handle click propagating
    * @param  {Event} e Click event
    */
-  onHandleClick (e) {
+  onHandleClick = (e) => {
     e.preventDefault()
-  },
+  };
 
   render () {
     const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging, verticalControls } = this.props
@@ -194,8 +193,8 @@ const Item = React.createClass({
         </div>
       )
     )
-  },
-})
+  }
+}
 
 /**
  * DropTargetDecorator

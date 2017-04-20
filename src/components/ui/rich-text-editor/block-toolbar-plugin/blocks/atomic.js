@@ -10,31 +10,33 @@ import styles from './atomic.mcss'
 const dataObjectRenderer = createDataObjectRenderer()
 let configuredTemplate
 
-const AtomicBlock = React.createClass({
-  propTypes: {
+class AtomicBlock extends React.Component {
+  static propTypes = {
     block: React.PropTypes.object.isRequired,
     blockProps: React.PropTypes.shape({
       editorEmitter: React.PropTypes.object.isRequired,
       remove: React.PropTypes.func.isRequired,
       setReadOnly: React.PropTypes.func.isRequired,
     }),
-  },
-
-  getInitialState () {
-    this.entityKey = this.props.block.getEntityAt(0)
-    this.entity = Entity.get(this.entityKey)
-    return {
-      isSelected: false,
-    }
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
+
+  constructor (props) {
+    super(props)
+    this.entityKey = props.block.getEntityAt(0)
+    this.entity = Entity.get(this.entityKey)
+
+    this.state = {
+      isSelected: false,
+    }
+  }
 
   componentWillMount () {
     document.addEventListener('mouseup', this.handleOutsideMouseClick)
@@ -69,24 +71,24 @@ const AtomicBlock = React.createClass({
     editorEmitter.on('change', this.onEditorChange)
     editorEmitter.on('focus', this.checkEditorSelection)
     editorEmitter.on('blur', this.checkEditorSelection)
-  },
+  }
 
   componentWillUnmount () {
     const {editorEmitter} = this.props.blockProps
     editorEmitter.off('change', this.onEditorChange)
     editorEmitter.off('focus', this.checkEditorSelection)
     editorEmitter.off('blur', this.checkEditorSelection)
-  },
+  }
 
-  onEditorChange (editorState) {
+  onEditorChange = (editorState) => {
     this.checkEditorSelection(editorState)
-  },
+  };
 
-  onEditorFocus (editorState) {
+  onEditorFocus = (editorState) => {
     this.checkEditorSelection(editorState)
-  },
+  };
 
-  checkEditorSelection (editorState) {
+  checkEditorSelection = (editorState) => {
     const {editorEmitter} = this.props.blockProps
     const selection = editorState.getSelection()
     let isSelected = false
@@ -103,29 +105,29 @@ const AtomicBlock = React.createClass({
     this.setState({
       isSelected,
     })
-  },
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({
       isSelected: false,
     })
     this.setReadOnly(true)
-  },
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setReadOnly(false)
-  },
+  };
 
-  remove () {
+  remove = () => {
     const {block, blockProps} = this.props
     this.setReadOnly(false)
     blockProps.remove(block.getKey())
-  },
+  };
 
-  setReadOnly (readOnly) {
+  setReadOnly = (readOnly) => {
     const {blockProps} = this.props
     blockProps.setReadOnly(readOnly)
-  },
+  };
 
   render () {
     const {isSelected} = this.state
@@ -170,7 +172,7 @@ const AtomicBlock = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default AtomicBlock

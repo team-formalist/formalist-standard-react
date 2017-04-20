@@ -15,31 +15,36 @@ export const dateFormats = {
   time: 'HH:mm:ss',
 }
 
-const DateTimePicker = React.createClass({
-  propTypes: {
+class DateTimePicker extends React.Component {
+  static propTypes = {
     value: React.PropTypes.string,
     error: React.PropTypes.bool,
     id: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
-  },
+  };
 
-  getInitialState () {
-    if (this.props.value) {
-      let parsedDateTime = moment(this.props.value, dateFormats.utc)
+  constructor (props) {
+    super(props)
+    if (props.value) {
+      let parsedDateTime = moment(props.value, dateFormats.utc)
       if (parsedDateTime.isValid()) {
         this.dateTime = parsedDateTime
-        return {
+
+        this.state = {
           date: parsedDateTime.format(dateFormats.date),
           time: parsedDateTime.format(dateFormats.time),
         }
+
+        return
       }
     }
-    return {
+
+    this.state = {
       date: null,
       time: null,
     }
-  },
+  }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.value && nextProps.value !== this.props.value) {
@@ -52,9 +57,9 @@ const DateTimePicker = React.createClass({
         })
       }
     }
-  },
+  }
 
-  onDateChange (date) {
+  onDateChange = (date) => {
     let parsedDate = moment(date, dateFormats.date)
     if (parsedDate.isValid()) {
       if (this.dateTime) {
@@ -68,13 +73,13 @@ const DateTimePicker = React.createClass({
       }
     }
     this.onChange()
-  },
+  };
 
   /**
    * Set the passed `time` into the date time
    * @param  {String} time Time to apply to the current date-time
    */
-  onTimeChange (time) {
+  onTimeChange = (time) => {
     let parsedTime = moment(time, dateFormats.time)
     if (parsedTime.isValid()) {
       if (this.dateTime) {
@@ -88,11 +93,11 @@ const DateTimePicker = React.createClass({
       }
     }
     this.onChange()
-  },
+  };
 
-  onChange () {
+  onChange = () => {
     this.props.onChange(this.dateTime.format(dateFormats.utc))
-  },
+  };
 
   render () {
     let { error, id, placeholder } = this.props
@@ -120,7 +125,7 @@ const DateTimePicker = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default DateTimePicker

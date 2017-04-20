@@ -16,54 +16,50 @@ import styles from './input.mcss'
  * - large
  *
  */
-const Input = React.createClass({
-  propTypes: {
+class Input extends React.Component {
+  static propTypes = {
     className: React.PropTypes.string,
     error: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     onBlur: React.PropTypes.func,
     onFocus: React.PropTypes.func,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-  },
+  };
 
-  getDefaultProps () {
-    return {
-      error: false,
-      size: 'normal',
-      type: 'text',
-    }
-  },
+  static defaultProps = {
+    error: false,
+    size: 'normal',
+    type: 'text',
+  };
 
-  getInitialState () {
-    return {
-      focus: false,
-    }
-  },
+  state = {
+    focus: false,
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({focus: true})
     if (this.props.onFocus) {
       this.props.onFocus(e)
     }
-  },
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setState({focus: false})
     if (this.props.onBlur) {
       this.props.onBlur(e)
     }
-  },
+  };
 
-  onChange (e) {
+  onChange = (e) => {
     this.props.onChange(e, e.target.value)
-  },
+  };
 
   /**
    * Public
    */
-  getInput () {
+  getInput = () => {
     return this._input
-  },
+  };
 
   render () {
     let inputClassNames = classNames(
@@ -88,7 +84,7 @@ const Input = React.createClass({
         onFocus={this.onFocus}
       />
     )
-  },
-})
+  }
+}
 
 export default Input

@@ -4,51 +4,48 @@ import triggerEvent from 'trigger-event'
 // import classNames from 'classnames'
 // import styles from './index.mcss'
 
-export default React.createClass({
-
+export default class extends React.Component {
   /**
    * displayName
    */
 
-  displayName: 'FileInput',
+  static displayName = 'FileInput';
 
   /**
    * propTypes
    */
 
-  propTypes: {
+  static propTypes = {
     className: React.PropTypes.string,
     name: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
-  },
+  };
 
   /**
    * getDefaultProps
    */
 
-  getDefaultProps () {
-    return {
-      resetInput: false,
-    }
-  },
+  static defaultProps = {
+    resetInput: false,
+  };
 
   /**
    * onClearInput
    * reset teh value of the file input
    */
 
-  onClearInput () {
+  onClearInput = () => {
     this.refs.fileInput.value = ''
-  },
+  };
 
   /**
    * triggerClickEvent
    * Clear the input
    */
 
-  triggerClickEvent () {
+  triggerClickEvent = () => {
     triggerEvent(this.refs.fileInput, 'click')
-  },
+  };
 
   /**
    * componentWillReceiveProps
@@ -63,7 +60,7 @@ export default React.createClass({
     if (nextProps.triggerClick) {
       this.triggerClickEvent()
     }
-  },
+  }
 
   /**
    * render
@@ -84,5 +81,5 @@ export default React.createClass({
           onChange={onChange} />
       </div>
     )
-  },
-})
+  }
+}

@@ -13,9 +13,8 @@ const { deleteField, editField, validateField } = actions
  * Consolidates common attributes and actions into a single place.
  *
  */
-const FieldContainer = React.createClass({
-
-  propTypes: {
+class FieldContainer extends React.Component {
+  static propTypes = {
     attributes: ImmutablePropTypes.map,
     bus: React.PropTypes.object.isRequired,
     config: React.PropTypes.object,
@@ -29,21 +28,21 @@ const FieldContainer = React.createClass({
     store: React.PropTypes.object.isRequired,
     type: React.PropTypes.string.isRequired,
     value: React.PropTypes.any,
-  },
+  };
 
   /**
    * Create `context` object for each field to access
    */
 
-  childContextTypes: {
+  static childContextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
 
   getChildContext () {
     return {
       globalConfig: this.props.globalConfig,
     }
-  },
+  }
 
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
@@ -51,7 +50,7 @@ const FieldContainer = React.createClass({
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
     return (this.props.hashCode !== nextProps.hashCode)
-  },
+  }
 
   render () {
     let {
@@ -125,7 +124,7 @@ const FieldContainer = React.createClass({
           hint={hint} />
       </div>
     )
-  },
-})
+  }
+}
 
 export default FieldContainer

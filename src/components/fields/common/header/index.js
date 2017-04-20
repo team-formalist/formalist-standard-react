@@ -8,17 +8,17 @@ import styles from './header.mcss'
  * A common header component for every field. Renders the label and an optional
  * hint.
  */
-const FieldHeader = React.createClass({
-  propTypes: {
+class FieldHeader extends React.Component {
+  static propTypes = {
     id: React.PropTypes.string,
     label: React.PropTypes.string,
     hint: React.PropTypes.string,
     error: React.PropTypes.bool,
-  },
+  };
 
   shouldComponentUpdate (nextProps) {
     return !shallow(this.props, nextProps)
-  },
+  }
 
   render () {
     let { id, label, hint } = this.props
@@ -43,7 +43,7 @@ const FieldHeader = React.createClass({
         {(hint) ? <span className={hintClassNames}>{hint}</span> : null}
       </div>
     )
-  },
-})
+  }
+}
 
 export default FieldHeader

@@ -16,8 +16,8 @@ import styles from './radio-button.mcss'
  * - large
  *
  */
-const RadioButton = React.createClass({
-  propTypes: {
+class RadioButton extends React.Component {
+  static propTypes = {
     id: React.PropTypes.string,
     className: React.PropTypes.string,
     defaultChecked: React.PropTypes.bool,
@@ -32,30 +32,26 @@ const RadioButton = React.createClass({
       React.PropTypes.number,
       React.PropTypes.string,
     ]),
-  },
+  };
 
-  getDefaultProps () {
-    return {
-      disabled: false,
-      error: false,
-      size: 'normal',
-    }
-  },
+  static defaultProps = {
+    disabled: false,
+    error: false,
+    size: 'normal',
+  };
 
-  getInitialState () {
-    return {
-      id: uid(10),
-      focus: false,
-    }
-  },
+  state = {
+    id: uid(10),
+    focus: false,
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setState({focus: false})
-  },
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({focus: true})
-  },
+  };
 
   render () {
     let { defaultChecked, label, name, onChange, value } = this.props
@@ -103,7 +99,7 @@ const RadioButton = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default RadioButton

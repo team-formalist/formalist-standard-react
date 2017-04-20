@@ -13,9 +13,8 @@ import styles from './select-box.mcss'
 /**
  * Select Box field
  */
-const SelectBox = React.createClass({
-
-  propTypes: {
+class SelectBox extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
     config: React.PropTypes.object,
@@ -33,26 +32,26 @@ const SelectBox = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number,
     ]),
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e, value) {
+  onChange = (e, value) => {
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -109,7 +108,7 @@ const SelectBox = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default SelectBox

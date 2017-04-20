@@ -14,9 +14,8 @@ import styles from './date-field.mcss'
 /**
  * Date Field
  */
-const DateField = React.createClass({
-
-  propTypes: {
+class DateField extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     attributes: React.PropTypes.shape({
       label: React.PropTypes.string,
@@ -30,33 +29,33 @@ const DateField = React.createClass({
     name: React.PropTypes.string,
     config: React.PropTypes.object,
     value: React.PropTypes.string,
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
 
   /**
    * onChange handler
    *
    * @param  {String} date Date as a YYYY-MM-DD formatted string
    */
-  onChange (date) {
+  onChange = (date) => {
     this.props.actions.edit(
       (val) => { return date }
     )
-  },
+  };
 
   /**
    * setDateToNow
    */
-  setDateToNow () {
+  setDateToNow = () => {
     this.onChange(moment().format('YYYY-MM-DD'))
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -92,7 +91,7 @@ const DateField = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default DateField

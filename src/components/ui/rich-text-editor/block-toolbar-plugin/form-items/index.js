@@ -9,21 +9,19 @@ import styles from './form-items.mcss'
 // Initialise the dataObjectRenderer
 const dataObjectRenderer = createDataObjectRenderer()
 
-const FormItems = React.createClass({
-  propTypes: {
+class FormItems extends React.Component {
+  static propTypes = {
     embeddableForms: React.PropTypes.array,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
     closeToolbar: React.PropTypes.func.isRequired,
-  },
+  };
 
-  getDefaultProps () {
-    return {
-      embeddableForms: [],
-    }
-  },
+  static defaultProps = {
+    embeddableForms: [],
+  };
 
-  insertAtomicBlock (formConfig) {
+  insertAtomicBlock = (formConfig) => {
     const {editorState, onChange, closeToolbar} = this.props
     const entityKey = Entity.create('formalist', 'IMMUTABLE', {
       name: formConfig.name,
@@ -39,9 +37,9 @@ const FormItems = React.createClass({
       )
     )
     closeToolbar()
-  },
+  };
 
-  renderFormButtons (embeddableForms) {
+  renderFormButtons = (embeddableForms) => {
     return embeddableForms.map((form) => {
       const onClick = (e) => {
         e.preventDefault()
@@ -49,7 +47,7 @@ const FormItems = React.createClass({
       }
       return <button className={styles.button} key={form.name} onClick={onClick}>{form.label || form.name}</button>
     })
-  },
+  };
 
   render () {
     const {embeddableForms} = this.props
@@ -67,7 +65,7 @@ const FormItems = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default FormItems

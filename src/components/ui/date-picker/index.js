@@ -27,8 +27,8 @@ function compressDate (dateString) {
   return moment(dateString, 'l').format('YYYY-MM-DD')
 }
 
-const DatePicker = React.createClass({
-  propTypes: {
+class DatePicker extends React.Component {
+  static propTypes = {
     className: React.PropTypes.string,
     value: React.PropTypes.string,
     error: React.PropTypes.bool,
@@ -36,20 +36,16 @@ const DatePicker = React.createClass({
     month: React.PropTypes.number,
     onChange: React.PropTypes.func.isRequired,
     placeholder: React.PropTypes.string,
-  },
+  };
 
-  getInitialState () {
-    return {
-      value: (this.props.value) ? expandDate(this.props.value) : '',
-      month: this.props.month || new Date(),
-    }
-  },
+  static defaultProps = {
+    placeholder: 'Select a date',
+  };
 
-  getDefaultProps () {
-    return {
-      placeholder: 'Select a date',
-    }
-  },
+  state = {
+    value: (this.props.value) ? expandDate(this.props.value) : '',
+    month: this.props.month || new Date(),
+  };
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.value && nextProps.value !== this.props.value) {
@@ -57,9 +53,9 @@ const DatePicker = React.createClass({
         value: expandDate(nextProps.value),
       })
     }
-  },
+  }
 
-  onInputChange (e, value) {
+  onInputChange = (e, value) => {
     // Change the current month only if the value entered by the user is a valid
     // date, according to the `L` format
     if (moment(value, 'l', true).isValid()) {
@@ -75,17 +71,17 @@ const DatePicker = React.createClass({
         value,
       }, this.showCurrentDate)
     }
-  },
+  };
 
-  showCurrentDate () {
+  showCurrentDate = () => {
     this._daypicker.showMonth(this.state.month)
-  },
+  };
 
-  onInputFocus (e) {
+  onInputFocus = (e) => {
     this._popunder.openPopunder()
-  },
+  };
 
-  onDayClick (e, day) {
+  onDayClick = (e, day) => {
     let value = moment(day).format('l')
     this.setState({
       value: value,
@@ -94,7 +90,7 @@ const DatePicker = React.createClass({
     // Pass the value back
     let storedValue = compressDate(value)
     this.props.onChange(storedValue)
-  },
+  };
 
   render () {
     let { id, className, error, placeholder } = this.props
@@ -131,7 +127,7 @@ const DatePicker = React.createClass({
         </Popunder>
       </div>
     )
-  },
-})
+  }
+}
 
 export default DatePicker

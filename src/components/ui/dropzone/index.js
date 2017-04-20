@@ -3,19 +3,18 @@ import Dropzone from 'react-dropzone'
 import styles from './index.mcss'
 import classNames from 'classnames'
 
-export default React.createClass({
-
+export default class extends React.Component {
   /**
    * displayName
    */
 
-  displayName: 'DropZone',
+  static displayName = 'DropZone';
 
   /**
    * propTypes
    */
 
-  propTypes: {
+  static propTypes = {
     label: React.PropTypes.string,
     buttonText: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired,
@@ -24,55 +23,51 @@ export default React.createClass({
     children: React.PropTypes.node,
     disableClick: React.PropTypes.bool,
     hideDropZoneBtn: React.PropTypes.bool,
-  },
+  };
 
   /**
    * getDefaultProps
    */
 
-  getDefaultProps () {
-    return {
-      disableClick: false,
-    }
-  },
+  static defaultProps = {
+    disableClick: false,
+  };
 
   /**
    * getInitialState
    */
 
-  getInitialState () {
-    return {
-      files: [],
-      isActive: false,
-    }
-  },
+  state = {
+    files: [],
+    isActive: false,
+  };
 
   /**
    * onDragOver
    * Set `isActive` to true
    */
 
-  onDragOver (e) {
+  onDragOver = (e) => {
     e.preventDefault()
     const isActive = e.dataTransfer.types[0] === 'Files'
     if (isActive === this.state.isActive) return
     this.setState({
       isActive,
     })
-  },
+  };
 
   /**
    * onDragLeave
    * Set `isActive` to false
    */
 
-  onDragLeave (e) {
+  onDragLeave = (e) => {
     e.preventDefault()
     if (!this.state.isActive) return
     this.setState({
       isActive: false,
     })
-  },
+  };
 
   /**
    * componentDidMount
@@ -83,7 +78,7 @@ export default React.createClass({
     document.addEventListener('dragover', this.onDragOver)
     document.addEventListener('dragleave', this.onDragLeave)
     document.addEventListener('drop', this.onDragLeave)
-  },
+  }
 
   /**
    * onDragStart
@@ -92,9 +87,9 @@ export default React.createClass({
    * @param  {Event} e
    */
 
-  onDragStart (e) {
+  onDragStart = (e) => {
     e.dataTransfer.effectAllowed = 'move'
-  },
+  };
 
   /**
    * onDrop
@@ -104,13 +99,13 @@ export default React.createClass({
    * @param  {Array} files
    */
 
-  onDrop (files) {
+  onDrop = (files) => {
     const {onChange} = this.props
     if (typeof (onChange) === 'function') onChange(files)
     this.setState({
       files: files,
     })
-  },
+  };
 
   /**
    * onClick
@@ -118,10 +113,10 @@ export default React.createClass({
    * @param  {event} e
    */
 
-  onClick (e) {
+  onClick = (e) => {
     e.preventDefault()
     this._dropzone.open()
-  },
+  };
 
   /**
    * renderPreview
@@ -132,14 +127,14 @@ export default React.createClass({
    * @return {vnode}
    */
 
-  renderPreview (files) {
+  renderPreview = (files) => {
     return (
       <div>
         <h2>Uploading {files.length} files...</h2>
         <div>{files.map((file, i) => <img key={i} src={file.preview} />)}</div>
       </div>
     )
-  },
+  };
 
   /**
    * renderButton
@@ -148,7 +143,7 @@ export default React.createClass({
    * @return {vnode}
    */
 
-  renderButton (buttonText) {
+  renderButton = (buttonText) => {
     return (
       <button onClick={this.onClick} className={styles.dropzone__button}>
         {buttonText != null
@@ -156,7 +151,7 @@ export default React.createClass({
           : 'Upload file'}
       </button>
     )
-  },
+  };
 
   /**
    * renderLabel
@@ -165,7 +160,7 @@ export default React.createClass({
    * @return {vnode}
    */
 
-  renderLabel (label) {
+  renderLabel = (label) => {
     return (
       <span className={styles.dropzone__label__wrapper}>
         <span className={styles.dropzone__label}>
@@ -173,7 +168,7 @@ export default React.createClass({
         </span>
       </span>
     )
-  },
+  };
 
   /**
    * render
@@ -224,5 +219,5 @@ export default React.createClass({
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
     )
-  },
-})
+  }
+}

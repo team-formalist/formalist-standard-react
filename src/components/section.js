@@ -2,15 +2,14 @@ import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './section.mcss'
 
-const Section = React.createClass({
-
-  propTypes: {
+class Section extends React.Component {
+  static propTypes = {
     hashCode: React.PropTypes.number.isRequired,
     type: React.PropTypes.string,
     attributes: ImmutablePropTypes.map,
     name: React.PropTypes.string,
     children: ImmutablePropTypes.list,
-  },
+  };
 
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
@@ -18,7 +17,7 @@ const Section = React.createClass({
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
     return (this.props.hashCode !== nextProps.hashCode)
-  },
+  }
 
   render () {
     let label = this.props.attributes.get('label') || this.props.name.replace(/_/, ' ')
@@ -30,8 +29,8 @@ const Section = React.createClass({
         </div>
       </section>
     )
-  },
-})
+  }
+}
 
 export default Section
 export let SectionFactory = React.createFactory(Section)

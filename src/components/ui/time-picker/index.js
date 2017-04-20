@@ -15,26 +15,27 @@ const dateFormats = {
   humanTime: 'hh:mma',
 }
 
-const TimePicker = React.createClass({
-
-  propTypes: {
+class TimePicker extends React.Component {
+  static propTypes = {
     value: React.PropTypes.string,
     error: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
-  },
+  };
 
-  getInitialState () {
+  constructor (props) {
+    super(props)
     let inputValue
-    let parsedTime = moment(this.props.value, dateFormats.time)
+    let parsedTime = moment(props.value, dateFormats.time)
     if (parsedTime.isValid()) {
       this.time = parsedTime
       inputValue = parsedTime.format(dateFormats.humanTime)
     }
-    return {
+
+    this.state = {
       inputValue: inputValue,
     }
-  },
+  }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.value && nextProps.value !== this.props.value) {
@@ -46,32 +47,32 @@ const TimePicker = React.createClass({
         })
       }
     }
-  },
+  }
 
-  onInputChange (e, value) {
+  onInputChange = (e, value) => {
     let time = moment(value, dateFormats.humanTime)
     this.time = time
     this.props.onChange(time.format(dateFormats.time))
-  },
+  };
 
-  onInputFocus () {
+  onInputFocus = () => {
     this._popunder.openPopunder()
-  },
+  };
 
-  onTimeClick (time, e) {
+  onTimeClick = (time, e) => {
     e.preventDefault()
     this.time = time
     this.setState({
       inputValue: time.format(dateFormats.humanTime),
     })
     this.props.onChange(time.format(dateFormats.time))
-  },
+  };
 
   /**
    * Render a list of human formatted times between midnight and midnight
    * @return {ReactElement} React element containing the list
    */
-  renderTimeList () {
+  renderTimeList = () => {
     // Get midnight
     let date = moment().set({
       hours: 0,
@@ -85,7 +86,7 @@ const TimePicker = React.createClass({
         {this.renderTimeItem(date, [], end, this.time)}
       </ul>
     )
-  },
+  };
 
   /**
    * Recursive function to render time items
@@ -95,7 +96,7 @@ const TimePicker = React.createClass({
    * @param  {Moment} active A moment object representing the currently selected time
    * @return {Array} Return the array of built up items (or recurse)
    */
-  renderTimeItem (date, items, end, active) {
+  renderTimeItem = (date, items, end, active) => {
     if (end.diff(date) > 0) {
       // Check if active. We only care about hours/minutes
       let isActive = (active &&
@@ -125,15 +126,15 @@ const TimePicker = React.createClass({
     } else {
       return items
     }
-  },
+  };
 
-  onPopunderOpen (e, domNode) {
+  onPopunderOpen = (e, domNode) => {
     if (this._buttonActive && this._popunder.getContainer()) {
       let buttonEl = this._buttonActive
       let containerEl = this._popunder.getContainer()
       containerEl.scrollTop = buttonEl.offsetTop
     }
-  },
+  };
 
   render () {
     let { error, placeholder } = this.props
@@ -159,7 +160,7 @@ const TimePicker = React.createClass({
         </Popunder>
       </div>
     )
-  },
-})
+  }
+}
 
 export default TimePicker

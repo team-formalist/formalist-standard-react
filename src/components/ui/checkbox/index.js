@@ -16,8 +16,8 @@ import styles from './checkbox.mcss'
  * - large
  *
  */
-const Checkbox = React.createClass({
-  propTypes: {
+class Checkbox extends React.Component {
+  static propTypes = {
     id: React.PropTypes.string,
     className: React.PropTypes.string,
     defaultChecked: React.PropTypes.bool,
@@ -28,34 +28,30 @@ const Checkbox = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
     value: React.PropTypes.bool,
-  },
+  };
 
-  getDefaultProps () {
-    return {
-      disabled: false,
-      error: false,
-      size: 'normal',
-    }
-  },
+  static defaultProps = {
+    disabled: false,
+    error: false,
+    size: 'normal',
+  };
 
-  getInitialState () {
-    return {
-      id: uid(10),
-      focus: false,
-    }
-  },
+  state = {
+    id: uid(10),
+    focus: false,
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setState({focus: false})
-  },
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({focus: true})
-  },
+  };
 
-  onChange (e) {
+  onChange = (e) => {
     this.props.onChange(e, e.target.checked)
-  },
+  };
 
   render () {
     let {defaultChecked, label, name, value} = this.props
@@ -88,7 +84,7 @@ const Checkbox = React.createClass({
         </label>
       </div>
     )
-  },
-})
+  }
+}
 
 export default Checkbox

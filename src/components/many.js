@@ -12,10 +12,10 @@ import Sortable from './ui/sortable'
 // Styles
 import styles from './many.mcss'
 
-const ManySet = React.createClass({
-  propTypes: {
+class ManySet extends React.Component {
+  static propTypes = {
     children: ImmutablePropTypes.list,
-  },
+  };
 
   render () {
     return (
@@ -23,11 +23,11 @@ const ManySet = React.createClass({
         {this.props.children}
       </div>
     )
-  },
-})
+  }
+}
 
-const Many = React.createClass({
-  propTypes: {
+class Many extends React.Component {
+  static propTypes = {
     hashCode: React.PropTypes.number.isRequired,
     name: React.PropTypes.string,
     path: ImmutablePropTypes.list.isRequired,
@@ -43,18 +43,16 @@ const Many = React.createClass({
     }),
     template: React.PropTypes.object,
     children: ImmutablePropTypes.list,
-  },
+  };
 
   /**
    * Set an initial `contentsKey` so we can reliably render changes to the
    * contents/children as they are sorted
    * @return {Object}
    */
-  getInitialState () {
-    return {
-      contentsKey: Date.now(),
-    }
-  },
+  state = {
+    contentsKey: Date.now(),
+  };
 
   componentWillReceiveProps (nextProps) {
     // Naive check to see if the children have changed
@@ -62,7 +60,7 @@ const Many = React.createClass({
     if (this.props.children.count() !== nextProps.children.count()) {
       this.updateContentsKey()
     }
-  },
+  }
 
   shouldComponentUpdate (nextProps, nextState) {
     // Use the path hash-code to determine whether or not to rerender this
@@ -72,19 +70,19 @@ const Many = React.createClass({
     //
     // We also check the `contentsKey` we set in state
     return (this.props.hashCode !== nextProps.hashCode) || (this.state.contentsKey !== nextState.contentsKey)
-  },
+  }
 
-  updateContentsKey () {
+  updateContentsKey = () => {
     this.setState({
       contentsKey: Date.now(),
     })
-  },
+  };
 
   /**
    * Tell the store to inject a new content/child from the template
    * @param {Event} e Mouse/KeyboardEvent
    */
-  addChild (e) {
+  addChild = (e) => {
     e.preventDefault()
     let { attributes, store, path } = this.props
     const validationRules = attributes.get('validation') ? attributes.get('validation').toJS() : null
@@ -94,14 +92,14 @@ const Many = React.createClass({
       validateMany(path, validation(validationRules)),
     ])
     this.updateContentsKey()
-  },
+  };
 
   /**
    * When selected item is removed
    * @param {Number} index Index of the item to remove
    * @return {Null}
    */
-  onRemove (index) {
+  onRemove = (index) => {
     let { attributes, store, contentsPath, path } = this.props
     let childPath = contentsPath.push(index)
     const validationRules = attributes.get('validation') ? attributes.get('validation').toJS() : null
@@ -111,13 +109,13 @@ const Many = React.createClass({
       validateMany(path, validation(validationRules)),
     ])
     this.updateContentsKey()
-  },
+  };
 
   /**
    * When selected item is removed
    * @return {Null}
    */
-  onDrop (newOrder) {
+  onDrop = (newOrder) => {
     const { attributes, store, path } = this.props
     const validationRules = attributes.get('validation') ? attributes.get('validation').toJS() : null
 
@@ -126,7 +124,7 @@ const Many = React.createClass({
       validateMany(path, validation(validationRules)),
     ])
     this.updateContentsKey()
-  },
+  };
 
   render () {
     const { attributes, children, errors, name } = this.props
@@ -171,8 +169,8 @@ const Many = React.createClass({
         {(hasErrors) ? <FieldErrors errors={errors} /> : null}
       </div>
     )
-  },
-})
+  }
+}
 
 export default Many
 export let ManyFactory = React.createFactory(Many)

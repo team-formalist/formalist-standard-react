@@ -21,21 +21,19 @@ import styles from './toolbar.mcss'
  * to set the position using a reference element `this.refs.positioner`.
  *
  */
-const Toolbar = React.createClass({
-  propTypes: {
+class Toolbar extends React.Component {
+  static propTypes = {
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
     formatters: React.PropTypes.array,
     entities: React.PropTypes.array,
     onChange: React.PropTypes.func.isRequired,
-  },
+  };
 
-  getInitialState () {
-    return {
-      visible: false,
-      forceVisible: false,
-    }
-  },
+  state = {
+    visible: false,
+    forceVisible: false,
+  };
 
   /**
    * Handle position and visibility of the toolbar
@@ -60,21 +58,21 @@ const Toolbar = React.createClass({
         })
       })
     }
-  },
+  }
 
-  forceVisible (force) {
+  forceVisible = (force) => {
     this.setState({
       forceVisible: force,
     })
-  },
+  };
 
-  removeEntity (entityKey) {
+  removeEntity = (entityKey) => {
     const {editorState, onChange} = this.props
     const selection = editorState.getSelection()
     onChange(
       RichUtils.toggleLink(editorState, selection, null)
     )
-  },
+  };
 
   /**
    * Calculate the position of the toolbar based on the visible selection
@@ -82,7 +80,7 @@ const Toolbar = React.createClass({
    *
    * @return {Object} Description of the position/size of the positioner
    */
-  calculatePosition () {
+  calculatePosition = () => {
     const {visible} = this.state
     if (visible) {
       const selectionRect = getVisibleSelectionRect(window)
@@ -100,13 +98,13 @@ const Toolbar = React.createClass({
       right: 0,
       width: 0,
     }
-  },
+  };
 
-  onPopoutClose () {
+  onPopoutClose = () => {
     this.setState({
       forceVisible: false,
     })
-  },
+  };
 
   render () {
     const {editorState, formatters, entities, onChange} = this.props
@@ -170,7 +168,7 @@ const Toolbar = React.createClass({
     } else {
       return null
     }
-  },
-})
+  }
+}
 
 export default Toolbar

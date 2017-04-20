@@ -13,28 +13,26 @@ import styles from './toolbar.mcss'
  * Block Toolbar
  *
  */
-const BlockToolbar = React.createClass({
-  propTypes: {
+class BlockToolbar extends React.Component {
+  static propTypes = {
     blockItemsGroups: React.PropTypes.array,
     embeddableForms: React.PropTypes.object,
     editorHasFocus: React.PropTypes.bool.isRequired,
     editorState: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
-  },
+  };
 
-  getInitialState () {
-    return {
-      open: false,
-    }
-  },
+  state = {
+    open: false,
+  };
 
   componentWillMount () {
     window.addEventListener('keydown', this.onKeyDown)
-  },
+  }
 
   componentWillUnmount () {
     window.removeEventListener('keydown', this.onKeyDown)
-  },
+  }
 
   /**
    * Handle position and visibility of the toolbar
@@ -46,7 +44,7 @@ const BlockToolbar = React.createClass({
         positionStyle: this.calculatePosition(),
       })
     })
-  },
+  }
 
   /**
    * Calculate the position of the toolbar based on the visible selection
@@ -54,7 +52,7 @@ const BlockToolbar = React.createClass({
    *
    * @return {Object} Description of the position/size of the positioner
    */
-  calculatePosition () {
+  calculatePosition = () => {
     const {editorState} = this.props
     const selection = editorState.getSelection()
     const selectedBlockKey = selection.getStartKey()
@@ -71,23 +69,23 @@ const BlockToolbar = React.createClass({
       }
     }
     return {}
-  },
+  };
 
-  onKeyDown (e) {
+  onKeyDown = (e) => {
     this.closeToolbar()
-  },
+  };
 
-  openToolbar () {
+  openToolbar = () => {
     this.setState({
       open: true,
     })
-  },
+  };
 
-  closeToolbar () {
+  closeToolbar = () => {
     this.setState({
       open: false,
     })
-  },
+  };
 
   render () {
     const {blockItemsGroups, editorState, embeddableForms, onChange} = this.props
@@ -162,7 +160,7 @@ const BlockToolbar = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default BlockToolbar

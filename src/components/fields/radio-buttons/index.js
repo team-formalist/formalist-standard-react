@@ -14,9 +14,8 @@ import styles from './radio-buttons.mcss'
 /**
  * Radio Buttons field
  */
-const RadioButtons = React.createClass({
-
-  propTypes: {
+class RadioButtons extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
     config: React.PropTypes.object,
@@ -34,35 +33,36 @@ const RadioButtons = React.createClass({
       React.PropTypes.string,
       React.PropTypes.number,
     ]),
-  },
-
-  getInitialState () {
-    const {name} = this.props
-    // Create unique id for the group
-    return {
-      groupId: `${name}__${uid(10)}`,
-    }
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
+  static contextTypes = {
     globalConfig: React.PropTypes.object,
-  },
+  };
+
+  constructor (props) {
+    super(props)
+    const {name} = props
+
+    this.state = {
+      groupId: `${name}__${uid(10)}`,
+    }
+  }
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e) {
+  onChange = (e) => {
     let value = e.target.value
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -114,7 +114,7 @@ const RadioButtons = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default RadioButtons

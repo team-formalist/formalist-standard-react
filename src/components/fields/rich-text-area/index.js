@@ -20,8 +20,8 @@ import importer from 'draft-js-ast-importer'
 /**
  * Text Area field
  */
-const RichTextArea = React.createClass({
-  propTypes: {
+class RichTextArea extends React.Component {
+  static propTypes = {
     actions: React.PropTypes.object,
     name: React.PropTypes.string,
     config: React.PropTypes.object,
@@ -43,25 +43,27 @@ const RichTextArea = React.createClass({
       React.PropTypes.array,
       ImmutablePropTypes.list,
     ]),
-  },
+  };
 
-  getInitialState () {
-    let {value} = this.props
+  constructor (props) {
+    super(props)
+    let {value} = props
     // Convert from an Immutable structure?
     value = (value && value.toJS) ? value.toJS() : value
     // Convert from a string?
     value = (typeof value === 'string') ? JSON.parse(value) : value
-    return {
+
+    this.state = {
       editorState: (value) ? EditorState.createWithContent(importer(value)) : EditorState.createEmpty(),
     }
-  },
+  }
 
   /**
    * onChange handler
    *
    * @param  {EditorState} editorState State from the editor
    */
-  onChange (editorState) {
+  onChange = (editorState) => {
     const {value} = this.props
     const exporterOptions = {
       entityModifiers: {
@@ -92,7 +94,7 @@ const RichTextArea = React.createClass({
     this.setState({
       editorState,
     })
-  },
+  };
 
   render () {
     const {attributes, config, errors, hint, label, name} = this.props
@@ -128,7 +130,7 @@ const RichTextArea = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default RichTextArea

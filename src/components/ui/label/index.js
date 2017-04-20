@@ -3,10 +3,11 @@ import classNames from 'classnames'
 
 import styles from './label.mcss'
 
-const Label = React.createClass({
-  propTypes: {
+class Label extends React.Component {
+  static propTypes = {
     className: React.PropTypes.string,
-  },
+  };
+
   render () {
     let labelBoxClassNames = classNames(
       this.props.className,
@@ -15,7 +16,7 @@ const Label = React.createClass({
     return (
       <label {...this.props} className={labelBoxClassNames} />
     )
-  },
-})
+  }
+}
 
 export default Label
