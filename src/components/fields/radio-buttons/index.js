@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import uid from 'uid'
@@ -14,55 +15,55 @@ import styles from './radio-buttons.mcss'
 /**
  * Radio Buttons field
  */
-const RadioButtons = React.createClass({
-
-  propTypes: {
-    actions: React.PropTypes.object,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      options: React.PropTypes.array.isRequired,
-      inline: React.PropTypes.bool,
+class RadioButtons extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      options: PropTypes.array.isRequired,
+      inline: PropTypes.bool,
     }),
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
     ]),
-  },
-
-  getInitialState () {
-    const {name} = this.props
-    // Create unique id for the group
-    return {
-      groupId: `${name}__${uid(10)}`,
-    }
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
-    globalConfig: React.PropTypes.object,
-  },
+  static contextTypes = {
+    globalConfig: PropTypes.object,
+  };
+
+  constructor (props) {
+    super(props)
+    const {name} = props
+
+    this.state = {
+      groupId: `${name}__${uid(10)}`,
+    }
+  }
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e) {
+  onChange = (e) => {
     let value = e.target.value
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -114,7 +115,7 @@ const RadioButtons = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default RadioButtons

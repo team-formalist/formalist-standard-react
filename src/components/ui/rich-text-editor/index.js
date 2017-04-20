@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
 import Emitter from 'component-emitter'
@@ -17,30 +18,26 @@ import './tmp.css'
 /**
  * Rich Text Editor
  */
-const RichTextEditor = React.createClass({
-  propTypes: {
-    embeddableForms: React.PropTypes.object,
-    blockFormatters: React.PropTypes.array,
-    boxSize: React.PropTypes.string,
-    config: React.PropTypes.object,
-    inlineFormatters: React.PropTypes.array,
-    editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
-  },
+class RichTextEditor extends React.Component {
+  static propTypes = {
+    embeddableForms: PropTypes.object,
+    blockFormatters: PropTypes.array,
+    boxSize: PropTypes.string,
+    config: PropTypes.object,
+    inlineFormatters: PropTypes.array,
+    editorState: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+  };
 
-  getDefaultProps () {
-    return {
-      placeholder: 'Start writing …',
-    }
-  },
+  static defaultProps = {
+    placeholder: 'Start writing …',
+  };
 
-  getInitialState () {
-    return {
-      someProp: Date.now(),
-      hasFocus: false,
-    }
-  },
+  state = {
+    someProp: Date.now(),
+    hasFocus: false,
+  };
 
   componentWillMount () {
     // Create a per-instance event emitter to pass through to the atomic blocks
@@ -60,13 +57,13 @@ const RichTextEditor = React.createClass({
     this.setState({
       plugins,
     })
-  },
+  }
 
   /**
    * Handle the configuration of the various plugins we allow to pass in
    * @return {Array} List of draft-js-plugins compatible plugins
    */
-  configurePlugins () {
+  configurePlugins = () => {
     const {
       blockFormatters,
       boxSize,
@@ -111,33 +108,33 @@ const RichTextEditor = React.createClass({
     this.blockRenderMap = this.blockToolbarPlugin.blockRenderMap
     this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
     return plugins
-  },
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     const {editorState} = this.props
     this.emitter.emit('focus', editorState)
     this.setState({hasFocus: true})
-  },
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     const {editorState} = this.props
     this.emitter.emit('blur', editorState)
     this.setState({hasFocus: false})
-  },
+  };
 
   /**
    * Set the editor to read-only (or not)
    * @param {Boolean} readOnly
    */
-  setReadOnly (readOnly) {
+  setReadOnly = (readOnly) => {
     this.setState({readOnly})
-  },
+  };
 
   /**
    * Focus the editor when the `contentEl` is clicked
    * @param  {MouseEvent} e
    */
-  onContentClick (e) {
+  onContentClick = (e) => {
     const atomic = belongsToAtomicBlock(e.target)
     if (!atomic && this.state.readOnly === true) {
       this.setReadOnly(false)
@@ -145,16 +142,16 @@ const RichTextEditor = React.createClass({
     if (e.target === this.contentEl) {
       this._editor.focus()
     }
-  },
+  };
 
   /**
    * onChange
    */
-  onChange (editorState) {
+  onChange = (editorState) => {
     const {onChange} = this.props
     this.emitter.emit('change', editorState)
     onChange(editorState)
-  },
+  };
 
   render () {
     const {boxSize, blockFormatters, editorState, placeholder} = this.props
@@ -217,7 +214,7 @@ const RichTextEditor = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default RichTextEditor

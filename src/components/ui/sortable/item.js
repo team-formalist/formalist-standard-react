@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import classNames from 'classnames'
@@ -78,88 +79,87 @@ const itemTarget = {
 /**
  * Item
  */
-const Item = React.createClass({
-
-  propTypes: {
+class Item extends React.Component {
+  static propTypes = {
 
     /**
      * Current index of the item in context of the sortable
      * @type {Number}
      */
-    index: React.PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
 
     /**
      * The original index of the item in context of the sortable. Should only
      * differ between data updates.
      * @type {Number}
      */
-    originalIndex: React.PropTypes.number.isRequired,
+    originalIndex: PropTypes.number.isRequired,
 
     /**
      * Callback: Fires when item is moved
      * @type {Function}
      */
-    moveItem: React.PropTypes.func,
+    moveItem: PropTypes.func,
 
     /**
      * Can this item be removed?
      * @type {Boolean}
      */
-    canRemove: React.PropTypes.bool,
+    canRemove: PropTypes.bool,
 
     /**
      * Callback: Fired when item is removed
      * @type {Function}
      */
-    onRemove: React.PropTypes.func,
+    onRemove: PropTypes.func,
 
     /**
      * Can this item be sorted?
      * @type {Boolean}
      */
-    canSort: React.PropTypes.bool,
+    canSort: PropTypes.bool,
 
     /**
      * Is the item being dragged?
      * @type {Boolean}
      */
-    isDragging: React.PropTypes.bool,
+    isDragging: PropTypes.bool,
 
     /**
      * React DnD provided decorators
      * @type {Function}
      */
-    connectDragPreview: React.PropTypes.func,
-    connectDragSource: React.PropTypes.func,
-    connectDropTarget: React.PropTypes.func,
+    connectDragPreview: PropTypes.func,
+    connectDragSource: PropTypes.func,
+    connectDropTarget: PropTypes.func,
 
     /**
      * Child component we care about sorting
      * @type {ReactElement}
      */
-    children: React.PropTypes.node.isRequired,
-    verticalControls: React.PropTypes.bool,
-  },
+    children: PropTypes.node.isRequired,
+    verticalControls: PropTypes.bool,
+  };
 
   /**
    * Send current `index` to the onRemove callback
    * @param  {Event} e Click event
    */
-  onRemoveClick (e) {
+  onRemoveClick = (e) => {
     e.preventDefault()
     const { canRemove, onRemove } = this.props
     if (canRemove && onRemove) {
       onRemove(this.props.index, e)
     }
-  },
+  };
 
   /**
    * Stop the handle click propagating
    * @param  {Event} e Click event
    */
-  onHandleClick (e) {
+  onHandleClick = (e) => {
     e.preventDefault()
-  },
+  };
 
   render () {
     const { canSort, canRemove, children, connectDragPreview, connectDragSource, connectDropTarget, isDragging, verticalControls } = this.props
@@ -194,8 +194,8 @@ const Item = React.createClass({
         </div>
       )
     )
-  },
-})
+  }
+}
 
 /**
  * DropTargetDecorator

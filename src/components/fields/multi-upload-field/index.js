@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
@@ -21,73 +22,64 @@ import parseRegexFromString from '../../../utils/parse-regex-from-string'
  * MultiUploadField
  */
 
-const MultiUploadField = React.createClass({
-
+class MultiUploadField extends React.Component {
   /**
    * displayName
    */
 
-  displayName: 'UploadField',
+  static displayName = 'UploadField';
 
   /**
    * propTypes
    */
 
-  propTypes: {
-    actions: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      max_file_size: React.PropTypes.number,
-      max_file_size_message: React.PropTypes.string,
-      multiple: React.PropTypes.bool,
-      permitted_file_type_message: React.PropTypes.string,
-      permitted_file_type_regex: React.PropTypes.string,
-      presign_url: React.PropTypes.string,
-      render_uploaded_as: React.PropTypes.string,
-      upload_action_label: React.PropTypes.string,
-      upload_prompt: React.PropTypes.string,
+  static propTypes = {
+    actions: PropTypes.object,
+    attributes: PropTypes.shape({
+      max_file_size: PropTypes.number,
+      max_file_size_message: PropTypes.string,
+      multiple: PropTypes.bool,
+      permitted_file_type_message: PropTypes.string,
+      permitted_file_type_regex: PropTypes.string,
+      presign_url: PropTypes.string,
+      render_uploaded_as: PropTypes.string,
+      upload_action_label: PropTypes.string,
+      upload_prompt: PropTypes.string,
     }),
-    bus: React.PropTypes.object,
-    config: React.PropTypes.object,
+    bus: PropTypes.object,
+    config: PropTypes.object,
     errors: ImmutablePropTypes.list,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
-    multiple: React.PropTypes.bool,
-    name: React.PropTypes.string,
-    value: React.PropTypes.oneOfType([
+    hint: PropTypes.string,
+    label: PropTypes.string,
+    multiple: PropTypes.bool,
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([
       ImmutablePropTypes.list,
-      React.PropTypes.object,
+      PropTypes.object,
     ]),
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
-    globalConfig: React.PropTypes.object,
-  },
+  static contextTypes = {
+    globalConfig: PropTypes.object,
+  };
 
   /**
    * getDefaultProps
    * set 'multiple' as true by default
    */
 
-  getDefaultProps () {
-    return {
-      multiple: true,
-    }
-  },
+  static defaultProps = {
+    multiple: true,
+  };
 
-  /**
-   * getInitialState
-   * Assign existing files (passed in by `value`) to `files`
-   * See the example `propFiles` format above
-   * @return {object}
-   */
-
-  getInitialState () {
-    let {value} = this.props
-    const allowMultipleFiles = (this.props.multiple || this.props.attributes.multiple)
+  constructor (props, context) {
+    super(props, context)
+    let {value} = props
+    const allowMultipleFiles = (props.multiple || props.attributes.multiple)
     value = (value) ? value.toJS() : value
     let files = []
 
@@ -109,11 +101,11 @@ const MultiUploadField = React.createClass({
       }
     }
 
-    return {
+    this.state = {
       files,
       uploadQueue: [],
     }
-  },
+  }
 
   /**
    * populateExistingAttributes
@@ -123,14 +115,14 @@ const MultiUploadField = React.createClass({
    * @return {obj}
    */
 
-  populateExistingAttributes (file) {
+  populateExistingAttributes = (file) => {
     var obj = {}
     obj.fileAttributes = {}
     for (var key in file) {
       obj.fileAttributes[key] = file[key]
     }
     return obj
-  },
+  };
 
   /**
    * componentWillReceiveProps
@@ -152,7 +144,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       files,
     })
-  },
+  }
 
   /**
    * createFileObjects
@@ -170,7 +162,7 @@ const MultiUploadField = React.createClass({
    * @return {array || object} an array of objects - of just an object
    */
 
-  createFileObjects (val) {
+  createFileObjects = (val) => {
     // format the object
     function formatObject (file) {
       const {name, size, type, lastModifiedDate, lastModified} = file
@@ -201,7 +193,7 @@ const MultiUploadField = React.createClass({
     } else {
       return
     }
-  },
+  };
 
   /**
    * abortRequest
@@ -210,10 +202,10 @@ const MultiUploadField = React.createClass({
    * @param {object} file
    */
 
-  abortUploadRequest (file) {
+  abortUploadRequest = (file) => {
     this.removeFromUploadQueue(file.uid)
     abortXHRRequest(file.uid)
-  },
+  };
 
   /**
    * onProgress
@@ -224,7 +216,7 @@ const MultiUploadField = React.createClass({
    * @param {object} file - the uploaded file
    */
 
-  onProgress (e, fileObject) {
+  onProgress = (e, fileObject) => {
     let files = this.state.files.slice(0)
 
     files.map((existingFile) => {
@@ -236,7 +228,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       files,
     })
-  },
+  };
 
   /**
    * updateFiles
@@ -249,7 +241,7 @@ const MultiUploadField = React.createClass({
    * @param {object} a file object
    */
 
-  updateUploadedFiles (fileObject, response, upload_url) {
+  updateUploadedFiles = (fileObject, response, upload_url) => {
     let copy = Object.assign({}, fileObject)
     delete copy.file
 
@@ -273,7 +265,7 @@ const MultiUploadField = React.createClass({
     })
 
     this.onUpdate(files)
-  },
+  };
 
   /**
    * onUpdate
@@ -283,7 +275,7 @@ const MultiUploadField = React.createClass({
    * @return {array/object}
    */
 
-  onUpdate (files) {
+  onUpdate = (files) => {
     const uploadedFiles = files.map(this.normaliseFileExport)
 
     const value = (this.props.attributes.multiple || this.props.multiple)
@@ -293,7 +285,7 @@ const MultiUploadField = React.createClass({
     this.props.actions.edit(
       (val) => Immutable.fromJS(value)
     )
-  },
+  };
 
   /**
    * normaliseFileExport
@@ -302,7 +294,7 @@ const MultiUploadField = React.createClass({
    * @param {object} obj
    */
 
-  normaliseFileExport (obj) {
+  normaliseFileExport = (obj) => {
     const keysToRemove = [
       'file_name', 'original_url', 'thumbnail_url',
     ]
@@ -311,7 +303,7 @@ const MultiUploadField = React.createClass({
       delete copy[key]
     })
     return copy
-  },
+  };
 
   /**
    * removeFailedUpload
@@ -320,7 +312,7 @@ const MultiUploadField = React.createClass({
    * @param {object} file object
    */
 
-  removeFailedUpload (fileObject) {
+  removeFailedUpload = (fileObject) => {
     const files = this.state.files.filter((file) => {
       return file.uid !== fileObject.uid
     })
@@ -328,7 +320,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       files,
     })
-  },
+  };
 
   /**
    * storeXHRErrorMessage
@@ -337,7 +329,7 @@ const MultiUploadField = React.createClass({
    * @param {string} message
    */
 
-  storeXHRErrorMessage (message) {
+  storeXHRErrorMessage = (message) => {
     let XHRErrorMessages = this.state.XHRErrorMessages
       ? this.state.XHRErrorMessages.slice(0)
       : []
@@ -350,7 +342,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       XHRErrorMessages,
     })
-  },
+  };
 
   /**
    * uploadFile
@@ -363,7 +355,7 @@ const MultiUploadField = React.createClass({
    *                   for when we remove uploaded files and POST the remaining
    */
 
-  uploadFile (fileObject, onProgress = noOp) {
+  uploadFile = (fileObject, onProgress = noOp) => {
     if (!fileObject) return
     const {presign_url} = this.props.attributes
     const {csrfToken} = this.context.globalConfig
@@ -394,12 +386,12 @@ const MultiUploadField = React.createClass({
           throw err
         }
       })
-  },
+  };
 
   /**
    * Add a file to the upload queue identified by its uid
   */
-  addToUploadQueue (id) {
+  addToUploadQueue = (id) => {
     const {bus} = this.props
     let {uploadQueue} = this.state
     uploadQueue = uploadQueue.concat([id])
@@ -410,12 +402,12 @@ const MultiUploadField = React.createClass({
     if (uploadQueue.length === 1) {
       bus.emit(events.internal.FIELD_BUSY, this.instanceId)
     }
-  },
+  };
 
   /**
    * Remove a file to the upload queue identified by its uid
   */
-  removeFromUploadQueue (id) {
+  removeFromUploadQueue = (id) => {
     const {bus} = this.props
     let uploadQueue = this.state.uploadQueue.slice()
     const index = uploadQueue.indexOf(id)
@@ -429,7 +421,7 @@ const MultiUploadField = React.createClass({
     if (uploadQueue.length === 0) {
       bus.emit(events.internal.FIELD_IDLE, this.instanceId)
     }
-  },
+  };
 
   /**
    * onChange
@@ -440,7 +432,7 @@ const MultiUploadField = React.createClass({
    * @param {array} - dropped/uploaded files
    */
 
-  onChange (files) {
+  onChange = (files) => {
     if (!files.length) return
 
     const { attributes } = this.props
@@ -508,7 +500,7 @@ const MultiUploadField = React.createClass({
     uploadingFiles.map((fileObject) => {
       this.uploadFile(fileObject, this.onProgress)
     })
-  },
+  };
 
   /**
    * onDrop
@@ -517,7 +509,7 @@ const MultiUploadField = React.createClass({
    * @param  {Array} newOrder - an array of indexs returned from Sortable
    */
 
-  onDrop (newOrder) {
+  onDrop = (newOrder) => {
     const existingFiles = this.state.files.slice(0)
     const files = sortArrayByOrder(existingFiles, newOrder)
 
@@ -526,7 +518,7 @@ const MultiUploadField = React.createClass({
     })
 
     this.onUpdate(files)
-  },
+  };
 
   /**
    * removeKeyFromState
@@ -536,14 +528,14 @@ const MultiUploadField = React.createClass({
    * @return {array}
    */
 
-  removeKeyFromState (array, key) {
+  removeKeyFromState = (array, key) => {
     let arr = this.state[array].slice(0)
     if (typeof (key) === 'string') {
       key = parseInt(key)
     }
     arr.splice(key, 1)
     return arr
-  },
+  };
 
   /**
    * removeFile
@@ -554,7 +546,7 @@ const MultiUploadField = React.createClass({
    * @param {Event} e - click event passed back from Sortable
    */
 
-  removeFile (index, e) {
+  removeFile = (index, e) => {
     if (e) e.preventDefault()
     const files = this.state.files.slice(0)
 
@@ -567,7 +559,7 @@ const MultiUploadField = React.createClass({
     })
 
     this.onUpdate(files)
-  },
+  };
 
   /**
    * removeInvalidFile
@@ -576,7 +568,7 @@ const MultiUploadField = React.createClass({
    * @param {event} e - click
    */
 
-  removeInvalidFile (e) {
+  removeInvalidFile = (e) => {
     e.preventDefault()
     const key = e.target.getAttribute('data-key')
     const invalidFiles = this.removeKeyFromState('invalidFiles', key)
@@ -584,7 +576,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       invalidFiles,
     })
-  },
+  };
 
   /**
    * removeXHRErrorMessage
@@ -593,7 +585,7 @@ const MultiUploadField = React.createClass({
    * @param {event} e - click event
    */
 
-  removeXHRErrorMessage (e) {
+  removeXHRErrorMessage = (e) => {
     e.preventDefault()
     const key = e.target.getAttribute('data-key')
     const XHRErrorMessages = this.removeKeyFromState('XHRErrorMessages', key)
@@ -601,7 +593,7 @@ const MultiUploadField = React.createClass({
     this.setState({
       XHRErrorMessages,
     })
-  },
+  };
 
   /**
    * renderXHRErrorMessage
@@ -611,7 +603,7 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderXHRErrorMessage (errorObject, index) {
+  renderXHRErrorMessage = (errorObject, index) => {
     const {message} = errorObject
 
     return (
@@ -631,7 +623,7 @@ const MultiUploadField = React.createClass({
         </button>
       </div>
     )
-  },
+  };
 
   /**
    * renderXHRErrorMessages
@@ -640,13 +632,13 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderXHRErrorMessages (XHRErrorMessages) {
+  renderXHRErrorMessages = (XHRErrorMessages) => {
     return (
       <div className={styles.validationMessages}>
         {XHRErrorMessages.map(this.renderXHRErrorMessage)}
       </div>
     )
-  },
+  };
 
   /**
    * renderInvalidFile
@@ -656,7 +648,7 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderInvalidFile (errorObject, index) {
+  renderInvalidFile = (errorObject, index) => {
     const {message, file} = errorObject
     const {name} = file
 
@@ -674,7 +666,7 @@ const MultiUploadField = React.createClass({
         </button>
       </div>
     )
-  },
+  };
 
   /**
    * renderInvalidFiles
@@ -683,13 +675,13 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderInvalidFiles (invalidFiles) {
+  renderInvalidFiles = (invalidFiles) => {
     return (
       <div className={styles.validationMessages}>
         {invalidFiles.map(this.renderInvalidFile)}
       </div>
     )
-  },
+  };
 
   /**
    * renderThumbnail
@@ -699,13 +691,13 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderThumbnail (thumbnail_url, file_name) {
+  renderThumbnail = (thumbnail_url, file_name) => {
     if (!thumbnail_url) return
 
     return (
       <img src={thumbnail_url} alt={file_name} />
     )
-  },
+  };
 
   /**
    * renderPreviewDetails
@@ -715,7 +707,7 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderPreviewDetails (file_name, thumbnailImage, isProgressTitle = false) {
+  renderPreviewDetails = (file_name, thumbnailImage, isProgressTitle = false) => {
     const titleClassNames = classNames(
       {
         [`${styles.listItem__title}`]: !isProgressTitle,
@@ -742,7 +734,7 @@ const MultiUploadField = React.createClass({
         </div>
       </div>
     )
-  },
+  };
 
   /**
    * renderPreviewItem
@@ -752,7 +744,7 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderPreviewItem (fileObject, index) {
+  renderPreviewItem = (fileObject, index) => {
     const {progress, file, fileAttributes} = fileObject
     const { file_name } = fileAttributes
     const {preview} = file
@@ -776,7 +768,7 @@ const MultiUploadField = React.createClass({
         {this.renderPreviewDetails(file_name, thumbnailImage)}
       </div>
     )
-  },
+  };
 
   /**
    * buildPath
@@ -789,11 +781,11 @@ const MultiUploadField = React.createClass({
    * @return {string}
    */
 
-  buildPath (url, path, dimension = 'original') {
+  buildPath = (url, path, dimension = 'original') => {
     const pattern = /([^/]*)$/
     const splitPath = path.split(pattern)
     return url.replace('/upload', '/view') + '/' + splitPath[0] + dimension + '/' + splitPath[1]
-  },
+  };
 
   /**
    * buildThumbnailPath
@@ -803,9 +795,9 @@ const MultiUploadField = React.createClass({
    * @return {string}
    */
 
-  buildThumbnailPath (original_url, dimension = '50x') {
+  buildThumbnailPath = (original_url, dimension = '50x') => {
     return original_url.replace('original', dimension)
-  },
+  };
 
   /**
    * renderDefaultTemplate
@@ -815,7 +807,7 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderDefaultTemplate (fileObject, index) {
+  renderDefaultTemplate = (fileObject, index) => {
     const { fileAttributes } = fileObject
     const {file_name, thumbnail_url, original_url} = fileAttributes
     const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
@@ -841,48 +833,48 @@ const MultiUploadField = React.createClass({
         </div>
       </div>
     )
-  },
+  };
 
- /**
-  * renderCustomTemplate
-  * Try and extract the custom template from `config` passing it our `fileObject`
-  * The `extractComponent` will try and match a `name` property in `config` with
-  * properties defined in the form class.
-  * e.g.
-  *
-  * // form class
-  *
-  * multi_upload_field :multi_upload_field,
-  *  label: "Upload all the photos",
-  *  presign_url: "http://some/presign",
-  *  render_uploaded_as: "admin"
-  *
-  *
-  * // form config
-  *
-  * multiUploadField: {
-  *   components: [
-  *     {
-  *       name: 'admin',
-  *       component: (file, index) => (<div key={index}>I see {file.name}</div>)
-  *     }
-  *   ]
-  * }
-  *
-  * If that fails, return null and log the error.
-  * @param  {object} fileObject
-  * @param  {number} index
-  * @return {vnode | null}
-  */
+  /**
+   * renderCustomTemplate
+   * Try and extract the custom template from `config` passing it our `fileObject`
+   * The `extractComponent` will try and match a `name` property in `config` with
+   * properties defined in the form class.
+   * e.g.
+   *
+   * // form class
+   *
+   * multi_upload_field :multi_upload_field,
+   *  label: "Upload all the photos",
+   *  presign_url: "http://some/presign",
+   *  render_uploaded_as: "admin"
+   *
+   *
+   * // form config
+   *
+   * multiUploadField: {
+   *   components: [
+   *     {
+   *       name: 'admin',
+   *       component: (file, index) => (<div key={index}>I see {file.name}</div>)
+   *     }
+   *   ]
+   * }
+   *
+   * If that fails, return null and log the error.
+   * @param  {object} fileObject
+   * @param  {number} index
+   * @return {vnode | null}
+   */
 
-  renderCustomTemplate (fileObject, index, config, attribute) {
+  renderCustomTemplate = (fileObject, index, config, attribute) => {
     try {
       return extractComponent(config.components, attribute)(fileObject)
     } catch (err) {
       console.error(err)
       return null
     }
-  },
+  };
 
   /**
    * customComponentExists
@@ -892,7 +884,7 @@ const MultiUploadField = React.createClass({
    * @return {bool}
    */
 
-  customComponentExists (config, attribute) {
+  customComponentExists = (config, attribute) => {
     if (!config || !attribute) return false
 
     let result = false
@@ -900,7 +892,7 @@ const MultiUploadField = React.createClass({
       if (component.name === attribute) result = true
     })
     return result
-  },
+  };
 
   /**
    * renderFiles
@@ -914,7 +906,7 @@ const MultiUploadField = React.createClass({
    * @return {vnode}
    */
 
-  renderFiles (files) {
+  renderFiles = (files) => {
     let isSortable = this.state.uploadQueue.length === 0
     const {config, attributes} = this.props
     const {render_uploaded_as} = attributes
@@ -936,7 +928,7 @@ const MultiUploadField = React.createClass({
         {allFiles}
       </Sortable>
     )
-  },
+  };
 
   /**
    * render
@@ -989,7 +981,7 @@ const MultiUploadField = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default MultiUploadField

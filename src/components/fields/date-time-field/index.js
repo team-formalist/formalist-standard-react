@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import moment from 'moment'
@@ -14,48 +15,48 @@ import styles from './date-time-field.mcss'
 /**
  * Date Time field
  */
-const DateTimeField = React.createClass({
-  propTypes: {
-    actions: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool,
+class DateTimeField extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      inline: PropTypes.bool,
     }),
     errors: ImmutablePropTypes.list,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    value: React.PropTypes.string,
-  },
+    hint: PropTypes.string,
+    label: PropTypes.string,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    value: PropTypes.string,
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
-    globalConfig: React.PropTypes.object,
-  },
+  static contextTypes = {
+    globalConfig: PropTypes.object,
+  };
 
   /**
    * onChange handler
    *
    * @param  {String} date Date as a dd/mm/yyyy formatted string
    */
-  onChange (date) {
+  onChange = (date) => {
     this.props.actions.edit(
       (val) => { return date }
     )
-  },
+  };
 
   /**
    * setToNow
    */
-  setToNow () {
+  setToNow = () => {
     this.onChange(moment().format(dateFormats.utc))
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -91,7 +92,7 @@ const DateTimeField = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default DateTimeField

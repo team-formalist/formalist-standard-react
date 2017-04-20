@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Portal from 'react-portal'
 import styles from './modal.mcss'
 
@@ -11,22 +12,20 @@ import styles from './modal.mcss'
  * @method closeModal
  * @method getContainer
  */
-const Modal = React.createClass({
-  propTypes: {
-    beforeClose: React.PropTypes.func,
-    children: React.PropTypes.node,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    onOpen: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func,
-  },
+class Modal extends React.Component {
+  static propTypes = {
+    beforeClose: PropTypes.func,
+    children: PropTypes.node,
+    closeOnEsc: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
+  };
 
-  getInitialState () {
-    return {
-      isOpened: false,
-    }
-  },
+  state = {
+    isOpened: false,
+  };
 
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
@@ -35,7 +34,7 @@ const Modal = React.createClass({
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
       document.addEventListener('touchstart', this.handleOutsideMouseClick)
     }
-  },
+  }
 
   componentWillUnmount () {
     const {closeOnOutsideClick} = this.props
@@ -44,46 +43,46 @@ const Modal = React.createClass({
       document.removeEventListener('mouseup', this.handleOutsideMouseClick)
       document.removeEventListener('touchstart', this.handleOutsideMouseClick)
     }
-  },
+  }
 
   /**
    * Public interface: Opens the `Portal`
    */
-  openModal () {
+  openModal = () => {
     this.setState({
       isOpened: true,
     })
-  },
+  };
 
   /**
    * Public: Close the `Portal`
    */
-  closeModal () {
+  closeModal = () => {
     this.setState({
       isOpened: false,
     })
-  },
+  };
 
   /**
    * Public: Toggle the `Portal`
    */
-  toggleModal () {
+  toggleModal = () => {
     (this.isOpened) ? this.closeModal() : this.openModal()
-  },
+  };
 
   /**
    * Return the `container` node
    */
-  getContainer () {
+  getContainer = () => {
     return this._container
-  },
+  };
 
   /**
    * Close the portal if a click-outside occurs
    * @param  {Event} e MouseUp/TouchStart event
    * @return {Null}
    */
-  handleOutsideMouseClick (e) {
+  handleOutsideMouseClick = (e) => {
     if (!this.state.isOpened) {
       return
     }
@@ -100,21 +99,21 @@ const Modal = React.createClass({
 
     e.stopPropagation()
     this.closeModal()
-  },
+  };
 
   /**
    * Close portal if escape is pressed
    * @param  {KeyboardEvent} e
    */
-  handleKeydown (e) {
+  handleKeydown = (e) => {
     const {closeOnEsc} = this.props
     // ESCAPE = 27
     if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
       this.closeModal()
     }
-  },
+  };
 
-  onOpen (portalEl) {
+  onOpen = (portalEl) => {
     document.body.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
     document.body.style.left = '0'
@@ -122,9 +121,9 @@ const Modal = React.createClass({
     if (this.props.onOpen) {
       this.props.onOpen(portalEl)
     }
-  },
+  };
 
-  onClose (portalEl) {
+  onClose = (portalEl) => {
     this.isOpened = false
     document.body.style.overflow = ''
     document.body.style.position = ''
@@ -133,17 +132,17 @@ const Modal = React.createClass({
     if (this.props.onClose) {
       this.props.onClose(portalEl)
     }
-  },
+  };
 
-  onCloseClick (e) {
+  onCloseClick = (e) => {
     e.preventDefault()
     this.closeModal()
-  },
+  };
 
-  onOverlayClick (e) {
+  onOverlayClick = (e) => {
     e.preventDefault()
     this.closeModal()
-  },
+  };
 
   render () {
     // Extract Portal props
@@ -173,7 +172,7 @@ const Modal = React.createClass({
         </div>
       </Portal>
     )
-  },
-})
+  }
+}
 
 export default Modal

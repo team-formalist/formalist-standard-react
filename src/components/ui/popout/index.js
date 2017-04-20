@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
+import PropTypes from 'prop-types'
 import Portal from 'react-portal'
 import styles from './popout.mcss'
 
@@ -26,42 +27,38 @@ const arrowVertPosition = 16
  * @method closePopout
  * @method getContainer
  */
-const Popout = React.createClass({
-  propTypes: {
-    beforeClose: React.PropTypes.func,
-    children: React.PropTypes.node,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    isOpened: React.PropTypes.bool,
-    offset: React.PropTypes.shape({
-      default: React.PropTypes.number,
-      vert: React.PropTypes.number,
-      horz: React.PropTypes.number,
+class Popout extends React.Component {
+  static propTypes = {
+    beforeClose: PropTypes.func,
+    children: PropTypes.node,
+    closeOnEsc: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
+    isOpened: PropTypes.bool,
+    offset: PropTypes.shape({
+      default: PropTypes.number,
+      vert: PropTypes.number,
+      horz: PropTypes.number,
     }),
-    onOpen: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func,
-    placement: React.PropTypes.string,
-  },
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
+    placement: PropTypes.string,
+  };
 
-  getDefaultProps () {
-    return {
-      placement: 'right',
-      offset: {
-        default: 10,
-      },
-    }
-  },
+  static defaultProps = {
+    placement: 'right',
+    offset: {
+      default: 10,
+    },
+  };
 
-  getInitialState () {
-    return {
-      isOpened: this.props.isOpened || false,
-      position: {
-        left: 0,
-        top: 0,
-      },
-    }
-  },
+  state = {
+    isOpened: this.props.isOpened || false,
+    position: {
+      left: 0,
+      top: 0,
+    },
+  };
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.isOpened != null) {
@@ -70,11 +67,11 @@ const Popout = React.createClass({
       })
       window.requestAnimationFrame(this.calculatePosition)
     }
-  },
+  }
 
   componentDidMount () {
     window.requestAnimationFrame(this.calculatePosition)
-  },
+  }
 
   componentWillMount () {
     const {closeOnOutsideClick} = this.props
@@ -84,7 +81,7 @@ const Popout = React.createClass({
       document.addEventListener('mouseup', this.handleOutsideMouseClick)
       document.addEventListener('touchstart', this.handleOutsideMouseClick)
     }
-  },
+  }
 
   componentWillUnmount () {
     const {closeOnOutsideClick} = this.props
@@ -94,13 +91,13 @@ const Popout = React.createClass({
       document.removeEventListener('mouseup', this.handleOutsideMouseClick)
       document.removeEventListener('touchstart', this.handleOutsideMouseClick)
     }
-  },
+  }
 
   /**
    * Public interface: Calculate the position of the popout wrapper
    * @return {Object} Updated position we're setting
    */
-  calculatePosition () {
+  calculatePosition = () => {
     // Only bother if its rendered
     if (!this._reference) {
       return
@@ -148,47 +145,47 @@ const Popout = React.createClass({
       position,
     })
     return position
-  },
+  };
 
   /**
    * Public interface: Opens the `Portal`
    */
-  openPopout () {
+  openPopout = () => {
     this.calculatePosition()
     this.setState({
       isOpened: true,
     })
-  },
+  };
 
   /**
    * Public: Close the `Portal`
    */
-  closePopout () {
+  closePopout = () => {
     this.setState({
       isOpened: false,
     })
-  },
+  };
 
   /**
    * Public: Toggle the `Portal`
    */
-  togglePopout () {
+  togglePopout = () => {
     (this.isOpened) ? this.closePopout() : this.openPopout()
-  },
+  };
 
   /**
    * Return the `container` node
    */
-  getContainer () {
+  getContainer = () => {
     return this._container
-  },
+  };
 
   /**
    * Close the portal if a click-outside occurs
    * @param  {Event} e MouseUp/TouchStart event
    * @return {Null}
    */
-  handleOutsideMouseClick (e) {
+  handleOutsideMouseClick = (e) => {
     if (!this.state.isOpened) {
       return
     }
@@ -205,47 +202,47 @@ const Popout = React.createClass({
 
     e.stopPropagation()
     this.closePopout()
-  },
+  };
 
   /**
    * Close portal if escape is pressed
    * @param  {KeyboardEvent} e
    */
-  handleKeydown (e) {
+  handleKeydown = (e) => {
     const {closeOnEsc} = this.props
     // ESCAPE = 27
     if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
       this.closePopout()
     }
-  },
+  };
 
   /**
    * Handle position on resize
    * @param  {Event} e ResizeEvent
    */
-  onResize (e) {
+  onResize = (e) => {
     this.calculatePosition()
-  },
+  };
 
   /**
    * Keep track of open/close state
    */
-  onOpen () {
+  onOpen = () => {
     let {onOpen} = this.props
     if (onOpen) {
       onOpen()
     }
-  },
+  };
 
   /**
    * Keep track of open/close state
    */
-  onClose () {
+  onClose = () => {
     let {onClose} = this.props
     if (onClose) {
       onClose()
     }
-  },
+  };
 
   render () {
     // Extract Portal props
@@ -292,7 +289,7 @@ const Popout = React.createClass({
         </Portal>
       </div>
     )
-  },
-})
+  }
+}
 
 export default Popout

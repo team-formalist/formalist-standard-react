@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import {
   RichUtils,
@@ -25,28 +26,26 @@ function getNextBlockTypeToApply (currentType, types) {
 /**
  * Block items buttons
  */
-const BlockItems = React.createClass({
-  propTypes: {
-    currentBlockType: React.PropTypes.string,
-    itemsGroups: React.PropTypes.array,
-    editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-  },
+class BlockItems extends React.Component {
+  static propTypes = {
+    currentBlockType: PropTypes.string,
+    itemsGroups: PropTypes.array,
+    editorState: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+  };
 
-  getDefaultProps () {
-    return {
-      itemsGroups: [],
-    }
-  },
+  static defaultProps = {
+    itemsGroups: [],
+  };
 
-  toggleBlockType (blockType) {
+  toggleBlockType = (blockType) => {
     const {editorState, onChange} = this.props
     onChange(
       RichUtils.toggleBlockType(editorState, blockType)
     )
-  },
+  };
 
-  renderItemsGroups (itemsGroups) {
+  renderItemsGroups = (itemsGroups) => {
     const {currentBlockType} = this.props
     return itemsGroups.map((group) => {
       const types = group.map((item) => item.type)
@@ -86,7 +85,7 @@ const BlockItems = React.createClass({
       )
       /* eslint-enable react/jsx-no-bind */
     })
-  },
+  };
 
   render () {
     const {itemsGroups} = this.props
@@ -103,7 +102,7 @@ const BlockItems = React.createClass({
       </div>
     )
     /* eslint-enable react/jsx-no-bind */
-  },
-})
+  }
+}
 
 export default BlockItems

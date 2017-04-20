@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
@@ -31,8 +32,8 @@ const SelectDefault = ({option}) => (
 )
 
 SelectDefault.propTypes = {
-  option: React.PropTypes.shape({
-    label: React.PropTypes.string,
+  option: PropTypes.shape({
+    label: PropTypes.string,
   }),
 }
 
@@ -280,7 +281,7 @@ class SearchSelectionField extends Component {
  * Enable parent to pass context
  */
 SearchSelectionField.contextTypes = {
-  globalConfig: React.PropTypes.object,
+  globalConfig: PropTypes.object,
 }
 
 /**
@@ -288,29 +289,29 @@ SearchSelectionField.contextTypes = {
  * @type {Object}
  */
 SearchSelectionField.propTypes = {
-  actions: React.PropTypes.object,
-  name: React.PropTypes.string,
-  config: React.PropTypes.object,
-  attributes: React.PropTypes.shape({
-    label: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    inline: React.PropTypes.bool,
-    search_url: React.PropTypes.string,
-    search_per_page: React.PropTypes.number,
-    search_params: React.PropTypes.object,
-    search_threshold: React.PropTypes.number,
-    selector_label: React.PropTypes.string,
-    selection: React.PropTypes.object,
-    render_option_as: React.PropTypes.string,
-    render_selection_as: React.PropTypes.string,
+  actions: PropTypes.object,
+  name: PropTypes.string,
+  config: PropTypes.object,
+  attributes: PropTypes.shape({
+    label: PropTypes.string,
+    hint: PropTypes.string,
+    placeholder: PropTypes.string,
+    inline: PropTypes.bool,
+    search_url: PropTypes.string,
+    search_per_page: PropTypes.number,
+    search_params: PropTypes.object,
+    search_threshold: PropTypes.number,
+    selector_label: PropTypes.string,
+    selection: PropTypes.object,
+    render_option_as: PropTypes.string,
+    render_selection_as: PropTypes.string,
   }),
-  hint: React.PropTypes.string,
-  label: React.PropTypes.string,
+  hint: PropTypes.string,
+  label: PropTypes.string,
   errors: ImmutablePropTypes.list,
-  value: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
   ]),
 }
 

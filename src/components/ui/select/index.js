@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './select.mcss'
 
@@ -15,53 +16,49 @@ import styles from './select.mcss'
  * - large
  *
  */
-const Select = React.createClass({
-  propTypes: {
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    error: React.PropTypes.bool,
-    defaultValue: React.PropTypes.string,
-    id: React.PropTypes.string,
-    clearable: React.PropTypes.bool,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-  },
+class Select extends React.Component {
+  static propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.node,
+    error: PropTypes.bool,
+    defaultValue: PropTypes.string,
+    id: PropTypes.string,
+    clearable: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+  };
 
-  getDefaultProps () {
-    return {
-      clearable: true,
-      error: false,
-      placeholder: 'Select an option',
-      size: 'normal',
-    }
-  },
+  static defaultProps = {
+    clearable: true,
+    error: false,
+    placeholder: 'Select an option',
+    size: 'normal',
+  };
 
-  getInitialState () {
-    return {
-      focus: false,
-    }
-  },
+  state = {
+    focus: false,
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({focus: true})
     if (this.props.onFocus) {
       this.props.onFocus(e)
     }
-  },
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setState({focus: false})
     if (this.props.onBlur) {
       this.props.onBlur(e)
     }
-  },
+  };
 
-  onChange (e) {
+  onChange = (e) => {
     this.props.onChange(e, e.target.value)
-  },
+  };
 
   render () {
     const {
@@ -119,7 +116,7 @@ const Select = React.createClass({
         </select>
       </label>
     )
-  },
-})
+  }
+}
 
 export default Select

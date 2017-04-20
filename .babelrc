@@ -2,11 +2,12 @@
   "env": {
     "development": {
       "presets": [
-        "babel-preset-es2015",
-        "babel-preset-react"
+        "es2015",
+        "react"
       ],
       "plugins": [
-        "transform-object-rest-spread"
+        "transform-object-rest-spread",
+        "transform-class-properties"
       ],
       "ignore": [
         "src/**/*.mcss"
@@ -14,14 +15,19 @@
     },
     "test": {
       "presets": [
-        "babel-preset-es2015",
-        "babel-preset-react"
+        "es2015",
+        "react"
       ],
       "plugins": [
-          ["babel-plugin-css-modules-transform", {
-            "generateScopedName": "[name]__[local]___[hash:base64:5]",
-            "extensions": [".mcss"]
-          }]
+        ["module-alias", [
+          { "src": "./src/components/ui", "expose": "formalist-theme" }
+        ]],
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        ["babel-plugin-css-modules-transform", {
+          "generateScopedName": "[name]__[local]___[hash:base64:5]",
+          "extensions": [".mcss"]
+        }]
       ]
     }
   }

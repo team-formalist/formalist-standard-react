@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import debounce from 'lodash.debounce'
 import search from '../../../utils/search'
@@ -218,13 +219,13 @@ class SearchList extends Component {
  * @type {Object}
  */
 SearchList.propTypes = {
-  query: React.PropTypes.string.isRequired,
-  url: React.PropTypes.string.isRequired,
-  params: React.PropTypes.object,
-  threshold: React.PropTypes.number,
-  onSearchStart: React.PropTypes.func,
-  onSearchEnd: React.PropTypes.func,
-  onSelect: React.PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  params: PropTypes.object,
+  threshold: PropTypes.number,
+  onSearchStart: PropTypes.func,
+  onSearchEnd: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
 }
 
 export default SearchList

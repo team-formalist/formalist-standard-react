@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import isNumber from 'is-number'
@@ -14,41 +15,40 @@ import styles from './number-field.mcss'
 /**
  * Number field
  */
-const NumberField = React.createClass({
-
-  propTypes: {
-    actions: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool,
-      step: React.PropTypes.number,
-      min: React.PropTypes.number,
-      max: React.PropTypes.number,
+class NumberField extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      inline: PropTypes.bool,
+      step: PropTypes.number,
+      min: PropTypes.number,
+      max: PropTypes.number,
     }),
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    value: React.PropTypes.number,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    value: PropTypes.number,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
-    globalConfig: React.PropTypes.object,
-  },
+  static contextTypes = {
+    globalConfig: PropTypes.object,
+  };
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (e, value) {
+  onChange = (e, value) => {
     if (isNumber(value)) {
       value = parseFloat(value)
     } else {
@@ -57,7 +57,7 @@ const NumberField = React.createClass({
     this.props.actions.edit(
       (val) => { return value }
     )
-  },
+  };
 
   render () {
     let { attributes, errors, hint, label, name, value } = this.props
@@ -105,7 +105,7 @@ const NumberField = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default NumberField

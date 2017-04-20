@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {
   Entity,
 } from 'draft-js'
@@ -21,10 +22,10 @@ class Link extends Component {
 }
 
 Link.propTypes = {
-  entityKey: React.PropTypes.string.isRequired,
-  children: React.PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.node),
-    React.PropTypes.node,
+  entityKey: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
   ]),
 }
 
@@ -208,12 +209,12 @@ class ActionHandler extends Component {
 }
 
 ActionHandler.propTypes = {
-  entityKey: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number,
+  entityKey: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
   ]).isRequired,
-  forceVisible: React.PropTypes.func.isRequired,
-  remove: React.PropTypes.func.isRequired,
+  forceVisible: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
 }
 
 export default {

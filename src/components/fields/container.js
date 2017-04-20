@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { List } from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
@@ -13,37 +14,36 @@ const { deleteField, editField, validateField } = actions
  * Consolidates common attributes and actions into a single place.
  *
  */
-const FieldContainer = React.createClass({
-
-  propTypes: {
+class FieldContainer extends React.Component {
+  static propTypes = {
     attributes: ImmutablePropTypes.map,
-    bus: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object,
+    bus: PropTypes.object.isRequired,
+    config: PropTypes.object,
     errors: ImmutablePropTypes.list,
-    field: React.PropTypes.func.isRequired,
-    globalConfig: React.PropTypes.object,
-    hashCode: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string.isRequired,
+    field: PropTypes.func.isRequired,
+    globalConfig: PropTypes.object,
+    hashCode: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
     path: ImmutablePropTypes.list.isRequired,
     rules: ImmutablePropTypes.list,
-    store: React.PropTypes.object.isRequired,
-    type: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any,
-  },
+    store: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
+    value: PropTypes.any,
+  };
 
   /**
    * Create `context` object for each field to access
    */
 
-  childContextTypes: {
-    globalConfig: React.PropTypes.object,
-  },
+  static childContextTypes = {
+    globalConfig: PropTypes.object,
+  };
 
   getChildContext () {
     return {
       globalConfig: this.props.globalConfig,
     }
-  },
+  }
 
   shouldComponentUpdate (nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
@@ -51,7 +51,7 @@ const FieldContainer = React.createClass({
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
     return (this.props.hashCode !== nextProps.hashCode)
-  },
+  }
 
   render () {
     let {
@@ -125,7 +125,7 @@ const FieldContainer = React.createClass({
           hint={hint} />
       </div>
     )
-  },
-})
+  }
+}
 
 export default FieldContainer

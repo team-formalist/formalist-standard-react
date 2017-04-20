@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withoutKeys from '../../../utils/without-keys'
 import styles from './text-box.mcss'
@@ -40,43 +41,39 @@ function boxSize (size) {
 /**
  * TextBox
  */
-const TextBox = React.createClass({
-  propTypes: {
-    className: React.PropTypes.string,
-    error: React.PropTypes.bool,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    textSize: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
-  },
+class TextBox extends React.Component {
+  static propTypes = {
+    className: PropTypes.string,
+    error: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    textSize: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    boxSize: PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
+  };
 
-  getDefaultProps () {
-    return {
-      error: false,
-      textSize: 'normal',
-      boxSize: 'normal',
-    }
-  },
+  static defaultProps = {
+    error: false,
+    textSize: 'normal',
+    boxSize: 'normal',
+  };
 
-  getInitialState () {
-    return {
-      focus: false,
-    }
-  },
+  state = {
+    focus: false,
+  };
 
-  onFocus (e) {
+  onFocus = (e) => {
     this.setState({focus: true})
     if (this.props.onFocus) {
       this.props.onFocus(e)
     }
-  },
+  };
 
-  onBlur (e) {
+  onBlur = (e) => {
     this.setState({focus: false})
     if (this.props.onBlur) {
       this.props.onBlur(e)
     }
-  },
+  };
 
   render () {
     let textBoxClassNames = classNames(
@@ -99,7 +96,7 @@ const TextBox = React.createClass({
         onBlur={this.onBlur}
         onFocus={this.onFocus} />
     )
-  },
-})
+  }
+}
 
 export default TextBox

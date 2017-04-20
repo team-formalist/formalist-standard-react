@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import styles from './pagination.mcss'
 
 class Pagination extends Component {
@@ -79,9 +80,9 @@ class Pagination extends Component {
  * @type {Object}
  */
 Pagination.propTypes = {
-  currentPage: React.PropTypes.number.isRequired,
-  totalPages: React.PropTypes.number.isRequired,
-  goToPage: React.PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  goToPage: PropTypes.func.isRequired,
 }
 
 export default Pagination

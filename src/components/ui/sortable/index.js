@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import uid from 'uid'
 import update from 'react/lib/update'
 import { DragDropContext } from 'react-dnd'
@@ -16,50 +17,47 @@ import styles from './sortable.mcss'
  *   {otherItems}
  * </Sortable>
  */
-const Sortable = React.createClass({
-
-  propTypes: {
+class Sortable extends React.Component {
+  static propTypes = {
     /**
      * canRemove
      * Indicates whether items are removable
      * @type {Boolean}
      */
-    canRemove: React.PropTypes.bool,
-    children: React.PropTypes.node,
+    canRemove: PropTypes.bool,
+    children: PropTypes.node,
     /**
      * onDrop
      * Callback. Fired _after_ the sort is effected
      * @type {Function}
      */
-    onDrop: React.PropTypes.func,
+    onDrop: PropTypes.func,
     /**
      * onRemove
      * Callback. Fired when the remove button is clicked. Is passed the
      * *current* index of the item to be removed
      * @type {Function}
      */
-    onRemove: React.PropTypes.func,
+    onRemove: PropTypes.func,
     /**
      * onSort
      * Callback. Fired when the sort change is effected
      * @type {Function}
      */
-    onSort: React.PropTypes.func,
-    canSort: React.PropTypes.bool,
-    verticalControls: React.PropTypes.bool,
-  },
+    onSort: PropTypes.func,
+    canSort: PropTypes.bool,
+    verticalControls: PropTypes.bool,
+  };
 
-  getInitialState () {
-    return {
-      instanceKey: uid(),
-      items: React.Children.map(this.props.children, (child, index) => (
-        {
-          component: child,
-          originalIndex: index,
-        }
-      )),
-    }
-  },
+  state = {
+    instanceKey: uid(),
+    items: React.Children.map(this.props.children, (child, index) => (
+      {
+        component: child,
+        originalIndex: index,
+      }
+    )),
+  };
 
   componentWillReceiveProps (nextProps) {
     this.setState({
@@ -70,7 +68,7 @@ const Sortable = React.createClass({
         }
       )),
     })
-  },
+  }
 
   /**
    * onDrop
@@ -78,13 +76,13 @@ const Sortable = React.createClass({
    * Updates the internal representation of the list, and propagates that data
    * changes upward through `this.props.onDrop`
    */
-  onDrop () {
+  onDrop = () => {
     if (this.props.onDrop) {
       this.props.onDrop(
         this.state.items.map((item) => (item.originalIndex))
       )
     }
-  },
+  };
 
   /**
    * onSort
@@ -92,13 +90,13 @@ const Sortable = React.createClass({
    * Updates the internal representation of the list, and propagates that data
    * changes upward through `this.props.onSort`
    */
-  onSort () {
+  onSort = () => {
     if (this.props.onSort) {
       this.props.onSort(
         this.state.items.map((item) => (item.originalIndex))
       )
     }
-  },
+  };
 
   /**
    * moveItem
@@ -108,7 +106,7 @@ const Sortable = React.createClass({
    * @param  {Number} dragIndex The current index of the item being dragged
    * @param  {Number} hoverIndex The current index of the item being hovered
    */
-  moveItem (dragIndex, hoverIndex) {
+  moveItem = (dragIndex, hoverIndex) => {
     const { items } = this.state
     const dragItem = items[dragIndex]
     this.setState(update(this.state, {
@@ -119,7 +117,7 @@ const Sortable = React.createClass({
         ],
       },
     }))
-  },
+  };
 
   render () {
     const { instanceKey, items } = this.state
@@ -145,7 +143,7 @@ const Sortable = React.createClass({
         ))}
       </div>
     )
-  },
-})
+  }
+}
 
 export default DragDropContext(HTML5Backend)(Sortable)

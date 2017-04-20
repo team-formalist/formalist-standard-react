@@ -6,15 +6,14 @@ import styles from './errors.mcss'
 /**
  * A common component for rendering errors for a field.
  */
-const FieldErrors = React.createClass({
-
-  propTypes: {
+class FieldErrors extends React.Component {
+  static propTypes = {
     errors: ImmutablePropTypes.list.isRequired,
-  },
+  };
 
   shouldComponentUpdate (nextProps) {
     return !Immutable.is(this.props.errors, nextProps.errors)
-  },
+  }
 
   render () {
     let { errors } = this.props
@@ -32,7 +31,7 @@ const FieldErrors = React.createClass({
         </ul>
       </div>
     )
-  },
-})
+  }
+}
 
 export default FieldErrors

@@ -37,8 +37,8 @@ test('it should create a standard form instance', (nest) => {
     let input = wrapper.find('input').at(0)
     wrapper.find('input').get(0).value = expected
 
-    form.store.subscribe(() => {
-      let actual = form.store.getState().getIn([0, 1, 2])
+    form.on('change', () => {
+      let actual = form.getState().getIn([0, 1, 2])
       assert.equals(expected, actual)
       assert.end()
     })

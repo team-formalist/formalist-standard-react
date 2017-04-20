@@ -1,21 +1,22 @@
 {
-  parserOptions: {
-    ecmaVersion: 6,
-    ecmaFeatures: {
-      jsx: true
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
     },
-    sourceType: "module"
+    "sourceType": "module"
   },
-  rules: {
+  "rules": {
     "comma-dangle": [2, "always-multiline"],
     "camelcase": [0, {"properties": "never"}],
     "react/jsx-no-bind": [2, {"ignoreRefs": true}]
   },
-  extends: [
+  "extends": [
     "standard",
     "standard-react"
   ],
-  plugins: [
+  "plugins": [
     "standard",
     "react"
   ]

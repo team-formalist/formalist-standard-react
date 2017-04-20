@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
@@ -33,8 +34,8 @@ const SelectDefault = ({option}) => (
 )
 
 SelectDefault.propTypes = {
-  option: React.PropTypes.shape({
-    label: React.PropTypes.string,
+  option: PropTypes.shape({
+    label: PropTypes.string,
   }),
 }
 
@@ -44,144 +45,141 @@ SelectDefault.propTypes = {
  * Handles a singular select of a set of pre-supplied options.
  *
  */
-const SelectionField = React.createClass({
-
-  propTypes: {
-    actions: React.PropTypes.object,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      options: React.PropTypes.array,
-      inline: React.PropTypes.bool,
-      selector_label: React.PropTypes.string,
-      render_option_as: React.PropTypes.string,
-      render_selection_as: React.PropTypes.string,
+class SelectionField extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      options: PropTypes.array,
+      inline: PropTypes.bool,
+      selector_label: PropTypes.string,
+      render_option_as: PropTypes.string,
+      render_selection_as: PropTypes.string,
     }),
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
     value: ImmutablePropTypes.list,
-  },
+  };
 
   /**
    * Enable parent to pass context
    */
 
-  contextTypes: {
-    globalConfig: React.PropTypes.object,
-  },
+  static contextTypes = {
+    globalConfig: PropTypes.object,
+  };
 
   /**
    * Default state, blank search
    * @return {Object}
    */
-  getInitialState () {
-    return {
-      search: null,
-      searchFocus: false,
-    }
-  },
+  state = {
+    search: null,
+    searchFocus: false,
+  };
 
   /**
    * onChange handler
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (value) {
+  onChange = (value) => {
     this.props.actions.edit(
       (val) => {
         return value
       }
     )
-  },
+  };
 
   /**
    * On choose click, open selector
    * @return {Null}
    */
-  onChooseClick (e) {
+  onChooseClick = (e) => {
     e.preventDefault()
     this.toggleSelector()
-  },
+  };
 
   /**
    * When selected item is removed
    * @param {Number} index Index of the item to remove
    * @return {Null}
    */
-  onRemove (index) {
+  onRemove = (index) => {
     const { value } = this.props
     this.onChange(value.delete(index))
-  },
+  };
 
   /**
    * When selected item is removed
    * @return {Null}
    */
-  onDrop (newOrder) {
+  onDrop = (newOrder) => {
     const value = this.props.value.slice()
     const updated = newOrder.map((index) => (
       value.get(index)
     ))
     this.onChange(List(updated))
-  },
+  };
 
   /**
    * When a selection is made, trigger change and close the selector
    * @param {Number} id ID of the item to push in
    * @return {Null}
    */
-  onSelection (id) {
+  onSelection = (id) => {
     this.closeSelector()
     let { value } = this.props
     value = value || List()
     this.onChange(value.push(id))
-  },
+  };
 
   /**
    * Open the selector popout
    * @return {Null}
    */
-  openSelector () {
+  openSelector = () => {
     this._selector.openPopout()
-  },
+  };
 
   /**
    * Close the selector popout
    * @return {Null}
    */
-  closeSelector () {
+  closeSelector = () => {
     this._selector.closePopout()
-  },
+  };
 
   /**
    * On popout close, reset the search
    * @return {Null}
    */
-  onPopoutClose () {
+  onPopoutClose = () => {
     this.setState({
       search: null,
     })
-  },
+  };
 
   /**
    * Toggle the selector popout
    * @return {Null}
    */
-  toggleSelector () {
+  toggleSelector = () => {
     this._selector.togglePopout()
-  },
+  };
 
   /**
    * On popout open, focus the search input
    * @return {Null}
    */
-  onPopoutOpen () {
+  onPopoutOpen = () => {
     this.refs.search.focus()
-  },
+  };
 
   /**
    * Fired when search input is `change`d.
@@ -189,34 +187,34 @@ const SelectionField = React.createClass({
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSearchChange (e) {
+  onSearchChange = (e) => {
     const search = e.target.value
     this.setState({
       search: search,
     })
-  },
+  };
 
   /**
    * On search input focus
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSearchFocus (e) {
+  onSearchFocus = (e) => {
     this.setState({
       searchFocus: true,
     })
-  },
+  };
 
   /**
    * On search input blur
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSearchBlur (e) {
+  onSearchBlur = (e) => {
     this.setState({
       searchFocus: false,
     })
-  },
+  };
 
   render () {
     const {attributes, config, errors, hint, label, name, value} = this.props
@@ -349,7 +347,7 @@ const SelectionField = React.createClass({
         </div>
       </div>
     )
-  },
-})
+  }
+}
 
 export default SelectionField
