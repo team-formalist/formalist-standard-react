@@ -19,6 +19,9 @@
         "react"
       ],
       "plugins": [
+        ["module-alias", [
+          { "src": "./src/components/ui", "expose": "formalist-theme" }
+        ]],
         "transform-object-rest-spread",
         "transform-class-properties",
         ["babel-plugin-css-modules-transform", {
