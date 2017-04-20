@@ -5,17 +5,17 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "postbuild": "npm run copycss && npm run lint",
-    "compile": "npm run build",
-    "precompile": "npm run clean",
-    "watch": "nodemon --watch src --exec 'npm run build' --ext js,css,mcss",
-    "prepublish": "npm run compile",
+    "postbuild": "yarn run copycss && yarn run lint",
+    "compile": "yarn run build",
+    "precompile": "yarn run clean",
+    "watch": "nodemon --watch src --exec 'yarn run build' --ext js,css,mcss",
+    "prepublish": "yarn run compile",
     "test": "NODE_ENV=test babel-node test | faucet",
-    "posttest": "npm run lint",
+    "posttest": "yarn run lint",
     "clean": "rm -rf ./lib/*",
     "copycss": "rsync -r ./src/* --include='*/' --include='*.mcss' --include='*.css' --exclude='*' lib",
     "lint": "eslint 'src/*.js' 'src/**/*.js' 'test/*.js' 'test/**/*.js'; exit 0",
-    "watchlint": "nodemon --watch src --exec 'npm run lint'"
+    "watchlint": "nodemon --watch src --exec 'yarn run lint'"
   },
   "repository": {
     "type": "git",
