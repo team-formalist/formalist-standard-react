@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import {
   RichUtils,
@@ -27,10 +28,10 @@ function getNextBlockTypeToApply (currentType, types) {
  */
 class BlockItems extends React.Component {
   static propTypes = {
-    currentBlockType: React.PropTypes.string,
-    itemsGroups: React.PropTypes.array,
-    editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    currentBlockType: PropTypes.string,
+    itemsGroups: PropTypes.array,
+    editorState: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

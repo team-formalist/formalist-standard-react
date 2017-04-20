@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
@@ -29,13 +30,13 @@ function compressDate (dateString) {
 
 class DatePicker extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
-    value: React.PropTypes.string,
-    error: React.PropTypes.bool,
-    id: React.PropTypes.string,
-    month: React.PropTypes.number,
-    onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
+    className: PropTypes.string,
+    value: PropTypes.string,
+    error: PropTypes.bool,
+    id: PropTypes.string,
+    month: PropTypes.number,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
   };
 
   static defaultProps = {

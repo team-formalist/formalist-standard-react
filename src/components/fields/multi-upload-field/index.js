@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import uid from 'uid'
 import classNames from 'classnames'
@@ -33,28 +34,28 @@ class MultiUploadField extends React.Component {
    */
 
   static propTypes = {
-    actions: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      max_file_size: React.PropTypes.number,
-      max_file_size_message: React.PropTypes.string,
-      multiple: React.PropTypes.bool,
-      permitted_file_type_message: React.PropTypes.string,
-      permitted_file_type_regex: React.PropTypes.string,
-      presign_url: React.PropTypes.string,
-      render_uploaded_as: React.PropTypes.string,
-      upload_action_label: React.PropTypes.string,
-      upload_prompt: React.PropTypes.string,
+    actions: PropTypes.object,
+    attributes: PropTypes.shape({
+      max_file_size: PropTypes.number,
+      max_file_size_message: PropTypes.string,
+      multiple: PropTypes.bool,
+      permitted_file_type_message: PropTypes.string,
+      permitted_file_type_regex: PropTypes.string,
+      presign_url: PropTypes.string,
+      render_uploaded_as: PropTypes.string,
+      upload_action_label: PropTypes.string,
+      upload_prompt: PropTypes.string,
     }),
-    bus: React.PropTypes.object,
-    config: React.PropTypes.object,
+    bus: PropTypes.object,
+    config: PropTypes.object,
     errors: ImmutablePropTypes.list,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
-    multiple: React.PropTypes.bool,
-    name: React.PropTypes.string,
-    value: React.PropTypes.oneOfType([
+    hint: PropTypes.string,
+    label: PropTypes.string,
+    multiple: PropTypes.bool,
+    name: PropTypes.string,
+    value: PropTypes.oneOfType([
       ImmutablePropTypes.list,
-      React.PropTypes.object,
+      PropTypes.object,
     ]),
   };
 
@@ -63,7 +64,7 @@ class MultiUploadField extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   /**

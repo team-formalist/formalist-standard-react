@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withoutKeys from '../../../utils/without-keys'
 import styles from './input.mcss'
@@ -18,12 +19,12 @@ import styles from './input.mcss'
  */
 class Input extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
-    error: React.PropTypes.bool,
-    onChange: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onFocus: React.PropTypes.func,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    className: PropTypes.string,
+    error: PropTypes.bool,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func,
+    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
   };
 
   static defaultProps = {

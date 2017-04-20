@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import {
   EditorState,
@@ -147,10 +148,10 @@ InlineToolbarItems.defaultPprops = {
 }
 
 InlineToolbarItems.propTypes = {
-  editorState: React.PropTypes.object.isRequired,
-  entities: React.PropTypes.array,
-  formatters: React.PropTypes.array,
-  onChange: React.PropTypes.func.isRequired,
+  editorState: PropTypes.object.isRequired,
+  entities: PropTypes.array,
+  formatters: PropTypes.array,
+  onChange: PropTypes.func.isRequired,
 }
 
 export default InlineToolbarItems

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withoutKeys from '../../../utils/without-keys'
 import styles from './text-box.mcss'
@@ -42,12 +43,12 @@ function boxSize (size) {
  */
 class TextBox extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
-    error: React.PropTypes.bool,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    textSize: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    boxSize: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
+    className: PropTypes.string,
+    error: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    textSize: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    boxSize: PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
   };
 
   static defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import { actions } from 'formalist-compose'
@@ -28,20 +29,20 @@ class ManySet extends React.Component {
 
 class Many extends React.Component {
   static propTypes = {
-    hashCode: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string,
+    hashCode: PropTypes.number.isRequired,
+    name: PropTypes.string,
     path: ImmutablePropTypes.list.isRequired,
     contentsPath: ImmutablePropTypes.list.isRequired,
-    store: React.PropTypes.object.isRequired,
-    type: React.PropTypes.string,
+    store: PropTypes.object.isRequired,
+    type: PropTypes.string,
     rules: ImmutablePropTypes.list,
     errors: ImmutablePropTypes.list,
     attributes: ImmutablePropTypes.mapContains({
-      label: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      action_label: React.PropTypes.string,
+      label: PropTypes.string,
+      placeholder: PropTypes.string,
+      action_label: PropTypes.string,
     }),
-    template: React.PropTypes.object,
+    template: PropTypes.object,
     children: ImmutablePropTypes.list,
   };
 

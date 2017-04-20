@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
@@ -33,8 +34,8 @@ const SelectDefault = ({option}) => (
 )
 
 SelectDefault.propTypes = {
-  option: React.PropTypes.shape({
-    label: React.PropTypes.string,
+  option: PropTypes.shape({
+    label: PropTypes.string,
   }),
 }
 
@@ -46,21 +47,21 @@ SelectDefault.propTypes = {
  */
 class SelectionField extends React.Component {
   static propTypes = {
-    actions: React.PropTypes.object,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      options: React.PropTypes.array,
-      inline: React.PropTypes.bool,
-      selector_label: React.PropTypes.string,
-      render_option_as: React.PropTypes.string,
-      render_selection_as: React.PropTypes.string,
+    actions: PropTypes.object,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      options: PropTypes.array,
+      inline: PropTypes.bool,
+      selector_label: PropTypes.string,
+      render_option_as: PropTypes.string,
+      render_selection_as: PropTypes.string,
     }),
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
     value: ImmutablePropTypes.list,
   };
@@ -70,7 +71,7 @@ class SelectionField extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   /**

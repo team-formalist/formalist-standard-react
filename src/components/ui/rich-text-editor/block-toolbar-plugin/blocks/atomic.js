@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import template from '../../../../../'
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Entity,
 } from 'draft-js'
@@ -12,11 +13,11 @@ let configuredTemplate
 
 class AtomicBlock extends React.Component {
   static propTypes = {
-    block: React.PropTypes.object.isRequired,
-    blockProps: React.PropTypes.shape({
-      editorEmitter: React.PropTypes.object.isRequired,
-      remove: React.PropTypes.func.isRequired,
-      setReadOnly: React.PropTypes.func.isRequired,
+    block: PropTypes.object.isRequired,
+    blockProps: PropTypes.shape({
+      editorEmitter: PropTypes.object.isRequired,
+      remove: PropTypes.func.isRequired,
+      setReadOnly: PropTypes.func.isRequired,
     }),
   };
 
@@ -25,7 +26,7 @@ class AtomicBlock extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   constructor (props) {

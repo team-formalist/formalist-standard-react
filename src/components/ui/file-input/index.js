@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import triggerEvent from 'trigger-event'
 
 // import classNames from 'classnames'
@@ -16,9 +17,9 @@ export default class extends React.Component {
    */
 
   static propTypes = {
-    className: React.PropTypes.string,
-    name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    className: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
   /**

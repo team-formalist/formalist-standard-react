@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
 import styles from './label.mcss'
 
 class Label extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
+    className: PropTypes.string,
   };
 
   render () {

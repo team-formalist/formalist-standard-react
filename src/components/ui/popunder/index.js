@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Portal from 'react-portal'
 import styles from './popunder.mcss'
 import classNames from 'classnames'
@@ -26,19 +27,19 @@ import classNames from 'classnames'
  */
 class Popunder extends React.Component {
   static propTypes = {
-    beforeClose: React.PropTypes.func,
-    children: React.PropTypes.node,
-    className: React.PropTypes.string,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    offset: React.PropTypes.shape({
-      left: React.PropTypes.number,
-      top: React.PropTypes.number,
+    beforeClose: PropTypes.func,
+    children: PropTypes.node,
+    className: PropTypes.string,
+    closeOnEsc: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
+    offset: PropTypes.shape({
+      left: PropTypes.number,
+      top: PropTypes.number,
     }),
-    onOpen: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func,
-    containerClassName: React.PropTypes.string,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
+    containerClassName: PropTypes.string,
   };
 
   static defaultProps = {

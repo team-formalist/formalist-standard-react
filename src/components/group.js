@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './group.mcss'
 
 class Group extends React.Component {
   static propTypes = {
-    hashCode: React.PropTypes.number.isRequired,
-    type: React.PropTypes.string,
+    hashCode: PropTypes.number.isRequired,
+    type: PropTypes.string,
     attributes: ImmutablePropTypes.map,
     children: ImmutablePropTypes.list,
   };

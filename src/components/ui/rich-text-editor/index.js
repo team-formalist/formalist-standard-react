@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
 import Emitter from 'component-emitter'
@@ -19,14 +20,14 @@ import './tmp.css'
  */
 class RichTextEditor extends React.Component {
   static propTypes = {
-    embeddableForms: React.PropTypes.object,
-    blockFormatters: React.PropTypes.array,
-    boxSize: React.PropTypes.string,
-    config: React.PropTypes.object,
-    inlineFormatters: React.PropTypes.array,
-    editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
+    embeddableForms: PropTypes.object,
+    blockFormatters: PropTypes.array,
+    boxSize: PropTypes.string,
+    config: PropTypes.object,
+    inlineFormatters: PropTypes.array,
+    editorState: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
   };
 
   static defaultProps = {

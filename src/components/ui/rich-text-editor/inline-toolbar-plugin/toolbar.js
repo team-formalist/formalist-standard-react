@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   Entity,
   getVisibleSelectionRect,
@@ -23,11 +24,11 @@ import styles from './toolbar.mcss'
  */
 class Toolbar extends React.Component {
   static propTypes = {
-    editorHasFocus: React.PropTypes.bool.isRequired,
-    editorState: React.PropTypes.object.isRequired,
-    formatters: React.PropTypes.array,
-    entities: React.PropTypes.array,
-    onChange: React.PropTypes.func.isRequired,
+    editorHasFocus: PropTypes.bool.isRequired,
+    editorState: PropTypes.object.isRequired,
+    formatters: PropTypes.array,
+    entities: PropTypes.array,
+    onChange: PropTypes.func.isRequired,
   };
 
   state = {

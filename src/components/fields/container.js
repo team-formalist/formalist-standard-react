@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { List } from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
@@ -16,18 +17,18 @@ const { deleteField, editField, validateField } = actions
 class FieldContainer extends React.Component {
   static propTypes = {
     attributes: ImmutablePropTypes.map,
-    bus: React.PropTypes.object.isRequired,
-    config: React.PropTypes.object,
+    bus: PropTypes.object.isRequired,
+    config: PropTypes.object,
     errors: ImmutablePropTypes.list,
-    field: React.PropTypes.func.isRequired,
-    globalConfig: React.PropTypes.object,
-    hashCode: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string.isRequired,
+    field: PropTypes.func.isRequired,
+    globalConfig: PropTypes.object,
+    hashCode: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
     path: ImmutablePropTypes.list.isRequired,
     rules: ImmutablePropTypes.list,
-    store: React.PropTypes.object.isRequired,
-    type: React.PropTypes.string.isRequired,
-    value: React.PropTypes.any,
+    store: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
+    value: PropTypes.any,
   };
 
   /**
@@ -35,7 +36,7 @@ class FieldContainer extends React.Component {
    */
 
   static childContextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   getChildContext () {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import classNames from 'classnames'
@@ -85,59 +86,59 @@ class Item extends React.Component {
      * Current index of the item in context of the sortable
      * @type {Number}
      */
-    index: React.PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
 
     /**
      * The original index of the item in context of the sortable. Should only
      * differ between data updates.
      * @type {Number}
      */
-    originalIndex: React.PropTypes.number.isRequired,
+    originalIndex: PropTypes.number.isRequired,
 
     /**
      * Callback: Fires when item is moved
      * @type {Function}
      */
-    moveItem: React.PropTypes.func,
+    moveItem: PropTypes.func,
 
     /**
      * Can this item be removed?
      * @type {Boolean}
      */
-    canRemove: React.PropTypes.bool,
+    canRemove: PropTypes.bool,
 
     /**
      * Callback: Fired when item is removed
      * @type {Function}
      */
-    onRemove: React.PropTypes.func,
+    onRemove: PropTypes.func,
 
     /**
      * Can this item be sorted?
      * @type {Boolean}
      */
-    canSort: React.PropTypes.bool,
+    canSort: PropTypes.bool,
 
     /**
      * Is the item being dragged?
      * @type {Boolean}
      */
-    isDragging: React.PropTypes.bool,
+    isDragging: PropTypes.bool,
 
     /**
      * React DnD provided decorators
      * @type {Function}
      */
-    connectDragPreview: React.PropTypes.func,
-    connectDragSource: React.PropTypes.func,
-    connectDropTarget: React.PropTypes.func,
+    connectDragPreview: PropTypes.func,
+    connectDragSource: PropTypes.func,
+    connectDropTarget: PropTypes.func,
 
     /**
      * Child component we care about sorting
      * @type {ReactElement}
      */
-    children: React.PropTypes.node.isRequired,
-    verticalControls: React.PropTypes.bool,
+    children: PropTypes.node.isRequired,
+    verticalControls: PropTypes.bool,
   };
 
   /**

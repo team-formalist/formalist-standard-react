@@ -1,13 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import styles from './section.mcss'
 
 class Section extends React.Component {
   static propTypes = {
-    hashCode: React.PropTypes.number.isRequired,
-    type: React.PropTypes.string,
+    hashCode: PropTypes.number.isRequired,
+    type: PropTypes.string,
     attributes: ImmutablePropTypes.map,
-    name: React.PropTypes.string,
+    name: PropTypes.string,
     children: ImmutablePropTypes.list,
   };
 

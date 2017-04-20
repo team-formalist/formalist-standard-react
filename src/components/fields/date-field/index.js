@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import moment from 'moment'
@@ -16,19 +17,19 @@ import styles from './date-field.mcss'
  */
 class DateField extends React.Component {
   static propTypes = {
-    actions: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool,
+    actions: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      inline: PropTypes.bool,
     }),
     errors: ImmutablePropTypes.list,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    value: React.PropTypes.string,
+    hint: PropTypes.string,
+    label: PropTypes.string,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    value: PropTypes.string,
   };
 
   /**
@@ -36,7 +37,7 @@ class DateField extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   /**

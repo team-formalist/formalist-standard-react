@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
@@ -17,11 +18,11 @@ export const dateFormats = {
 
 class DateTimePicker extends React.Component {
   static propTypes = {
-    value: React.PropTypes.string,
-    error: React.PropTypes.bool,
-    id: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
+    value: PropTypes.string,
+    error: PropTypes.bool,
+    id: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
   };
 
   constructor (props) {

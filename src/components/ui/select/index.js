@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styles from './select.mcss'
 
@@ -17,17 +18,17 @@ import styles from './select.mcss'
  */
 class Select extends React.Component {
   static propTypes = {
-    className: React.PropTypes.string,
-    children: React.PropTypes.node,
-    error: React.PropTypes.bool,
-    defaultValue: React.PropTypes.string,
-    id: React.PropTypes.string,
-    clearable: React.PropTypes.bool,
-    onFocus: React.PropTypes.func,
-    onBlur: React.PropTypes.func,
-    onChange: React.PropTypes.func.isRequired,
-    placeholder: React.PropTypes.string,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    className: PropTypes.string,
+    children: PropTypes.node,
+    error: PropTypes.bool,
+    defaultValue: PropTypes.string,
+    id: PropTypes.string,
+    clearable: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
+    placeholder: PropTypes.string,
+    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
   };
 
   static defaultProps = {

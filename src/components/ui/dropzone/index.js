@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
 import styles from './index.mcss'
 import classNames from 'classnames'
@@ -15,14 +16,14 @@ export default class extends React.Component {
    */
 
   static propTypes = {
-    label: React.PropTypes.string,
-    buttonText: React.PropTypes.string,
-    onChange: React.PropTypes.func.isRequired,
-    renderPreview: React.PropTypes.bool,
-    multiple: React.PropTypes.bool,
-    children: React.PropTypes.node,
-    disableClick: React.PropTypes.bool,
-    hideDropZoneBtn: React.PropTypes.bool,
+    label: PropTypes.string,
+    buttonText: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    renderPreview: PropTypes.bool,
+    multiple: PropTypes.bool,
+    children: PropTypes.node,
+    disableClick: PropTypes.bool,
+    hideDropZoneBtn: PropTypes.bool,
   };
 
   /**

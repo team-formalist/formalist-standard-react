@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Portal from 'react-portal'
 import styles from './modal.mcss'
 
@@ -13,13 +14,13 @@ import styles from './modal.mcss'
  */
 class Modal extends React.Component {
   static propTypes = {
-    beforeClose: React.PropTypes.func,
-    children: React.PropTypes.node,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    onOpen: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func,
+    beforeClose: PropTypes.func,
+    children: PropTypes.node,
+    closeOnEsc: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
   };
 
   state = {

@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
+import PropTypes from 'prop-types'
 import Portal from 'react-portal'
 import styles from './popout.mcss'
 
@@ -28,20 +29,20 @@ const arrowVertPosition = 16
  */
 class Popout extends React.Component {
   static propTypes = {
-    beforeClose: React.PropTypes.func,
-    children: React.PropTypes.node,
-    closeOnEsc: React.PropTypes.bool,
-    closeOnOutsideClick: React.PropTypes.bool,
-    isOpened: React.PropTypes.bool,
-    offset: React.PropTypes.shape({
-      default: React.PropTypes.number,
-      vert: React.PropTypes.number,
-      horz: React.PropTypes.number,
+    beforeClose: PropTypes.func,
+    children: PropTypes.node,
+    closeOnEsc: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
+    isOpened: PropTypes.bool,
+    offset: PropTypes.shape({
+      default: PropTypes.number,
+      vert: PropTypes.number,
+      horz: PropTypes.number,
     }),
-    onOpen: React.PropTypes.func,
-    onClose: React.PropTypes.func,
-    onUpdate: React.PropTypes.func,
-    placement: React.PropTypes.string,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onUpdate: PropTypes.func,
+    placement: PropTypes.string,
   };
 
   static defaultProps = {

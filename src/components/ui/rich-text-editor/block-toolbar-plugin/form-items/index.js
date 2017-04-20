@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   AtomicBlockUtils,
   Entity,
@@ -11,10 +12,10 @@ const dataObjectRenderer = createDataObjectRenderer()
 
 class FormItems extends React.Component {
   static propTypes = {
-    embeddableForms: React.PropTypes.array,
-    editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    closeToolbar: React.PropTypes.func.isRequired,
+    embeddableForms: PropTypes.array,
+    editorState: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
+    closeToolbar: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import uid from 'uid'
 import update from 'react/lib/update'
 import { DragDropContext } from 'react-dnd'
@@ -23,29 +24,29 @@ class Sortable extends React.Component {
      * Indicates whether items are removable
      * @type {Boolean}
      */
-    canRemove: React.PropTypes.bool,
-    children: React.PropTypes.node,
+    canRemove: PropTypes.bool,
+    children: PropTypes.node,
     /**
      * onDrop
      * Callback. Fired _after_ the sort is effected
      * @type {Function}
      */
-    onDrop: React.PropTypes.func,
+    onDrop: PropTypes.func,
     /**
      * onRemove
      * Callback. Fired when the remove button is clicked. Is passed the
      * *current* index of the item to be removed
      * @type {Function}
      */
-    onRemove: React.PropTypes.func,
+    onRemove: PropTypes.func,
     /**
      * onSort
      * Callback. Fired when the sort change is effected
      * @type {Function}
      */
-    onSort: React.PropTypes.func,
-    canSort: React.PropTypes.bool,
-    verticalControls: React.PropTypes.bool,
+    onSort: PropTypes.func,
+    canSort: PropTypes.bool,
+    verticalControls: PropTypes.bool,
   };
 
   state = {

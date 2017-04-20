@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 
@@ -15,22 +16,22 @@ import styles from './text-area.mcss'
  */
 class TextArea extends React.Component {
   static propTypes = {
-    actions: React.PropTypes.object,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool,
-      code: React.PropTypes.bool,
-      box_size: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
-      text_size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    actions: PropTypes.object,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      inline: PropTypes.bool,
+      code: PropTypes.bool,
+      box_size: PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
+      text_size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
     }),
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.string,
+    value: PropTypes.string,
   };
 
   /**
@@ -38,7 +39,7 @@ class TextArea extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   /**

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, {Component} from 'react'
 import classNames from 'classnames'
 import debounce from 'lodash.debounce'
@@ -218,17 +219,17 @@ SearchSelector.defaultProps = {
  * @type {Object}
  */
 SearchSelector.propTypes = {
-  onBlur: React.PropTypes.func,
-  onFocus: React.PropTypes.func,
-  onQueryChange: React.PropTypes.func,
-  onSelection: React.PropTypes.func.isRequired,
-  optionComponent: React.PropTypes.func,
-  selectedIds: React.PropTypes.array,
-  params: React.PropTypes.object,
-  perPage: React.PropTypes.number,
-  query: React.PropTypes.string,
-  threshold: React.PropTypes.number,
-  url: React.PropTypes.string.isRequired,
+  onBlur: PropTypes.func,
+  onFocus: PropTypes.func,
+  onQueryChange: PropTypes.func,
+  onSelection: PropTypes.func.isRequired,
+  optionComponent: PropTypes.func,
+  selectedIds: PropTypes.array,
+  params: PropTypes.object,
+  perPage: PropTypes.number,
+  query: PropTypes.string,
+  threshold: PropTypes.number,
+  url: PropTypes.string.isRequired,
 }
 
 /**
@@ -243,7 +244,7 @@ function OptionComponent ({option}) {
 }
 
 OptionComponent.propTypes = {
-  option: React.PropTypes.object,
+  option: PropTypes.object,
 }
 
 export default SearchSelector

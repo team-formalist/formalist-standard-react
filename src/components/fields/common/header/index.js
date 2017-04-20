@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import shallow from 'shallow-equals'
 import Label from '../../../ui/label'
 import classNames from 'classnames'
@@ -10,10 +11,10 @@ import styles from './header.mcss'
  */
 class FieldHeader extends React.Component {
   static propTypes = {
-    id: React.PropTypes.string,
-    label: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    error: React.PropTypes.bool,
+    id: PropTypes.string,
+    label: PropTypes.string,
+    hint: PropTypes.string,
+    error: PropTypes.bool,
   };
 
   shouldComponentUpdate (nextProps) {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   RichUtils,
 } from 'draft-js'
@@ -15,11 +16,11 @@ import styles from './toolbar.mcss'
  */
 class BlockToolbar extends React.Component {
   static propTypes = {
-    blockItemsGroups: React.PropTypes.array,
-    embeddableForms: React.PropTypes.object,
-    editorHasFocus: React.PropTypes.bool.isRequired,
-    editorState: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func.isRequired,
+    blockItemsGroups: PropTypes.array,
+    embeddableForms: PropTypes.object,
+    editorHasFocus: PropTypes.bool.isRequired,
+    editorState: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
   state = {

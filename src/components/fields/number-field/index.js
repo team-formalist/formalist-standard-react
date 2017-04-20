@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import isNumber from 'is-number'
@@ -16,21 +17,21 @@ import styles from './number-field.mcss'
  */
 class NumberField extends React.Component {
   static propTypes = {
-    actions: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool,
-      step: React.PropTypes.number,
-      min: React.PropTypes.number,
-      max: React.PropTypes.number,
+    actions: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      inline: PropTypes.bool,
+      step: PropTypes.number,
+      min: PropTypes.number,
+      max: PropTypes.number,
     }),
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    value: React.PropTypes.number,
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    value: PropTypes.number,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
   };
 
@@ -39,7 +40,7 @@ class NumberField extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: React.PropTypes.object,
+    globalConfig: PropTypes.object,
   };
 
   /**

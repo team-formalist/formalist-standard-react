@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {List} from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
@@ -308,7 +309,7 @@ class TagsField extends Component {
  * Enable parent to pass context
  */
 TagsField.contextTypes = {
-  globalConfig: React.PropTypes.object,
+  globalConfig: PropTypes.object,
 }
 
 /**
@@ -316,20 +317,20 @@ TagsField.contextTypes = {
  * @type {Object}
  */
 TagsField.propTypes = {
-  actions: React.PropTypes.object,
-  name: React.PropTypes.string,
-  config: React.PropTypes.object,
-  attributes: React.PropTypes.shape({
-    label: React.PropTypes.string,
-    hint: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    inline: React.PropTypes.bool,
-    search_url: React.PropTypes.string,
-    search_params: React.PropTypes.object,
-    search_threshold: React.PropTypes.number,
+  actions: PropTypes.object,
+  name: PropTypes.string,
+  config: PropTypes.object,
+  attributes: PropTypes.shape({
+    label: PropTypes.string,
+    hint: PropTypes.string,
+    placeholder: PropTypes.string,
+    inline: PropTypes.bool,
+    search_url: PropTypes.string,
+    search_params: PropTypes.object,
+    search_threshold: PropTypes.number,
   }),
-  hint: React.PropTypes.string,
-  label: React.PropTypes.string,
+  hint: PropTypes.string,
+  label: PropTypes.string,
   errors: ImmutablePropTypes.list,
   value: ImmutablePropTypes.list,
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import uid from 'uid'
 import classNames from 'classnames'
 import styles from './radio-button.mcss'
@@ -18,19 +19,19 @@ import styles from './radio-button.mcss'
  */
 class RadioButton extends React.Component {
   static propTypes = {
-    id: React.PropTypes.string,
-    className: React.PropTypes.string,
-    defaultChecked: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    error: React.PropTypes.bool,
-    label: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    size: React.PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.number,
-      React.PropTypes.string,
+    id: PropTypes.string,
+    className: PropTypes.string,
+    defaultChecked: PropTypes.bool,
+    disabled: PropTypes.bool,
+    error: PropTypes.bool,
+    label: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    value: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.number,
+      PropTypes.string,
     ]),
   };
 

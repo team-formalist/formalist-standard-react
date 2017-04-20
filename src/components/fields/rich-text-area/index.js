@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import {
@@ -22,25 +23,25 @@ import importer from 'draft-js-ast-importer'
  */
 class RichTextArea extends React.Component {
   static propTypes = {
-    actions: React.PropTypes.object,
-    name: React.PropTypes.string,
-    config: React.PropTypes.object,
-    attributes: React.PropTypes.shape({
-      label: React.PropTypes.string,
-      hint: React.PropTypes.string,
-      placeholder: React.PropTypes.string,
-      inline: React.PropTypes.bool,
-      box_size: React.PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
-      inline_formatters: React.PropTypes.array,
-      block_formatters: React.PropTypes.array,
-      embeddable_forms: React.PropTypes.object,
+    actions: PropTypes.object,
+    name: PropTypes.string,
+    config: PropTypes.object,
+    attributes: PropTypes.shape({
+      label: PropTypes.string,
+      hint: PropTypes.string,
+      placeholder: PropTypes.string,
+      inline: PropTypes.bool,
+      box_size: PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
+      inline_formatters: PropTypes.array,
+      block_formatters: PropTypes.array,
+      embeddable_forms: PropTypes.object,
     }),
-    hint: React.PropTypes.string,
-    label: React.PropTypes.string,
+    hint: PropTypes.string,
+    label: PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.array,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.array,
       ImmutablePropTypes.list,
     ]),
   };
