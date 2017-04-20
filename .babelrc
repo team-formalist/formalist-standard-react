@@ -2,8 +2,8 @@
   "env": {
     "development": {
       "presets": [
-        "babel-preset-es2015",
-        "babel-preset-react"
+        "es2015",
+        "react"
       ],
       "plugins": [
         "transform-object-rest-spread",
@@ -15,15 +15,16 @@
     },
     "test": {
       "presets": [
-        "babel-preset-es2015",
-        "babel-preset-react"
+        "es2015",
+        "react"
       ],
       "plugins": [
-          ["transform-class-properties",
-          "babel-plugin-css-modules-transform", {
-            "generateScopedName": "[name]__[local]___[hash:base64:5]",
-            "extensions": [".mcss"]
-          }]
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        ["babel-plugin-css-modules-transform", {
+          "generateScopedName": "[name]__[local]___[hash:base64:5]",
+          "extensions": [".mcss"]
+        }]
       ]
     }
   }
