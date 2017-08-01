@@ -69,7 +69,7 @@
     "draft-js-ast-importer": "^2.0.0",
     "draft-js-autolist-plugin": "^2.0.0",
     "draft-js-block-breakout-plugin": "^2.0.1",
-    "draft-js-plugins-editor": "^2.0.0-beta5",
+    "draft-js-plugins-editor": "^2.0.0-rc3",
     "draft-js-single-line-plugin": "^2.0.1",
     "es6-promise": "^3.2.1",
     "formalist-compose": "^2.0.0",
