@@ -9,7 +9,7 @@ import mergeDefaults from '../../../../utils/merge-defaults'
 import Toolbar from './toolbar'
 import AtomicBlock from './blocks/atomic'
 import PullquoteBlock from './blocks/pull-quote'
-import HorizontalRuleBlock from './blocks/horizontal-rule'
+import SeparatorBlock from './blocks/separator'
 import blockItemsGroupsMapping from './block-items/groups-mapping'
 import {removeAtomicBlock, getNextBlockKey, getPreviousBlockKey} from '../utils'
 
@@ -29,7 +29,7 @@ const defaults = {
     'blockquote',
     'pullquote',
     'code-block',
-    'horizontal-rule',
+    'separator',
   ],
   blockSet: {
     atomic: {
@@ -38,8 +38,8 @@ const defaults = {
     pullquote: {
       component: PullquoteBlock,
     },
-    'horizontal-rule': {
-      component: HorizontalRuleBlock,
+    separator: {
+      component: SeparatorBlock,
       editable: false,
     },
   },
@@ -47,7 +47,7 @@ const defaults = {
     pullquote: {
       element: 'blockquote',
     },
-    'horizontal-rule': {
+    separator: {
       element: 'div',
     },
   },

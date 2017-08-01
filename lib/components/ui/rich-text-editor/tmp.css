@@ -113,6 +113,17 @@
     text-align: center;
   }
 
+.rte-block__separator hr {
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid #ddd;
+    height: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
 .public-DraftStyleDefault-rtl {
     direction: rtl;
     text-align: right
