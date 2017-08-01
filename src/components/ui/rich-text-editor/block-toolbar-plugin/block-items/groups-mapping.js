@@ -73,8 +73,8 @@ export default [
   ],
   [
     {
-      type: 'separator',
-      label: 'Separator',
+      type: 'horizontal-rule',
+      label: 'Divider',
       icon: '<svg width="12" height="2" xmlns="http://www.w3.org/2000/svg"><polygon points="0 0 0 2 12 2 12 0" /></svg>',
     },
   ],
