@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v3.0.0 2017-08-02
+
+* Add horizontal rule/divider as block type.
+* Bump draft-js dependencies.
+
 # v2.0.0 2017-03-12
 
 * Update to [formalist-compose](http://github.com/icelab/formalist-compose) 2.x.
