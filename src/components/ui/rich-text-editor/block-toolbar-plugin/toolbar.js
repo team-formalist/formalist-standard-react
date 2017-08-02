@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   RichUtils,
@@ -14,9 +14,10 @@ import styles from './toolbar.mcss'
  * Block Toolbar
  *
  */
-class BlockToolbar extends React.Component {
+class BlockToolbar extends Component {
   static propTypes = {
     blockItemsGroups: PropTypes.array,
+    editableBlockTypes: PropTypes.array,
     embeddableForms: PropTypes.object,
     editorHasFocus: PropTypes.bool.isRequired,
     editorState: PropTypes.object.isRequired,
@@ -89,7 +90,7 @@ class BlockToolbar extends React.Component {
   };
 
   render () {
-    const {blockItemsGroups, editorState, embeddableForms, onChange} = this.props
+    const {blockItemsGroups, editableBlockTypes, editorState, embeddableForms, onChange} = this.props
     const {open, positionStyle} = this.state
     const currentBlockType = RichUtils.getCurrentBlockType(editorState)
 
@@ -143,6 +144,7 @@ class BlockToolbar extends React.Component {
           <div className={styles.buttonsWrapper}>
             <BlockItems
               itemsGroups={blockItemsGroups}
+              editableBlockTypes={editableBlockTypes}
               currentBlockType={currentBlockType}
               closeToolbar={this.closeToolbar}
               openToolbar={this.openToolbar}

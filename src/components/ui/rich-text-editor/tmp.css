@@ -74,6 +74,14 @@
   font-family: monospace;
 }
 
+.public-DraftEditor-content hr {
+  background: none;
+  margin: 2rem auto;
+  border: none;
+  border-bottom: 2px #ddd solid;
+  max-width: 40rem;
+}
+
 .public-DraftEditor-content pre pre .public-DraftStyleDefault-block {
   margin-bottom: 0;
 }
@@ -104,6 +112,17 @@
   .rte-block__pullquote .public-DraftStyleDefault-ltr {
     text-align: center;
   }
+
+.rte-block__hr hr {
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid #ddd;
+    height: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
 
 .public-DraftStyleDefault-rtl {
     direction: rtl;
