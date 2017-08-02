@@ -29,18 +29,17 @@ export default function softNewlinesKeyboardPlugin () {
      * Adjust the editorState if the soft-newline command is sent
      *
      * @param  {String}   command The command-as-string as passed by draft-js
-     * @param  {Function} options.getEditorState Getter for the current editorState
-     * @param  {Function} options.setEditorState Setter for the current editorState
+     * @param  {EditorState} editorState The current editorState
      * @return {Boolean} Handled or not?
      */
-    handleKeyCommand: function handleKeyCommand (command, { getEditorState, setEditorState }) {
+    handleKeyCommand: function handleKeyCommand (command, editorState, {setEditorState}) {
       if (command === SOFT_NEWLINE_COMMAND) {
         setEditorState(
-          RichUtils.insertSoftNewline(getEditorState())
+          RichUtils.insertSoftNewline(editorState)
         )
-        return true
+        return 'handled'
       }
-      return false
+      return 'not-handled'
     },
   }
 }

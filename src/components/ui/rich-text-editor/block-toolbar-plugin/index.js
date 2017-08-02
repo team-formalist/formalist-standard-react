@@ -187,8 +187,8 @@ export default function blockToolbarPlugin (options = {}) {
         } else if (e.keyCode === 8) {
           return commands.BACKSPACE_BLOCK
         } else {
-          // Move the selection to the block below so that the content pla
           const editorState = getEditorState()
+          // Move the selection to the block below so that the content pla
           const selection = editorState.getSelection()
           let contentState = editorState.getCurrentContent()
           const nextBlockKey = getNextBlockKey(selectedAtomicBlockKey, editorState)
@@ -204,9 +204,9 @@ export default function blockToolbarPlugin (options = {}) {
           )
         }
       } else if (e.keyCode === 8) {
+        const editorState = getEditorState()
         // Handle case where BACKSPACE before an uneditable block results in
         // screwed up selections
-        const editorState = getEditorState()
         const selection = editorState.getSelection()
         const contentState = editorState.getCurrentContent()
         const atStartOfBlock = selection.isCollapsed() && selection.getEndOffset() === 0
@@ -225,10 +225,9 @@ export default function blockToolbarPlugin (options = {}) {
     /**
      * Handle return when atomic blocks are selected
      */
-    handleReturn (e, {getEditorState, setEditorState}) {
+    handleReturn (e, editorState, {setEditorState}) {
       if (selectedAtomicBlockKey !== null) {
         // Move the selection to the block below so that the content pla
-        const editorState = getEditorState()
         const selection = editorState.getSelection()
         let contentState = editorState.getCurrentContent()
         const nextBlockKey = getNextBlockKey(selectedAtomicBlockKey, editorState)
@@ -250,14 +249,13 @@ export default function blockToolbarPlugin (options = {}) {
     /**
      * Handle our custom command
      * @param  {String} command
-     * @param  {Function} options.getEditorState
+     * @param  {EditorState} editorState The current editorState
      * @param  {Function} options.setEditorState
      * @return {Boolean} Did we handle it?
      */
-    handleKeyCommand (command, { getEditorState, setEditorState }) {
+    handleKeyCommand (command, editorState, { setEditorState }) {
       // Handle deletion of atomic blocks using our custom commands
       if (command === commands.DELETE_BLOCK) {
-        const editorState = getEditorState()
         const selection = editorState.getSelection()
         if (selection.isCollapsed()) {
           setEditorState(
@@ -266,7 +264,6 @@ export default function blockToolbarPlugin (options = {}) {
           return true
         }
       } else if (command === commands.BACKSPACE_BLOCK) {
-        const editorState = getEditorState()
         const selection = editorState.getSelection()
         if (selection.isCollapsed()) {
           setEditorState(
@@ -276,11 +273,10 @@ export default function blockToolbarPlugin (options = {}) {
         }
       } else if (command === commands.BACKSPACE_UNEDITABLE_BLOCK) {
         setEditorState(
-          removeBlockBeforeCurrent(getEditorState())
+          removeBlockBeforeCurrent(editorState)
         )
         return true
       } else if (command === 'delete') {
-        const editorState = getEditorState()
         const contentState = editorState.getCurrentContent()
         const selection = editorState.getSelection()
         // At the end of the block?
@@ -298,7 +294,6 @@ export default function blockToolbarPlugin (options = {}) {
           }
         }
       } else if (command === 'backspace') {
-        const editorState = getEditorState()
         const selection = editorState.getSelection()
         if (selection.isCollapsed() && selection.getAnchorOffset() === 0) {
           const contentState = editorState.getCurrentContent()

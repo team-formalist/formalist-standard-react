@@ -129,19 +129,19 @@ export default function inlineToolbarPlugin (options = {}) {
      * Match a command to the inline or block style to apply.
      *
      * @param  {String}   command The command-as-string as passed by Draft.
-     * @param  {Function} options.getEditorState Getter for the current editorState
+     * @param  {EditorState} editorState The current editorState
      * @param  {Function} options.setEditorState Setter for the current editorState
      * @return {Boolean} Handled or not?
      */
-    handleKeyCommand: function handleKeyCommand (command, { getEditorState, setEditorState }) {
+    handleKeyCommand: function handleKeyCommand (command, editorState, { setEditorState }) {
       const formatter = formatters.find((item) => item.command === command)
       if (formatter) {
         setEditorState(
-          RichUtils.toggleInlineStyle(getEditorState(), formatter.style)
+          RichUtils.toggleInlineStyle(editorState, formatter.style)
         )
-        return true
+        return 'handled'
       }
-      return false
+      return 'not-handled'
     },
 
     /**
