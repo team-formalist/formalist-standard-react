@@ -141,7 +141,7 @@ class AtomicBlock extends React.Component {
       }
     )
 
-    // TODO Asses whether to remove this binding
+    // TODO Assess whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
       <div data-atomic className={styles.wrapper} data-debug-block-key={this.props.block.getKey()}>
