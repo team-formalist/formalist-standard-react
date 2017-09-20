@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import styles from './spinner.mcss'
+import * as styles from './styles'
 
 class Spinner extends Component {
   render () {

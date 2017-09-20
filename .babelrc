@@ -6,6 +6,7 @@
         "react"
       ],
       "plugins": [
+        "emotion",
         "transform-object-rest-spread",
         "transform-class-properties"
       ],

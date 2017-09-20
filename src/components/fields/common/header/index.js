@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import shallow from 'shallow-equals'
 import Label from '../../../ui/label'
 import classNames from 'classnames'
-import styles from './header.mcss'
+import * as styles from './styles'
 
 /**
  * A common header component for every field. Renders the label and an optional

@@ -10,7 +10,7 @@ import FieldHeader from '../common/header'
 import DatePicker from '../../ui/date-picker'
 
 // Import styles
-import styles from './date-field.mcss'
+import * as styles from './styles'
 
 /**
  * Date Field

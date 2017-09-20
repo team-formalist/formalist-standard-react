@@ -1,7 +1,7 @@
 import React from 'react'
 import Immutable from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import styles from './errors.mcss'
+import * as styles from './styles'
 
 /**
  * A common component for rendering errors for a field.

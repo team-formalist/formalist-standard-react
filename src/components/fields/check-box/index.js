@@ -9,7 +9,7 @@ import FieldHeader from '../common/header'
 import Checkbox from '../../ui/checkbox'
 
 // Import styles
-import styles from './check-box.mcss'
+import * as styles from './styles'
 
 /**
  * Base class for the `check_box`

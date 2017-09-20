@@ -9,7 +9,7 @@ import Popunder from '../popunder'
 import Input from '../input'
 
 // Styles
-import styles from './time-picker.mcss'
+import * as styles from './styles'
 
 const dateFormats = {
   time: 'HH:mm:ss',

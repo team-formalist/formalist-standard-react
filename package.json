@@ -5,17 +5,17 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --out-dir lib",
-    "postbuild": "yarn run copycss && yarn run lint",
-    "compile": "yarn run build",
-    "precompile": "yarn run clean",
-    "watch": "nodemon --watch src --exec 'yarn run build' --ext js,css,mcss",
-    "prepublish": "yarn run compile",
+    "postbuild": "npm run copycss && npm run lint",
+    "compile": "npm run build",
+    "precompile": "npm run clean",
+    "watch": "nodemon --watch src --exec 'npm run build' --ext js,css,mcss",
+    "prepublish": "npm run compile",
     "test": "NODE_ENV=test babel-node test | faucet",
-    "posttest": "yarn run lint",
+    "posttest": "npm run lint",
     "clean": "rm -rf ./lib/*",
     "copycss": "rsync -r ./src/* --include='*/' --include='*.mcss' --include='*.css' --exclude='*' lib",
     "lint": "eslint 'src/*.js' 'src/**/*.js' 'test/*.js' 'test/**/*.js'; exit 0",
-    "watchlint": "nodemon --watch src --exec 'yarn run lint'"
+    "watchlint": "nodemon --watch src --exec 'npm run lint'"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,6 @@
   },
   "homepage": "https://github.com/icelab/formalist-standard-react",
   "devDependencies": {
-    "@f/is-function": "^1.1.1",
     "autoprefixer": "^6.3.6",
     "babel-cli": "^6.9.0",
     "babel-eslint": "^7.2.2",
@@ -55,6 +54,7 @@
     "eslint-plugin-standard": "^2.0.1",
     "faucet": "0.0.1",
     "ignore-styles": "^1.2.0",
+    "isfunction": "^0.0.6",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^8.3.1",
     "nodemon": "^1.9.2",
@@ -63,6 +63,7 @@
   },
   "dependencies": {
     "attache-upload": "^2.1.1",
+    "babel-plugin-emotion": "^7.3.2",
     "classnames": "^2.2.5",
     "component-emitter": "1.2.1",
     "draft-js-ast-exporter": "^2.0.0",
@@ -71,6 +72,7 @@
     "draft-js-block-breakout-plugin": "^2.0.1",
     "draft-js-plugins-editor": "^2.0.0-rc3",
     "draft-js-single-line-plugin": "^2.0.1",
+    "emotion": "^7.3.2",
     "es6-promise": "^3.2.1",
     "formalist-compose": "^2.0.0",
     "formalist-data-object-renderer": "^1.0.0",
