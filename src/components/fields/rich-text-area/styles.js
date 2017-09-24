@@ -10,7 +10,5 @@ export const baseInline = css`
 `;
 
 export const header = css`
-  baseInline & {
-    padding-top: 0;
-  }
+  composes: ${fields.header};
 `;

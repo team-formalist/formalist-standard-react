@@ -4,7 +4,7 @@ import { List } from 'immutable'
 import ImmutablePropTypes from 'react-immutable-proptypes'
 import classNames from 'classnames'
 import validation from 'formalist-validation'
-import styles from './container.mcss'
+import * as styles from './styles'
 import { actions } from 'formalist-compose'
 const { deleteField, editField, validateField } = actions
 

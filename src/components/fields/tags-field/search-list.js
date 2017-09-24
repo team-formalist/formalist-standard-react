@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce'
 import search from '../../../utils/search'
 import keyCodes from '../../../utils/key-codes'
 
-import styles from './search-list.mcss'
+import * as styles from './search-list-styles'
 
 /**
  * Abort request if it exists

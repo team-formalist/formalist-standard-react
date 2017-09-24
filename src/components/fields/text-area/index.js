@@ -9,7 +9,7 @@ import FieldHeader from '../common/header'
 import TextBox from '../../ui/text-box'
 
 // Import styles
-import styles from './text-area.mcss'
+import * as styles from './styles'
 
 /**
  * Text Area field

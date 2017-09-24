@@ -11,9 +11,7 @@ composes: ${fields.baseInline};
 `
 
 export const header = css`
-  baseInline & {
-    padding-top: 0;
-  }
+  composes: ${fields.header};
 `;
 
 export const nowButton = css`

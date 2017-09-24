@@ -9,7 +9,7 @@ export const baseInline = css`
 `
 
 export const header = css`
-  baseInline & {
+  .${baseInline} & {
     flex: 1;
     padding-top: 1rem;
     padding-right: 1rem;
@@ -18,7 +18,7 @@ export const header = css`
 `
 
 export const display = css`
-  baseInline & {
+  .${baseInline} & {
     flex: 2;
   }
 `

@@ -13,7 +13,7 @@ import Spinner from '../../ui/spinner'
 import SearchList from './search-list'
 
 // Import styles
-import styles from './tags-field.mcss'
+import * as styles from './styles'
 
 /**
  * Tags field
