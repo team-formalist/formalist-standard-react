@@ -13,7 +13,7 @@ import Popout from '../../ui/popout'
 import SearchSelector, {searchMethod as search} from '../../ui/search-selector'
 
 // Import styles
-import styles from './search-multi-selection-field.mcss'
+import * as styles from './styles'
 
 /**
  * Default component for representing a "selected/selection" item

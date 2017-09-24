@@ -1,4 +1,4 @@
-import { css, keyframes } from "emotion";
+import { css } from "emotion";
 import { colours, typography } from "../styles";
 
 export const base = css``

@@ -1,13 +1,12 @@
 import { css } from 'emotion'
-import * as shared from "../shared-styles";
-import { colours, typography } from "../../ui/styles";
+import * as fields from "../field-styles";
 
 export const base = css`
-  composes: ${shared.base};
+  composes: ${fields.base};
 `
 
 export const baseInline = css`
-  composes: ${shared.baseInline};
+  composes: ${fields.baseInline};
 `
 
 export const header = css`

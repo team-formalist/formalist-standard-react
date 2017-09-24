@@ -12,7 +12,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 import Dropzone from '../../ui/dropzone'
 import validate from './validation.js'
-import styles from './index.mcss'
+import styles from './styles'
 import Sortable from '../../ui/sortable'
 import {hasImageFormatType, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
 import extractComponent from '../../../utils/extract-component'
@@ -760,7 +760,7 @@ class MultiUploadField extends React.Component {
     return (
       <div className={styles.previewItem} key={index}>
         <span
-          className={styles.progress_bar}
+          className={styles.progress__bar}
           style={currentProgress}>
           {this.renderPreviewDetails(file_name, thumbnailImage, true)}
         </span>

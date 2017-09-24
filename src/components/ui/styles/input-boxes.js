@@ -1,9 +1,9 @@
 import { css } from 'emotion'
-import colours from './colours'
-import typography from './typography'
+import * as colours from './colours'
+import * as typography from "./typography";
 
 export const inputBox = css`
-  composes: ${typography.sans} ${typography.sizes.normal} ${colours.primaryColor} ${colours.greyLightBorder} ${colours.greyTintBackground};
+  composes: ${typography.sans} ${typography.normal} ${colours.primaryColor} ${colours.greyLightBorder} ${colours.greyTintBackground};
   box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
   border-width: 0;
   border-top-width: 1px;
@@ -36,21 +36,21 @@ export const focus = css`
 /* Sizes */
 
 export const xsmall = css`
-  composes: ${typography.sizes.xSmall};
+  composes: ${typography.xSmall};
 `
 
 export const small = css`
-  composes: ${typography.sizes.small};
+  composes: ${typography.small};
 `
 
 export const normal = css`
-  composes: ${typography.sizes.normal};
+  composes: ${typography.normal};
 `
 
 export const large = css`
-  composes: ${typography.sizes.large};
+  composes: ${typography.large};
 `
 
 export const xlarge = css`
-  composes: ${typography.sizes.xLarge};
+  composes: ${typography.xLarge};
 `

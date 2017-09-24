@@ -1,17 +1,23 @@
 import { css } from 'emotion'
-import * as shared from "../shared-styles";
-import * as button from "../../ui/button/styles";
+import * as fields from "../field-styles";
+import { buttons } from "../../ui/styles";
 
 export const base = css`
-composes: ${shared.base};
+composes: ${fields.base};
 `
 
 export const baseInline = css`
-composes: ${shared.baseInline};
+composes: ${fields.baseInline};
 `
 
+export const header = css`
+  baseInline & {
+    padding-top: 0;
+  }
+`;
+
 export const nowButton = css`
-composes: ${button.small} ${button.buttonHighlight};
+composes: ${buttons.small} ${buttons.buttonHighlight};
 float: right;
 margin-top: -0.3rem;
 `

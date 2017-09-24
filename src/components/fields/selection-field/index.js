@@ -11,7 +11,7 @@ import FieldHeader from '../common/header'
 import Popout from '../../ui/popout'
 
 // Import styles
-import styles from './selection-field.mcss'
+import * as styles from './styles'
 
 /**
  * Default component for representing a "selected/selection" item

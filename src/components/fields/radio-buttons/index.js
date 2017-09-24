@@ -10,7 +10,7 @@ import FieldHeader from '../common/header'
 import RadioButton from '../../ui/radio-button'
 
 // Import styles
-import styles from './radio-buttons.mcss'
+import * as styles from './styles'
 
 /**
  * Radio Buttons field

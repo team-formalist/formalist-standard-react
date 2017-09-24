@@ -13,7 +13,7 @@ import Popout from '../../ui/popout'
 import Sortable from '../../ui/sortable'
 
 // Import styles
-import styles from './multi-selection-field.mcss'
+import * as styles from './styles'
 
 /**
  * Default component for representing a "selected/selection" item

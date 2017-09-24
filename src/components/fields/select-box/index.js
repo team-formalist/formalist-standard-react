@@ -9,7 +9,7 @@ import FieldHeader from '../common/header'
 import Select from '../../ui/select'
 
 // Import styles
-import styles from './select-box.mcss'
+import * as styles from './styles'
 
 /**
  * Select Box field

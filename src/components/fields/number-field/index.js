@@ -10,7 +10,7 @@ import FieldHeader from '../common/header'
 import Input from '../../ui/input'
 
 // Import styles
-import styles from './number-field.mcss'
+import * as styles from './styles'
 
 /**
  * Number field

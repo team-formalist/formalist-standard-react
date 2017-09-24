@@ -11,7 +11,7 @@ import FieldErrors from '../common/errors'
 import FieldHeader from '../common/header'
 
 // Import styles
-import styles from './rich-text-area.mcss'
+import * as styles from './styles'
 import RichTextEditor from '../../ui/rich-text-editor'
 
 // HTML

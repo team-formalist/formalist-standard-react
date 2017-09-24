@@ -1,5 +1,6 @@
 import { css } from 'emotion'
-import { colours, typography } from "../styles";
+import * as colours from './colours'
+import * as typography from "./typography";
 
 export const button = css`
   composes: ${typography.sans};
