@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ImmutablePropTypes from 'react-immutable-proptypes'
-import styles from './section-styles'
+import * as styles from './section-styles'
 
 class Section extends React.Component {
   static propTypes = {
@@ -21,7 +21,6 @@ class Section extends React.Component {
   }
 
   render () {
-    console.log(styles)
     let label = this.props.attributes.get('label') || this.props.name.replace(/_/, ' ')
     return (
       <section className={styles.base}>

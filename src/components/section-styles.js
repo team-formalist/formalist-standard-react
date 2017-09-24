@@ -1,16 +1,13 @@
 import { css } from 'emotion'
+import { colours, typography } from "./ui/styles";
 
-const base = css`
+export const base = css`
   margin-bottom: 5rem;
 `
 
-const label = css`
-  border-bottom: 3px solid #36c;
+export const label = css`
+  composes: ${typography.headerSmallCaps};
+  border-bottom: 3px solid ${colours.values.greyTint};
   margin-bottom: 1.8rem;
   padding-bottom: 1.8rem;
 `
-
-export default {
-  base,
-  label,
-}
