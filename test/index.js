@@ -1,7 +1,7 @@
 import test from 'tape'
 import { mount } from 'enzyme'
 import React from 'react'
-import isFunction from '@f/is-function'
+import isFunction from 'isfunction'
 
 /* fixtures */
 import './fixtures/ignore-styles'
