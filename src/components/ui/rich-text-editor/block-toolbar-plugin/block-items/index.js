@@ -92,7 +92,7 @@ class BlockItems extends React.Component {
   static propTypes = {
     currentBlockType: PropTypes.string,
     itemsGroups: PropTypes.array,
-    editableBlockTypes: React.PropTypes.array,
+    editableBlockTypes: PropTypes.array,
     editorState: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
   };
