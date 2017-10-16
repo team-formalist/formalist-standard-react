@@ -12,7 +12,7 @@ import createBlockToolbarPlugin from './block-toolbar-plugin'
 import createInlineToolbarPlugin from './inline-toolbar-plugin'
 import createSoftNewlinesKeyboardPlugin from './soft-newlines-keyboard-plugin'
 // Styles
-import styles from './rich-text-editor.mcss'
+import * as styles from './styles'
 import './tmp.css'
 
 /**
@@ -166,12 +166,13 @@ class RichTextEditor extends React.Component {
     if (!contentState.hasText()) {
       placeholderBlockType = contentState.getBlockMap().first().getType()
     }
+    const placeholderBlockTypeCapitalized = placeholderBlockType.charAt(0).toUpperCase() + placeholderBlockType.substr(1);
 
     // Set up content wrapper classes
     let contentClassNames = classNames(
       styles.content,
       {
-        [`${styles['contentPlaceholder--' + placeholderBlockType]}`]: (placeholderBlockType && styles['contentPlaceholder--' + placeholderBlockType]),
+        [`${styles['contentPlaceholder' + placeholderBlockTypeCapitalized]}`]: (placeholderBlockType && styles['contentPlaceholder' + placeholderBlockTypeCapitalized]),
       }
     )
 

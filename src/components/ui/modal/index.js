@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Portal from '../portal'
-import styles from './modal.mcss'
+import * as styles from './styles'
 
 /**
  * A 'modal' component.

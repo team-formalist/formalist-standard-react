@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import uid from 'uid'
 import classNames from 'classnames'
-import styles from './radio-button.mcss'
+import * as styles from './styles'
 
 /**
  * RadioButton
