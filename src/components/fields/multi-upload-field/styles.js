@@ -63,7 +63,7 @@ export const listItem__title = css`
   white-space: nowrap;
   line-height: 40px;
   a {
-    color: ${colours.value.highlight};
+    color: ${colours.values.highlight};
   }
 `
 

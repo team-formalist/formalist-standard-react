@@ -5,7 +5,7 @@ import {
   Entity,
 } from 'draft-js'
 import createDataObjectRenderer from 'formalist-data-object-renderer'
-import styles from './form-items.mcss'
+import * as styles from './styles'
 
 // Initialise the dataObjectRenderer
 const dataObjectRenderer = createDataObjectRenderer()

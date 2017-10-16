@@ -19,7 +19,7 @@ export const dropzone = css`
   &:hover {
     cursor: pointer;
   }
-```
+`
 
 export const dropzone__empty = css`
   position: relative;

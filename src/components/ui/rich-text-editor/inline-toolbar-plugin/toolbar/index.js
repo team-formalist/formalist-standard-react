@@ -5,10 +5,10 @@ import {
   getVisibleSelectionRect,
   RichUtils,
 } from 'draft-js'
-import {getSelectedEntityKey} from '../utils'
+import {getSelectedEntityKey} from '../../utils'
 // Components
-import Popout from '../../popout'
-import InlineToolbarItems from './items'
+import Popout from '../../../popout'
+import InlineToolbarItems from '../items'
 // Styles
 import * as styles from './styles'
 

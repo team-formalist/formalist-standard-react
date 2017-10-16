@@ -1,5 +1,5 @@
 import { css } from 'emotion'
-import { colours, typography } from "../ui/styles";
+import { breakpoints, colours, typography } from "../ui/styles";
 
 export const group = css``
 
