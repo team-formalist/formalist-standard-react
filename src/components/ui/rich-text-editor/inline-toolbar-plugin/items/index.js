@@ -7,7 +7,7 @@ import {
   RichUtils,
 } from 'draft-js'
 import {getSelectedEntityTypes} from '../../utils'
-import styles from './items.mcss'
+import * as styles from './styles'
 
 class InlineToolbarItems extends Component {
   constructor (props) {

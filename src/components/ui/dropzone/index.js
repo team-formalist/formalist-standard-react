@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Dropzone from 'react-dropzone'
-import styles from './index.mcss'
+import * as styles from './styles'
 import classNames from 'classnames'
 
 export default class extends React.Component {

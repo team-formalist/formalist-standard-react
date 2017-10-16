@@ -1,7 +1,7 @@
-@value styles: 'formalist-theme/theme/index.mcss';
-@value greyLight, greyMid, highlight: from styles;
+import { css } from 'emotion'
+import { colours, typography } from "../../../styles";
 
-.positioner {
+export const positioner = css`
   left: 50%;
   position: absolute;
   transform: translate(-50%, 0);
@@ -9,36 +9,34 @@
   transition-property: top;
   transition-duration: 50ms;
   width: 0;
-}
+`
 
-.iconWrapper {
+export const iconWrapper = css`
   align-items: center;
   display: flex;
-  fill: greyMid;
+  fill: ${colours.values.greyMid};
   height: 16px;
   width: 16px;
   margin-left: auto;
   margin-right: auto;
-}
-  .iconWrapper svg {
+  svg {
     margin-left: auto;
     margin-right: auto;
   }
+`
 
-
-.toggle {
-  composes: greyMidColor from styles;
+export const toggle = css`
+  composes: ${colours.greyMidColor};
   padding: 1rem 1.4rem 1rem 0.9rem;
   position: relative;
   transform: translate(-50%, 0);
-}
-  .toggle:hover,
-  .toggle:hover:after {
-    color: highlight;
-    border-top-color: highlight;
+  &:hover,
+  &:hover:after {
+    color: ${colours.values.highlight};
+    border-top-color: ${colours.values.highlight};
   }
 
-  .toggle:after {
+  &:after {
     top: 50%;
     right: 0.3rem;
     border: solid transparent;
@@ -48,16 +46,17 @@
     position: absolute;
     pointer-events: none;
     border-color: transparent;
-    border-top-color: greyLight;
+    border-top-color: ${colours.values.greyLight};
     border-width: 0.3em;
     margin-left: -0.3em;
     margin-top: -0.1em;
   }
+`
 
-.toggleText {
+export const toggleText = css`
   display: none;
-}
+`
 
-.buttonsWrapper {
+export const buttonsWrapper = css`
   display: flex;
-}
+`

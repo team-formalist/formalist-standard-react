@@ -5,10 +5,10 @@ import {
 } from 'draft-js'
 import uid from 'uid'
 // Components
-import Input from '../../../input'
-import Checkbox from '../../../checkbox'
-import Label from '../../../label'
-import styles from './link.mcss'
+import Input from '../../../../input'
+import Checkbox from '../../../../checkbox'
+import Label from '../../../../label'
+import * as styles from './styles'
 
 class Link extends Component {
   render () {

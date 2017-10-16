@@ -10,7 +10,7 @@ import {getSelectedEntityKey} from '../utils'
 import Popout from '../../popout'
 import InlineToolbarItems from './items'
 // Styles
-import styles from './toolbar.mcss'
+import * as styles from './styles'
 
 /**
  * Inline Toolbar

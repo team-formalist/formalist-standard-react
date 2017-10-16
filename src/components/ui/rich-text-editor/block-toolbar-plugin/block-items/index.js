@@ -8,7 +8,7 @@ import {
   RichUtils,
 } from 'draft-js'
 import {List} from 'immutable'
-import styles from './block-items.mcss'
+import * as styles from './styles'
 
 /**
  * Find the current block type to apply from the list of `types`, rotating

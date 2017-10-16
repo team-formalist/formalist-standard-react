@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import withoutKeys from '../../../utils/without-keys'
-import styles from './text-box.mcss'
+import * as styles from './styles'
 
 // Components
 import Textarea from 'react-textarea-autosize'

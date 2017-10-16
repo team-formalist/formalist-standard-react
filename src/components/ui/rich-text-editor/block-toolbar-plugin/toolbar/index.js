@@ -4,11 +4,11 @@ import {
   RichUtils,
 } from 'draft-js'
 // Components
-import Popout from '../../popout'
-import BlockItems from './block-items'
-import FormItems from './form-items'
+import Popout from '../../../popout'
+import BlockItems from '../block-items'
+import FormItems from '../form-items'
 // Styles
-import styles from './toolbar.mcss'
+import * as styles from './styles'
 
 /**
  * Block Toolbar
