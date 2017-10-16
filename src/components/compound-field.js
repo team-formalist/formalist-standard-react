@@ -1,7 +1,10 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import { css } from 'emotion'
 
-import styles from './compound-field.mcss'
+const styles = {
+  base: css``,
+}
 
 const CompoundField = ({children}) => {
   return (

@@ -2,9 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import triggerEvent from 'trigger-event'
 
-// import classNames from 'classnames'
-// import styles from './index.mcss'
-
 export default class extends React.Component {
   /**
    * displayName

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React from 'react'
 import PropTypes from 'prop-types'
-import Portal from 'react-portal'
+import Portal from '../portal'
 import styles from './popout.mcss'
 
 const arrowVertPosition = 16
@@ -191,7 +191,7 @@ class Popout extends React.Component {
     }
 
     // Extract the elements based on `ref` values. The actual portal element is
-    // nested within the react-portal instance as it gets rendered out of
+    // nested within the portal instance as it gets rendered out of
     // context
     const portalEl = this._portal.portal
     const referenceEl = this._reference

@@ -9,7 +9,7 @@ import Input from '../input'
 import Popunder from '../popunder'
 
 // Styles
-import styles from './date-picker.mcss'
+import * as styles from './styles'
 
 // Set up simple localeUtils that always sets first day of week to Monday
 const localeUtils = Object.assign({}, LocaleUtils, {getFirstDayOfWeek: (locale) => 1})

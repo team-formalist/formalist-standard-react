@@ -1,7 +1,10 @@
 import React from 'react'
 import ImmutablePropTypes from 'react-immutable-proptypes'
+import { css } from 'emotion'
 
-import styles from './attr.mcss'
+const styles = {
+  base: css``,
+}
 
 const Attr = ({children}) => {
   return (

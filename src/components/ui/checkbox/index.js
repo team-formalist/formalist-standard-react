@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import uid from 'uid'
 import classNames from 'classnames'
-import styles from './checkbox.mcss'
+import * as styles from './styles'
 
 /**
  * Checkbox

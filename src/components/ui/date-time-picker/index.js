@@ -8,7 +8,7 @@ import DatePicker from '../date-picker'
 import TimePicker from '../time-picker'
 
 // Styles
-import styles from './date-time-picker.mcss'
+import * as styles from './styles'
 
 export const dateFormats = {
   utc: 'YYYY-MM-DDTHH:mm:ssZ',
