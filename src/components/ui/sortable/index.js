@@ -6,7 +6,7 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import Item from './item'
 
-import styles from './sortable.mcss'
+import * as styles from './styles'
 
 /**
  * Container for a sortable set of items

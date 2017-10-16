@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import styles from './pagination.mcss'
+import * as styles from './styles'
 
 class Pagination extends Component {
   nextPage () {

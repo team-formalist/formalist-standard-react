@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import classNames from 'classnames'
 
-import styles from './item.mcss'
+import * as styles from './styles'
 
 /**
  * Item: DragSource methods

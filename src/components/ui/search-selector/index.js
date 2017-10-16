@@ -6,7 +6,7 @@ import search from '../../../utils/search'
 import Pagination from './pagination'
 import Spinner from '../spinner'
 
-import styles from './search-selector.mcss'
+import * as styles from './styles'
 
 function abortCurrentSearch (req) {
   if (req && req.abort) {
