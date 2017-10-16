@@ -2,7 +2,7 @@ import { css, injectGlobal } from 'emotion'
 import { colours, inputBoxes, typography } from "../styles";
 
 export const base = css`
-  composes: ${inputBoxes.inputBox};
+  ${inputBoxes.inputBox};
   display: flex;
   padding: 0;
 `

@@ -3,7 +3,11 @@ import * as colours from './colours'
 import * as typography from "./typography";
 
 export const inputBox = css`
-  composes: ${typography.sans} ${typography.normal} ${colours.primaryColor} ${colours.greyLightBorder} ${colours.greyTintBackground};
+  ${typography.sans};
+  ${typography.normal};
+  ${colours.primaryColor};
+  ${colours.greyLightBorder};
+  ${colours.greyTintBackground};
   box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
   border-width: 0;
   border-top-width: 1px;
@@ -19,14 +23,18 @@ export const inputBox = css`
 /* States */
 
 export const error = css`
-  composes: ${colours.errorColor} ${colours.errorBorder} ${colours.errorLightBackground};
+  ${colours.errorColor};
+  ${colours.errorBorder};
+  ${colours.errorLightBackground};
   &::placeholder {
     color: rgba(0,0,0,0.2);
   }
 `
 
 export const focus = css`
-  composes: ${colours.darkBlendColor} ${colours.highlightBorder} ${colours.highlightLightBackground};
+  ${colours.darkBlendColor};
+  ${colours.highlightBorder};
+  ${colours.highlightLightBackground};
   outline: none;
   &::placeholder {
     color: ${colours.lightBlend};
@@ -36,21 +44,21 @@ export const focus = css`
 /* Sizes */
 
 export const xsmall = css`
-  composes: ${typography.xSmall};
+  ${typography.xSmall};
 `
 
 export const small = css`
-  composes: ${typography.small};
+  ${typography.small};
 `
 
 export const normal = css`
-  composes: ${typography.normal};
+  ${typography.normal};
 `
 
 export const large = css`
-  composes: ${typography.large};
+  ${typography.large};
 `
 
 export const xlarge = css`
-  composes: ${typography.xLarge};
+  ${typography.xLarge};
 `

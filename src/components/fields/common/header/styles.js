@@ -11,9 +11,11 @@ export const label = css`
 `
 
 export const hint = css`
-  composes: ${colours.greyLightColor} ${typography.small} ${typography.sans};
+  ${colours.greyLightColor};
+${typography.small};
+${typography.sans};
 `
 
 export const error = css`
-  composes: ${colours.errorColor};
+  ${colours.errorColor};
 `

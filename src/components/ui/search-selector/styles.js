@@ -13,7 +13,8 @@ export const list = css`
 `
 
 export const search = css`
-  composes: ${typography.normal} ${typography.sans};
+  ${typography.normal};
+  ${typography.sans};
   appearance: none;
   box-sizing: border-box;
   border: none;
@@ -57,7 +58,9 @@ export const resultsLoading = css`
 `
 
 export const pagination = css`
-  composes: ${typography.normal} ${typography.sans} ${colours.greyTintBorder};
+  ${typography.normal};
+  ${typography.sans};
+  ${colours.greyTintBorder};
   box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.05);
   border-width: 0;
   border-top-width: 1px;
@@ -67,7 +70,10 @@ export const pagination = css`
 `
 
 export const optionButton = css`
-  composes: ${typography.small} ${typography.sans} ${colours.greyTintBorder} ${colours.whiteBackground};
+  ${typography.small};
+  ${typography.sans};
+  ${colours.greyTintBorder};
+  ${colours.whiteBackground};
   border-width: 0;
   border-bottom-width: 1px;
   border-top-width: 1px;
@@ -84,7 +90,8 @@ export const optionButton = css`
 `
 
 export const optionButtonSelected = css`
-  composes: ${colours.highlightLightBackground} ${colours.highlightDarkColor};
+  ${colours.highlightLightBackground};
+  ${colours.highlightDarkColor};
   border-color: color(#7fc2ea tint(40%));
   position: relative;
   z-index: 1;

@@ -6,7 +6,10 @@ export const base = css``
 /* Time picker */
 
 export const button = css`
-  composes: ${typography.small} ${typography.sans} ${colours.greyTintBorder} ${colours.whiteBackground};
+  ${typography.small};
+  ${typography.sans};
+  ${colours.greyTintBorder};
+  ${colours.whiteBackground};
   appearance: none;
   border-style: solid;
   border-width: 0;
@@ -21,5 +24,5 @@ export const button = css`
 `
 
 export const buttonActive = css`
-  composes: ${colours.highlightLightBackground};
+  ${colours.highlightLightBackground};
 `

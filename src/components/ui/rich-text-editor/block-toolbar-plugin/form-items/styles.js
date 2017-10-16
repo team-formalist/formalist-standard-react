@@ -2,7 +2,7 @@ import { css } from 'emotion'
 import { colours, typography } from "../../../styles";
 
 export const container = css`
-  composes: ${colours.greyLightBorder};
+  ${colours.greyLightBorder};
   border-style: solid;
   border-left-width: 1px;
   flex: 1;
@@ -14,7 +14,7 @@ export const list = css`
 `
 
 export const button = css`
-  composes: ${typography.sans};
+  ${typography.sans};
   display: block;
   padding: 0.4em 0.8em;
   white-space: nowrap;

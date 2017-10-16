@@ -33,38 +33,38 @@ export const labelFocus = css`
 `
 
 export const select = css`
-  composes: ${inputBoxes.inputBox};
+  ${inputBoxes.inputBox};
   appearance: none;
 `
 
 /* States */
 
 export const error = css`
-  composes: ${inputBoxes.error};
+  ${inputBoxes.error};
 `
 
 export const focus = css`
-  composes: ${inputBoxes.focus};
+  ${inputBoxes.focus};
 `
 
 /* Sizes */
 
 export const xsmall = css`
-  composes: ${inputBoxes.xsmall};
+  ${inputBoxes.xsmall};
 `
 
 export const small = css`
-  composes: ${inputBoxes.small};
+  ${inputBoxes.small};
 `
 
 export const normal = css`
-  composes: ${inputBoxes.normal};
+  ${inputBoxes.normal};
 `
 
 export const large = css`
-  composes: ${inputBoxes.large};
+  ${inputBoxes.large};
 `
 
 export const xlarge = css`
-  composes: ${inputBoxes.xlarge};
+  ${inputBoxes.xlarge};
 `

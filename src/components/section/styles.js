@@ -6,7 +6,7 @@ export const base = css`
 `
 
 export const label = css`
-  composes: ${typography.headerSmallCaps};
+  ${typography.headerSmallCaps};
   border-bottom: 3px solid ${colours.values.greyLight};
   margin-bottom: 1.8rem;
   padding-bottom: 1.8rem;

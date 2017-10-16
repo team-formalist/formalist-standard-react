@@ -3,24 +3,24 @@ import * as fields from "../field-styles";
 import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
 
 export const base = css`
-  composes: ${fields.base};
+  ${fields.base};
 `;
 
 export const baseInline = css`
-  composes: ${fields.baseInline};
+  ${fields.baseInline};
 `;
 
 export const header = css`
-  composes: ${fields.header};
+  ${fields.header};
 `;
 
 export const display = css`
-  composes: ${inputBoxes.inputBox};
+  ${inputBoxes.inputBox};
   padding-bottom: 0.3em;
 `
 
 export const displayFocus = css`
-  composes: ${inputBoxes.focus};
+  ${inputBoxes.focus};
 `
 
 export const tagList = css`
@@ -29,7 +29,11 @@ export const tagList = css`
 `
 
 export const tag = css`
-  composes: ${buttons.button} ${buttons.normal} ${colours.greyMidBorder} ${colours.primaryColor} ${colours.whiteBackground};
+  ${buttons.button};
+  ${buttons.normal};
+  ${colours.greyMidBorder};
+  ${colours.primaryColor};
+  ${colours.whiteBackground};
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 `
@@ -54,7 +58,7 @@ export const tagInputWrapperNoSearch = css`
 `
 
 export const tagInput = css`
-  composes: ${typography.normal};
+  ${typography.normal};
   border: none;
   background: transparent;
   padding: 0.4em 0;

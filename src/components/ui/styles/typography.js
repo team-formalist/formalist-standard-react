@@ -23,7 +23,7 @@ export const sans = css`
 `
 
 export const sansBold = css`
-  composes: ${sans};
+  ${sans};
   font-weight: ${fonts.weights.sansBold};
 `
 
@@ -78,6 +78,8 @@ export const uppercase = css`
 /* Headers */
 
 export const headerSmallCaps = css`
-  composes: ${sansBold} ${xsmall} ${uppercase};
+  ${sansBold};
+  ${xsmall};
+  ${uppercase};
   letter-spacing: 0.12em
 `

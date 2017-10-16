@@ -3,15 +3,15 @@ import * as fields from "../field-styles";
 import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
 
 export const base = css`
-  composes: ${fields.base};
+  ${fields.base};
 `
 
 export const baseInline = css`
-  composes: ${fields.baseInline};
+  ${fields.baseInline};
 `
 
 export const header = css`
-  composes: ${fields.header};
+  ${fields.header};
 `;
 
 export const parent = css`
@@ -19,14 +19,16 @@ export const parent = css`
 `
 
 export const listItem = css`
-  composes: ${colours.greyLightColor} ${typography.small} ${typography.sans};
+  ${colours.greyLightColor};
+  ${typography.small};
+  ${typography.sans};
   box-sizing: border-box;
   position: relative;
   width: 100%;
 `
 
 export const previewItem = css`
-  composes: ${listItem};
+  ${listItem};
   background: greyTint;
   border-radius: 0.25em;
   overflow: hidden;
@@ -58,7 +60,7 @@ export const listItem__img = css`
 `
 
 export const listItem__title = css`
-  composes: ${typography.lineHeightNormal};
+  ${typography.lineHeightNormal};
   overflow: hidden;
   white-space: nowrap;
   line-height: 40px;
@@ -68,7 +70,7 @@ export const listItem__title = css`
 `
 
 export const progress__title = css`
-  composes: ${listItem__title};
+  ${listItem__title};
   color: ${colours.values.white};
 `
 
@@ -86,7 +88,10 @@ export const progress__bar = css`
 `
 
 export const validationMessage = css`
-  composes: ${typography.sans} ${typography.normal} ${colours.errorColor} ${colours.errorLightBackground};
+  ${typography.sans};
+  ${typography.normal};
+  ${colours.errorColor};
+  ${colours.errorLightBackground};
   margin-bottom: 5px;
   padding: 8px 50px 8px 8px;
   position: relative;
@@ -94,7 +99,7 @@ export const validationMessage = css`
 `
 
 export const remove = css`
-  composes: ${colours.primaryColor};
+  ${colours.primaryColor};
   appearance: none;
   background-color: transparent;
   border: none;
@@ -118,7 +123,8 @@ export const removeText = css`
 `
 
 export const removeX = css`
-  composes: ${typography.fallback} ${typography.large};
+  ${typography.fallback};
+  ${typography.large};
   &:hover {
     color: ${colours.values.error};
   }

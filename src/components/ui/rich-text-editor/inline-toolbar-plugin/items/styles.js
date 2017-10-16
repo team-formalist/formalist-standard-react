@@ -8,13 +8,14 @@ export const list = css`
 `
 
 export const button = css`
-  composes: ${colours.greyMidColor};
+  ${colours.greyMidColor};
   display: block;
   padding: 0.8em 0.4em;
 `
 
 export const buttonActive = css`
-  composes: ${colours.primaryColor} ${typography.sansBold};
+  ${colours.primaryColor};
+${typography.sansBold};
 `
 
 export const iconWrapper = css`

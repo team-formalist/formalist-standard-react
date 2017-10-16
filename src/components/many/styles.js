@@ -12,26 +12,26 @@ export const header = css`
 `
 
 export const label = css`
-  composes: ${typography.headerSmallCaps};
+  ${typography.headerSmallCaps};
   margin-right: auto;
 `
 export const labelErrors = css`
-  composes: ${colours.errorColor};
+  ${colours.errorColor};
 `
 
 export const placeholder = css`
-  composes: ${inputBoxes.inputBox};
+  ${inputBoxes.inputBox};
 `
 
 export const placeholderText = css`
-  composes: ${colours.greyMidColor};
+  ${colours.greyMidColor};
   display: inline-block;
   padding-top: 0.3rem;
   padding-bottom: 0.4rem;
   margin-right: 0.5rem;
 `
 export const placeholderButton = css`
-  composes: ${colours.highlightDarkColor};
+  ${colours.highlightDarkColor};
   text-decoration: underline;
 `
 
@@ -40,7 +40,8 @@ export const controls = css`
 `
 
 export const addButton = css`
-  composes: ${buttons.small} ${buttons.buttonHighlight};
+  ${buttons.small};
+${buttons.buttonHighlight};
 `
 
 export const set = css`

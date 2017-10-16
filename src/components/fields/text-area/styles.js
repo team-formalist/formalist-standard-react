@@ -3,17 +3,17 @@ import * as fields from "../field-styles";
 import { typography } from "../../ui/styles";
 
 export const base = css`
-  composes: ${fields.base};
+  ${fields.base};
 `;
 
 export const baseInline = css`
-  composes: ${fields.baseInline};
+  ${fields.baseInline};
 `;
 
 export const header = css`
-  composes: ${fields.header};
+  ${fields.header};
 `;
 
 export const code = css`
-  composes: ${typography.mono};
+  ${typography.mono};
 `

@@ -2,13 +2,13 @@ import { css } from 'emotion'
 import * as fields from "../field-styles";
 
 export const base = css`
-  composes: ${fields.base};
+  ${fields.base};
 `;
 
 export const baseInline = css`
-  composes: ${fields.baseInline};
+  ${fields.baseInline};
 `;
 
 export const header = css`
-  composes: ${fields.header};
+  ${fields.header};
 `;

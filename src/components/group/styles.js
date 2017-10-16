@@ -4,7 +4,7 @@ import { breakpoints, colours, typography } from "../ui/styles";
 export const group = css``
 
 export const label = css`
-  composes: ${typography.headerSmallCaps};
+  ${typography.headerSmallCaps};
   margin-bottom: 1.8rem;
 `
 

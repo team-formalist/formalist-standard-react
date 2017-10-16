@@ -7,7 +7,7 @@ export const positioner = css`
 `
 
 export const entityWrapper = css`
-  composes: ${colours.greyTintBorder};
+  ${colours.greyTintBorder};
   border-top-width: 1px;
   border-top-style: solid;
   padding: 0.8rem 1rem 1rem;

@@ -11,7 +11,9 @@ import { buttons, colours, typography } from "../styles";
  */
 
 export const dropzone = css`
-  composes: ${colours.greyLightColor} ${typography.small} ${typography.sans};
+  ${colours.greyLightColor};
+  ${typography.small};
+  ${typography.sans};
   min-height: 71px;
   transition: background-color 0.3s;
   width: 100%;
@@ -109,7 +111,7 @@ export const dropzone__disable_hover = css``
  */
 
 export const dropzone__label = css`
-  composes: ${colours.greyLightColor};
+  ${colours.greyLightColor};
   display: inline-block;
   left: 50%;
   position: absolute;
@@ -141,7 +143,8 @@ export const dropzone__label = css`
  */
 
 export const dropzone__button = css`
-  composes: ${buttons.small} ${buttons.buttonHighlight};
+  ${buttons.small};
+  ${buttons.buttonHighlight};
   float: right;
   margin-top: -3.4rem;
 `

@@ -3,19 +3,19 @@ import * as fields from "../field-styles";
 import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
 
 export const base = css`
-  composes: ${fields.base};
+  ${fields.base};
 `
 
 export const baseInline = css`
-  composes: ${fields.baseInline};
+  ${fields.baseInline};
 `
 
 export const header = css`
-  composes: ${fields.header};
+  ${fields.header};
 `;
 
 export const display = css`
-  composes: ${inputBoxes.inputBox};
+  ${inputBoxes.inputBox};
 `
 
 export const wrapper = css`
@@ -29,12 +29,15 @@ export const wrapper = css`
 `
 
 export const selectionItems = css`
-  composes: ${typography.normal} ${typography.sans};
+  ${typography.normal};
+  ${typography.sans};
   margin-top: 1px;
 `
 
 export const selectionPlaceholder = css`
-  composes: ${colours.greyMidColor} ${typography.normal} ${typography.sans};
+  ${colours.greyMidColor};
+  ${typography.normal};
+  ${typography.sans};
   align-items: center;
   display: flex;
   flex: 1;
@@ -43,7 +46,8 @@ export const selectionPlaceholder = css`
 `
 
 export const openSelectorButton = css`
-  composes: ${buttons.small} ${buttons.buttonHighlight};
+  ${buttons.small};
+  ${buttons.buttonHighlight};
   margin-right: -0.3rem;
   margin-top: -0.2rem;
   margin-bottom: -0.4rem;
@@ -65,12 +69,15 @@ export const optionsList = css`
 `
 
 export const noResults = css`
-  composes: ${typography.normal} ${typography.sans};
+  ${typography.normal};
+  ${typography.sans};
   padding: 0.5em 1rem 0.7em;
 `
 
 export const search = css`
-  composes: ${typography.normal} ${typography.sans} ${colours.greyTintBorder};
+  ${typography.normal};
+  ${typography.sans};
+  ${colours.greyTintBorder};
   appearance: none;
   border-width: 0;
   border-bottom-width: 1px;
@@ -87,7 +94,10 @@ export const search = css`
 `
 
 export const optionButton = css`
-  composes: ${typography.normal} ${typography.sans} ${colours.greyTintBorder} ${colours.whiteBackground};
+  ${typography.normal};
+  ${typography.sans};
+  ${colours.greyTintBorder};
+  ${colours.whiteBackground};
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;

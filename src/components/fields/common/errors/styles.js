@@ -2,7 +2,10 @@ import { css } from "emotion";
 import { colours, typography } from "../../../ui/styles";
 
 export const base = css`
-  composes: ${colours.errorColor} ${typography.sans} ${typography.normal} ${typography.lineHeightNormal};
+  ${colours.errorColor};
+  ${typography.sans};
+  ${typography.normal};
+  ${typography.lineHeightNormal};
   margin-top: 0.6em;
 `;
 

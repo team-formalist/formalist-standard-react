@@ -2,7 +2,10 @@ import { css } from 'emotion'
 import { colours, typography } from "../../ui/styles";
 
 export const optionButton = css`
-  composes: ${typography.small} ${typography.sans} ${colours.greyTintBorder} ${colours.whiteBackground};
+  ${typography.small};
+  ${typography.sans};
+  ${colours.greyTintBorder};
+  ${colours.whiteBackground};
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;

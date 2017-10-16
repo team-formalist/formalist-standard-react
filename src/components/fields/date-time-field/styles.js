@@ -3,19 +3,20 @@ import * as fields from "../field-styles";
 import { buttons } from "../../ui/styles";
 
 export const base = css`
-composes: ${fields.base};
+  ${fields.base};
 `
 
 export const baseInline = css`
-composes: ${fields.baseInline};
+  ${fields.baseInline};
 `
 
 export const header = css`
-  composes: ${fields.header};
+  ${fields.header};
 `;
 
 export const nowButton = css`
-composes: ${buttons.small} ${buttons.buttonHighlight};
+  ${buttons.small};
+${buttons.buttonHighlight};
 float: right;
 margin-top: -0.3rem;
 `

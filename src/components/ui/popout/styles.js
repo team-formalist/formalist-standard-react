@@ -9,7 +9,10 @@ export const positioner = css`
 `
 
 export const container = css`
-  composes: ${typography.normal} ${typography.sans} ${colours.whiteBackground} ${popovers.popover};
+  ${typography.normal};
+  ${typography.sans};
+  ${colours.whiteBackground};
+  ${popovers.popover};
   border-radius: 3px;
   position: absolute;
 `

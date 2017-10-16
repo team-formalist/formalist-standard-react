@@ -12,7 +12,7 @@ export const caret = css`
 `
 
 export const container = css`
-  composes: ${colours.whiteBackground};
+  ${colours.whiteBackground};
   margin-bottom: 1.5rem;
   outline: 3px transparent solid;
   transition-property: outline;
@@ -24,7 +24,7 @@ export const containerSelected = css`
 `
 
 export const header = css`
-  composes: ${colours.greyTintBorder};
+  ${colours.greyTintBorder};
   border-bottom-width: 1px;
   border-bottom-style: solid;
   align-items: center;
@@ -32,7 +32,8 @@ export const header = css`
   padding: 0.5rem 1.5rem;
 `
 export const label = css`
-  composes: ${typography.small} ${colours.greyMidColor};
+  ${typography.small};
+  ${colours.greyMidColor};
   margin-left: 0;
   margin-right: auto;
 `
@@ -43,7 +44,7 @@ export const toolbar = css`
 `
 
 export const remove = css`
-  composes: ${colours.primaryColor};
+  ${colours.primaryColor};
   appearance: none;
   background-color: transparent;
   border: none;
@@ -61,7 +62,8 @@ export const removeText = css`
 `
 
 export const removeX = css`
-  composes: ${typography.fallback} ${typography.large};
+  ${typography.fallback};
+  ${typography.large};
   &:hover {
     color: ${colours.values.error};
   }

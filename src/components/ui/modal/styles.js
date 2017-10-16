@@ -26,7 +26,9 @@ export const closeText = css`
   display: none;
 `
 export const closeX = css`
-  composes: ${typography.fallback} ${typography.large} ${colours.primaryColor};
+  ${typography.fallback};
+  ${typography.large};
+  ${colours.primaryColor};
   cursor: pointer;
   padding: 1rem;
   &:hover {
@@ -35,7 +37,7 @@ export const closeX = css`
 `
 
 export const overlay = css`
-  composes: ${colours.lightBlendBackground};
+  ${colours.lightBlendBackground};
   border: none;
   bottom: 0;
   height: 100%;

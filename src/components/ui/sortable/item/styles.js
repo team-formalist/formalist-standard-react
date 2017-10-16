@@ -2,7 +2,8 @@ import { css } from 'emotion'
 import { colours, typography } from "../../styles";
 
 export const base = css`
-  composes: ${colours.whiteBackground} ${colours.greyLightBorder};
+  ${colours.whiteBackground};
+  ${colours.greyLightBorder};
   border-style: solid;
   border-width: 1px;
   display: flex;
@@ -28,7 +29,7 @@ export const controlsVertical = css`
 `
 
 export const handle = css`
-  composes: ${colours.primaryColor};
+  ${colours.primaryColor};
   appearance: none;
   background-color: transparent;
   border: none;
@@ -78,7 +79,8 @@ export const handleLine = css`
 `
 
 export const removeX = css`
-  composes: ${typography.fallback} ${typography.large};
+  ${typography.fallback};
+  ${typography.large};
   &:hover {
     color: ${colours.values.error};
   }

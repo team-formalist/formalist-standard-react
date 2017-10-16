@@ -26,7 +26,7 @@ export const iconWrapper = css`
 `
 
 export const toggle = css`
-  composes: ${colours.greyMidColor};
+  ${colours.greyMidColor};
   padding: 1rem 1.4rem 1rem 0.9rem;
   position: relative;
   transform: translate(-50%, 0);

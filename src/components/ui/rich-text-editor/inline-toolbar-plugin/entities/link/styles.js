@@ -6,7 +6,8 @@ export const displayWrapper = css`
 `
 
 export const handlerUrl = css`
-  composes: ${typography.mono} ${colours.primaryColor};
+  ${typography.mono};
+  ${colours.primaryColor};
   max-width: 25rem;
   white-space: nowrap;
   overflow: hidden;
@@ -32,7 +33,7 @@ export const fieldCheckbox = css`
 `
 
 export const label = css`
-  composes: ${typography.small};
+  ${typography.small};
   text-align: right;
   padding-right: 1rem;
   width: 4rem;
@@ -45,11 +46,12 @@ export const actions = css`
 `
 
 export const saveButton = css`
-  composes: ${buttons.small} ${buttons.buttonHighlight};
+  ${buttons.small};
+${buttons.buttonHighlight};
 `
 
 export const editButton = css`
-  composes: ${colours.highlightColor};
+  ${colours.highlightColor};
   margin-left: 1.2rem;
   margin-right: 0.8rem;
   text-decoration: underline;
@@ -63,7 +65,9 @@ export const removeText = css`
 `
 
 export const removeX = css`
-  composes: ${colours.errorColor} ${typography.fallback} ${typography.large};
+  ${colours.errorColor};
+  ${typography.fallback};
+  ${typography.large};
   display: inline-block;
   line-height: 1rem;
   &:hover {

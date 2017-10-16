@@ -33,5 +33,5 @@ export const buttonText = css`
 `
 
 export const buttonArrow = css`
-  composes: ${typography.fallback};
+  ${typography.fallback};
 `
