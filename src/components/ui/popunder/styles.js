@@ -5,7 +5,7 @@ export const container = css`
   ${typography.normal};
   ${typography.sans};
   ${colours.whiteBackground};
-  ${typography.popover};
+  ${popovers.popover};
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   max-height: 20rem;
