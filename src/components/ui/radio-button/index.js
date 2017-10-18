@@ -87,12 +87,12 @@ class RadioButton extends React.Component {
             name={name}
             value={value}
             checked={defaultChecked}
-            disabled={this.state.focus}
-            onChange={onChange}
+            tabIndex={-1}
           />
           <label
             className={labelClassNames}
             htmlFor={this.state.id}
+            tabIndex={-1}
           >
             {label}
           </label>
