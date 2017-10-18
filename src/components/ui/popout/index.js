@@ -100,13 +100,13 @@ class Popout extends React.Component {
    */
   calculatePosition = () => {
     // Only bother if its rendered
-    if (!this._reference) {
+    const referenceEl = this._reference.firstChild || this._reference
+    if (!referenceEl) {
       return
     }
 
     let position
     const { placement } = this.props
-    const referenceEl = this._reference.firstChild || this._reference
     const referencePosition = referenceEl.getBoundingClientRect()
     const scrollX = window.scrollX
     const scrollY = window.scrollY
@@ -194,7 +194,7 @@ class Popout extends React.Component {
     // Extract the elements based on `ref` values. The actual portal element is
     // nested within the portal instance as it gets rendered out of
     // context
-    const portalEl = this._portal.portal
+    const portalEl = this._portal.getContainer()
     const referenceEl = this._reference
 
     if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {

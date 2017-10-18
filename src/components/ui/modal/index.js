@@ -90,7 +90,7 @@ class Modal extends React.Component {
     // Extract the elements based on `ref` values. The actual portal element is
     // nested within the portal instance as it gets rendered out of
     // context
-    const portalEl = this._portal.portal
+    const portalEl = this._portal.getContainer()
     const containerEl = this._container
 
     if ((portalEl && portalEl.contains(e.target)) || (containerEl && containerEl.contains(e.target))) {
