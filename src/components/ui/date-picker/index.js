@@ -82,7 +82,7 @@ class DatePicker extends React.Component {
     this._popunder.openPopunder()
   };
 
-  onDayClick = (e, day) => {
+  onDayClick = (day) => {
     let value = moment(day).format('l')
     this.setState({
       value: value,
@@ -95,7 +95,7 @@ class DatePicker extends React.Component {
 
   render () {
     let { id, className, error, placeholder } = this.props
-    let { value } = this.state
+    let { month, value } = this.state
     let selectedDay = moment(this.state.value, 'l', true).toDate()
 
     return (
@@ -118,7 +118,7 @@ class DatePicker extends React.Component {
               ref={(c) => { this._daypicker = c }}
               locale='en-AU'
               localeUtils={localeUtils}
-              initialMonth={this.state.month}
+              initialMonth={month}
               modifiers={{
                 selected: (day) => DateUtils.isSameDay(selectedDay, day),
               }}
