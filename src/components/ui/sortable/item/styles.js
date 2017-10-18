@@ -46,12 +46,12 @@ export const handle = css`
     color: ${colours.values.error};
   }
 `
-const remove = handle;
+export const remove = handle;
 
 export const handleText = css`
   display: none;
 `
-const removeText = handleText;
+export const removeText = handleText;
 
 export const handleLine = css`
   background-color: currentColor;
