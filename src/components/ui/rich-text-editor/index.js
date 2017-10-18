@@ -4,6 +4,8 @@ import classNames from 'classnames'
 import PluginsEditor from 'draft-js-plugins-editor'
 import Emitter from 'component-emitter'
 import {belongsToAtomicBlock} from './utils'
+import capitalize from '../../../utils/capitalize'
+
 // Plugins
 import createAutoListPlugin from 'draft-js-autolist-plugin'
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
@@ -166,13 +168,12 @@ class RichTextEditor extends React.Component {
     if (!contentState.hasText()) {
       placeholderBlockType = contentState.getBlockMap().first().getType()
     }
-    const placeholderBlockTypeCapitalized = placeholderBlockType.charAt(0).toUpperCase() + placeholderBlockType.substr(1);
 
     // Set up content wrapper classes
     let contentClassNames = classNames(
       styles.content,
       {
-        [`${styles['contentPlaceholder' + placeholderBlockTypeCapitalized]}`]: (placeholderBlockType && styles['contentPlaceholder' + placeholderBlockTypeCapitalized]),
+        [`${styles['contentPlaceholder' + capitalize(placeholderBlockType)]}`]: (placeholderBlockType && styles['contentPlaceholder' + capitalize(placeholderBlockType)]),
       }
     )
 

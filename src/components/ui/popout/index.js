@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Portal from '../portal'
+import capitalize from '../../../utils/capitalize'
 import * as styles from './styles'
 
 const arrowVertPosition = 16
@@ -258,15 +259,14 @@ class Popout extends React.Component {
     // AKA child.first
     let children = React.Children.toArray(this.props.children)
     let reference = children[0]
-    const placementCapitalized = placement.charAt(0).toUpperCase() + placement.substr(1);
 
     let containerClassNames = classNames(
       styles.container,
-      [`${styles['container' + placementCapitalized]}`]
+      [`${styles['container' + capitalize(placement)]}`]
     )
     let arrowClassNames = classNames(
       styles.containerArrow,
-      [`${styles['containerArrow' + placementCapitalized]}`]
+      [`${styles['containerArrow' + capitalize(placement)]}`]
     )
 
     return (
