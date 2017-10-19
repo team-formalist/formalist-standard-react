@@ -9,9 +9,6 @@
         "emotion",
         "transform-object-rest-spread",
         "transform-class-properties"
-      ],
-      "ignore": [
-        "src/**/*.mcss"
       ]
     },
     "test": {
@@ -20,15 +17,9 @@
         "react"
       ],
       "plugins": [
-        ["module-alias", [
-          { "src": "./src/components/ui", "expose": "formalist-theme" }
-        ]],
+        "emotion",
         "transform-object-rest-spread",
-        "transform-class-properties",
-        ["babel-plugin-css-modules-transform", {
-          "generateScopedName": "[name]__[local]___[hash:base64:5]",
-          "extensions": [".mcss"]
-        }]
+        "transform-class-properties"
       ]
     }
   }
