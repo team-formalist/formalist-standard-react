@@ -2,24 +2,18 @@
   "env": {
     "development": {
       "presets": [
-        "es2015",
-        "react"
+        "react-app"
       ],
       "plugins": [
-        "emotion",
-        "transform-object-rest-spread",
-        "transform-class-properties"
+        "emotion"
       ]
     },
     "test": {
       "presets": [
-        "es2015",
-        "react"
+        "react-app"
       ],
       "plugins": [
-        "emotion",
-        "transform-object-rest-spread",
-        "transform-class-properties"
+        "emotion"
       ]
     }
   }
