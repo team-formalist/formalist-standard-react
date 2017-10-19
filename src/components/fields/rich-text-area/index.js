@@ -116,7 +116,7 @@ class RichTextArea extends React.Component {
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
-        <div className={styles.display}>
+        <div className={styles.display} id={name}>
           <RichTextEditor
             editorState={editorState}
             config={config}
