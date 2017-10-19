@@ -11,8 +11,8 @@ import data from "./fixtures/data";
 
 import standardFormTemplate from "../src";
 
-import "./ui";
-import "./fields";
+require("./ui");
+require("./fields");
 
 // Configure enzyme
 configure({ adapter: new Adapter() });

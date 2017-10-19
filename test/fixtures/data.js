@@ -138,33 +138,9 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Text field"
-              ]
-            ]
-          ],
-          [
-            "hint",
-            [
-              "value",
-              [
-                "Text field hint"
-              ]
-            ]
-          ],
-          [
-            "placeholder",
-            [
-              "value",
-              [
-                "Text field placeholder"
-              ]
-            ]
-          ]
+          ["label", ["value", ["Text field"]]],
+          ["hint", ["value", ["Text field hint"]]],
+          ["placeholder", ["value", ["Text field placeholder"]]]
         ]
       ]
     ]
@@ -179,51 +155,11 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Number field"
-              ]
-            ]
-          ],
-          [
-            "placeholder",
-            [
-              "value",
-              [
-                "Number field placeholder"
-              ]
-            ]
-          ],
-          [
-            "step",
-            [
-              "value",
-              [
-                0.5
-              ]
-            ]
-          ],
-          [
-            "min",
-            [
-              "value",
-              [
-                10
-              ]
-            ]
-          ],
-          [
-            "max",
-            [
-              "value",
-              [
-                20
-              ]
-            ]
-          ]
+          ["label", ["value", ["Number field"]]],
+          ["placeholder", ["value", ["Number field placeholder"]]],
+          ["step", ["value", [0.5]]],
+          ["min", ["value", [10]]],
+          ["max", ["value", [20]]]
         ]
       ]
     ]
@@ -238,24 +174,8 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Checkbox"
-              ]
-            ]
-          ],
-          [
-            "question_text",
-            [
-              "value",
-              [
-                "Checkbox question?"
-              ]
-            ]
-          ]
+          ["label", ["value", ["Checkbox"]]],
+          ["question_text", ["value", ["Checkbox question?"]]]
         ]
       ]
     ]
@@ -270,71 +190,15 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Select box"
-              ]
-            ]
-          ],
+          ["label", ["value", ["Select box"]]],
           [
             "options",
             [
               "array",
               [
-                [
-                  "array",
-                  [
-                    [
-                      "value",
-                      [
-                        "1"
-                      ]
-                    ],
-                    [
-                      "value",
-                      [
-                        "One"
-                      ]
-                    ]
-                  ]
-                ],
-                [
-                  "array",
-                  [
-                    [
-                      "value",
-                      [
-                        "2"
-                      ]
-                    ],
-                    [
-                      "value",
-                      [
-                        "Two"
-                      ]
-                    ]
-                  ]
-                ],
-                [
-                  "array",
-                  [
-                    [
-                      "value",
-                      [
-                        "3"
-                      ]
-                    ],
-                    [
-                      "value",
-                      [
-                        "Three"
-                      ]
-                    ]
-                  ]
-                ]
+                ["array", [["value", ["1"]], ["value", ["One"]]]],
+                ["array", [["value", ["2"]], ["value", ["Two"]]]],
+                ["array", [["value", ["3"]], ["value", ["Three"]]]]
               ]
             ]
           ]
@@ -352,71 +216,15 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Radio buttons"
-              ]
-            ]
-          ],
+          ["label", ["value", ["Radio buttons"]]],
           [
             "options",
             [
               "array",
               [
-                [
-                  "array",
-                  [
-                    [
-                      "value",
-                      [
-                        "1"
-                      ]
-                    ],
-                    [
-                      "value",
-                      [
-                        "One"
-                      ]
-                    ]
-                  ]
-                ],
-                [
-                  "array",
-                  [
-                    [
-                      "value",
-                      [
-                        "2"
-                      ]
-                    ],
-                    [
-                      "value",
-                      [
-                        "Two"
-                      ]
-                    ]
-                  ]
-                ],
-                [
-                  "array",
-                  [
-                    [
-                      "value",
-                      [
-                        "3"
-                      ]
-                    ],
-                    [
-                      "value",
-                      [
-                        "Three"
-                      ]
-                    ]
-                  ]
-                ]
+                ["array", [["value", ["1"]], ["value", ["One"]]]],
+                ["array", [["value", ["2"]], ["value", ["Two"]]]],
+                ["array", [["value", ["3"]], ["value", ["Three"]]]]
               ]
             ]
           ]
@@ -434,42 +242,10 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Text area"
-              ]
-            ]
-          ],
-          [
-            "placeholder",
-            [
-              "value",
-              [
-                "Text area placeholder"
-              ]
-            ]
-          ],
-          [
-            "text_size",
-            [
-              "value",
-              [
-                "normal"
-              ]
-            ]
-          ],
-          [
-            "box_size",
-            [
-              "value",
-              [
-                "normal"
-              ]
-            ]
-          ]
+          ["label", ["value", ["Text area"]]],
+          ["placeholder", ["value", ["Text area placeholder"]]],
+          ["text_size", ["value", ["normal"]]],
+          ["box_size", ["value", ["normal"]]]
         ]
       ]
     ]
@@ -481,20 +257,7 @@ export default [
       "date_field",
       "2016-03-10",
       [],
-      [
-        "object",
-        [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Date field"
-              ]
-            ]
-          ]
-        ]
-      ]
+      ["object", [["label", ["value", ["Date field"]]]]]
     ]
   ],
   [
@@ -504,20 +267,7 @@ export default [
       "date_time_field",
       "2016-03-10 17:00:00 +1100",
       [],
-      [
-        "object",
-        [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Date-time field"
-              ]
-            ]
-          ]
-        ]
-      ]
+      ["object", [["label", ["value", ["Date-time field"]]]]]
     ]
   ],
   [
@@ -530,15 +280,7 @@ export default [
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Selection field"
-              ]
-            ]
-          ],
+          ["label", ["value", ["Selection field"]]],
           [
             "options",
             [
@@ -546,49 +288,11 @@ export default [
               [
                 [
                   "object",
-                  [
-                    [
-                      "id",
-                      [
-                        "value",
-                        [
-                          1
-                        ]
-                      ]
-                    ],
-                    [
-                      "label",
-                      [
-                        "value",
-                        [
-                          "Option 1"
-                        ]
-                      ]
-                    ]
-                  ]
+                  [["id", ["value", [1]]], ["label", ["value", ["Option 1"]]]]
                 ],
                 [
                   "object",
-                  [
-                    [
-                      "id",
-                      [
-                        "value",
-                        [
-                          2
-                        ]
-                      ]
-                    ],
-                    [
-                      "label",
-                      [
-                        "value",
-                        [
-                          "Option 2"
-                        ]
-                      ]
-                    ]
-                  ]
+                  [["id", ["value", [2]]], ["label", ["value", ["Option 2"]]]]
                 ]
               ]
             ]
@@ -602,22 +306,12 @@ export default [
     [
       "multi_selection_field",
       "multi_selection_field",
-      [
-        1
-      ],
+      [1],
       [],
       [
         "object",
         [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Multi selection field"
-              ]
-            ]
-          ],
+          ["label", ["value", ["Multi selection field"]]],
           [
             "options",
             [
@@ -625,49 +319,11 @@ export default [
               [
                 [
                   "object",
-                  [
-                    [
-                      "id",
-                      [
-                        "value",
-                        [
-                          1
-                        ]
-                      ]
-                    ],
-                    [
-                      "label",
-                      [
-                        "value",
-                        [
-                          "Option 1"
-                        ]
-                      ]
-                    ]
-                  ]
+                  [["id", ["value", [1]]], ["label", ["value", ["Option 1"]]]]
                 ],
                 [
                   "object",
-                  [
-                    [
-                      "id",
-                      [
-                        "value",
-                        [
-                          2
-                        ]
-                      ]
-                    ],
-                    [
-                      "label",
-                      [
-                        "value",
-                        [
-                          "Option 2"
-                        ]
-                      ]
-                    ]
-                  ]
+                  [["id", ["value", [2]]], ["label", ["value", ["Option 2"]]]]
                 ]
               ]
             ]
@@ -681,20 +337,7 @@ export default [
     [
       "section",
       "section",
-      [
-        "object",
-        [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Section label"
-              ]
-            ]
-          ]
-        ]
-      ],
+      ["object", [["label", ["value", ["Section label"]]]]],
       [
         [
           "field",
@@ -703,20 +346,7 @@ export default [
             "text_field",
             "Section text field value",
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Section text field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Section text field"]]]]]
           ]
         ],
         [
@@ -726,20 +356,7 @@ export default [
             "number_field",
             123,
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Section number field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Section number field"]]]]]
           ]
         ]
       ]
@@ -749,20 +366,7 @@ export default [
     "group",
     [
       "group",
-      [
-        "object",
-        [
-          [
-            "label",
-            [
-              "value",
-              [
-                "Group label"
-              ]
-            ]
-          ]
-        ]
-      ],
+      ["object", [["label", ["value", ["Group label"]]]]],
       [
         [
           "field",
@@ -771,20 +375,7 @@ export default [
             "text_field",
             "Group text field value",
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Group text field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Group text field"]]]]]
           ]
         ],
         [
@@ -794,20 +385,7 @@ export default [
             "number_field",
             123,
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Group number field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Group number field"]]]]]
           ]
         ]
       ]
@@ -822,42 +400,10 @@ export default [
       [
         "object",
         [
-          [
-            "allow_create",
-            [
-              "value",
-              [
-                true
-              ]
-            ]
-          ],
-          [
-            "allow_update",
-            [
-              "value",
-              [
-                true
-              ]
-            ]
-          ],
-          [
-            "allow_destroy",
-            [
-              "value",
-              [
-                true
-              ]
-            ]
-          ],
-          [
-            "allow_reorder",
-            [
-              "value",
-              [
-                true
-              ]
-            ]
-          ]
+          ["allow_create", ["value", [true]]],
+          ["allow_update", ["value", [true]]],
+          ["allow_destroy", ["value", [true]]],
+          ["allow_reorder", ["value", [true]]]
         ]
       ],
       [
@@ -868,20 +414,7 @@ export default [
             "text_field",
             null,
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Many text field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Many text field"]]]]]
           ]
         ],
         [
@@ -891,20 +424,7 @@ export default [
             "date_field",
             null,
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Many date field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Many date field"]]]]]
           ]
         ]
       ],
@@ -917,20 +437,7 @@ export default [
               "text_field",
               "Many text field 1",
               [],
-              [
-                "object",
-                [
-                  [
-                    "label",
-                    [
-                      "value",
-                      [
-                        "Many text field"
-                      ]
-                    ]
-                  ]
-                ]
-              ]
+              ["object", [["label", ["value", ["Many text field"]]]]]
             ]
           ],
           [
@@ -940,20 +447,7 @@ export default [
               "date_field",
               "2016-03-10",
               [],
-              [
-                "object",
-                [
-                  [
-                    "label",
-                    [
-                      "value",
-                      [
-                        "Many date field"
-                      ]
-                    ]
-                  ]
-                ]
-              ]
+              ["object", [["label", ["value", ["Many date field"]]]]]
             ]
           ]
         ],
@@ -965,20 +459,7 @@ export default [
               "text_field",
               "Many text field 2",
               [],
-              [
-                "object",
-                [
-                  [
-                    "label",
-                    [
-                      "value",
-                      [
-                        "Many text field"
-                      ]
-                    ]
-                  ]
-                ]
-              ]
+              ["object", [["label", ["value", ["Many text field"]]]]]
             ]
           ],
           [
@@ -988,20 +469,7 @@ export default [
               "date_field",
               "2016-03-09",
               [],
-              [
-                "object",
-                [
-                  [
-                    "label",
-                    [
-                      "value",
-                      [
-                        "Many date field"
-                      ]
-                    ]
-                  ]
-                ]
-              ]
+              ["object", [["label", ["value", ["Many date field"]]]]]
             ]
           ]
         ]
@@ -1014,10 +482,7 @@ export default [
       "attr",
       "attr",
       [],
-      [
-        "object",
-        []
-      ],
+      ["object", []],
       [
         [
           "field",
@@ -1026,20 +491,7 @@ export default [
             "text_field",
             "Attr text field value",
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Attr text field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Attr text field"]]]]]
           ]
         ],
         [
@@ -1049,20 +501,7 @@ export default [
             "date_field",
             "2016-03-10",
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Attr date field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Attr date field"]]]]]
           ]
         ]
       ]
@@ -1072,10 +511,7 @@ export default [
     "compound_field",
     [
       "compound_field",
-      [
-        "object",
-        []
-      ],
+      ["object", []],
       [
         [
           "field",
@@ -1084,20 +520,7 @@ export default [
             "text_field",
             "Compound text field value",
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Compound text field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Compound text field"]]]]]
           ]
         ],
         [
@@ -1107,24 +530,11 @@ export default [
             "date_field",
             "2016-03-10",
             [],
-            [
-              "object",
-              [
-                [
-                  "label",
-                  [
-                    "value",
-                    [
-                      "Compound date field"
-                    ]
-                  ]
-                ]
-              ]
-            ]
+            ["object", [["label", ["value", ["Compound date field"]]]]]
           ]
         ]
       ]
     ]
   ]
-]
+];
 /*eslint-enable */

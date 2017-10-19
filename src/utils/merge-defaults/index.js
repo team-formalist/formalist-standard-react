@@ -1,5 +1,5 @@
-import assignInWith from 'lodash.assigninwith'
-import partialRight from 'lodash.partialright'
+import assignInWith from "lodash.assigninwith";
+import partialRight from "lodash.partialright";
 
 /**
  * Customizer function for assignInWith
@@ -7,8 +7,8 @@ import partialRight from 'lodash.partialright'
  * @param  {Mixed} sourceValue Value from the source
  * @return {Mixed} Whichever of the above values is defined
  */
-function assignIfDefined (objectValue, sourceValue) {
-  return objectValue == null ? sourceValue : objectValue
+function assignIfDefined(objectValue, sourceValue) {
+  return objectValue == null ? sourceValue : objectValue;
 }
 
 /**
@@ -16,4 +16,4 @@ function assignIfDefined (objectValue, sourceValue) {
  * object values if they are defined.
  * @type {Function}
  */
-export default partialRight(assignInWith, assignIfDefined)
+export default partialRight(assignInWith, assignIfDefined);

@@ -1,1 +1,1 @@
-import './file-input'
+import "./file-input";

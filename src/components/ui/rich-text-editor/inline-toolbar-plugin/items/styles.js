@@ -1,22 +1,22 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, typography } from "../../../styles";
 
 export const list = css`
   display: flex;
   padding-left: 0.4em;
   padding-right: 0.4em;
-`
+`;
 
 export const button = css`
   ${colours.greyMidColor};
   display: block;
   padding: 0.8em 0.4em;
-`
+`;
 
 export const buttonActive = css`
   ${colours.primaryColor};
-${typography.sansBold};
-`
+  ${typography.sansBold};
+`;
 
 export const iconWrapper = css`
   display: flex;
@@ -30,8 +30,8 @@ export const iconWrapper = css`
     margin-left: auto;
     margin-right: auto;
   }
-`
+`;
 export const iconWrapperActive = css`
   fill: ${colours.values.primary};
   font-weight: normal;
-`
+`;

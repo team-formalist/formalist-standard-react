@@ -6,28 +6,34 @@
  * @return {Promise}
  */
 
-export default function (file, permittedFileTypeRegex = null, permittedFileTypeMessage = null, maxFileSize = null, maxFileSizeMessage = null) {
-  if (!file) return
-  let success = true
+export default function(
+  file,
+  permittedFileTypeRegex = null,
+  permittedFileTypeMessage = null,
+  maxFileSize = null,
+  maxFileSizeMessage = null
+) {
+  if (!file) return;
+  let success = true;
 
   if (permittedFileTypeRegex && !file.type.match(permittedFileTypeRegex)) {
     return {
       file: file,
       message: permittedFileTypeMessage,
-      success: false,
-    }
+      success: false
+    };
   }
 
-  if (maxFileSize && (file.size > maxFileSize)) {
+  if (maxFileSize && file.size > maxFileSize) {
     return {
       file: file,
       message: maxFileSizeMessage,
-      success: false,
-    }
+      success: false
+    };
   }
 
   return {
     file,
-    success,
-  }
+    success
+  };
 }

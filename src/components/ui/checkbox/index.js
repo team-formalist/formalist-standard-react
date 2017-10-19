@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import uid from 'uid'
-import classNames from 'classnames'
-import * as styles from './styles'
+import React from "react";
+import PropTypes from "prop-types";
+import uid from "uid";
+import classNames from "classnames";
+import * as styles from "./styles";
 
 /**
  * Checkbox
@@ -27,49 +27,46 @@ class Checkbox extends React.Component {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    value: PropTypes.bool,
+    size: PropTypes.oneOf(["xsmall", "small", "normal", "large", "xlarge"]),
+    value: PropTypes.bool
   };
 
   static defaultProps = {
     disabled: false,
     error: false,
-    size: 'normal',
+    size: "normal"
   };
 
   state = {
     id: uid(10),
-    focus: false,
+    focus: false
   };
 
-  onBlur = (e) => {
-    this.setState({focus: false})
+  onBlur = e => {
+    this.setState({ focus: false });
   };
 
-  onFocus = (e) => {
-    this.setState({focus: true})
+  onFocus = e => {
+    this.setState({ focus: true });
   };
 
-  onChange = (e) => {
-    this.props.onChange(e, e.target.checked)
+  onChange = e => {
+    this.props.onChange(e, e.target.checked);
   };
 
-  render () {
-    let {defaultChecked, label, name, value} = this.props
-    let labelClassNames = classNames(
-      styles.label,
-      {
-        [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus,
-      }
-    )
+  render() {
+    let { defaultChecked, label, name, value } = this.props;
+    let labelClassNames = classNames(styles.label, {
+      [`${styles.error}`]: this.props.error,
+      [`${styles.focus}`]: this.state.focus
+    });
 
     return (
       <div className={styles.button}>
         <input
           className={styles.input}
           id={this.state.id}
-          type='checkbox'
+          type="checkbox"
           name={name}
           value={value}
           defaultChecked={defaultChecked}
@@ -77,15 +74,12 @@ class Checkbox extends React.Component {
           onFocus={this.onFocus}
           onChange={this.onChange}
         />
-        <label
-          className={labelClassNames}
-          htmlFor={this.state.id}
-        >
+        <label className={labelClassNames} htmlFor={this.state.id}>
           {label}
         </label>
       </div>
-    )
+    );
   }
 }
 
-export default Checkbox
+export default Checkbox;

@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import * as fields from "../field-styles";
 
 export const base = css`

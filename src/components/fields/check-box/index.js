@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
-import Checkbox from '../../ui/checkbox'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
+import Checkbox from "../../ui/checkbox";
 
 // Import styles
-import * as styles from './styles'
+import * as styles from "./styles";
 
 /**
  * Base class for the `check_box`
@@ -24,12 +24,12 @@ class CheckBox extends React.Component {
       label: PropTypes.string,
       hint: PropTypes.string,
       placeholder: PropTypes.string,
-      inline: PropTypes.bool,
+      inline: PropTypes.bool
     }),
     hint: PropTypes.string,
     label: PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: PropTypes.bool,
+    value: PropTypes.bool
   };
 
   /**
@@ -37,7 +37,7 @@ class CheckBox extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: PropTypes.object,
+    globalConfig: PropTypes.object
   };
 
   /**
@@ -46,25 +46,22 @@ class CheckBox extends React.Component {
    * @param  {Event} e Change event from a form input/select
    */
   onChange = (e, value) => {
-    this.props.actions.edit(
-      (val) => { return value }
-    )
+    this.props.actions.edit(val => {
+      return value;
+    });
   };
 
-  render () {
-    let { attributes, errors, hint, label, name, value } = this.props
-    let hasErrors = (errors.count() > 0)
+  render() {
+    let { attributes, errors, hint, label, name, value } = this.props;
+    let hasErrors = errors.count() > 0;
 
     // Set up field classes
-    let fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    let fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
 
     // Set up the label
-    let checkboxLabel = attributes.question_text || label
+    let checkboxLabel = attributes.question_text || label;
 
     return (
       <div className={fieldClassNames}>
@@ -78,12 +75,13 @@ class CheckBox extends React.Component {
             error={hasErrors}
             value={value}
             defaultChecked={value}
-            onChange={this.onChange} />
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+            onChange={this.onChange}
+          />
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default CheckBox
+export default CheckBox;

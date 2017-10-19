@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Dropzone from 'react-dropzone'
-import * as styles from './styles'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import Dropzone from "react-dropzone";
+import * as styles from "./styles";
+import classNames from "classnames";
 
 export default class extends React.Component {
   /**
    * displayName
    */
 
-  static displayName = 'DropZone';
+  static displayName = "DropZone";
 
   /**
    * propTypes
@@ -23,7 +23,7 @@ export default class extends React.Component {
     multiple: PropTypes.bool,
     children: PropTypes.node,
     disableClick: PropTypes.bool,
-    hideDropZoneBtn: PropTypes.bool,
+    hideDropZoneBtn: PropTypes.bool
   };
 
   /**
@@ -31,7 +31,7 @@ export default class extends React.Component {
    */
 
   static defaultProps = {
-    disableClick: false,
+    disableClick: false
   };
 
   /**
@@ -40,7 +40,7 @@ export default class extends React.Component {
 
   state = {
     files: [],
-    isActive: false,
+    isActive: false
   };
 
   /**
@@ -48,13 +48,13 @@ export default class extends React.Component {
    * Set `isActive` to true
    */
 
-  onDragOver = (e) => {
-    e.preventDefault()
-    const isActive = e.dataTransfer.types[0] === 'Files'
-    if (isActive === this.state.isActive) return
+  onDragOver = e => {
+    e.preventDefault();
+    const isActive = e.dataTransfer.types[0] === "Files";
+    if (isActive === this.state.isActive) return;
     this.setState({
-      isActive,
-    })
+      isActive
+    });
   };
 
   /**
@@ -62,12 +62,12 @@ export default class extends React.Component {
    * Set `isActive` to false
    */
 
-  onDragLeave = (e) => {
-    e.preventDefault()
-    if (!this.state.isActive) return
+  onDragLeave = e => {
+    e.preventDefault();
+    if (!this.state.isActive) return;
     this.setState({
-      isActive: false,
-    })
+      isActive: false
+    });
   };
 
   /**
@@ -75,10 +75,10 @@ export default class extends React.Component {
    * Create event listener for drag events on the body and update state
    */
 
-  componentDidMount () {
-    document.addEventListener('dragover', this.onDragOver)
-    document.addEventListener('dragleave', this.onDragLeave)
-    document.addEventListener('drop', this.onDragLeave)
+  componentDidMount() {
+    document.addEventListener("dragover", this.onDragOver);
+    document.addEventListener("dragleave", this.onDragLeave);
+    document.addEventListener("drop", this.onDragLeave);
   }
 
   /**
@@ -88,8 +88,8 @@ export default class extends React.Component {
    * @param  {Event} e
    */
 
-  onDragStart = (e) => {
-    e.dataTransfer.effectAllowed = 'move'
+  onDragStart = e => {
+    e.dataTransfer.effectAllowed = "move";
   };
 
   /**
@@ -100,12 +100,12 @@ export default class extends React.Component {
    * @param  {Array} files
    */
 
-  onDrop = (files) => {
-    const {onChange} = this.props
-    if (typeof (onChange) === 'function') onChange(files)
+  onDrop = files => {
+    const { onChange } = this.props;
+    if (typeof onChange === "function") onChange(files);
     this.setState({
-      files: files,
-    })
+      files: files
+    });
   };
 
   /**
@@ -114,9 +114,9 @@ export default class extends React.Component {
    * @param  {event} e
    */
 
-  onClick = (e) => {
-    e.preventDefault()
-    this._dropzone.open()
+  onClick = e => {
+    e.preventDefault();
+    this._dropzone.open();
   };
 
   /**
@@ -128,13 +128,15 @@ export default class extends React.Component {
    * @return {vnode}
    */
 
-  renderPreview = (files) => {
+  renderPreview = files => {
     return (
       <div>
         <h2>Uploading {files.length} files...</h2>
-        <div>{files.map((file, i) => <img key={i} src={file.preview} />)}</div>
+        <div>
+          {files.map((file, i) => <img key={i} alt="" src={file.preview} />)}
+        </div>
       </div>
-    )
+    );
   };
 
   /**
@@ -144,14 +146,12 @@ export default class extends React.Component {
    * @return {vnode}
    */
 
-  renderButton = (buttonText) => {
+  renderButton = buttonText => {
     return (
       <button onClick={this.onClick} className={styles.dropzone__button}>
-        {buttonText != null
-          ? buttonText
-          : 'Upload file'}
+        {buttonText != null ? buttonText : "Upload file"}
       </button>
-    )
+    );
   };
 
   /**
@@ -161,14 +161,14 @@ export default class extends React.Component {
    * @return {vnode}
    */
 
-  renderLabel = (label) => {
+  renderLabel = label => {
     return (
       <span className={styles.dropzone__label__wrapper}>
         <span className={styles.dropzone__label}>
-          {label || 'Drop file to upload'}
+          {label || "Drop file to upload"}
         </span>
       </span>
-    )
+    );
   };
 
   /**
@@ -176,8 +176,8 @@ export default class extends React.Component {
    * @return {vnode}
    */
 
-  render () {
-    const {files, isActive} = this.state
+  render() {
+    const { files, isActive } = this.state;
     const {
       buttonText,
       renderPreview,
@@ -185,40 +185,38 @@ export default class extends React.Component {
       children,
       disableClick,
       hideDropZoneBtn,
-      label,
-    } = this.props
+      label
+    } = this.props;
 
-    let dropZoneClassNames = classNames(
-      styles.dropzone,
-      {
-        [`${styles.dropzone__empty}`]: !children,
-        [`${styles.dropzone__disable_hover}`]: children,
-        [`${styles.dropzone__drag_over}`]: isActive,
-      }
-    )
+    let dropZoneClassNames = classNames(styles.dropzone, {
+      [`${styles.dropzone__empty}`]: !children,
+      [`${styles.dropzone__disable_hover}`]: children,
+      [`${styles.dropzone__drag_over}`]: isActive
+    });
 
     return (
       <div>
-        <div className='dropzone__container'>
-          {!hideDropZoneBtn
-            ? this.renderButton(buttonText)
-            : null}
+        <div className="dropzone__container">
+          {!hideDropZoneBtn ? this.renderButton(buttonText) : null}
 
           <Dropzone
-            ref={(r) => { this._dropzone = r }}
+            ref={r => {
+              this._dropzone = r;
+            }}
             disableClick={disableClick}
             activeClassName={styles.dropzone__active}
             className={dropZoneClassNames}
             multiple={multiple}
             onDragStart={this.onDragStart}
             onDrop={this.onDrop}
-            style={{}}>
+            style={{}}
+          >
             {children}
             {this.renderLabel(label)}
           </Dropzone>
         </div>
         {renderPreview && files.length > 0 ? this.renderPreview(files) : null}
       </div>
-    )
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import * as fields from "../field-styles";
 import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
 
@@ -16,7 +16,7 @@ export const header = css`
 
 export const display = css`
   ${inputBoxes.inputBox};
-`
+`;
 
 /**
  *
@@ -30,13 +30,13 @@ export const wrapper = css`
   &:focus {
     outline: none;
   }
-`
+`;
 
 export const selectionItems = css`
   ${typography.normal};
   ${typography.sans};
   margin-top: 1px;
-`
+`;
 
 export const selectionPlaceholder = css`
   ${colours.greyMidColor};
@@ -47,7 +47,7 @@ export const selectionPlaceholder = css`
   flex: 1;
   text-align: left;
   min-height: 2rem;
-`
+`;
 
 export const openSelectorButton = css`
   ${buttons.small};
@@ -55,7 +55,7 @@ export const openSelectorButton = css`
   margin-right: -0.3rem;
   margin-top: -0.2rem;
   margin-bottom: -0.4rem;
-`
+`;
 
 /* Selection exists */
 
@@ -74,16 +74,16 @@ export const remove = css`
   &:hover {
     colour: ${colours.values.error};
   }
-`
+`;
 
 export const removeText = css`
   display: none;
-`
+`;
 
 export const removeX = css`
   ${typography.fallback};
-${typography.large};
-`
+  ${typography.large};
+`;
 
 /**
  * Selections
@@ -91,20 +91,20 @@ ${typography.large};
 
 export const options = css`
   min-width: 30rem;
-`
+`;
 
 export const optionsList = css`
   max-height: 40rem;
   overflow-y: scroll;
   overflow-scroll: touch;
   padding-top: 0.5rem;
-`
+`;
 
 export const noResults = css`
   ${typography.normal};
   ${typography.sans};
   padding: 0.5em 1rem 0.7em;
-`
+`;
 
 export const search = css`
   ${typography.normal};
@@ -123,7 +123,7 @@ export const search = css`
   &:focus {
     outline: none;
   }
-`
+`;
 
 export const optionButton = css`
   ${typography.normal};
@@ -147,7 +147,7 @@ export const optionButton = css`
   italic {
     font-style: italic;
   }
-`
+`;
 
 export const selection = css`
   strong {
@@ -156,4 +156,4 @@ export const selection = css`
   italic {
     font-style: italic;
   }
-`
+`;

@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { buttons, colours, typography } from "../styles";
 
 /**
@@ -21,17 +21,20 @@ export const dropzone = css`
   &:hover {
     cursor: pointer;
   }
-`
+`;
 
 export const dropzone__empty = css`
   position: relative;
-`
+`;
 export const dropzone__drag_over = css`
   position: relative;
   > div {
     opacity: 0;
   }
-`
+`;
+
+export const dropzone__active = css``;
+export const dropzone__disable_hover = css``;
 
 /**
  * dropzone__label__wrapper
@@ -100,10 +103,7 @@ export const dropzone__label__wrapper = css`
       border-color: ${colours.values.highlight};
     }
   }
-`
-
-export const dropzone__active = css``
-export const dropzone__disable_hover = css``
+`;
 
 /**
  * dropzone__label
@@ -131,7 +131,7 @@ export const dropzone__label = css`
   .${dropzone__drag_over} & {
     color: ${colours.values.greyMid};
   }
-`
+`;
 
 /**
  * dropzone button
@@ -147,4 +147,4 @@ export const dropzone__button = css`
   ${buttons.buttonHighlight};
   float: right;
   margin-top: -3.4rem;
-`
+`;

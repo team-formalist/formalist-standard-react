@@ -1,12 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { List } from 'immutable'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
-import validation from 'formalist-validation'
-import * as styles from './styles'
-import { actions } from 'formalist-compose'
-const { deleteField, editField, validateField } = actions
+import React from "react";
+import PropTypes from "prop-types";
+import { List } from "immutable";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
+import validation from "formalist-validation";
+import * as styles from "./styles";
+import { actions } from "formalist-compose";
+const { deleteField, editField, validateField } = actions;
 
 /**
  * Container class for fields.
@@ -28,7 +28,7 @@ class FieldContainer extends React.Component {
     rules: ImmutablePropTypes.list,
     store: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.any,
+    value: PropTypes.any
   };
 
   /**
@@ -36,24 +36,24 @@ class FieldContainer extends React.Component {
    */
 
   static childContextTypes = {
-    globalConfig: PropTypes.object,
+    globalConfig: PropTypes.object
   };
 
-  getChildContext () {
+  getChildContext() {
     return {
-      globalConfig: this.props.globalConfig,
-    }
+      globalConfig: this.props.globalConfig
+    };
   }
 
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
     // field. This should take account of any change to the AST.
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
-    return (this.props.hashCode !== nextProps.hashCode)
+    return this.props.hashCode !== nextProps.hashCode;
   }
 
-  render () {
+  render() {
     let {
       attributes,
       bus,
@@ -64,49 +64,44 @@ class FieldContainer extends React.Component {
       path,
       rules,
       store,
-      value,
-    } = this.props
-    let Field = field
+      value
+    } = this.props;
+    let Field = field;
 
     // Turn the attributes from an Immutable.Map into a POJO
-    attributes = attributes.toJS()
+    attributes = attributes.toJS();
 
     // Extract a few things from attributes
-    let label = attributes.label || this.props.name.replace(/_/g, ' ')
-    let { hint } = attributes
+    let label = attributes.label || this.props.name.replace(/_/g, " ");
+    let { hint } = attributes;
 
     // Curry with the form validation schema
-    let validate = validation(attributes.validation)
+    let validate = validation(attributes.validation);
 
     // Abstract the actions so that each field doesn't have to worry about
     // the action implementation
     let fieldActions = {
       delete: () => {
-        return store.dispatch(
-          deleteField(path)
-        )
+        return store.dispatch(deleteField(path));
       },
-      edit: (val) => {
-        let editedValue = val()
+      edit: val => {
+        let editedValue = val();
         // Ensure we're not passing Immutable stuff through
         // to the validator
         if (List.isList(editedValue)) {
-          editedValue = editedValue.toJS()
+          editedValue = editedValue.toJS();
         }
         return store.batchDispatch([
           editField(path, val),
-          validateField(path, validate(editedValue)),
-        ])
-      },
-    }
+          validateField(path, validate(editedValue))
+        ]);
+      }
+    };
 
     // Set up standard classNames
-    let containerClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.errors}`]: (errors.count() > 0),
-      }
-    )
+    let containerClassNames = classNames(styles.base, {
+      [`${styles.errors}`]: errors.count() > 0
+    });
 
     return (
       // *Explicitly* pass all the props we care about down to the field
@@ -122,10 +117,11 @@ class FieldContainer extends React.Component {
           errors={errors}
           attributes={attributes}
           label={label}
-          hint={hint} />
+          hint={hint}
+        />
       </div>
-    )
+    );
   }
 }
 
-export default FieldContainer
+export default FieldContainer;

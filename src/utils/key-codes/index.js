@@ -6,5 +6,5 @@ export default {
   ESCAPE: 27,
   LEFT: 37,
   RIGHT: 39,
-  UP: 38,
-}
+  UP: 38
+};

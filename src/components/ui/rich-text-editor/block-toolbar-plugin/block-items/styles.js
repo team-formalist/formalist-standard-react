@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, typography } from "../../../styles";
 
 export const container = css`
@@ -7,24 +7,24 @@ export const container = css`
   border-right-width: 1px;
   margin-right: -1px;
   flex: 1;
-`
+`;
 
 export const list = css`
   padding-top: 0.8em;
   padding-bottom: 0.8em;
-`
+`;
 
 export const button = css`
   ${colours.greyMidColor};
   display: block;
   padding: 0.4em 0.8em;
   text-align: center;
-`
+`;
 
 export const buttonActive = css`
   ${colours.primaryColor};
-${typography.sansBold};
-`
+  ${typography.sansBold};
+`;
 
 export const iconWrapper = css`
   display: flex;
@@ -38,7 +38,7 @@ export const iconWrapper = css`
     margin-left: auto;
     margin-right: auto;
   }
-`
+`;
 export const iconWrapperActive = css`
   fill: ${colours.values.primary};
-`
+`;

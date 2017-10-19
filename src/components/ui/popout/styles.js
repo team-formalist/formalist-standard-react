@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, popovers, typography } from "../styles";
 
 export const positioner = css`
@@ -6,7 +6,7 @@ export const positioner = css`
   height: 0;
   width: 0;
   z-index: 10000;
-`
+`;
 
 export const container = css`
   ${typography.normal};
@@ -15,29 +15,29 @@ export const container = css`
   ${popovers.popover};
   border-radius: 3px;
   position: absolute;
-`
+`;
 
 export const containerLeft = css`
   right: 0;
   top: 0;
-`
+`;
 
 export const containerRight = css`
   left: 0;
   top: 0;
-`
+`;
 
 export const containerTop = css`
   bottom: 0;
   left: 0;
   transform: translateX(-50%);
-`
+`;
 
 export const containerBottom = css`
   top: 0;
   left: 0;
   transform: translateX(-50%);
-`
+`;
 
 /**
  * Arrow is separate to avoid overflow issues
@@ -59,7 +59,7 @@ export const containerArrow = css`
     position: absolute;
     pointer-events: none;
   }
-`
+`;
 
 export const containerArrowLeft = css`
   left: -1px;
@@ -73,7 +73,7 @@ export const containerArrowLeft = css`
     border-left-color: ${colours.values.white};
     border-width: 5px;
   }
-`
+`;
 
 export const containerArrowRight = css`
   top: 1.2rem;
@@ -88,7 +88,7 @@ export const containerArrowRight = css`
     border-right-color: ${colours.values.white};
     border-width: 5px;
   }
-`
+`;
 
 export const containerArrowTop = css`
   margin-top: -1px;
@@ -104,7 +104,7 @@ export const containerArrowTop = css`
     border-width: 5px;
     margin-left: -5px;
   }
-`
+`;
 
 export const containerArrowBottom = css`
   bottom: 100%;
@@ -121,4 +121,4 @@ export const containerArrowBottom = css`
     margin-left: -6px;
     margin-top: 2px;
   }
-`
+`;

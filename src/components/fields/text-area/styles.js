@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import * as fields from "../field-styles";
 import { typography } from "../../ui/styles";
 
@@ -16,4 +16,4 @@ export const header = css`
 
 export const code = css`
   ${typography.mono};
-`
+`;

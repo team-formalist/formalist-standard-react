@@ -1,14 +1,14 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import * as fields from "../field-styles";
-import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
+import { colours, typography } from "../../ui/styles";
 
 export const base = css`
   ${fields.base};
-`
+`;
 
 export const baseInline = css`
   ${fields.baseInline};
-`
+`;
 
 export const header = css`
   ${fields.header};
@@ -16,7 +16,7 @@ export const header = css`
 
 export const parent = css`
   position: relative;
-`
+`;
 
 export const listItem = css`
   ${colours.greyLightColor};
@@ -25,7 +25,7 @@ export const listItem = css`
   box-sizing: border-box;
   position: relative;
   width: 100%;
-`
+`;
 
 export const previewItem = css`
   ${listItem};
@@ -33,16 +33,16 @@ export const previewItem = css`
   border-radius: 0.25em;
   overflow: hidden;
   height: 40px;
-`
+`;
 
 export const previewItem__details = css`
-  padding-left : 5px;
-`
+  padding-left: 5px;
+`;
 
 export const listItem__img = css`
   img {
     background-color: #fff;
-    box-shadow: 0 2px 2px 0px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
     display: inline-block;
     height: 40px;
@@ -57,7 +57,7 @@ export const listItem__img = css`
       height: 30px;
     }
   }
-`
+`;
 
 export const listItem__title = css`
   ${typography.lineHeightNormal};
@@ -67,12 +67,12 @@ export const listItem__title = css`
   a {
     color: ${colours.values.highlight};
   }
-`
+`;
 
 export const progress__title = css`
   ${listItem__title};
   color: ${colours.values.white};
-`
+`;
 
 export const progress__bar = css`
   compose ${colours.highlightBackground}
@@ -85,7 +85,7 @@ export const progress__bar = css`
   width: 0;
   z-index: 1;
   overflow: hidden;
-`
+`;
 
 export const validationMessage = css`
   ${typography.sans};
@@ -96,7 +96,7 @@ export const validationMessage = css`
   padding: 8px 50px 8px 8px;
   position: relative;
   z-index: 1;
-`
+`;
 
 export const remove = css`
   ${colours.primaryColor};
@@ -116,11 +116,11 @@ export const remove = css`
   &:hover {
     color: ${colours.values.error};
   }
-`
+`;
 
 export const removeText = css`
   display: none;
-`
+`;
 
 export const removeX = css`
   ${typography.fallback};
@@ -128,14 +128,14 @@ export const removeX = css`
   &:hover {
     color: ${colours.values.error};
   }
-`
+`;
 
 export const align_middle = css`
   display: table;
-`
+`;
 
 export const align_middle__content = css`
   display: table-cell;
   vertical-align: middle;
   margin-top: -2px;
-`
+`;

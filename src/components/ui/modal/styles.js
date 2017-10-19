@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, typography } from "../styles";
 
 export const container = css`
@@ -10,7 +10,7 @@ export const container = css`
   right: 0;
   top: 0;
   z-index: 10000;
-`
+`;
 
 export const close = css`
   background-color: transparent;
@@ -20,11 +20,11 @@ export const close = css`
   right: 0;
   top: 0;
   z-index: 3;
-`
+`;
 
 export const closeText = css`
   display: none;
-`
+`;
 export const closeX = css`
   ${typography.fallback};
   ${typography.large};
@@ -34,7 +34,7 @@ export const closeX = css`
   &:hover {
     color: error;
   }
-`
+`;
 
 export const overlay = css`
   ${colours.lightBlendBackground};
@@ -47,11 +47,11 @@ export const overlay = css`
   top: 0;
   width: 100%;
   z-index: 1;
-`
+`;
 
 export const content = css`
   position: relative;
   z-index: 2;
   max-width: 300px;
   margin: 0 auto;
-`
+`;

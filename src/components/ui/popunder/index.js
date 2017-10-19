@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Portal from '../portal'
-import * as styles from './styles'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import Portal from "../portal";
+import * as styles from "./styles";
+import classNames from "classnames";
 
 /**
  * A "popunder" component. Creates a element that hangs under the passed
@@ -34,50 +34,50 @@ class Popunder extends React.Component {
     closeOnOutsideClick: PropTypes.bool,
     offset: PropTypes.shape({
       left: PropTypes.number,
-      top: PropTypes.number,
+      top: PropTypes.number
     }),
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onUpdate: PropTypes.func,
-    containerClassName: PropTypes.string,
+    containerClassName: PropTypes.string
   };
 
   static defaultProps = {
     offset: {
       left: 0,
-      top: 0,
-    },
+      top: 0
+    }
   };
 
   state = {
     isOpened: false,
     position: {
       left: 0,
-      top: 0,
-    },
+      top: 0
+    }
   };
 
-  componentDidMount () {
-    window.requestAnimationFrame(this.calculatePosition)
+  componentDidMount() {
+    window.requestAnimationFrame(this.calculatePosition);
   }
 
-  componentWillMount () {
-    const {closeOnOutsideClick} = this.props
-    window.addEventListener('resize', this.onResize)
-    document.addEventListener('keydown', this.handleKeydown)
+  componentWillMount() {
+    const { closeOnOutsideClick } = this.props;
+    window.addEventListener("resize", this.onResize);
+    document.addEventListener("keydown", this.handleKeydown);
     if (closeOnOutsideClick) {
-      document.addEventListener('mouseup', this.handleOutsideMouseClick)
-      document.addEventListener('touchstart', this.handleOutsideMouseClick)
+      document.addEventListener("mouseup", this.handleOutsideMouseClick);
+      document.addEventListener("touchstart", this.handleOutsideMouseClick);
     }
   }
 
-  componentWillUnmount () {
-    const {closeOnOutsideClick} = this.props
-    document.removeEventListener('resize', this.onResize)
-    document.removeEventListener('keydown', this.handleKeydown)
+  componentWillUnmount() {
+    const { closeOnOutsideClick } = this.props;
+    document.removeEventListener("resize", this.onResize);
+    document.removeEventListener("keydown", this.handleKeydown);
     if (closeOnOutsideClick) {
-      document.removeEventListener('mouseup', this.handleOutsideMouseClick)
-      document.removeEventListener('touchstart', this.handleOutsideMouseClick)
+      document.removeEventListener("mouseup", this.handleOutsideMouseClick);
+      document.removeEventListener("touchstart", this.handleOutsideMouseClick);
     }
   }
 
@@ -88,29 +88,33 @@ class Popunder extends React.Component {
   calculatePosition = () => {
     // Only bother if its rendered
     if (!this._reference) {
-      return
+      return;
     }
-    const referencePosition = this._reference.getBoundingClientRect()
-    const scrollX = window.scrollX
-    const scrollY = window.scrollY
+    const referencePosition = this._reference.getBoundingClientRect();
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
     let position = {
       left: referencePosition.left + scrollX + this.props.offset.left,
-      top: referencePosition.top + scrollY + referencePosition.height + this.props.offset.top,
-    }
+      top:
+        referencePosition.top +
+        scrollY +
+        referencePosition.height +
+        this.props.offset.top
+    };
     this.setState({
-      position,
-    })
-    return position
+      position
+    });
+    return position;
   };
 
   /**
    * Public interface: Opens the `Portal`
    */
   openPopunder = () => {
-    this.calculatePosition()
+    this.calculatePosition();
     this.setState({
-      isOpened: true,
-    })
+      isOpened: true
+    });
   };
 
   /**
@@ -118,22 +122,22 @@ class Popunder extends React.Component {
    */
   closePopunder = () => {
     this.setState({
-      isOpened: false,
-    })
+      isOpened: false
+    });
   };
 
   /**
    * Public: Toggle the `Portal`
    */
   togglePopunder = () => {
-    (this.isOpened) ? this.closePopunder() : this.openPopunder()
+    this.isOpened ? this.closePopunder() : this.openPopunder();
   };
 
   /**
    * Return the `container` node
    */
   getContainer = () => {
-    return this._container
+    return this._container;
   };
 
   /**
@@ -141,34 +145,37 @@ class Popunder extends React.Component {
    * @param  {Event} e MouseUp/TouchStart event
    * @return {Null}
    */
-  handleOutsideMouseClick = (e) => {
+  handleOutsideMouseClick = e => {
     if (!this.state.isOpened) {
-      return
+      return;
     }
 
     // Extract the elements based on `ref` values. The actual portal element is
     // nested within the portal instance as it gets rendered out of
     // context
-    const portalEl = this._portal.getContainer()
-    const referenceEl = this._reference
+    const portalEl = this._portal.getContainer();
+    const referenceEl = this._reference;
 
-    if ((portalEl && portalEl.contains(e.target)) || (referenceEl && referenceEl.contains(e.target))) {
-      return
+    if (
+      (portalEl && portalEl.contains(e.target)) ||
+      (referenceEl && referenceEl.contains(e.target))
+    ) {
+      return;
     }
 
-    e.stopPropagation()
-    this.closePopunder()
+    e.stopPropagation();
+    this.closePopunder();
   };
 
   /**
    * Close portal if escape is pressed
    * @param  {KeyboardEvent} e
    */
-  handleKeydown = (e) => {
-    const {closeOnEsc} = this.props
+  handleKeydown = e => {
+    const { closeOnEsc } = this.props;
     // ESCAPE = 27
     if (closeOnEsc && e.keyCode === 27 && this.state.isOpened) {
-      this.closePopunder()
+      this.closePopunder();
     }
   };
 
@@ -176,17 +183,17 @@ class Popunder extends React.Component {
    * Handle position on resize
    * @param  {Event} e ResizeEvent
    */
-  onResize = (e) => {
-    this.calculatePosition()
+  onResize = e => {
+    this.calculatePosition();
   };
 
   /**
    * Keep track of open/close state
    */
   onOpen = () => {
-    const {onOpen} = this.props
+    const { onOpen } = this.props;
     if (onOpen) {
-      onOpen()
+      onOpen();
     }
   };
 
@@ -194,48 +201,52 @@ class Popunder extends React.Component {
    * Keep track of open/close state
    */
   onClose = () => {
-    const {onClose} = this.props
+    const { onClose } = this.props;
     if (onClose) {
-      onClose()
+      onClose();
     }
   };
 
-  render () {
+  render() {
     // Extract Portal props
-    let {
-      beforeClose,
-      className,
-      onUpdate,
-      containerClassName,
-    } = this.props
+    let { beforeClose, className, onUpdate, containerClassName } = this.props;
 
-    let {isOpened, position} = this.state
+    let { isOpened, position } = this.state;
 
     // Extract the reference element
     // AKA child.first
-    let children = React.Children.toArray(this.props.children)
-    let reference = children[0]
-    let portalContent = children.slice(1)
+    let children = React.Children.toArray(this.props.children);
+    let reference = children[0];
+    let portalContent = children.slice(1);
 
     const containerClassNames = classNames(
       styles.container,
       containerClassName
-    )
+    );
 
     return (
       <div className={className}>
-        <div ref={(c) => { this._reference = c }}>
+        <div
+          ref={c => {
+            this._reference = c;
+          }}
+        >
           {reference}
         </div>
         <Portal
-          ref={(c) => { this._portal = c }}
+          ref={c => {
+            this._portal = c;
+          }}
           beforeClose={beforeClose}
           isOpened={isOpened}
           onOpen={this.onOpen}
           onClose={this.onClose}
-          onUpdate={onUpdate}>
+          onUpdate={onUpdate}
+        >
           <div
-            ref={(c) => { this._container = c }}
+            ref={c => {
+              this._container = c;
+            }}
             className={containerClassNames}
             style={position}
           >
@@ -243,8 +254,8 @@ class Popunder extends React.Component {
           </div>
         </Portal>
       </div>
-    )
+    );
   }
 }
 
-export default Popunder
+export default Popunder;

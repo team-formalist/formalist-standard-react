@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import withoutKeys from '../../../utils/without-keys'
-import * as styles from './styles'
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import withoutKeys from "../../../utils/without-keys";
+import * as styles from "./styles";
 
 // Components
-import Textarea from 'react-textarea-autosize'
+import Textarea from "react-textarea-autosize";
 
 /**
  * Return a set of rows as per http://andreypopp.github.io/react-textarea-autosize/
@@ -13,29 +13,29 @@ import Textarea from 'react-textarea-autosize'
  * @param  {String} size
  * @return {Object} An object describing the various row properties per-size.
  */
-function boxSize (size) {
+function boxSize(size) {
   let rows = {
     single: {
       rows: 1,
-      maxRows: 1,
+      maxRows: 1
     },
     small: {
       minRows: 3,
-      maxRows: 6,
+      maxRows: 6
     },
     normal: {
       minRows: 5,
-      maxRows: 10,
+      maxRows: 10
     },
     large: {
       minRows: 8,
-      maxRows: 16,
+      maxRows: 16
     },
     xlarge: {
-      minRows: 12,
-    },
-  }
-  return (size) ? rows[size] : rows['normal']
+      minRows: 12
+    }
+  };
+  return size ? rows[size] : rows["normal"];
 }
 
 /**
@@ -47,46 +47,53 @@ class TextBox extends React.Component {
     error: PropTypes.bool,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
-    textSize: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
-    boxSize: PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
+    textSize: PropTypes.oneOf(["xsmall", "small", "normal", "large", "xlarge"]),
+    boxSize: PropTypes.oneOf(["single", "small", "normal", "large", "xlarge"])
   };
 
   static defaultProps = {
     error: false,
-    textSize: 'normal',
-    boxSize: 'normal',
+    textSize: "normal",
+    boxSize: "normal"
   };
 
   state = {
-    focus: false,
+    focus: false
   };
 
-  onFocus = (e) => {
-    this.setState({focus: true})
+  onFocus = e => {
+    this.setState({ focus: true });
     if (this.props.onFocus) {
-      this.props.onFocus(e)
+      this.props.onFocus(e);
     }
   };
 
-  onBlur = (e) => {
-    this.setState({focus: false})
+  onBlur = e => {
+    this.setState({ focus: false });
     if (this.props.onBlur) {
-      this.props.onBlur(e)
+      this.props.onBlur(e);
     }
   };
 
-  render () {
+  render() {
     let textBoxClassNames = classNames(
       this.props.className,
       styles.textBox,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus,
+        [`${styles.focus}`]: this.state.focus
       },
       `${styles[this.props.textSize]}`
-    )
+    );
 
-    const propsToPass = withoutKeys(this.props, ['error', 'textSize', 'boxSize', 'className', 'onBlur', 'onFocus'])
+    const propsToPass = withoutKeys(this.props, [
+      "error",
+      "textSize",
+      "boxSize",
+      "className",
+      "onBlur",
+      "onFocus"
+    ]);
 
     return (
       <Textarea
@@ -94,9 +101,10 @@ class TextBox extends React.Component {
         {...boxSize(this.props.boxSize)}
         className={textBoxClassNames}
         onBlur={this.onBlur}
-        onFocus={this.onFocus} />
-    )
+        onFocus={this.onFocus}
+      />
+    );
   }
 }
 
-export default TextBox
+export default TextBox;

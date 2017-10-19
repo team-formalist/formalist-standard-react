@@ -1,23 +1,21 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {
-  Entity,
-} from 'draft-js'
-import uid from 'uid'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Entity } from "draft-js";
+import uid from "uid";
 // Components
-import Input from '../../../../input'
-import Checkbox from '../../../../checkbox'
-import Label from '../../../../label'
-import * as styles from './styles'
+import Input from "../../../../input";
+import Checkbox from "../../../../checkbox";
+import Label from "../../../../label";
+import * as styles from "./styles";
 
 class Link extends Component {
-  render () {
-    const {url} = Entity.get(this.props.entityKey).getData()
+  render() {
+    const { url } = Entity.get(this.props.entityKey).getData();
     return (
       <a href={url} title={url}>
         {this.props.children}
       </a>
-    )
+    );
   }
 }
 
@@ -25,52 +23,51 @@ Link.propTypes = {
   entityKey: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-}
+    PropTypes.node
+  ])
+};
 
-function findLinkEntities (contentBlock, callback) {
-  contentBlock.findEntityRanges(
-    (character) => {
-      const entityKey = character.getEntity()
-      return (
-        entityKey !== null &&
-        Entity.get(entityKey).getType().toLowerCase() === 'link'
-      )
-    },
-    callback
-  )
+function findLinkEntities(contentBlock, callback) {
+  contentBlock.findEntityRanges(character => {
+    const entityKey = character.getEntity();
+    return (
+      entityKey !== null &&
+      Entity.get(entityKey)
+        .getType()
+        .toLowerCase() === "link"
+    );
+  }, callback);
 }
 
 const decorator = {
   strategy: findLinkEntities,
-  component: Link,
-}
+  component: Link
+};
 
 class ActionHandler extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
-    const {entityKey} = props
-    const entity = Entity.get(entityKey)
-    const entityData = entity.getData()
+    const { entityKey } = props;
+    const entity = Entity.get(entityKey);
+    const entityData = entity.getData();
     // And absence of data means we want to edit it immediately
     this.state = {
       id: uid(10),
-      editing: (entityData.url == null),
-      changeData: entityData,
-    }
-    this.persistPopover = this.persistPopover.bind(this)
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+      editing: entityData.url == null,
+      changeData: entityData
+    };
+    this.persistPopover = this.persistPopover.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentWillMount () {
-    const {entityKey} = this.props
-    const entity = Entity.get(entityKey)
-    const entityData = entity.getData()
+  componentWillMount() {
+    const { entityKey } = this.props;
+    const entity = Entity.get(entityKey);
+    const entityData = entity.getData();
     if (entityData.url == null) {
-      this.persistPopover()
+      this.persistPopover();
     }
   }
 
@@ -79,145 +76,161 @@ class ActionHandler extends Component {
   // componentDidMount gets called whenever the selection changes for some
   // reason
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     // If we change from not to editing, focus the input
     if (this._url) {
-      const input = this._url.getInput()
+      const input = this._url.getInput();
       if (input && this.state.editing === true && prevState.editing === false) {
-        input.focus()
+        input.focus();
       }
     }
   }
 
-  persistPopover () {
-    const {forceVisible} = this.props
-    forceVisible(true)
+  persistPopover() {
+    const { forceVisible } = this.props;
+    forceVisible(true);
   }
 
-  unpersistPopover () {
-    const {forceVisible} = this.props
-    forceVisible(false)
+  unpersistPopover() {
+    const { forceVisible } = this.props;
+    forceVisible(false);
   }
 
-  handleEdit () {
-    this.persistPopover()
+  handleEdit() {
+    this.persistPopover();
     this.setState({
-      editing: true,
-    })
+      editing: true
+    });
   }
 
-  onChange (key, e, value) {
-    const {changeData} = this.state
+  onChange(key, e, value) {
+    const { changeData } = this.state;
 
     // Ensure URLs are well-formed
     // I.e., must start with `.`, `/`, `#`
-    if (key === 'url' && !/^(\.|\/|#|https?:\/\/|mailto:|ftp:)/.test(value)) {
-      value = `http://${value}`
+    if (key === "url" && !/^(\.|\/|#|https?:\/\/|mailto:|ftp:)/.test(value)) {
+      value = `http://${value}`;
     }
 
     const newChangeData = Object.assign({}, changeData, {
-      [`${key}`]: value,
-    })
+      [`${key}`]: value
+    });
     this.setState({
-      changeData: newChangeData,
-    })
+      changeData: newChangeData
+    });
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    const {entityKey} = this.props
-    const {changeData} = this.state
-    Entity.replaceData(entityKey, changeData)
+  onSubmit(e) {
+    e.preventDefault();
+    const { entityKey } = this.props;
+    const { changeData } = this.state;
+    Entity.replaceData(entityKey, changeData);
     this.setState({
-      editing: false,
-    })
-    this.unpersistPopover()
+      editing: false
+    });
+    this.unpersistPopover();
   }
 
-  render () {
-    const {entityKey, remove} = this.props
-    const {editing, id} = this.state
-    const entity = Entity.get(entityKey)
-    const entityData = entity.getData()
+  render() {
+    const { entityKey, remove } = this.props;
+    const { editing, id } = this.state;
+    const entity = Entity.get(entityKey);
+    const entityData = entity.getData();
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
-      <div ref={(r) => { this._container = r }}>
-        {
-          (editing)
-          ? <form onSubmit={this.onSubmit}>
+      <div
+        ref={r => {
+          this._container = r;
+        }}
+      >
+        {editing ? (
+          <form onSubmit={this.onSubmit}>
             <div className={styles.field}>
-              <Label className={styles.label} htmlFor={`url-${id}`}>Link</Label>
+              <Label className={styles.label} htmlFor={`url-${id}`}>
+                Link
+              </Label>
               <Input
                 defaultValue={entityData.url}
                 name={`url-${id}`}
-                onChange={this.onChange.bind(this, 'url')}
-                placeholder='http://'
-                ref={(r) => { this._url = r }}
-                size='small'
-                type='text'
+                onChange={this.onChange.bind(this, "url")}
+                placeholder="http://"
+                ref={r => {
+                  this._url = r;
+                }}
+                size="small"
+                type="text"
               />
             </div>
             <div className={styles.field}>
-              <Label className={styles.label} htmlFor={`title-${id}`}>Title</Label>
+              <Label className={styles.label} htmlFor={`title-${id}`}>
+                Title
+              </Label>
               <Input
                 defaultValue={entityData.title}
                 name={`title-${id}`}
-                onChange={this.onChange.bind(this, 'title')}
-                placeholder='Description of link'
-                size='small'
-                type='text'
+                onChange={this.onChange.bind(this, "title")}
+                placeholder="Description of link"
+                size="small"
+                type="text"
               />
             </div>
             <div className={styles.fieldCheckbox}>
               <Checkbox
-                defaultChecked={(entityData.newWindow === true)}
-                label='Open in new window?'
+                defaultChecked={entityData.newWindow === true}
+                label="Open in new window?"
                 name={`newWindow-${id}`}
-                onChange={this.onChange.bind(this, 'newWindow')}
+                onChange={this.onChange.bind(this, "newWindow")}
               />
             </div>
             <div className={styles.actions}>
               <button className={styles.saveButton}>Save link</button>
             </div>
           </form>
-          : <div className={styles.displayWrapper}>
-            <a href={entityData.url} target='_blank' className={styles.handlerUrl}>{entityData.url}</a>
+        ) : (
+          <div className={styles.displayWrapper}>
+            <a
+              href={entityData.url}
+              target="_blank"
+              className={styles.handlerUrl}
+            >
+              {entityData.url}
+            </a>
             <button
               className={styles.editButton}
-              onClick={(e) => {
-                e.preventDefault()
-                this.handleEdit()
-              }}>
+              onClick={e => {
+                e.preventDefault();
+                this.handleEdit();
+              }}
+            >
               Change
             </button>
             <button
               className={styles.removeButton}
-              onClick={(e) => {
-                e.preventDefault()
-                remove(entity)
-              }}>
+              onClick={e => {
+                e.preventDefault();
+                remove(entity);
+              }}
+            >
               <span className={styles.removeText}>Remove</span>
               <span className={styles.removeX}>×</span>
             </button>
           </div>
-        }
+        )}
       </div>
-    )
+    );
     /* eslint-enable react/jsx-no-bind */
   }
 }
 
 ActionHandler.propTypes = {
-  entityKey: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
+  entityKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   forceVisible: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-}
+  remove: PropTypes.func.isRequired
+};
 
 export default {
   handler: ActionHandler,
-  decorator,
-}
+  decorator
+};

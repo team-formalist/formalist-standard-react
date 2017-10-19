@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, popovers, typography } from "../styles";
 
 export const container = css`
@@ -15,4 +15,4 @@ export const container = css`
   overflow-scroll: touch;
   position: absolute;
   z-index: 10000;
-`
+`;

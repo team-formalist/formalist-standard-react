@@ -1,13 +1,13 @@
-import React from 'react'
+import React from "react";
 
 class HorizontalRule extends React.Component {
-  render () {
+  render() {
     return (
-      <div className='rte-block__hr'>
+      <div className="rte-block__hr">
         <hr />
       </div>
-    )
+    );
   }
 }
 
-export default HorizontalRule
+export default HorizontalRule;

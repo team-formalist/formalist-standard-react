@@ -14,4 +14,6 @@ export const list = css`
   margin-left: 1.6em;
 `;
 
-export const item = css`margin-bottom: 0.3rem;`;
+export const item = css`
+  margin-bottom: 0.3rem;
+`;

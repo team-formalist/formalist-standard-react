@@ -9,12 +9,12 @@
  * @param  {String} name Component name to match against
  * @return {ReactComponent/Boolean} Matching React component (or false)
  */
-export default function extractComponent (components, name) {
-  let component = false
-  components.forEach((c) => {
+export default function extractComponent(components, name) {
+  let component = false;
+  components.forEach(c => {
     if (c.name === name) {
-      component = c.component
+      component = c.component;
     }
-  })
-  return component
+  });
+  return component;
 }

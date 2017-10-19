@@ -1,16 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {
-  Entity,
-  getVisibleSelectionRect,
-  RichUtils,
-} from 'draft-js'
-import {getSelectedEntityKey} from '../../utils'
+import React from "react";
+import PropTypes from "prop-types";
+import { Entity, getVisibleSelectionRect, RichUtils } from "draft-js";
+import { getSelectedEntityKey } from "../../utils";
 // Components
-import Popout from '../../../popout'
-import InlineToolbarItems from '../items'
+import Popout from "../../../popout";
+import InlineToolbarItems from "../items";
 // Styles
-import * as styles from './styles'
+import * as styles from "./styles";
 
 /**
  * Inline Toolbar
@@ -28,51 +24,49 @@ class Toolbar extends React.Component {
     editorState: PropTypes.object.isRequired,
     formatters: PropTypes.array,
     entities: PropTypes.array,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   state = {
     visible: false,
-    forceVisible: false,
+    forceVisible: false
   };
 
   /**
    * Handle position and visibility of the toolbar
    */
-  componentWillReceiveProps (nextProps) {
-    const {editorState, editorHasFocus} = nextProps
-    const {forceVisible} = this.state
-    const selection = editorState.getSelection()
+  componentWillReceiveProps(nextProps) {
+    const { editorState, editorHasFocus } = nextProps;
+    const { forceVisible } = this.state;
+    const selection = editorState.getSelection();
 
     // Determine visibility of the toolbar
-    const selectionVisible = !selection.isCollapsed() && editorHasFocus
+    const selectionVisible = !selection.isCollapsed() && editorHasFocus;
 
     this.setState({
-      visible: forceVisible || selectionVisible,
-    })
+      visible: forceVisible || selectionVisible
+    });
 
     if (selectionVisible) {
       // We have to wait a tick to calculate the position
       window.requestAnimationFrame(() => {
         this.setState({
-          positionStyle: this.calculatePosition(),
-        })
-      })
+          positionStyle: this.calculatePosition()
+        });
+      });
     }
   }
 
-  forceVisible = (force) => {
+  forceVisible = force => {
     this.setState({
-      forceVisible: force,
-    })
+      forceVisible: force
+    });
   };
 
-  removeEntity = (entityKey) => {
-    const {editorState, onChange} = this.props
-    const selection = editorState.getSelection()
-    onChange(
-      RichUtils.toggleLink(editorState, selection, null)
-    )
+  removeEntity = entityKey => {
+    const { editorState, onChange } = this.props;
+    const selection = editorState.getSelection();
+    onChange(RichUtils.toggleLink(editorState, selection, null));
   };
 
   /**
@@ -82,45 +76,47 @@ class Toolbar extends React.Component {
    * @return {Object} Description of the position/size of the positioner
    */
   calculatePosition = () => {
-    const {visible} = this.state
+    const { visible } = this.state;
     if (visible) {
-      const selectionRect = getVisibleSelectionRect(window)
+      const selectionRect = getVisibleSelectionRect(window);
       if (selectionRect && this.positioner) {
-        const positionerRect = this.positioner.offsetParent.getBoundingClientRect()
+        const positionerRect = this.positioner.offsetParent.getBoundingClientRect();
         return {
           left: selectionRect.left - positionerRect.left,
           top: selectionRect.top - positionerRect.top,
-          width: selectionRect.width,
-        }
+          width: selectionRect.width
+        };
       }
     }
     return {
       left: 0,
       right: 0,
-      width: 0,
-    }
+      width: 0
+    };
   };
 
   onPopoutClose = () => {
     this.setState({
-      forceVisible: false,
-    })
+      forceVisible: false
+    });
   };
 
-  render () {
-    const {editorState, formatters, entities, onChange} = this.props
-    const {visible, forceVisible, positionStyle} = this.state
-    let SelectedEntityHandler = null
-    let selectedEntity
+  render() {
+    const { editorState, formatters, entities, onChange } = this.props;
+    const { visible, forceVisible, positionStyle } = this.state;
+    let SelectedEntityHandler = null;
+    let selectedEntity;
 
     // Retrieve the selected entity if there is one
     // and pull out any handlers we have available
-    const selectedEntityKey = getSelectedEntityKey(editorState)
+    const selectedEntityKey = getSelectedEntityKey(editorState);
     if (selectedEntityKey) {
-      selectedEntity = Entity.get(selectedEntityKey)
-      const selectedEntityType = selectedEntity.getType()
-      const {handler} = entities.find((entity) => entity.type.toLowerCase() === selectedEntityType.toLowerCase())
-      SelectedEntityHandler = handler
+      selectedEntity = Entity.get(selectedEntityKey);
+      const selectedEntityType = selectedEntity.getType();
+      const { handler } = entities.find(
+        entity => entity.type.toLowerCase() === selectedEntityType.toLowerCase()
+      );
+      SelectedEntityHandler = handler;
     }
 
     // Only display if we have some `formatters` configured
@@ -130,27 +126,37 @@ class Toolbar extends React.Component {
       /* eslint-disable react/jsx-no-bind */
       return (
         <div>
-          <Popout ref='popout' placement='top' isOpened={visible} closeOnOutsideClick onClose={this.onPopoutClose}>
+          <Popout
+            ref="popout"
+            placement="top"
+            isOpened={visible}
+            closeOnOutsideClick
+            onClose={this.onPopoutClose}
+          >
             <div
               className={styles.positioner}
-              ref={(r) => { this.positioner = r }}
-              style={positionStyle}>
-               &nbsp;
+              ref={r => {
+                this.positioner = r;
+              }}
+              style={positionStyle}
+            >
+              &nbsp;
             </div>
-            <div onMouseDown={(e) => {
-              if (!forceVisible) {
-                e.preventDefault()
-              }
-            }}>
+            <div
+              onMouseDown={e => {
+                if (!forceVisible) {
+                  e.preventDefault();
+                }
+              }}
+            >
               <InlineToolbarItems
                 formatters={formatters}
                 entities={entities}
                 editorState={editorState}
                 onChange={onChange}
               />
-              {
-                (SelectedEntityHandler)
-                ? <div className={styles.entityWrapper}>
+              {SelectedEntityHandler ? (
+                <div className={styles.entityWrapper}>
                   <SelectedEntityHandler
                     entityKey={selectedEntityKey}
                     editorState={editorState}
@@ -159,17 +165,16 @@ class Toolbar extends React.Component {
                     remove={this.removeEntity}
                   />
                 </div>
-                : null
-              }
+              ) : null}
             </div>
           </Popout>
         </div>
-      )
+      );
       /* eslint-enable react/jsx-no-bind */
     } else {
-      return null
+      return null;
     }
   }
 }
 
-export default Toolbar
+export default Toolbar;

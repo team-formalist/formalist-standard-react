@@ -1,15 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
+import React from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
-import Select from '../../ui/select'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
+import Select from "../../ui/select";
 
 // Import styles
-import * as styles from './styles'
+import * as styles from "./styles";
 
 /**
  * Select Box field
@@ -24,15 +24,12 @@ class SelectBox extends React.Component {
       hint: PropTypes.string,
       placeholder: PropTypes.string,
       options: PropTypes.array.isRequired,
-      inline: PropTypes.bool,
+      inline: PropTypes.bool
     }),
     hint: PropTypes.string,
     label: PropTypes.string,
     errors: ImmutablePropTypes.list,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
   /**
@@ -40,7 +37,7 @@ class SelectBox extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: PropTypes.object,
+    globalConfig: PropTypes.object
   };
 
   /**
@@ -49,32 +46,31 @@ class SelectBox extends React.Component {
    * @param  {Event} e Change event from a form input/select
    */
   onChange = (e, value) => {
-    this.props.actions.edit(
-      (val) => { return value }
-    )
+    this.props.actions.edit(val => {
+      return value;
+    });
   };
 
-  render () {
-    let { attributes, errors, hint, label, name, value } = this.props
-    let hasErrors = (errors.count() > 0)
+  render() {
+    let { attributes, errors, hint, label, name, value } = this.props;
+    let hasErrors = errors.count() > 0;
 
     // Set up field classes
-    let fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    let fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
 
     // Reach into the validation attributes to determine whether the select
     // should be clearable (i.e., it’s not required)
-    const clearable = !(attributes.validation && attributes.validation.filled === true)
+    const clearable = !(
+      attributes.validation && attributes.validation.filled === true
+    );
 
     // Extract options
-    let options = attributes.options
+    let options = attributes.options;
     // Return nothing if we have no values
     if (options && options.length === 0) {
-      return false
+      return false;
     }
 
     return (
@@ -85,31 +81,35 @@ class SelectBox extends React.Component {
         <div className={styles.display}>
           <Select
             id={name}
-            defaultValue={(value != null && value.toString) ? value.toString() : value}
+            defaultValue={
+              value != null && value.toString ? value.toString() : value
+            }
             placeholder={attributes.placeholder}
             error={hasErrors}
             onChange={this.onChange}
             clearable={clearable}
           >
             {options.map((option, i) => {
-              let value, label
+              let value, label;
               if (Array.isArray(option)) {
-                value = option[0]
-                label = option[1] || value
+                value = option[0];
+                label = option[1] || value;
               } else {
-                value = option
-                label = option
+                value = option;
+                label = option;
               }
               return (
-                <option key={i} value={value}>{label}</option>
-              )
+                <option key={i} value={value}>
+                  {label}
+                </option>
+              );
             })}
           </Select>
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default SelectBox
+export default SelectBox;

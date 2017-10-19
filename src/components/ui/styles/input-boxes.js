@@ -1,5 +1,5 @@
-import { css } from 'emotion'
-import * as colours from './colours'
+import { css } from "emotion";
+import * as colours from "./colours";
 import * as typography from "./typography";
 
 export const inputBox = css`
@@ -8,7 +8,7 @@ export const inputBox = css`
   ${colours.primaryColor};
   ${colours.greyLightBorder};
   ${colours.greyTintBackground};
-  box-shadow: inset 0px 2px 0px 0px rgba(20,15,10,0.03);
+  box-shadow: inset 0px 2px 0px 0px rgba(20, 15, 10, 0.03);
   border-width: 0;
   border-top-width: 1px;
   border-top-style: solid;
@@ -18,7 +18,7 @@ export const inputBox = css`
   width: 100%;
   transition-property: border-color, background-color;
   transition-duration: 100ms;
-`
+`;
 
 /* States */
 
@@ -27,9 +27,9 @@ export const error = css`
   ${colours.errorBorder};
   ${colours.errorLightBackground};
   &::placeholder {
-    color: rgba(0,0,0,0.2);
+    color: rgba(0, 0, 0, 0.2);
   }
-`
+`;
 
 export const focus = css`
   ${colours.darkBlendColor};
@@ -39,26 +39,26 @@ export const focus = css`
   &::placeholder {
     color: ${colours.lightBlend};
   }
-`
+`;
 
 /* Sizes */
 
 export const xsmall = css`
   ${typography.xSmall};
-`
+`;
 
 export const small = css`
   ${typography.small};
-`
+`;
 
 export const normal = css`
   ${typography.normal};
-`
+`;
 
 export const large = css`
   ${typography.large};
-`
+`;
 
 export const xlarge = css`
   ${typography.xLarge};
-`
+`;

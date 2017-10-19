@@ -1,22 +1,18 @@
-import React from 'react'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import { css } from 'emotion'
+import React from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import { css } from "emotion";
 
 const styles = {
-  base: css``,
-}
+  base: css``
+};
 
-const CompoundField = ({children}) => {
-  return (
-    <div className={styles.base}>
-      {children}
-    </div>
-  )
-}
+const CompoundField = ({ children }) => {
+  return <div className={styles.base}>{children}</div>;
+};
 
 CompoundField.propTypes = {
-  children: ImmutablePropTypes.list,
-}
+  children: ImmutablePropTypes.list
+};
 
-export default CompoundField
-export let CompoundFieldFactory = React.createFactory(CompoundField)
+export default CompoundField;
+export let CompoundFieldFactory = React.createFactory(CompoundField);

@@ -1,4 +1,4 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, typography } from "../../ui/styles";
 
 export const optionButton = css`
@@ -14,7 +14,7 @@ export const optionButton = css`
   padding: 0.7rem 1rem;
   text-align: left;
   width: 100%;
-`
+`;
 export const optionButtonFocus = css`
   text-decoration: underline;
-`
+`;

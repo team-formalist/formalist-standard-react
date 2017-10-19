@@ -1,5 +1,5 @@
-import { css } from 'emotion'
-import { colours, typography } from "../../../styles";
+import { css } from "emotion";
+import { colours } from "../../../styles";
 
 export const positioner = css`
   left: 50%;
@@ -9,7 +9,7 @@ export const positioner = css`
   transition-property: top;
   transition-duration: 50ms;
   width: 0;
-`
+`;
 
 export const iconWrapper = css`
   align-items: center;
@@ -23,7 +23,7 @@ export const iconWrapper = css`
     margin-left: auto;
     margin-right: auto;
   }
-`
+`;
 
 export const toggle = css`
   ${colours.greyMidColor};
@@ -51,12 +51,12 @@ export const toggle = css`
     margin-left: -0.3em;
     margin-top: -0.1em;
   }
-`
+`;
 
 export const toggleText = css`
   display: none;
-`
+`;
 
 export const buttonsWrapper = css`
   display: flex;
-`
+`;

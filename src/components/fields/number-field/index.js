@@ -1,16 +1,16 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
-import isNumber from 'is-number'
+import React from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
+import isNumber from "is-number";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
-import Input from '../../ui/input'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
+import Input from "../../ui/input";
 
 // Import styles
-import * as styles from './styles'
+import * as styles from "./styles";
 
 /**
  * Number field
@@ -25,14 +25,14 @@ class NumberField extends React.Component {
       inline: PropTypes.bool,
       step: PropTypes.number,
       min: PropTypes.number,
-      max: PropTypes.number,
+      max: PropTypes.number
     }),
     name: PropTypes.string,
     config: PropTypes.object,
     value: PropTypes.number,
     hint: PropTypes.string,
     label: PropTypes.string,
-    errors: ImmutablePropTypes.list,
+    errors: ImmutablePropTypes.list
   };
 
   /**
@@ -40,7 +40,7 @@ class NumberField extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: PropTypes.object,
+    globalConfig: PropTypes.object
   };
 
   /**
@@ -50,41 +50,38 @@ class NumberField extends React.Component {
    */
   onChange = (e, value) => {
     if (isNumber(value)) {
-      value = parseFloat(value)
+      value = parseFloat(value);
     } else {
-      value = null
+      value = null;
     }
-    this.props.actions.edit(
-      (val) => { return value }
-    )
+    this.props.actions.edit(val => {
+      return value;
+    });
   };
 
-  render () {
-    let { attributes, errors, hint, label, name, value } = this.props
-    let hasErrors = (errors.count() > 0)
+  render() {
+    let { attributes, errors, hint, label, name, value } = this.props;
+    let hasErrors = errors.count() > 0;
 
     // Set up field classes
-    let fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    let fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
 
     // Set up input classes
     let inputClassNames = classNames({
-      [`${styles.code}`]: attributes.code,
-    })
+      [`${styles.code}`]: attributes.code
+    });
 
     // Configure specific number attributes from the attributes
-    let numberProps = {}
-    let numberConfig = ['step', 'min', 'max']
-    numberConfig.forEach((option) => {
-      let value = attributes[option]
+    let numberProps = {};
+    let numberConfig = ["step", "min", "max"];
+    numberConfig.forEach(option => {
+      let value = attributes[option];
       if (value && isNumber(value)) {
-        numberProps[option] = value
+        numberProps[option] = value;
       }
-    })
+    });
 
     return (
       <div className={fieldClassNames}>
@@ -93,19 +90,20 @@ class NumberField extends React.Component {
         </div>
         <div className={styles.display}>
           <Input
-            type='number'
+            type="number"
             id={name}
             error={hasErrors}
             className={inputClassNames}
             placeholder={attributes.placeholder}
             defaultValue={value}
             onChange={this.onChange}
-            {...numberProps} />
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+            {...numberProps}
+          />
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default NumberField
+export default NumberField;

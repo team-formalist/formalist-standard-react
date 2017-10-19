@@ -1,15 +1,15 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, typography } from "../../../../styles";
 
 export const wrapper = css`
   position: relative;
-`
+`;
 
 export const caret = css`
   position: absolute;
   overflow: hidden;
   width: 0;
-`
+`;
 
 export const container = css`
   ${colours.whiteBackground};
@@ -17,11 +17,11 @@ export const container = css`
   outline: 3px transparent solid;
   transition-property: outline;
   transition-duration: 100ms;
-`
+`;
 
 export const containerSelected = css`
   outline: 3px ${colours.values.highlight} solid;
-`
+`;
 
 export const header = css`
   ${colours.greyTintBorder};
@@ -30,18 +30,18 @@ export const header = css`
   align-items: center;
   display: flex;
   padding: 0.5rem 1.5rem;
-`
+`;
 export const label = css`
   ${typography.small};
   ${colours.greyMidColor};
   margin-left: 0;
   margin-right: auto;
-`
+`;
 
 export const toolbar = css`
   margin-right: 0;
   margin-left: auto;
-`
+`;
 
 export const remove = css`
   ${colours.primaryColor};
@@ -55,11 +55,11 @@ export const remove = css`
   &:hover {
     color: ${colours.values.error};
   }
-`
+`;
 
 export const removeText = css`
   display: none;
-`
+`;
 
 export const removeX = css`
   ${typography.fallback};
@@ -67,9 +67,8 @@ export const removeX = css`
   &:hover {
     color: ${colours.values.error};
   }
-`
+`;
 
 export const content = css`
   padding: 1rem 1.5rem 0.1rem;
-`
-
+`;

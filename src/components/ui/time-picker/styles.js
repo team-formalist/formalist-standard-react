@@ -1,7 +1,7 @@
 import { css } from "emotion";
 import { colours, typography } from "../styles";
 
-export const base = css``
+export const base = css``;
 
 /* Time picker */
 
@@ -21,8 +21,8 @@ export const button = css`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
 export const buttonActive = css`
   ${colours.highlightLightBackground};
-`
+`;

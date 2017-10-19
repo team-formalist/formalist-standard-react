@@ -1,5 +1,5 @@
-import uid from 'uid'
-import isEqual from 'lodash.isequal'
+import uid from "uid";
+import isEqual from "lodash.isequal";
 
 /**
  * hasImageFormatType
@@ -8,8 +8,8 @@ import isEqual from 'lodash.isequal'
  * @return {bool}
  */
 
-function hasImageFormatType (filename) {
-  return (/.(jpg|jpeg|gif|png|bmp|svg)$/i).test(filename)
+function hasImageFormatType(filename) {
+  return /.(jpg|jpeg|gif|png|bmp|svg)$/i.test(filename);
 }
 
 /**
@@ -22,12 +22,12 @@ function hasImageFormatType (filename) {
  * @return {array}
  */
 
-function sortArrayByOrder (arr, order) {
-  let sorted = []
+function sortArrayByOrder(arr, order) {
+  let sorted = [];
   for (var i = 0; i < order.length; i++) {
-    sorted.push(arr[order[i]])
+    sorted.push(arr[order[i]]);
   }
-  return sorted
+  return sorted;
 }
 
 /**
@@ -35,8 +35,8 @@ function sortArrayByOrder (arr, order) {
  * @return {string}
  */
 
-function generateUniqueID (fileName) {
-  return uid(10) + '_' + fileName
+function generateUniqueID(fileName) {
+  return uid(10) + "_" + fileName;
 }
 
 /**
@@ -45,7 +45,7 @@ function generateUniqueID (fileName) {
  * @return {function}
  */
 
-const noOp = (_) => {}
+const noOp = _ => {};
 
 /**
  * filterUniqueObjects
@@ -58,18 +58,18 @@ const noOp = (_) => {}
  * @return {array} result
  */
 
-function filterUniqueObjects (primary, secondary) {
-  let result = secondary.slice(0)
+function filterUniqueObjects(primary, secondary) {
+  let result = secondary.slice(0);
 
-  primary.map((primaryObject) => {
-    secondary.map((secondaryObject, i) => {
+  primary.forEach(primaryObject => {
+    secondary.forEach((secondaryObject, i) => {
       if (isEqual(primaryObject, secondaryObject)) {
-        result.splice(i, 1)
+        result.splice(i, 1);
       }
-    })
-  })
+    });
+  });
 
-  return result
+  return result;
 }
 
 export {
@@ -77,5 +77,5 @@ export {
   sortArrayByOrder,
   generateUniqueID,
   noOp,
-  filterUniqueObjects,
-}
+  filterUniqueObjects
+};

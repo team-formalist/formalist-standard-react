@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 
 class Portal extends Component {
@@ -54,10 +54,7 @@ class Portal extends Component {
 
   render() {
     const { children, isOpened } = this.props;
-    return (
-      isOpened &&
-      ReactDOM.createPortal(this.props.children, this.getContainer())
-    );
+    return isOpened && ReactDOM.createPortal(children, this.getContainer());
   }
 }
 

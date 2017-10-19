@@ -1,16 +1,16 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { colours, typography } from "../styles";
 
 export const base = css`
   min-width: 40rem;
   position: relative;
-`
+`;
 
 export const list = css`
   max-height: 60rem;
   overflow-y: scroll;
   overflow-scroll: touch;
-`
+`;
 
 export const search = css`
   ${typography.normal};
@@ -26,27 +26,27 @@ export const search = css`
   &:focus {
     outline: none;
   }
-`
+`;
 
 export const spinner = css`
   position: absolute;
   right: 1rem;
   top: 0.9rem;
   z-index: 2;
-`
+`;
 
 export const results = css`
   opacity: 1;
   transition-duration: 100ms;
   transition-property: opacity;
-`
+`;
 
 export const resultsLoading = css`
   opacity: 0.5;
   position: relative;
   &:before {
     bottom: 0;
-    content: '';
+    content: "";
     left: 0;
     pointer-events: all;
     position: absolute;
@@ -55,7 +55,7 @@ export const resultsLoading = css`
     background-color: transparent;
     z-index: 100;
   }
-`
+`;
 
 export const pagination = css`
   ${typography.normal};
@@ -67,7 +67,7 @@ export const pagination = css`
   border-top-style: solid;
   position: relative;
   z-index: 1;
-`
+`;
 
 export const optionButton = css`
   ${typography.small};
@@ -87,7 +87,7 @@ export const optionButton = css`
   &:hover {
     text-decoration: underline;
   }
-`
+`;
 
 export const optionButtonSelected = css`
   ${colours.highlightLightBackground};
@@ -95,9 +95,9 @@ export const optionButtonSelected = css`
   border-color: color(#7fc2ea tint(40%));
   position: relative;
   z-index: 1;
-`
+`;
 
 export const noResults = css`
   text-align: center;
   padding: 2rem;
-`
+`;

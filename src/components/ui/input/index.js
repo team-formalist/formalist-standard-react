@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import withoutKeys from '../../../utils/without-keys'
-import * as styles from './styles'
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import withoutKeys from "../../../utils/without-keys";
+import * as styles from "./styles";
 
 /**
  * Input
@@ -24,68 +24,77 @@ class Input extends React.Component {
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
     onFocus: PropTypes.func,
-    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    size: PropTypes.oneOf(["xsmall", "small", "normal", "large", "xlarge"])
   };
 
   static defaultProps = {
     error: false,
-    size: 'normal',
-    type: 'text',
+    size: "normal",
+    type: "text"
   };
 
   state = {
-    focus: false,
+    focus: false
   };
 
-  onFocus = (e) => {
-    this.setState({focus: true})
+  onFocus = e => {
+    this.setState({ focus: true });
     if (this.props.onFocus) {
-      this.props.onFocus(e)
+      this.props.onFocus(e);
     }
   };
 
-  onBlur = (e) => {
-    this.setState({focus: false})
+  onBlur = e => {
+    this.setState({ focus: false });
     if (this.props.onBlur) {
-      this.props.onBlur(e)
+      this.props.onBlur(e);
     }
   };
 
-  onChange = (e) => {
-    this.props.onChange(e, e.target.value)
+  onChange = e => {
+    this.props.onChange(e, e.target.value);
   };
 
   /**
    * Public
    */
   getInput = () => {
-    return this._input
+    return this._input;
   };
 
-  render () {
+  render() {
     let inputClassNames = classNames(
       this.props.className,
       styles.input,
       {
         [`${styles.error}`]: this.props.error,
-        [`${styles.focus}`]: this.state.focus,
+        [`${styles.focus}`]: this.state.focus
       },
       `${styles[this.props.size]}`
-    )
+    );
 
-    const propsToPass = withoutKeys(this.props, ['error', 'size', 'className', 'onBlur', 'onChange', 'onFocus'])
+    const propsToPass = withoutKeys(this.props, [
+      "error",
+      "size",
+      "className",
+      "onBlur",
+      "onChange",
+      "onFocus"
+    ]);
 
     return (
       <input
-        ref={(r) => { this._input = r }}
+        ref={r => {
+          this._input = r;
+        }}
         {...propsToPass}
         onChange={this.onChange}
         className={inputClassNames}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
       />
-    )
+    );
   }
 }
 
-export default Input
+export default Input;

@@ -1,22 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
-import {
-  EditorState,
-} from 'draft-js'
+import React from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
+import { EditorState } from "draft-js";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
 
 // Import styles
-import * as styles from './styles'
-import RichTextEditor from '../../ui/rich-text-editor'
+import * as styles from "./styles";
+import RichTextEditor from "../../ui/rich-text-editor";
 
 // HTML
-import exporter from 'draft-js-ast-exporter'
-import importer from 'draft-js-ast-importer'
+import exporter from "draft-js-ast-exporter";
+import importer from "draft-js-ast-importer";
 
 /**
  * Text Area field
@@ -31,10 +29,16 @@ class RichTextArea extends React.Component {
       hint: PropTypes.string,
       placeholder: PropTypes.string,
       inline: PropTypes.bool,
-      box_size: PropTypes.oneOf(['single', 'small', 'normal', 'large', 'xlarge']),
+      box_size: PropTypes.oneOf([
+        "single",
+        "small",
+        "normal",
+        "large",
+        "xlarge"
+      ]),
       inline_formatters: PropTypes.array,
       block_formatters: PropTypes.array,
-      embeddable_forms: PropTypes.object,
+      embeddable_forms: PropTypes.object
     }),
     hint: PropTypes.string,
     label: PropTypes.string,
@@ -42,21 +46,23 @@ class RichTextArea extends React.Component {
     value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.array,
-      ImmutablePropTypes.list,
-    ]),
+      ImmutablePropTypes.list
+    ])
   };
 
-  constructor (props) {
-    super(props)
-    let {value} = props
+  constructor(props) {
+    super(props);
+    let { value } = props;
     // Convert from an Immutable structure?
-    value = (value && value.toJS) ? value.toJS() : value
+    value = value && value.toJS ? value.toJS() : value;
     // Convert from a string?
-    value = (typeof value === 'string') ? JSON.parse(value) : value
+    value = typeof value === "string" ? JSON.parse(value) : value;
 
     this.state = {
-      editorState: (value) ? EditorState.createWithContent(importer(value)) : EditorState.createEmpty(),
-    }
+      editorState: value
+        ? EditorState.createWithContent(importer(value))
+        : EditorState.createEmpty()
+    };
   }
 
   /**
@@ -64,51 +70,46 @@ class RichTextArea extends React.Component {
    *
    * @param  {EditorState} editorState State from the editor
    */
-  onChange = (editorState) => {
-    const {value} = this.props
+  onChange = editorState => {
+    const { value } = this.props;
     const exporterOptions = {
       entityModifiers: {
-        'formalist': (data) => {
-          const copy = Object.assign({}, data)
-          delete copy['label']
-          delete copy['form']
-          return copy
-        },
-      },
-    }
-    const currentContent = editorState.getCurrentContent()
-    const hasText = currentContent.hasText()
-    const newValue = (hasText) ? exporter(editorState, exporterOptions) : null
-    const hasChangedToNull = (newValue === null && value !== null)
+        formalist: data => {
+          const copy = Object.assign({}, data);
+          delete copy["label"];
+          delete copy["form"];
+          return copy;
+        }
+      }
+    };
+    const currentContent = editorState.getCurrentContent();
+    const hasText = currentContent.hasText();
+    const newValue = hasText ? exporter(editorState, exporterOptions) : null;
+    const hasChangedToNull = newValue === null && value !== null;
 
     // Persist the value to the AST, but only if it is:
     // * Not null
     // * Has changed to null
     if (newValue != null || hasChangedToNull) {
-      this.props.actions.edit(
-        (val) => {
-          return newValue
-        }
-      )
+      this.props.actions.edit(val => {
+        return newValue;
+      });
     }
     // Keep track of the state here
     this.setState({
-      editorState,
-    })
+      editorState
+    });
   };
 
-  render () {
-    const {attributes, config, errors, hint, label, name} = this.props
-    const {editorState} = this.state
-    let hasErrors = (errors.count() > 0)
+  render() {
+    const { attributes, config, errors, hint, label, name } = this.props;
+    const { editorState } = this.state;
+    let hasErrors = errors.count() > 0;
 
     // Set up field classes
-    let fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    let fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
 
     return (
       <div className={fieldClassNames}>
@@ -127,11 +128,11 @@ class RichTextArea extends React.Component {
             textSize={attributes.text_size}
             placeholder={attributes.placeholder}
           />
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default RichTextArea
+export default RichTextArea;

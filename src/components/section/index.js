@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import * as styles from './styles'
+import React from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import * as styles from "./styles";
 
 class Section extends React.Component {
   static propTypes = {
@@ -9,29 +9,28 @@ class Section extends React.Component {
     type: PropTypes.string,
     attributes: ImmutablePropTypes.map,
     name: PropTypes.string,
-    children: ImmutablePropTypes.list,
+    children: ImmutablePropTypes.list
   };
 
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
     // section. This should take account of any change to the AST.
     // It will not account for changes to the overall form definition (but they
     // should not change after runtime anyway)
-    return (this.props.hashCode !== nextProps.hashCode)
+    return this.props.hashCode !== nextProps.hashCode;
   }
 
-  render () {
-    let label = this.props.attributes.get('label') || this.props.name.replace(/_/, ' ')
+  render() {
+    let label =
+      this.props.attributes.get("label") || this.props.name.replace(/_/, " ");
     return (
       <section className={styles.base}>
         <h2 className={styles.label}>{label}</h2>
-        <div className={styles.children}>
-          {this.props.children}
-        </div>
+        <div className={styles.children}>{this.props.children}</div>
       </section>
-    )
+    );
   }
 }
 
-export default Section
-export let SectionFactory = React.createFactory(Section)
+export default Section;
+export let SectionFactory = React.createFactory(Section);

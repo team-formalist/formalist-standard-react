@@ -1,9 +1,9 @@
-import { css, injectGlobal } from 'emotion'
-import { colours, inputBoxes, typography } from "../styles";
+import { css, injectGlobal } from "emotion";
+import { colours, typography } from "../styles";
 
 /* Day picker */
 
-export const daypickerContainer = css``
+export const daypickerContainer = css``;
 
 /**
  * Base on the template from https://github.com/gpbl/react-day-picker/blob/master/src/style.css
@@ -122,4 +122,4 @@ injectGlobal`
       border-radius: 2px;
     }
   }
-`
+`;

@@ -1,9 +1,9 @@
-import { css } from 'emotion'
+import { css } from "emotion";
 import { buttons, colours, typography } from "../../../../styles";
 
 export const displayWrapper = css`
   display: flex;
-`
+`;
 
 export const handlerUrl = css`
   ${typography.mono};
@@ -17,38 +17,38 @@ export const handlerUrl = css`
     color: ${colours.values.error};
     text-decoration: underline;
   }
-`
+`;
 
 export const field = css`
   display: flex;
   align-items: center;
   min-width: 35rem;
   margin-bottom: 0.5rem;
-`
+`;
 
 export const fieldCheckbox = css`
   margin-left: 4rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-`
+`;
 
 export const label = css`
   ${typography.small};
   text-align: right;
   padding-right: 1rem;
   width: 4rem;
-`
+`;
 
 export const actions = css`
   margin-top: 0.8rem;
   margin-bottom: 0.5rem;
   margin-left: 4rem;
-`
+`;
 
 export const saveButton = css`
   ${buttons.small};
-${buttons.buttonHighlight};
-`
+  ${buttons.buttonHighlight};
+`;
 
 export const editButton = css`
   ${colours.highlightColor};
@@ -59,10 +59,10 @@ export const editButton = css`
   &:focus {
     color: ${colours.values.error};
   }
-`
+`;
 export const removeText = css`
   display: none;
-`
+`;
 
 export const removeX = css`
   ${colours.errorColor};
@@ -73,4 +73,4 @@ export const removeX = css`
   &:hover {
     color: ${colours.values.primary};
   }
-`
+`;

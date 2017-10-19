@@ -1,14 +1,14 @@
-import React from 'react'
-import { EditorBlock } from 'draft-js'
+import React from "react";
+import { EditorBlock } from "draft-js";
 
 class PullquoteBlock extends React.Component {
-  render () {
+  render() {
     return (
-      <div className='rte-block__pullquote'>
+      <div className="rte-block__pullquote">
         <EditorBlock {...this.props} />
       </div>
-    )
+    );
   }
 }
 
-export default PullquoteBlock
+export default PullquoteBlock;

@@ -1,1 +1,1 @@
-import './multi-upload-field'
+import "./multi-upload-field";
