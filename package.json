@@ -10,7 +10,7 @@
     "precompile": "npm run clean",
     "watch": "nodemon --watch src --exec 'npm run build' --ext js,css,mcss",
     "prepublish": "npm run compile",
-    "test": "NODE_ENV=test babel-node test",
+    "test": "NODE_ENV=test babel-node test | tap-spec",
     "posttest": "npm run lint",
     "clean": "rm -rf ./lib/*",
     "copycss": "rsync -r ./src/* --include='*/' --include='*.css' --exclude='*' lib",
@@ -51,7 +51,6 @@
     "eslint-plugin-prettier": "2.3.1",
     "eslint-plugin-promise": "3.6.0",
     "eslint-plugin-react": "7.4.0",
-    "faucet": "0.0.1",
     "ignore-styles": "^5.0.1",
     "isfunction": "^0.0.6",
     "isomorphic-fetch": "^2.2.1",
@@ -59,6 +58,7 @@
     "nodemon": "^1.12.1",
     "prettier": "1.7.4",
     "react-test-renderer": "16.0.0",
+    "tap-spec": "4.1.1",
     "tape": "^4.5.1"
   },
   "dependencies": {
