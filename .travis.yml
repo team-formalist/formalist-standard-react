@@ -3,7 +3,7 @@ node_js:
 - 6.10
 - 7.9
 install:
-- yarn add react@15.3.2 react-dom@15.3.2 draft-js@0.9.1
+- yarn add react@16.0.0 react-dom@16.0.0 draft-js@0.10.3
 - yarn install
 notifications:
   email: false
