@@ -100,10 +100,10 @@ class Popout extends React.Component {
    */
   calculatePosition = () => {
     // Only bother if its rendered
-    const referenceEl = this._reference.firstChild || this._reference;
-    if (!referenceEl) {
+    if (!this._reference) {
       return;
     }
+    const referenceEl = this._reference.firstChild || this._reference;
 
     let position;
     const { placement } = this.props;
