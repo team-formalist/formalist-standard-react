@@ -14,7 +14,7 @@ export const header = css`
   ${fields.header};
 `;
 
-export const display = css``
+export const display = css``;
 
 export const code = css`
   ${typography.mono};
