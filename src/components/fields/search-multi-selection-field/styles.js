@@ -125,3 +125,5 @@ export const selection = css`
     font-style: italic;
   }
 `;
+
+export const selectedItems = css``;

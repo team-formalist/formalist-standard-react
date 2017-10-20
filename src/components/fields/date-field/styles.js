@@ -20,3 +20,5 @@ export const nowButton = css`
   float: right;
   margin-top: -0.3rem;
 `;
+
+export const display = css``;

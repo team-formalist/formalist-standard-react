@@ -15,3 +15,5 @@ export const header = css`
     padding-top: 0;
   }
 `;
+
+export const display = css``;

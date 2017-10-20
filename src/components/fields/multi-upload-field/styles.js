@@ -74,6 +74,8 @@ export const progress__title = css`
   color: ${colours.values.white};
 `;
 
+export const listItem__body = css``;
+
 export const progress__bar = css`
   compose ${colours.highlightBackground}
   bottom: 0;
@@ -86,6 +88,8 @@ export const progress__bar = css`
   z-index: 1;
   overflow: hidden;
 `;
+
+export const validationMessages = css``;
 
 export const validationMessage = css`
   ${typography.sans};

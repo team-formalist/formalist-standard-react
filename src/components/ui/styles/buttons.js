@@ -13,8 +13,8 @@ export const buttonSecondary = css`
   ${colours.highlightLightBackground};
   ${colours.highlightColor};
   & :hover {
-    background-color: ${colours.error};
-    color: ${colours.white};
+    background-color: ${colours.values.error};
+    color: ${colours.values.white};
   }
 `;
 
@@ -23,7 +23,7 @@ export const buttonHighlight = css`
   ${colours.whiteColor};
   ${colours.highlightBackground};
   &:hover {
-    background-color: ${colours.error};
+    background-color: ${colours.values.error};
   }
 `;
 

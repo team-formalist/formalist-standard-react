@@ -37,14 +37,14 @@ export const focus = css`
   ${colours.highlightLightBackground};
   outline: none;
   &::placeholder {
-    color: ${colours.lightBlend};
+    color: ${colours.values.lightBlend};
   }
 `;
 
 /* Sizes */
 
 export const xsmall = css`
-  ${typography.xSmall};
+  ${typography.xsmall};
 `;
 
 export const small = css`
@@ -60,5 +60,5 @@ export const large = css`
 `;
 
 export const xlarge = css`
-  ${typography.xLarge};
+  ${typography.xlarge};
 `;

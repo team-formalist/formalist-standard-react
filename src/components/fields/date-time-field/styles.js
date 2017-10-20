@@ -14,6 +14,8 @@ export const header = css`
   ${fields.header};
 `;
 
+export const display = css``;
+
 export const nowButton = css`
   ${buttons.small};
   ${buttons.buttonHighlight};

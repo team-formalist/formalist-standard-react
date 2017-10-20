@@ -60,6 +60,9 @@ export const editButton = css`
     color: ${colours.values.error};
   }
 `;
+
+export const removeButton = css``;
+
 export const removeText = css`
   display: none;
 `;

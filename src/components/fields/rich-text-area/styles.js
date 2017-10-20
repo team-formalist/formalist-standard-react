@@ -12,3 +12,5 @@ export const baseInline = css`
 export const header = css`
   ${fields.header};
 `;
+
+export const display = css``;
