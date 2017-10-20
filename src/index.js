@@ -1,8 +1,6 @@
 import composeForm, { createFormConfig } from "formalist-compose";
 import formComponents from "./components";
-import { displayVariants } from "./components/fields";
 export const components = formComponents;
-export const fieldDisplayVariants = displayVariants;
 
 /**
  * Template
