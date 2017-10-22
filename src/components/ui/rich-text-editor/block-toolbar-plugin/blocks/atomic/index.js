@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import template from "../../../../../";
+import template from "../../../../../../";
 import React from "react";
 import PropTypes from "prop-types";
 import { Entity } from "draft-js";
