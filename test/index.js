@@ -29,8 +29,8 @@ test("it should create a standard form instance", nest => {
   let wrapper = mount(<article>{form.render()}</article>);
 
   nest.test("... with different display types for inputs", assert => {
-    const el = wrapper.find("input").at(0);
-    const actual = el.prop("id");
+    const el = wrapper.find("[data-field-type]").at(0);
+    const actual = el.prop("data-field-name");
     const expected = "text_field";
     assert.equal(expected, actual);
     assert.end();
