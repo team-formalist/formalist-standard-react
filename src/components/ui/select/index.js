@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
+import withoutKeys from "../../../utils/without-keys";
 import * as styles from "./styles";
 
 /**
@@ -96,11 +97,22 @@ class Select extends React.Component {
 
     // Extract any other props
     const { id } = this.props;
+    const propsToPass = withoutKeys(this.props, [
+      "children",
+      "className",
+      "error",
+      "clearable",
+      "onFocus",
+      "onBlur",
+      "onChange",
+      "placeholder",
+      "size"
+    ]);
 
     return (
       <label className={labelClassNames}>
         <select
-          id={id}
+          {...propsToPass}
           defaultValue={defaultValue || ""}
           className={inputClassNames}
           onBlur={this.onBlur}

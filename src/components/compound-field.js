@@ -7,7 +7,7 @@ const styles = {
 };
 
 const CompoundField = ({ children }) => {
-  return <div className={styles.base}>{children}</div>;
+  return <div className={styles.base} data-compound-field>{children}</div>;
 };
 
 CompoundField.propTypes = {

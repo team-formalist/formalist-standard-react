@@ -112,11 +112,15 @@ class RichTextArea extends React.Component {
     });
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="rich-text-area"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
-        <div className={styles.display} id={name}>
+        <div className={styles.display}>
           <RichTextEditor
             editorState={editorState}
             config={config}
@@ -127,6 +131,7 @@ class RichTextArea extends React.Component {
             boxSize={attributes.box_size}
             textSize={attributes.text_size}
             placeholder={attributes.placeholder}
+            webDriverTestID={name}
           />
           {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>

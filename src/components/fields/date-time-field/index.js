@@ -69,7 +69,11 @@ class DateTimeField extends React.Component {
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="date-time-field"
+      >
         <button
           className={styles.nowButton}
           onClick={e => {
@@ -82,7 +86,6 @@ class DateTimeField extends React.Component {
         <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         <div className={styles.display}>
           <DateTimePicker
-            id={name}
             error={hasErrors}
             placeholder={attributes.placeholder}
             value={value}

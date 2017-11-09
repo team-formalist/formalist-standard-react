@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import uid from "uid";
 import classNames from "classnames";
+import withoutKeys from "../../../utils/without-keys";
 import * as styles from "./styles";
 
 /**
@@ -20,7 +21,6 @@ import * as styles from "./styles";
 class Checkbox extends React.Component {
   static propTypes = {
     id: PropTypes.string,
-    className: PropTypes.string,
     defaultChecked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
@@ -55,19 +55,29 @@ class Checkbox extends React.Component {
   };
 
   render() {
-    let { defaultChecked, label, name, value } = this.props;
+    let { defaultChecked, label, value } = this.props;
     let labelClassNames = classNames(styles.label, {
       [`${styles.error}`]: this.props.error,
       [`${styles.focus}`]: this.state.focus
     });
 
+    const propsToPass = withoutKeys(this.props, [
+      "id",
+      "disabled",
+      "error",
+      "name",
+      "onChange",
+      "size",
+      "value"
+    ]);
+
     return (
       <div className={styles.button}>
         <input
+          {...propsToPass}
           className={styles.input}
           id={this.state.id}
           type="checkbox"
-          name={name}
           value={value}
           defaultChecked={defaultChecked}
           onBlur={this.onBlur}

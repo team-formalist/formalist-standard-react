@@ -33,7 +33,7 @@ class FieldHeader extends React.Component {
       [`${styles.error}`]: this.props.error
     });
     return (
-      <div className={styles.base}>
+      <div className={styles.base} data-field-header>
         {label ? (
           <Label htmlFor={id} className={labelClassNames}>
             {label}

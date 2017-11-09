@@ -68,14 +68,18 @@ class TextField extends React.Component {
     });
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="text-field"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <Input
+            data-field-input
             type={type}
-            id={name}
             error={hasErrors}
             className={inputClassNames}
             placeholder={attributes.placeholder}

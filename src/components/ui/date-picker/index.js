@@ -38,11 +38,13 @@ class DatePicker extends React.Component {
     id: PropTypes.string,
     month: PropTypes.number,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    showFieldDataAttributes: PropTypes.bool
   };
 
   static defaultProps = {
-    placeholder: "Select a date"
+    placeholder: "Select a date",
+    showFieldDataAttributes: false
   };
 
   state = {
@@ -102,7 +104,13 @@ class DatePicker extends React.Component {
   };
 
   render() {
-    let { id, className, error, placeholder } = this.props;
+    let {
+      id,
+      className,
+      error,
+      placeholder,
+      showFieldDataAttributes
+    } = this.props;
     let { month, value } = this.state;
     let selectedDay = moment(this.state.value, "l", true).toDate();
 
@@ -122,6 +130,7 @@ class DatePicker extends React.Component {
             value={value}
             onChange={this.onInputChange}
             onFocus={this.onInputFocus}
+            data-field-input="date"
           />
           <div className={styles.daypickerContainer}>
             <DayPicker

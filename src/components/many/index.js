@@ -153,7 +153,7 @@ class Many extends React.Component {
     });
 
     return (
-      <div className={styles.base}>
+      <div className={styles.base} data-many={name}>
         <div className={styles.header}>
           <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>

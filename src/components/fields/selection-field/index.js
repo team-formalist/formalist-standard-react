@@ -259,14 +259,18 @@ class SelectionField extends React.Component {
     });
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="selection-field"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           {selection ? (
             <div className={styles.wrapper}>
-              <div id={name} className={styles.selection}>
+              <div className={styles.selection}>
                 <Selection option={selection} />
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>

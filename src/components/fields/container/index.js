@@ -106,7 +106,7 @@ class FieldContainer extends React.Component {
     return (
       // *Explicitly* pass all the props we care about down to the field
       // rather than dumping everything through
-      <div className={containerClassNames}>
+      <div className={containerClassNames} data-field-container>
         <Field
           actions={fieldActions}
           bus={bus}

@@ -74,13 +74,17 @@ class SelectBox extends React.Component {
     }
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="select-box"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <Select
-            id={name}
+            data-field-input
             defaultValue={
               value != null && value.toString ? value.toString() : value
             }

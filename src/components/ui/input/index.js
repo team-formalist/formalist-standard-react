@@ -72,7 +72,6 @@ class Input extends React.Component {
       },
       `${styles[this.props.size]}`
     );
-
     const propsToPass = withoutKeys(this.props, [
       "error",
       "size",

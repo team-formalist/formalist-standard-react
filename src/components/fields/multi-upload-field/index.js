@@ -975,9 +975,14 @@ class MultiUploadField extends React.Component {
     let fieldClassNames = classNames(styles.base, {
       [`${styles.baseInline}`]: attributes.inline
     });
+    const multiple = this.props.attributes.multiple || this.props.multiple;
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type={multiple ? "multi-upload-field" : "upload-field"}
+      >
         <div>
           <div>
             <FieldHeader hint={hint} id={name} label={label} />
@@ -989,7 +994,7 @@ class MultiUploadField extends React.Component {
             ? this.renderInvalidFiles(invalidFiles)
             : null}
           <Dropzone
-            multiple={this.props.attributes.multiple || this.props.multiple}
+            multiple={multiple}
             onChange={this.onChange}
             label={upload_prompt}
             buttonText={upload_action_label}

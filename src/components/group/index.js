@@ -24,7 +24,7 @@ class Group extends React.Component {
     let label = attributes.get("label");
 
     return (
-      <div className={styles.group}>
+      <div className={styles.group} data-group>
         {label ? <h2 className={styles.label}>{label}</h2> : null}
         <div className={styles.groupItems}>
           {children.map((child, index) => (

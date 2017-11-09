@@ -233,7 +233,11 @@ class TagsField extends Component {
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="tags-field"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>

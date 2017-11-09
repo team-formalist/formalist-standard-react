@@ -29,7 +29,8 @@ class RichTextEditor extends React.Component {
     inlineFormatters: PropTypes.array,
     editorState: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    webDriverTestID: PropTypes.string
   };
 
   static defaultProps = {
@@ -156,7 +157,13 @@ class RichTextEditor extends React.Component {
   };
 
   render() {
-    const { boxSize, blockFormatters, editorState, placeholder } = this.props;
+    const {
+      boxSize,
+      blockFormatters,
+      editorState,
+      placeholder,
+      webDriverTestID
+    } = this.props;
     const { hasFocus, readOnly } = this.state;
     const { BlockToolbar, InlineToolbar } = this;
 
@@ -214,6 +221,7 @@ class RichTextEditor extends React.Component {
             onBlur={this.onBlur}
             onChange={this.onChange}
             readOnly={readOnly}
+            webDriverTestID={webDriverTestID}
           />
         </div>
       </div>

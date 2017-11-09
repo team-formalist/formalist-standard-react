@@ -286,7 +286,11 @@ class SelectionField extends React.Component {
     });
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="multi-selection-field"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
@@ -336,7 +340,7 @@ class SelectionField extends React.Component {
             </button>
           </div>
           {numberOfSelections > 0 ? (
-            <div id={name} className={styles.selectedItems}>
+            <div className={styles.selectedItems}>
               <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
                 {selections.map((option, index) => (
                   <Selection key={`${index}_${option.id}`} option={option} />

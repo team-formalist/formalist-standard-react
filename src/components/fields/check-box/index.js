@@ -64,12 +64,17 @@ class CheckBox extends React.Component {
     let checkboxLabel = attributes.question_text || label;
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="check-box"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
           <Checkbox
+            data-field-input
             name={name}
             label={checkboxLabel}
             error={hasErrors}

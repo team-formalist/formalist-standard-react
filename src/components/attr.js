@@ -7,7 +7,7 @@ const styles = {
 };
 
 const Attr = ({ children }) => {
-  return <div className={styles.base}>{children}</div>;
+  return <div className={styles.base} data-attr>{children}</div>;
 };
 
 Attr.propTypes = {
