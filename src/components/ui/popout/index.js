@@ -43,7 +43,8 @@ class Popout extends React.Component {
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onUpdate: PropTypes.func,
-    placement: PropTypes.string
+    placement: PropTypes.string,
+    testId: PropTypes.string
   };
 
   static defaultProps = {
@@ -280,7 +281,7 @@ class Popout extends React.Component {
 
   render() {
     // Extract Portal props
-    let { beforeClose, onUpdate } = this.props;
+    let { beforeClose, onUpdate, testId } = this.props;
 
     let { placement } = this.props;
     let { isOpened, position } = this.state;
@@ -316,7 +317,11 @@ class Popout extends React.Component {
           onClose={this.onClose}
           onUpdate={onUpdate}
         >
-          <div className={styles.positioner} style={position}>
+          <div
+            data-testid={testId}
+            className={styles.positioner}
+            style={position}
+          >
             <div className={arrowClassNames} />
             <div
               ref={c => {

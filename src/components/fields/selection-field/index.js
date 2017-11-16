@@ -154,7 +154,7 @@ class SelectionField extends React.Component {
    * @return {Null}
    */
   onPopoutOpen = () => {
-    this.refs.search.focus();
+    this._search.focus();
   };
 
   /**
@@ -279,26 +279,29 @@ class SelectionField extends React.Component {
               </button>
             </div>
           ) : (
-            <button className={styles.wrapper} onClick={this.onChooseClick}>
+            <button data-open-selector-button className={styles.wrapper} onClick={this.onChooseClick}>
               <div className={styles.selectionPlaceholder}>
                 {placeholder || "Make a selection"}
               </div>
               <Popout
-                ref={c => {
-                  this._selector = c;
+                ref={r => {
+                  this._selector = r;
                 }}
                 placement="left"
                 onClose={this.onPopoutClose}
                 onOpen={this.onPopoutOpen}
                 closeOnEsc={!searchFocus || !search}
                 closeOnOutsideClick
+                testId={`selection-field:${name}`}
               >
                 <div className={styles.openSelectorButton}>
                   {selector_label || "Select"}
                 </div>
                 <div className={styles.options}>
                   <input
-                    ref="search"
+                    ref={r => {
+                      this._search = r;
+                    }}
                     type="search"
                     className={styles.search}
                     placeholder="Type to filter"

@@ -149,6 +149,7 @@ class SearchSelector extends Component {
       return (
         <button
           key={option.id}
+          data-value={option.id}
           className={optionButtonClassNames}
           onClick={onClick}
         >
@@ -162,11 +163,12 @@ class SearchSelector extends Component {
     });
 
     return (
-      <div className={styles.base}>
+      <div data-search-selector className={styles.base}>
         <input
           ref={r => {
             this._search = r;
           }}
+          data-search-selector-input
           type="text"
           className={styles.search}
           defaultValue={this.query}
@@ -177,7 +179,7 @@ class SearchSelector extends Component {
         />
         {loading ? <Spinner className={styles.spinner} /> : null}
         {options.length > 0 ? (
-          <div className={resultClassNames}>
+          <div data-search-selector-results className={resultClassNames}>
             <div className={styles.pagination}>
               <Pagination
                 currentPage={this.page}

@@ -54,6 +54,7 @@ class Pagination extends Component {
         </div>
         <div className={styles.buttons}>
           <button
+            data-search-selector-pagination="prev"
             className={styles.prevButton}
             disabled={currentPage === 1}
             onClick={e => {
@@ -64,6 +65,7 @@ class Pagination extends Component {
             <span className={styles.buttonText}> Prev</span>
           </button>
           <button
+            data-search-selector-pagination="next"
             className={styles.nextButton}
             disabled={currentPage === totalPages}
             onClick={e => {

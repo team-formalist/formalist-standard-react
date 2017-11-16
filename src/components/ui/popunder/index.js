@@ -39,7 +39,8 @@ class Popunder extends React.Component {
     onOpen: PropTypes.func,
     onClose: PropTypes.func,
     onUpdate: PropTypes.func,
-    containerClassName: PropTypes.string
+    containerClassName: PropTypes.string,
+    testId: PropTypes.string
   };
 
   static defaultProps = {
@@ -209,7 +210,13 @@ class Popunder extends React.Component {
 
   render() {
     // Extract Portal props
-    let { beforeClose, className, onUpdate, containerClassName } = this.props;
+    let {
+      beforeClose,
+      className,
+      onUpdate,
+      containerClassName,
+      testId
+    } = this.props;
 
     let { isOpened, position } = this.state;
 
@@ -244,10 +251,11 @@ class Popunder extends React.Component {
           onUpdate={onUpdate}
         >
           <div
+            className={containerClassNames}
+            data-testid={testId}
             ref={c => {
               this._container = c;
             }}
-            className={containerClassNames}
             style={position}
           >
             {portalContent}

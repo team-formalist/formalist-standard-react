@@ -277,7 +277,11 @@ class SearchMultiSelectionField extends Component {
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
-          <button className={styles.wrapper} onClick={this.onChooseClick}>
+          <button
+            data-open-selector-button
+            className={styles.wrapper}
+            onClick={this.onChooseClick}
+          >
             <div className={styles.selectionPlaceholder}>
               {placeholder || "Make a selection"}
               {numberOfSelections > 0
@@ -293,6 +297,7 @@ class SearchMultiSelectionField extends Component {
               onOpen={this.onPopoutOpen}
               closeOnEsc={!selectorFocus || !selectorQuery}
               closeOnOutsideClick
+              testId={`search-multi-selection-field:${name}`}
             >
               <div className={styles.openSelectorButton}>
                 {selector_label || "Select"}

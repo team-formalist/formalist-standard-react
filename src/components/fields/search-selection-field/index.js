@@ -243,7 +243,11 @@ class SearchSelectionField extends Component {
               </button>
             </div>
           ) : (
-            <button className={styles.wrapper} onClick={this.onChooseClick}>
+            <button
+              data-open-selector-button
+              className={styles.wrapper}
+              onClick={this.onChooseClick}
+            >
               <div className={styles.selectionPlaceholder}>
                 {placeholder || "Make a selection"}
               </div>
@@ -255,6 +259,7 @@ class SearchSelectionField extends Component {
                 onOpen={this.onPopoutOpen}
                 closeOnEsc={!selectorFocus || !selectorQuery}
                 closeOnOutsideClick
+                testId={`search-selection-field:${name}`}
               >
                 <div className={styles.openSelectorButton}>
                   {selector_label || "Select"}
