@@ -21,4 +21,6 @@ export const nowButton = css`
   margin-top: -0.3rem;
 `;
 
-export const display = css``;
+export const display = css`
+  visibility: inherit;
+`;

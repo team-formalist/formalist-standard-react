@@ -1,7 +1,9 @@
 import { css } from "emotion";
 import { breakpoints, typography } from "../ui/styles";
 
-export const group = css``;
+export const group = css`
+  visibility: inherit;
+`;
 
 export const label = css`
   ${typography.headerSmallCaps};

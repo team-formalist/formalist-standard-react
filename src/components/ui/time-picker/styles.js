@@ -1,7 +1,9 @@
 import { css } from "emotion";
 import { colours, typography } from "../styles";
 
-export const base = css``;
+export const base = css`
+  visibility: inherit;
+`;
 
 /* Time picker */
 
@@ -27,4 +29,6 @@ export const buttonActive = css`
   ${colours.highlightLightBackground};
 `;
 
-export const item = css``;
+export const item = css`
+  visibility: inherit;
+`;

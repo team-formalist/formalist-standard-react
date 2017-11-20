@@ -18,9 +18,15 @@ export const content = css`
   flex: 1;
 `;
 
-export const contentPlaceholderUnorderedListItem = css``;
-export const contentPlaceholderOrderedListItem = css``;
-export const contentPlaceholderHeaderOne = css``;
+export const contentPlaceholderUnorderedListItem = css`
+  visibility: inherit;
+`;
+export const contentPlaceholderOrderedListItem = css`
+  visibility: inherit;
+`;
+export const contentPlaceholderHeaderOne = css`
+  visibility: inherit;
+`;
 
 injectGlobal`
   .public-DraftEditorPlaceholder-root {

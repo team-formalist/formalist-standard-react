@@ -126,4 +126,6 @@ export const selection = css`
   }
 `;
 
-export const selectedItems = css``;
+export const selectedItems = css`
+  visibility: inherit;
+`;

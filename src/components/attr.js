@@ -3,7 +3,9 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import { css } from "emotion";
 
 const styles = {
-  base: css``
+  base: css`
+  visibility: inherit;
+`
 };
 
 const Attr = ({ children }) => {

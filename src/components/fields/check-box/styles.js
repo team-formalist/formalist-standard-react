@@ -16,4 +16,6 @@ export const header = css`
   }
 `;
 
-export const display = css``;
+export const display = css`
+  visibility: inherit;
+`;

@@ -61,7 +61,9 @@ export const editButton = css`
   }
 `;
 
-export const removeButton = css``;
+export const removeButton = css`
+  visibility: inherit;
+`;
 
 export const removeText = css`
   display: none;

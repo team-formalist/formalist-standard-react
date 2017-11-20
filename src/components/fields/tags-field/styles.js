@@ -43,7 +43,9 @@ export const popunderWrapper = css`
   min-width: 200px;
 `;
 
-export const popunderContainer = css``;
+export const popunderContainer = css`
+  visibility: inherit;
+`;
 
 export const popunderContainerHidden = css`
   display: none;

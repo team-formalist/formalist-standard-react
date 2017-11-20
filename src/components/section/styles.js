@@ -12,4 +12,6 @@ export const label = css`
   padding-bottom: 1.8rem;
 `;
 
-export const children = css``;
+export const children = css`
+  visibility: inherit;
+`;

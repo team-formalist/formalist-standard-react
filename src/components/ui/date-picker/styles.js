@@ -3,7 +3,9 @@ import { colours, typography } from "../styles";
 
 /* Day picker */
 
-export const daypickerContainer = css``;
+export const daypickerContainer = css`
+  visibility: inherit;
+`;
 
 /**
  * Base on the template from https://github.com/gpbl/react-day-picker/blob/master/src/style.css
