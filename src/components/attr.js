@@ -4,12 +4,16 @@ import { css } from "emotion";
 
 const styles = {
   base: css`
-  visibility: inherit;
-`
+    visibility: inherit;
+  `
 };
 
 const Attr = ({ children }) => {
-  return <div className={styles.base} data-attr>{children}</div>;
+  return (
+    <div className={styles.base} data-attr>
+      {children}
+    </div>
+  );
 };
 
 Attr.propTypes = {

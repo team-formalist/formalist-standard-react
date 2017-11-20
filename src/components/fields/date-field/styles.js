@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import * as fields from "../field-styles";
 import { buttons } from "../../ui/styles";
@@ -21,6 +22,4 @@ export const nowButton = css`
   margin-top: -0.3rem;
 `;
 
-export const display = css`
-  visibility: inherit;
-`;
+export const display = uid(10); // Empty placeholder class

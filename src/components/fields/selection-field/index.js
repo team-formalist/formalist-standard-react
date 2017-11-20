@@ -279,7 +279,11 @@ class SelectionField extends React.Component {
               </button>
             </div>
           ) : (
-            <button data-open-selector-button className={styles.wrapper} onClick={this.onChooseClick}>
+            <button
+              data-open-selector-button
+              className={styles.wrapper}
+              onClick={this.onChooseClick}
+            >
               <div className={styles.selectionPlaceholder}>
                 {placeholder || "Make a selection"}
               </div>

@@ -1,11 +1,10 @@
-import { css, injectGlobal } from "emotion";
+import uid from "uid";
+import { injectGlobal } from "emotion";
 import { colours, typography } from "../styles";
 
 /* Day picker */
 
-export const daypickerContainer = css`
-  visibility: inherit;
-`;
+export const daypickerContainer = uid(10); // Empty placeholder class
 
 /**
  * Base on the template from https://github.com/gpbl/react-day-picker/blob/master/src/style.css

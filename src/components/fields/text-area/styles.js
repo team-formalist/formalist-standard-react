@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import * as fields from "../field-styles";
 import { typography } from "../../ui/styles";
@@ -14,9 +15,7 @@ export const header = css`
   ${fields.header};
 `;
 
-export const display = css`
-  visibility: inherit;
-`;
+export const display = uid(10); // Empty placeholder class
 
 export const code = css`
   ${typography.mono};

@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import { colours, typography } from "../ui/styles";
 
@@ -12,6 +13,4 @@ export const label = css`
   padding-bottom: 1.8rem;
 `;
 
-export const children = css`
-  visibility: inherit;
-`;
+export const children = uid(10); // Empty placeholder class

@@ -1,9 +1,8 @@
+import uid from "uid";
 import { css } from "emotion";
 import { colours, typography } from "../styles";
 
-export const base = css`
-  visibility: inherit;
-`;
+export const base = uid(10); // Empty placeholder class
 
 /* Time picker */
 
@@ -29,6 +28,4 @@ export const buttonActive = css`
   ${colours.highlightLightBackground};
 `;
 
-export const item = css`
-  visibility: inherit;
-`;
+export const item = uid(10); // Empty placeholder class

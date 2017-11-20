@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import { buttons, colours, typography } from "../../../../styles";
 
@@ -61,9 +62,7 @@ export const editButton = css`
   }
 `;
 
-export const removeButton = css`
-  visibility: inherit;
-`;
+export const removeButton = uid(10); // Empty placeholder class
 
 export const removeText = css`
   display: none;

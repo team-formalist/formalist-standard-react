@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import * as fields from "../field-styles";
 import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
@@ -126,6 +127,4 @@ export const selection = css`
   }
 `;
 
-export const selectedItems = css`
-  visibility: inherit;
-`;
+export const selectedItems = uid(10); // Empty placeholder class

@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import * as fields from "../field-styles";
 import { colours, typography } from "../../ui/styles";
@@ -74,9 +75,7 @@ export const progress__title = css`
   color: ${colours.values.white};
 `;
 
-export const listItem__body = css`
-  visibility: inherit;
-`;
+export const listItem__body = uid(10); // Empty placeholder class
 
 export const progress__bar = css`
   ${colours.highlightBackground};
@@ -91,9 +90,7 @@ export const progress__bar = css`
   overflow: hidden;
 `;
 
-export const validationMessages = css`
-  visibility: inherit;
-`;
+export const validationMessages = uid(10); // Empty placeholder class
 
 export const validationMessage = css`
   ${typography.sans};

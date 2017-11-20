@@ -96,7 +96,6 @@ class Select extends React.Component {
     );
 
     // Extract any other props
-    const { id } = this.props;
     const propsToPass = withoutKeys(this.props, [
       "children",
       "className",

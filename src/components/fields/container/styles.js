@@ -1,9 +1,5 @@
-import { css } from "emotion";
+import uid from "uid";
 
-export const base = css`
-  visibility: inherit;
-`;
+export const base = uid(10); // Empty placeholder class
 
-export const errors = css`
-  visibility: inherit;
-`;
+export const errors = uid(10); // Empty placeholder class

@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import { buttons, colours, typography } from "../styles";
 
@@ -34,12 +35,8 @@ export const dropzone__drag_over = css`
 `;
 
 // Empty classes behave oddly
-export const dropzone__active = css`
-  visibility: inherit;
-`;
-export const dropzone__disable_hover = css`
-  visibility: inherit;
-`;
+export const dropzone__active = uid(10); // Empty placeholder class
+export const dropzone__disable_hover = uid(10); // Empty placeholder class
 
 /**
  * dropzone__label__wrapper

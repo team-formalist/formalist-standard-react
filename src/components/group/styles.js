@@ -1,9 +1,8 @@
+import uid from "uid";
 import { css } from "emotion";
 import { breakpoints, typography } from "../ui/styles";
 
-export const group = css`
-  visibility: inherit;
-`;
+export const group = uid(10); // Empty placeholder class
 
 export const label = css`
   ${typography.headerSmallCaps};

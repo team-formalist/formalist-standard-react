@@ -21,12 +21,11 @@ class TimePicker extends React.Component {
     value: PropTypes.string,
     error: PropTypes.bool,
     onChange: PropTypes.func,
-    placeholder: PropTypes.string,
-    showFieldDataAttributes: PropTypes.bool
+    placeholder: PropTypes.string
   };
 
   static defaultProps = {
-    showFieldDataAttributes: false
+    placeholder: "Select or enter a time"
   };
 
   constructor(props) {
@@ -140,7 +139,7 @@ class TimePicker extends React.Component {
   };
 
   render() {
-    let { error, placeholder, showFieldDataAttributes } = this.props;
+    let { error, placeholder } = this.props;
     let { inputValue } = this.state;
 
     return (
@@ -157,7 +156,7 @@ class TimePicker extends React.Component {
             key={inputValue}
             defaultValue={inputValue}
             error={error}
-            placeholder={placeholder || "Select or enter a time"}
+            placeholder={placeholder}
             onFocus={this.onInputFocus}
             onChange={this.onInputChange}
             data-field-input="time"

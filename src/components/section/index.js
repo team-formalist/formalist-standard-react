@@ -21,9 +21,8 @@ class Section extends React.Component {
   }
 
   render() {
-    const {name} = this.props
-    let label =
-      this.props.attributes.get("label") || name.replace(/_/, " ");
+    const { name } = this.props;
+    let label = this.props.attributes.get("label") || name.replace(/_/, " ");
     return (
       <section className={styles.base} data-section={name}>
         <h2 className={styles.label}>{label}</h2>

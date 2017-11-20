@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import * as fields from "../field-styles";
 
@@ -16,6 +17,4 @@ export const header = css`
   }
 `;
 
-export const display = css`
-  visibility: inherit;
-`;
+export const display = uid(10); // Empty placeholder class

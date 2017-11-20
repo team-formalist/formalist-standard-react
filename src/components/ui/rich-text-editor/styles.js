@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css, injectGlobal } from "emotion";
 import { colours, inputBoxes } from "../styles";
 
@@ -18,15 +19,9 @@ export const content = css`
   flex: 1;
 `;
 
-export const contentPlaceholderUnorderedListItem = css`
-  visibility: inherit;
-`;
-export const contentPlaceholderOrderedListItem = css`
-  visibility: inherit;
-`;
-export const contentPlaceholderHeaderOne = css`
-  visibility: inherit;
-`;
+export const contentPlaceholderUnorderedListItem = uid(10); // Empty placeholder class
+export const contentPlaceholderOrderedListItem = uid(10); // Empty placeholder class
+export const contentPlaceholderHeaderOne = uid(10); // Empty placeholder class
 
 injectGlobal`
   .public-DraftEditorPlaceholder-root {

@@ -1,15 +1,17 @@
 import React from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
-import { css } from "emotion";
+import uid from "uid";
 
 const styles = {
-  base: css`
-  visibility: inherit;
-`
+  base: uid(10) // Empty placeholder class
 };
 
 const CompoundField = ({ children }) => {
-  return <div className={styles.base} data-compound-field>{children}</div>;
+  return (
+    <div className={styles.base} data-compound-field>
+      {children}
+    </div>
+  );
 };
 
 CompoundField.propTypes = {

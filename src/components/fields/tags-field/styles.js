@@ -1,3 +1,4 @@
+import uid from "uid";
 import { css } from "emotion";
 import * as fields from "../field-styles";
 import { buttons, colours, typography, inputBoxes } from "../../ui/styles";
@@ -43,9 +44,7 @@ export const popunderWrapper = css`
   min-width: 200px;
 `;
 
-export const popunderContainer = css`
-  visibility: inherit;
-`;
+export const popunderContainer = uid(10); // Empty placeholder class
 
 export const popunderContainerHidden = css`
   display: none;
