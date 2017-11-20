@@ -33,8 +33,13 @@ export const dropzone__drag_over = css`
   }
 `;
 
-export const dropzone__active = css``;
-export const dropzone__disable_hover = css``;
+// Empty classes behave oddly
+export const dropzone__active = css`
+  visibility: inherit;
+`;
+export const dropzone__disable_hover = css`
+  visibility: inherit;
+`;
 
 /**
  * dropzone__label__wrapper
@@ -124,12 +129,12 @@ export const dropzone__label = css`
       color: ${colours.values.greyMid};
     }
   }
-  .${dropzone__drag_over}.${dropzone__active},
+  .${dropzone__drag_over} &,
   .${dropzone__empty} & {
-    color: ${colours.values.highlight};
-  }
-  .${dropzone__drag_over} & {
     color: ${colours.values.greyMid};
+  }
+  .${dropzone__drag_over}.${dropzone__active} & {
+    color: ${colours.values.highlight};
   }
 `;
 
