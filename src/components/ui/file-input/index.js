@@ -33,7 +33,7 @@ export default class extends React.Component {
    */
 
   onClearInput = () => {
-    this.refs.fileInput.value = "";
+    this._fileInput.value = "";
   };
 
   /**
@@ -42,7 +42,7 @@ export default class extends React.Component {
    */
 
   triggerClickEvent = () => {
-    triggerEvent(this.refs.fileInput, "click");
+    triggerEvent(this._fileInput, "click");
   };
 
   /**
@@ -71,7 +71,7 @@ export default class extends React.Component {
     return (
       <div className={className}>
         <input
-          ref="fileInput"
+          ref={r => (this._fileInput = r)}
           type="file"
           className={className}
           name={name}

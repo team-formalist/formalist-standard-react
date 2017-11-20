@@ -127,7 +127,7 @@ class Toolbar extends React.Component {
       return (
         <div>
           <Popout
-            ref="popout"
+            ref={r => (this._popout = r)}
             placement="top"
             isOpened={visible}
             closeOnOutsideClick

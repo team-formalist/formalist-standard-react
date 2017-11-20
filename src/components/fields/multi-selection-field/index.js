@@ -170,7 +170,7 @@ class SelectionField extends React.Component {
    * @return {Null}
    */
   onPopoutOpen = () => {
-    this.refs.search.focus();
+    this._search.focus();
   };
 
   /**
@@ -320,7 +320,7 @@ class SelectionField extends React.Component {
                 </div>
                 <div className={styles.options}>
                   <input
-                    ref="search"
+                    ref={r => (this._search = r)}
                     type="search"
                     className={styles.search}
                     placeholder="Type to filter"
