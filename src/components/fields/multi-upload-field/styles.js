@@ -62,6 +62,7 @@ export const listItem__img = css`
 
 export const listItem__title = css`
   ${typography.lineHeightNormal};
+  flex: 1;
   overflow: hidden;
   white-space: nowrap;
   line-height: 40px;
@@ -136,11 +137,87 @@ export const removeX = css`
 `;
 
 export const align_middle = css`
-  display: table;
+  display: flex;
+  align-items: center;
 `;
 
-export const align_middle__content = css`
-  display: table-cell;
-  vertical-align: middle;
-  margin-top: -2px;
+// Default render template
+
+export const copyUrl = css`
+  position: relative;
+`;
+
+export const copyUrlField = css`
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+`;
+
+export const copyUrlButton = css`
+  position: relative;
+  outline: none;
+  &:active,
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const copyUrlButtonCopied = css`
+`;
+
+export const copyUrlButtonText = css`
+  ${colours.darkBlendBackground};
+  ${colours.whiteColor};
+  border-radius: 0.3rem;
+  padding: 5px 10px 7px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-45px, 8px);
+  bottom: 100%;
+  bottom: calc(100% + 10px);
+  pointer-events: none;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 100ms;
+  transition-delay: 50ms;
+  width: 90px;
+  &:before {
+    border-color: transparent;
+    border: solid transparent;
+    border-top-color: ${colours.values.darkBlend};
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-width: 6px;
+    margin-left: -6px;
+    left: 50%;
+    top: 100%;
+  }
+  .${copyUrlButton}:hover & {
+    opacity: 1;
+    transform: translate(-45px, 0);
+  }
+`;
+
+export const copyIconPrimary = css`
+  .${copyUrlButton}:hover & {
+    stroke: ${colours.values.error};
+  }
+  .${copyUrlButtonCopied}:hover & {
+    fill: ${colours.values.error};
+  }
+`;
+
+export const copyIconSecondary = css`
+  .${copyUrlButton}:hover & {
+    opacity: 1;
+    fill: ${colours.values.error};
+  }
 `;

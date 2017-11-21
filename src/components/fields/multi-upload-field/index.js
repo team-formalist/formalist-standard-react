@@ -5,6 +5,7 @@ import uid from "uid";
 import classNames from "classnames";
 import { upload, presign, abortXHRRequest } from "attache-upload";
 import Immutable from "immutable";
+import Clipboard from "clipboard";
 import { events } from "formalist-compose";
 
 // Import components
@@ -23,6 +24,117 @@ import {
 } from "./utils";
 import extractComponent from "../../../utils/extract-component";
 import parseRegexFromString from "../../../utils/parse-regex-from-string";
+
+/**
+ * The default template for uploaded items
+ */
+class DefaultRenderTemplate extends React.Component {
+  static propTypes = {
+    fileName: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
+    originalUrl: PropTypes.string
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      copied: false,
+      copyText: "Copy URL"
+    };
+  }
+
+  componentDidMount() {
+    this.clipboard = new Clipboard(this._button, {
+      target: () => this._input
+    });
+    this.clipboard.on("success", () => {
+      this.setState({ copied: true, copyText: "Copied!" });
+      this.resetCopyText();
+    });
+    this.clipboard.on("error", () => {
+      this.setState({ copyText: "Press Ctrl + C to copy" });
+      this.resetCopyText();
+    });
+  }
+
+  resetCopyText() {
+    window.clearTimeout(this._copyTimeout);
+    this._copyTimeout = window.setTimeout(() => {
+      this.setState({ copied: false, copyText: "Copy URL" });
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    this.clipboard.destroy();
+  }
+
+  render() {
+    const { fileName, thumbnailUrl, originalUrl } = this.props;
+    const { copied, copyText } = this.state;
+
+    const copyUrlButtonClasses = classNames(styles.copyUrlButton, {
+      [`${styles.copyUrlButtonCopied}`]: copied
+    });
+
+    return (
+      <div className={styles.listItem}>
+        <div className={styles.listItem__body}>
+          <div className={styles.align_middle}>
+            {thumbnailUrl ? (
+              <div className={styles.listItem__img}>
+                <img src={thumbnailUrl} alt={fileName} />
+              </div>
+            ) : null}
+            <div className={styles.listItem__title}>
+              <a target="_blank" href={originalUrl}>
+                {fileName}
+              </a>
+            </div>
+
+            <div className={styles.copyUrl}>
+              <input
+                className={styles.copyUrlField}
+                type="text"
+                ref={r => (this._input = r)}
+                value={originalUrl}
+                readOnly
+              />
+              <button
+                className={copyUrlButtonClasses}
+                ref={r => (this._button = r)}
+                onClick={e => {
+                  e.preventDefault();
+                }}
+              >
+                <span className={styles.copyUrlButtonText}>{copyText}</span>
+                <svg width="15" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <title>Copy</title>
+                  <g fill="none">
+                    <rect
+                      stroke="#000"
+                      x="3.5"
+                      y="3.5"
+                      width="11"
+                      height="12"
+                      className={styles.copyIconPrimary}
+                    />
+                    <polygon
+                      fill="#000"
+                      opacity=".3"
+                      points="0 13 3 13 3 12 1 12 1 1 11 1 11 3 12 3 12 0 0 0"
+                      className={styles.copyIconSecondary}
+                    />
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 /**
  * MultiUploadField
@@ -739,12 +851,8 @@ class MultiUploadField extends React.Component {
 
     return (
       <div className={wrapperClassNames}>
-        <div className={styles.align_middle__content}>
-          <div className={styles.listItem__img}>{thumbnailImage}</div>
-        </div>
-        <div className={styles.align_middle__content}>
-          <div className={titleClassNames}>Uploading: {file_name}</div>
-        </div>
+        <div className={styles.listItem__img}>{thumbnailImage}</div>
+        <div className={titleClassNames}>Uploading: {file_name}</div>
       </div>
     );
   };
@@ -819,39 +927,22 @@ class MultiUploadField extends React.Component {
 
   /**
    * renderDefaultTemplate
-   * Render an node represeting an uploaded file
-   * @param {object} fileObject
-   * @param {number} index
-   * @return {vnode}
    */
-
-  renderDefaultTemplate = (fileObject, index) => {
+  renderDefaultTemplate(fileObject, index) {
     const { fileAttributes } = fileObject;
-    const { file_name, thumbnail_url, original_url } = fileAttributes;
+    let { file_name, thumbnail_url, original_url } = fileAttributes;
     const hasThumbnail = thumbnail_url != null || hasImageFormatType(file_name);
-    const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, file_name)
-      : null;
-
+    thumbnail_url = hasThumbnail ? thumbnail_url : null;
     return (
-      <div className={styles.listItem} key={index}>
-        <div className={styles.listItem__body}>
-          <div className={styles.align_middle}>
-            <div className={styles.align_middle__content}>
-              <div className={styles.listItem__img}>{thumbnailImage}</div>
-            </div>
-            <div className={styles.align_middle__content}>
-              <div className={styles.listItem__title}>
-                <a target="_blank" href={original_url}>
-                  {file_name}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <DefaultRenderTemplate
+        key={index}
+        fileName={file_name}
+        originalUrl={original_url}
+        thumbnailUrl={thumbnail_url}
+        index={index}
+      />
     );
-  };
+  }
 
   /**
    * renderCustomTemplate

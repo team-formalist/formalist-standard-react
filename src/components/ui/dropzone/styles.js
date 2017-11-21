@@ -17,6 +17,7 @@ export const dropzone = css`
   ${typography.sans};
   min-height: 71px;
   transition: background-color 0.3s;
+  position: relative;
   width: 100%;
   z-index: 1;
   &:hover {
@@ -51,7 +52,6 @@ that it doesn't glitchy state changes when hovered/dragged over */
 export const dropzone__label__wrapper = css`
   background: transparent;
   bottom: 0;
-  display: none;
   left: 0;
   position: absolute;
   right: 0;
@@ -70,6 +70,17 @@ export const dropzone__label__wrapper = css`
     right: 0;
     top: 0;
     z-index: -2;
+    .${dropzone__empty}:hover & {
+      border-color: ${colours.values.greyMid};
+    }
+    .${dropzone__drag_over} & {
+      border-color: ${colours.values.greyMid};
+    }
+    // Dragging on the window and then over the dropzone state
+    .${dropzone__disable_hover}.${dropzone__drag_over}.${dropzone__active} &,
+    .${dropzone__drag_over}.${dropzone__active} & {
+      border-color: ${colours.values.highlight};
+    }
   }
   .${dropzone__disable_hover}.${dropzone__active}:hover & {
     display: none;
@@ -84,26 +95,14 @@ export const dropzone__label__wrapper = css`
   .${dropzone__empty} & {
     background-color: transparent;
   }
-  .${dropzone__empty}:hover & {
-    &:after {
-      border-color: ${colours.values.greyMid};
-    }
-  }
   // Dragging
   .${dropzone__drag_over} & {
     background: rgba(245,245,245, 0.7);
-    &:after {
-      border-color: ${colours.values.greyMid};
-    }
   }
   // Dragging on the window and then over the dropzone state
   .${dropzone__disable_hover}.${dropzone__drag_over}.${dropzone__active} &,
   .${dropzone__drag_over}.${dropzone__active} & {
     background: rgba(127,194,234, 0.3);
-    &:after,
-    &:after {
-      border-color: ${colours.values.highlight};
-    }
   }
 `;
 
