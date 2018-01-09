@@ -66,6 +66,7 @@ export const remove = css`
   border: none;
   cursor: pointer;
   padding: 0.17em;
+  padding-left: 0.8em;
   margin-top: -0.3rem;
   margin-bottom: -0.3rem;
   transition-property: color;
@@ -150,6 +151,7 @@ export const optionButton = css`
 `;
 
 export const selection = css`
+  flex: 1;
   strong {
     font-weight: ${typography.fonts.weights.sansBold};
   }

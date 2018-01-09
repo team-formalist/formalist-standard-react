@@ -119,6 +119,7 @@ export const optionButton = css`
 `;
 
 export const selection = css`
+  flex: 1;
   strong {
     font-weight: ${typography.fonts.weights.sansBold};
   }
