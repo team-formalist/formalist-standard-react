@@ -90,7 +90,6 @@
     "postcss": "^6.0.13",
     "postcss-import": "^11.0.0",
     "prop-types": "^15.6.0",
-    "react": "16.0.0",
     "react-addons-update": "^15.6.2",
     "react-day-picker": "^6.2.1",
     "react-dnd": "^2.5.4",
