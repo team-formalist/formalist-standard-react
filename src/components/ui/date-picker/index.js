@@ -73,6 +73,10 @@ class DatePicker extends React.Component {
       let storedValue = compressDate(value);
       this.props.onChange(storedValue);
     } else {
+      // Pass the value back if it’s empty
+      if (value === "") {
+        this.props.onChange(value);
+      }
       this.setState(
         {
           value
