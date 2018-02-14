@@ -72,8 +72,21 @@ class DateTimePicker extends React.Component {
       } else {
         this.dateTime = parsedDate;
       }
+      this.setState(
+        {
+          date: this.dateTime.format(dateFormats.date)
+        },
+        this.onChange
+      );
+    } else {
+      // Handle invalid or blank values
+      this.setState(
+        {
+          date: null
+        },
+        this.onChange
+      );
     }
-    this.onChange();
   };
 
   /**
@@ -92,12 +105,30 @@ class DateTimePicker extends React.Component {
       } else {
         this.dateTime = parsedTime;
       }
+      this.setState(
+        {
+          time: this.dateTime.format(dateFormats.time)
+        },
+        this.onChange
+      );
+    } else {
+      // Handle invalid or blank values
+      this.setState(
+        {
+          time: null
+        },
+        this.onChange
+      );
     }
-    this.onChange();
   };
 
   onChange = () => {
-    this.props.onChange(this.dateTime.format(dateFormats.utc));
+    const { date, time } = this.state;
+    if (date && time) {
+      this.props.onChange(this.dateTime.format(dateFormats.utc));
+    } else {
+      this.props.onChange(null);
+    }
   };
 
   render() {
