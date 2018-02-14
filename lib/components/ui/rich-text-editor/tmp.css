@@ -11,7 +11,8 @@
 
 .DraftEditor-editorContainer, .DraftEditor-root, .public-DraftEditor-content {
     height: inherit;
-    text-align: initial
+    text-align: initial;
+    word-break: break-word;
 }
 .DraftEditor-root {
     line-height: 1.5;
