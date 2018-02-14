@@ -3,9 +3,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v3.0.2 2018-02-14
+
+* Automatically break excessively long words in the rich text editor.
+
 # v3.0.1 2017-08-02
 
-* Fix issue with breaking draft-js API signatures
+* Fix issue with breaking draft-js API signatures.
 
 # v3.0.0 2017-08-02
 
