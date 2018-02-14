@@ -30,7 +30,7 @@ class SearchList extends Component {
     // When we receive the query in componentWillReceiveProps
     // and trigger a setState it can happen _after_ the component is
     // torn down which is an error, so we handle it manually for now
-    // even though it shouldn’t be possiel
+    // even though it shouldn’t be possible
     this._unmounted = false;
 
     this.state = {
