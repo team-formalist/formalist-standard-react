@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import uid from "uid";
 import classNames from "classnames";
-import { upload, presign, abortXHRRequest } from "attache-upload";
+import * as s3Upload from "../../../utils/s3-upload";
+import * as attacheUpload from "attache-upload";
 import Immutable from "immutable";
 import Clipboard from "clipboard";
 import { events } from "formalist-compose";
@@ -220,6 +221,13 @@ class MultiUploadField extends React.Component {
       files,
       uploadQueue: []
     };
+
+    // Switch uploaders if specified
+    if (context.globalConfig.uploader === "attache") {
+      this.uploader = attacheUpload;
+    } else {
+      this.uploader = s3Upload;
+    }
   }
 
   /**
@@ -322,7 +330,7 @@ class MultiUploadField extends React.Component {
 
   abortUploadRequest = file => {
     this.removeFromUploadQueue(file.uid);
-    abortXHRRequest(file.uid);
+    this.uploader.abortXHRRequest(file.uid);
   };
 
   /**
@@ -482,12 +490,12 @@ class MultiUploadField extends React.Component {
     // Push into uploadQueue
     this.addToUploadQueue(fileObject.uid);
 
-    presign(presign_url, csrfToken)
+    this.uploader.presign(presign_url, csrfToken)
       .then(presignResponse => {
         // assign the return 'url' to upload_url so
         // we can create paths to the file
         upload_url = presignResponse.url;
-        return upload(presignResponse, fileObject, onProgress);
+        return this.uploader.upload(presignResponse, fileObject, onProgress);
       })
       .then(uploadResponse => {
         this.removeFromUploadQueue(fileObject.uid);
