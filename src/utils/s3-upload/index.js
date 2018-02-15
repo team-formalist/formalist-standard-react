@@ -358,7 +358,7 @@ function presign(presignUrl, token, fn = presignRequest) {
   });
 }
 
-export {
+export default {
   responseStatus,
   parseJSON,
   presign,

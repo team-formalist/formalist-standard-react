@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import uid from "uid";
 import classNames from "classnames";
-import * as s3Upload from "../../../utils/s3-upload";
-import * as attacheUpload from "attache-upload";
+import s3Upload from "../../../utils/s3-upload";
+import attacheUpload from "attache-upload";
 import Immutable from "immutable";
 import Clipboard from "clipboard";
 import { events } from "formalist-compose";
@@ -223,10 +223,9 @@ class MultiUploadField extends React.Component {
     };
 
     // Switch uploaders if specified
-    if (context.globalConfig.uploader === "attache") {
+    this.uploader = s3Upload;
+    if (context.globalConfig && context.globalConfig.uploader === "attache") {
       this.uploader = attacheUpload;
-    } else {
-      this.uploader = s3Upload;
     }
   }
 
