@@ -141,7 +141,6 @@ function parseMetadata(file) {
       size: file.size,
       content_type: file.type
     };
-    const isImage = file.type.match("image.*");
 
     const reader = new FileReader();
     reader.onload = function(f) {
@@ -317,10 +316,11 @@ function upload(res, fileObject, showProgress = noOp, fn = uploadRequest) {
  * @param  {Promise}
  */
 
-function presignRequest(presignUrl, token) {
+function presignRequest(presignUrl, token, presignOptions) {
   return new Promise((resolve, reject) => {
     request
       .post(presignUrl)
+      .send(presignOptions)
       .set({
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -344,9 +344,9 @@ function presignRequest(presignUrl, token) {
  * @param  {Promise}
  */
 
-function presign(presignUrl, token, fn = presignRequest) {
+function presign(presignUrl, token, presignOptions = {}, fn = presignRequest) {
   return new Promise((resolve, reject) => {
-    fn(presignUrl, token)
+    fn(presignUrl, token, presignOptions)
       .then(responseStatus)
       .then(parseJSON)
       .then(res => {
