@@ -141,7 +141,6 @@ function parseMetadata(file) {
       size: file.size,
       content_type: file.type
     };
-    const isImage = file.type.match("image.*");
 
     const reader = new FileReader();
     reader.onload = function(f) {

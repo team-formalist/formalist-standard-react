@@ -197,7 +197,7 @@ class MultiUploadField extends React.Component {
     super(props, context);
     let { value } = props;
     const { presign_url, presign_options } = props.attributes;
-    const { csrfToken, uploader } = context.globalConfig;
+    const { csrfToken, uploader } = context.globalConfig || {};
 
     const allowMultipleFiles = props.multiple || props.attributes.multiple;
     value = value ? value.toJS() : value;
@@ -229,7 +229,7 @@ class MultiUploadField extends React.Component {
     // Switch uploaders if specified
     this.uploader = s3Upload;
     this.uploaderPresignArgs = [presign_url, csrfToken, presign_options];
-    if (context.globalConfig && context.globalConfig.uploader === "attache") {
+    if (uploader === "attache") {
       this.uploader = attacheUpload;
       this.uploaderPresignArgs = [presign_url, csrfToken];
     }
@@ -488,14 +488,13 @@ class MultiUploadField extends React.Component {
 
   uploadFile = (fileObject, onProgress = noOp) => {
     if (!fileObject) return;
-    const { presign_url, presign_options } = this.props.attributes;
-    const { csrfToken } = this.context.globalConfig;
     let upload_url;
 
     // Push into uploadQueue
     this.addToUploadQueue(fileObject.uid);
 
-    this.uploader.presign.apply(this, this.uploaderPresignArgs)
+    this.uploader.presign
+      .apply(this, this.uploaderPresignArgs)
       .then(presignResponse => {
         // assign the return 'url' to upload_url so
         // we can create paths to the file

@@ -167,8 +167,7 @@ export const copyUrlButton = css`
   }
 `;
 
-export const copyUrlButtonCopied = css`
-`;
+export const copyUrlButtonCopied = css``;
 
 export const copyUrlButtonText = css`
   ${colours.darkBlendBackground};
