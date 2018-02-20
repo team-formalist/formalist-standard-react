@@ -913,16 +913,21 @@ class MultiUploadField extends React.Component {
    */
 
   buildPath = (url, path, dimension = "original") => {
-    const pattern = /([^/]*)$/;
-    const splitPath = path.split(pattern);
-    return (
-      url.replace("/upload", "/view") +
-      "/" +
-      splitPath[0] +
-      dimension +
-      "/" +
-      splitPath[1]
-    );
+    const { uploader } = this.context.globalConfig || {};
+    if (uploader === "attache") {
+      const pattern = /([^/]*)$/;
+      const splitPath = path.split(pattern);
+      return (
+        url.replace("/upload", "/view") +
+        "/" +
+        splitPath[0] +
+        dimension +
+        "/" +
+        splitPath[1]
+      );
+    } else {
+      return `${url}/${path}`;
+    }
   };
 
   /**
@@ -934,7 +939,12 @@ class MultiUploadField extends React.Component {
    */
 
   buildThumbnailPath = (original_url, dimension = "50x") => {
-    return original_url.replace("original", dimension);
+    const { uploader } = this.context.globalConfig || {};
+    if (uploader === "attache") {
+      return original_url.replace("original", dimension);
+    } else {
+      return original_url;
+    }
   };
 
   /**
