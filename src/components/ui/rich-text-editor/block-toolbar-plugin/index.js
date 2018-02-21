@@ -161,9 +161,10 @@ export default function blockToolbarPlugin (options = {}) {
             editorEmitter,
             embeddableForms,
             setReadOnly,
-            remove: function (key) {
+            remove: function (key, options) {
               setEditorState(
-                removeAtomicBlock(key, getEditorState())
+                removeAtomicBlock(key, getEditorState()),
+                options
               )
             },
           }, blockSet[type].props)
