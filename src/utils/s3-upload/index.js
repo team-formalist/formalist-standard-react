@@ -183,7 +183,7 @@ function correctImageMetadata(file, metadata) {
   return new Promise(function(resolve, reject) {
     EXIF.getData(file, function() {
       let correctedOrientation;
-      const uncorrectedOrientation = EXIF.getTag(this, "Orientation");
+      const exifOrientation = EXIF.getTag(this, "Orientation");
 
       // Set the correction to square or landscape to start with
       let initialOrientation = "landscape";
@@ -201,12 +201,12 @@ function correctImageMetadata(file, metadata) {
       metadata.width = width;
       metadata.height = height;
 
-      if (uncorrectedOrientation !== undefined) {
+      if (exifOrientation !== undefined) {
         // Flip orientation based on the EXIF orientation values 1,2,3,4 are
         // variations on the _correct_ orientation, and 5,6,7,8 are rotated
         // versions. Some of those indicate mirrored values but we don't care
         // about that since we're not storing it.
-        if (uncorrectedOrientation >= 5) {
+        if (exifOrientation >= 5) {
           if (correctedOrientation === "landscape") {
             correctedOrientation = "portrait";
           } else if (correctedOrientation === "portrait") {
@@ -220,8 +220,7 @@ function correctImageMetadata(file, metadata) {
         }
       }
       metadata.orientation = correctedOrientation;
-      metadata.uncorrected_orientation =
-        uncorrectedOrientation || initialOrientation;
+      metadata.uncorrected_orientation = initialOrientation;
       resolve(metadata);
     });
   });
