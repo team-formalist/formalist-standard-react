@@ -116,6 +116,7 @@ export default function blockToolbarPlugin(options = {}) {
     blockFormatters,
     blockRenderMap,
     blockSet,
+    fieldBus,
     editorEmitter,
     embeddableForms,
     setReadOnly
@@ -169,6 +170,7 @@ export default function blockToolbarPlugin(options = {}) {
             {
               editorEmitter,
               embeddableForms,
+              fieldBus,
               setReadOnly,
               remove: function(key) {
                 setEditorState(removeAtomicBlock(key, getEditorState()));

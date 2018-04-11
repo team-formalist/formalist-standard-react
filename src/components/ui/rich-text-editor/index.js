@@ -28,6 +28,7 @@ class RichTextEditor extends React.Component {
     config: PropTypes.object,
     inlineFormatters: PropTypes.array,
     editorState: PropTypes.object.isRequired,
+    fieldBus: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
     webDriverTestID: PropTypes.string
@@ -72,6 +73,7 @@ class RichTextEditor extends React.Component {
       boxSize,
       config,
       embeddableForms,
+      fieldBus,
       inlineFormatters
     } = this.props;
 
@@ -88,6 +90,7 @@ class RichTextEditor extends React.Component {
       editorEmitter: this.emitter,
       blockFormatters,
       embeddableForms,
+      fieldBus,
       ...block
     });
     const inlineToolbarPlugin = createInlineToolbarPlugin({

@@ -1,8 +1,10 @@
 import classNames from "classnames";
 import template from "../../../../../../";
 import React from "react";
+import uid from "uid";
 import PropTypes from "prop-types";
 import { Entity } from "draft-js";
+import { events } from "formalist-compose";
 import createDataObjectRenderer from "formalist-data-object-renderer";
 import * as styles from "./styles";
 
@@ -14,6 +16,7 @@ class AtomicBlock extends React.Component {
     block: PropTypes.object.isRequired,
     blockProps: PropTypes.shape({
       editorEmitter: PropTypes.object.isRequired,
+      fieldBus: PropTypes.object.isRequired,
       remove: PropTypes.func.isRequired,
       setReadOnly: PropTypes.func.isRequired
     })
@@ -32,12 +35,16 @@ class AtomicBlock extends React.Component {
     this.entityKey = props.block.getEntityAt(0);
     this.entity = Entity.get(this.entityKey);
 
+    // Set a per instance ID for talking to the bus
+    this.instanceId = uid();
+
     this.state = {
       isSelected: false
     };
   }
 
   componentWillMount() {
+    const {fieldBus} = this.props.blockProps;
     document.addEventListener("mouseup", this.handleOutsideMouseClick);
     document.addEventListener("touchstart", this.handleOutsideMouseClick);
 
@@ -65,6 +72,14 @@ class AtomicBlock extends React.Component {
       // Let the RTE parent component know that the entity data has changed
       editorEmitter.emit("atomic:change");
       this.forceUpdate();
+    });
+
+    // Propagate busy/idle states upward
+    this.form.on(events.external.FORM_BUSY, () => {
+      fieldBus.emit(events.internal.FIELD_BUSY, this.instanceId);
+    });
+    this.form.on(events.external.FORM_IDLE, () => {
+      fieldBus.emit(events.internal.FIELD_IDLE, this.instanceId);
     });
 
     // Subscribe to the editorEmitter’s onChange event

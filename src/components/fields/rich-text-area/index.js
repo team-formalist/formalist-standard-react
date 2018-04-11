@@ -40,6 +40,7 @@ class RichTextArea extends React.Component {
       block_formatters: PropTypes.array,
       embeddable_forms: PropTypes.object
     }),
+    bus: PropTypes.object.isRequired,
     hint: PropTypes.string,
     label: PropTypes.string,
     errors: ImmutablePropTypes.list,
@@ -102,7 +103,7 @@ class RichTextArea extends React.Component {
   };
 
   render() {
-    const { attributes, config, errors, hint, label, name } = this.props;
+    const { attributes, config, errors, hint, label, name, bus } = this.props;
     const { editorState } = this.state;
     let hasErrors = errors.count() > 0;
 
@@ -132,6 +133,7 @@ class RichTextArea extends React.Component {
             textSize={attributes.text_size}
             placeholder={attributes.placeholder}
             webDriverTestID={name}
+            fieldBus={bus}
           />
           {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
