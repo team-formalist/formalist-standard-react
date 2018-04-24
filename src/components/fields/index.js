@@ -43,6 +43,11 @@ function wrapField(field, config = {}, globalConfig = {}) {
  * @type {Object}
  */
 function fields(fieldsConfig = {}, globalConfig = {}) {
+  // RichTextArea fields need to be able to create their own instances
+  const richTextAreaGlobalConfig = {
+    ...globalConfig,
+    _fieldsConfig: fieldsConfig
+  };
   return {
     checkBox: wrapField(CheckBox, fieldsConfig.checkBox, globalConfig),
     dateField: wrapField(DateField, fieldsConfig.dateField, globalConfig),
@@ -66,7 +71,7 @@ function fields(fieldsConfig = {}, globalConfig = {}) {
     richTextArea: wrapField(
       RichTextArea,
       fieldsConfig.richTextArea,
-      globalConfig
+      richTextAreaGlobalConfig
     ),
     searchSelectionField: wrapField(
       SearchSelectionField,

@@ -44,16 +44,23 @@ class AtomicBlock extends React.Component {
   }
 
   componentWillMount() {
-    const {fieldBus} = this.props.blockProps;
+    const { fieldBus } = this.props.blockProps;
     document.addEventListener("mouseup", this.handleOutsideMouseClick);
     document.addEventListener("touchstart", this.handleOutsideMouseClick);
 
+    // Atomic blocks are passed the original config and an extra _fieldsConfig
+    // key so they can pass any configuration down to children
+    const globalConfig = { ...this.context.globalConfig };
+    delete globalConfig["_fieldsConfig"];
     // Memoize the configured template the first time this runs
     // We need to invoke this at execution time so that the circular
     // dependencies are properly resolved.
     configuredTemplate =
       configuredTemplate ||
-      template(null, { global: this.context.globalConfig });
+      template(null, {
+        global: globalConfig,
+        fields: this.context.globalConfig._fieldsConfig
+      });
 
     // Extract the entity
     const entityData = this.entity.getData();
