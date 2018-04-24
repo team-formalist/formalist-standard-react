@@ -63,11 +63,11 @@
   },
   "dependencies": {
     "attache-upload": "^2.1.1",
-    "babel-plugin-emotion": "^8.0.6",
+    "babel-plugin-emotion": "^8.0.12",
     "classnames": "^2.2.5",
     "clipboard": "1.7.1",
     "component-emitter": "1.2.1",
-    "draft-js": "0.10.3",
+    "draft-js": "^0.10.5",
     "draft-js-ast-exporter": "^2.0.0",
     "draft-js-ast-importer": "^2.0.0",
     "draft-js-autolist-plugin": "^2.0.0",
