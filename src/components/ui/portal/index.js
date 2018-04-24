@@ -47,6 +47,7 @@ class Portal extends Component {
     if (!container) {
       container = document.createElement("div");
       container.classList.add(containerClassName);
+      container.setAttribute("data-portal", "");
       document.body.appendChild(container);
     }
     return container;

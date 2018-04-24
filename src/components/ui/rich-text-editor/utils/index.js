@@ -180,14 +180,16 @@ export function getSelectedEntityTypes(editorState) {
  * is contained by an atomic block by looking for a specific attr
  */
 
-export function belongsToAtomicBlock(target) {
+export function belongsToAtomicBlockOrPortal(target) {
   if (!target || target.parentNode == null) {
     return false;
   }
-  let isAtomic = target.getAttribute("data-atomic");
-  if (isAtomic) {
+  let isAtomicOrPortal =
+    target.getAttribute("data-atomic") !== null ||
+    target.getAttribute("data-portal") !== null;
+  if (isAtomicOrPortal) {
     return true;
   } else {
-    return belongsToAtomicBlock(target.parentNode);
+    return belongsToAtomicBlockOrPortal(target.parentNode);
   }
 }

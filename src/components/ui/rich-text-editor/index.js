@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import PluginsEditor from "draft-js-plugins-editor";
 import Emitter from "component-emitter";
-import { belongsToAtomicBlock } from "./utils";
+import { belongsToAtomicBlockOrPortal } from "./utils";
 import capitalize from "../../../utils/capitalize";
 
 // Plugins
@@ -141,7 +141,7 @@ class RichTextEditor extends React.Component {
    * @param  {MouseEvent} e
    */
   onContentClick = e => {
-    const atomic = belongsToAtomicBlock(e.target);
+    const atomic = belongsToAtomicBlockOrPortal(e.target);
     if (!atomic && this.state.readOnly === true) {
       this.setReadOnly(false);
     }
