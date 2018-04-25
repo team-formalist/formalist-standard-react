@@ -130,11 +130,27 @@ function formData(as, file, fields) {
 }
 
 /**
+ * Determine the file type
+ * @param {FileObject} file Uploaded file object
+ * @return {Mixed} Type as simple string or false if no match
+ */
+function fileType(file) {
+  if (file.type.match("image.*")) {
+    return "image";
+  } else if (file.type.match("video.*")) {
+    return "video";
+  } else if (file.type.match("audio.*")) {
+    return "audio";
+  }
+  return false;
+}
+
+/**
  * Parse file metadata
  * @param {FileObject} file
  */
 function parseMetadata(file) {
-  const isImage = file.type.match("image.*");
+  const type = fileType(file);
 
   return new Promise(function(resolve, reject) {
     const metadata = {
@@ -142,31 +158,117 @@ function parseMetadata(file) {
       content_type: file.type
     };
 
-    const reader = new FileReader();
-    reader.onload = function(f) {
-      if (isImage) {
-        const image = new Image();
-
-        image.onload = function() {
-          metadata.height = image.height;
-          metadata.width = image.width;
-
-          correctImageMetadata(file, metadata).then(function(data) {
-            resolve(data);
-          });
-        };
-        image.onerror = function(err) {
-          reject(err);
-        };
-        image.src = f.target.result;
-      } else {
+    switch (type) {
+      case "image":
+        parseImageMetadata(file)
+          .then(data => resolve({ ...metadata, ...data }))
+          .catch(err => reject(err));
+        break;
+      case "audio":
+        parseAudioMetadata(file)
+          .then(data => resolve({ ...metadata, ...data }))
+          .catch(err => reject(err));
+        break;
+      case "video":
+        parseVideoMetadata(file)
+          .then(data => resolve({ ...metadata, ...data }))
+          .catch(err => reject(err));
+        break;
+      default:
         resolve(metadata);
-      }
-    };
-    reader.onerror = function(err) {
-      reject(err);
-    };
+        break;
+    }
+  });
+}
+
+/**
+ * Parse metadata for images
+ * @param {FileObject} file Uploaded image file
+ * @return {Promise}
+ */
+function parseImageMetadata(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", function onReaderLoad(f) {
+      const image = new Image();
+
+      image.addEventListener("load", function onImageLoad() {
+        const metadata = {
+          height: image.height,
+          width: image.width
+        };
+        correctImageMetadata(file, metadata).then(data => {
+          resolve(data);
+        });
+      });
+
+      image.addEventListener("error", function onImageError(err) {
+        reject(err);
+      });
+
+      image.src = f.target.result;
+    });
     reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Parse metadata for videos
+ * @param {FileObject} file Uploaded video file
+ * @return {Promise}
+ */
+function parseVideoMetadata(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", function onReaderLoad(f) {
+      // Build object URL from file blob
+      var blob = new Blob([f.target.result], { type: file.type });
+      const url = (URL || webkitURL).createObjectURL(blob);
+      const video = document.createElement("video");
+      video.preload = "metadata";
+
+      video.addEventListener("loadedmetadata", function onVideoLoad() {
+        const duration = video.duration;
+        resolve({ duration });
+      });
+
+      video.addEventListener("error", function onVideoError(err) {
+        reject(err);
+      });
+
+      video.src = url;
+    });
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+/**
+ * Parse metadata for audio files
+ * @param {FileObject} file Uploaded audio file
+ * @return {Promise}
+ */
+function parseAudioMetadata(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", function onReaderLoad(f) {
+      // Build object URL from file blob
+      var blob = new Blob([f.target.result], { type: file.type });
+      const url = (URL || webkitURL).createObjectURL(blob);
+      const audio = document.createElement("audio");
+      audio.preload = "metadata";
+
+      audio.addEventListener("loadedmetadata", function onAudioLoad() {
+        const duration = audio.duration;
+        resolve({ duration });
+      });
+
+      audio.addEventListener("error", function onAudioError(err) {
+        reject(err);
+      });
+
+      audio.src = url;
+    });
+    reader.readAsArrayBuffer(file);
   });
 }
 
