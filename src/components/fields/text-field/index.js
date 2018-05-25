@@ -26,6 +26,7 @@ class TextField extends React.Component {
       inline: PropTypes.bool,
       code: PropTypes.bool,
       password: PropTypes.bool,
+      disabled: PropTypes.bool,
     }),
     hint: PropTypes.string,
     label: PropTypes.string,
@@ -59,6 +60,7 @@ class TextField extends React.Component {
     let { attributes, errors, hint, label, name, value } = this.props
     let hasErrors = (errors.count() > 0)
     let type = (attributes.password) ? 'password' : 'text'
+    let disabled = (attributes.disabled) ? 'disabled' : ''
 
     // Set up field classes
     let fieldClassNames = classNames(
@@ -86,6 +88,7 @@ class TextField extends React.Component {
             className={inputClassNames}
             placeholder={attributes.placeholder}
             defaultValue={value}
+            disabled={disabled}
             onChange={this.onChange} />
           {(hasErrors) ? <FieldErrors errors={errors} /> : null}
         </div>
