@@ -10,3 +10,8 @@
 .code {
   composes: mono from styles;
 }
+
+:disabled {
+  cursor: default;
+  color: #aaa;
+}
