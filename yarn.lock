@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@f/is-function@^1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@f/is-function/-/is-function-1.1.1.tgz#17d342a53ef7d2ff791371c2f4fa381245ce0231"
-
 abab@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -1308,58 +1304,48 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-draft-js-ast-exporter@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/draft-js-ast-exporter/-/draft-js-ast-exporter-1.0.0.tgz#6835215864f7aa5c9cc9fd9842f0db6ba15f43dd"
+draft-js-ast-exporter@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/draft-js-ast-exporter/-/draft-js-ast-exporter-2.0.0.tgz#c6be9717ef7358084cf172eea5e8ddc47966510c"
   dependencies:
-    draft-js-utils "^0.1.4"
+    draft-js-utils "^0.1.7"
 
-draft-js-ast-importer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/draft-js-ast-importer/-/draft-js-ast-importer-1.0.0.tgz#91cc3a4bde17eaf8768e9a82225004d1d26d4667"
+draft-js-ast-importer@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/draft-js-ast-importer/-/draft-js-ast-importer-2.0.0.tgz#3815f3b02ea7529bdfdfa7f3acfe40f5bf2c252b"
   dependencies:
-    draft-js-utils "^0.1.4"
+    draft-js-utils "^0.1.7"
     immutable "^3.8.1"
 
-draft-js-autolist-plugin@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/draft-js-autolist-plugin/-/draft-js-autolist-plugin-1.0.0.tgz#db48d869d5407f1bc6b055e7e2da71abf4a3c4e9"
+draft-js-autolist-plugin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/draft-js-autolist-plugin/-/draft-js-autolist-plugin-2.0.0.tgz#2b0bf6d6cf8d4b6cfb0e6154218807e92894569b"
 
-draft-js-block-breakout-plugin@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/draft-js-block-breakout-plugin/-/draft-js-block-breakout-plugin-1.0.2.tgz#5541038a34a19c6493b02ce64ca47c0876a39ca3"
+draft-js-block-breakout-plugin@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/draft-js-block-breakout-plugin/-/draft-js-block-breakout-plugin-2.0.1.tgz#a38e3bd68d9538d7af15d4d966844d6e6d2ad850"
   dependencies:
     immutable "~3.7.4"
 
-draft-js-plugins-editor@^2.0.0-beta5:
-  version "2.0.0-beta5"
-  resolved "https://registry.yarnpkg.com/draft-js-plugins-editor/-/draft-js-plugins-editor-2.0.0-beta5.tgz#0e81fddb69e23be1c22f1fbd74e25501b3dca171"
+draft-js-plugins-editor@^2.0.0-rc3:
+  version "2.0.0-rc8"
+  resolved "https://registry.yarnpkg.com/draft-js-plugins-editor/-/draft-js-plugins-editor-2.0.0-rc8.tgz#810f6069d432b38e07ed09504b492657150225db"
   dependencies:
     decorate-component-with-props "^1.0.2"
-    draft-js ">=0.8.1"
     find-with-regex "^1.0.2"
-    immutable ">=3.8.1"
-    react ">=15.2.1"
-    react-dom ">=15.2.1"
+    immutable "^3.7.4"
+    prop-types "^15.5.8"
     union-class-names "^1.0.0"
 
-draft-js-single-line-plugin@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/draft-js-single-line-plugin/-/draft-js-single-line-plugin-1.0.0.tgz#d766ed532605754afab6ffc981b3b92f9345764a"
+draft-js-single-line-plugin@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/draft-js-single-line-plugin/-/draft-js-single-line-plugin-2.0.1.tgz#3aea1b100b1562d7ef3d5d02e73190da12953857"
   dependencies:
     immutable "^3.8.1"
 
-draft-js-utils@^0.1.4:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-0.1.6.tgz#71f0e90a843426f0eadc83e8154b3220c4bb7f9e"
-
-draft-js@>=0.8.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.9.1.tgz#940a51a0ad1fede0411676b6404f4050495f54f9"
-  dependencies:
-    fbjs "^0.8.3"
-    immutable "~3.7.4"
-    object-assign "^4.1.0"
+draft-js-utils@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-0.1.7.tgz#e2b6927ca620edf1855a4bfc1cf1d21080a70f16"
 
 duplexer@~0.1.1:
   version "0.1.1"
@@ -1730,7 +1716,7 @@ fb-watchman@^1.8.0:
   dependencies:
     bser "^1.0.2"
 
-fbjs@^0.8.3, fbjs@^0.8.4, fbjs@^0.8.9:
+fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -2182,7 +2168,7 @@ ignore@^3.1.5:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.2.0.tgz#8d88f03c3002a0ac52114db25d2c673b0bf1e435"
 
-immutable@>=3.8.1, immutable@^3.7.6, immutable@^3.8.1:
+immutable@^3.7.4, immutable@^3.7.6, immutable@^3.8.1:
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
 
@@ -2430,6 +2416,10 @@ isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
 isexe@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-1.1.2.tgz#36f3e22e60750920f5e7241a476a8c6a42275ad0"
+
+isfunction@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/isfunction/-/isfunction-0.0.6.tgz#48f98048441eda8ec3fa3b558607b7b41bea2e0c"
 
 isobject@^2.0.0:
   version "2.1.0"
@@ -3518,6 +3508,13 @@ react-addons-test-utils@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.3.2.tgz#c09a44f583425a4a9c1b38444d7a6c3e6f0f41f6"
 
+react-addons-update@^15.6.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react-addons-update/-/react-addons-update-15.6.2.tgz#e53753c5b34887974510c882d7fb075851d5e504"
+  dependencies:
+    fbjs "^0.8.9"
+    object-assign "^4.1.0"
+
 react-day-picker@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-3.0.0.tgz#633194ed8e8e3dea04f464cf29e2f612e1eebba4"
@@ -3537,10 +3534,6 @@ react-dnd@^2.1.4:
     invariant "^2.1.0"
     lodash "^4.2.0"
 
-react-dom@>=15.2.1:
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
-
 react-dropzone@^3.5.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-3.6.0.tgz#31e9cdfc0db921525dae0b82115cf4dc764c680a"
@@ -3558,14 +3551,6 @@ react-portal@^3.0.0:
 react-textarea-autosize@^4.0.2:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/react-textarea-autosize/-/react-textarea-autosize-4.0.5.tgz#55379f6a6fa575fc87d1b8de2756e57e3b6c995d"
-
-react@>=15.2.1:
-  version "15.3.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.3.2.tgz#a7bccd2fee8af126b0317e222c28d1d54528d09e"
-  dependencies:
-    fbjs "^0.8.4"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
