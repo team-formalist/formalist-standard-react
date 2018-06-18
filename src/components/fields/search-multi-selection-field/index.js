@@ -74,6 +74,7 @@ class SearchMultiSelectionField extends Component {
     this.onSelectorBlur = this.onSelectorBlur.bind(this);
     this.onSelectorFocus = this.onSelectorFocus.bind(this);
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this);
+    this.fetchSelectionsData = this.fetchSelectionsData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,7 +87,15 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   componentWillMount() {
-    // Do an XHR request for the additional selection data
+    this.fetchSelectionsData();
+  }
+
+  /**
+   * fetchSelectionsData
+   * Do an XHR request for the additional selections data
+   * @return {Null}
+   */
+  fetchSelectionsData() {
     const { attributes, value } = this.props;
     if (value && value.count() > 0) {
       const { search_url } = attributes;
@@ -325,7 +334,7 @@ class SearchMultiSelectionField extends Component {
           <div className={styles.selectedItems}>
             <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
               {selections.map((option, index) => (
-                <Selection key={`${index}_${option.id}`} option={option} />
+                <Selection key={`${index}_${option.id}`} option={option} fetchSelectionsData={this.fetchSelectionsData} />
               ))}
             </Sortable>
           </div>

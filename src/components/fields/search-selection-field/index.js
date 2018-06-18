@@ -63,6 +63,7 @@ class SearchSelectionField extends Component {
     this.onSelectorBlur = this.onSelectorBlur.bind(this);
     this.onSelectorFocus = this.onSelectorFocus.bind(this);
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this);
+    this.fetchSelectionData = this.fetchSelectionData.bind(this);
   }
 
   /**
@@ -71,7 +72,15 @@ class SearchSelectionField extends Component {
    * @return {Null}
    */
   componentWillMount() {
-    // Do an XHR request for the additional selection data
+    this.fetchSelectionData();
+  }
+
+  /**
+   * fetchSelectionData
+   * Do an XHR request for the additional selection data
+   * @return {Null}
+   */
+  fetchSelectionData() {
     const { attributes, value } = this.props;
     if (value) {
       const { search_url } = attributes;
@@ -235,7 +244,7 @@ class SearchSelectionField extends Component {
           {selection ? (
             <div className={styles.wrapper}>
               <div className={styles.selection}>
-                <Selection option={selection} />
+                <Selection option={selection} fetchSelectionData={this.fetchSelectionData} />
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>
