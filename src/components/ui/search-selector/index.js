@@ -129,7 +129,7 @@ class SearchSelector extends Component {
   }
 
   render() {
-    const { onSelection, optionComponent, selectedIds } = this.props;
+    const { onSelection, optionComponent, optionControlComponent, selectedIds } = this.props;
     const { hasSearched, loading, results, pagination } = this.state;
 
     // Has query?
@@ -162,6 +162,8 @@ class SearchSelector extends Component {
       [`${styles.resultsLoading}`]: loading
     });
 
+    const OptionControl = optionControlComponent;
+
     return (
       <div data-search-selector className={styles.base}>
         <input
@@ -178,6 +180,7 @@ class SearchSelector extends Component {
           onChange={this.onSearchChange}
         />
         {loading ? <Spinner className={styles.spinner} /> : null}
+        {OptionControl ? <OptionControl hasQuery={hasQuery} options={options} onSelection={onSelection} /> : null}
         {options.length > 0 ? (
           <div data-search-selector-results className={resultClassNames}>
             <div className={styles.pagination}>
@@ -218,6 +221,7 @@ SearchSelector.propTypes = {
   onQueryChange: PropTypes.func,
   onSelection: PropTypes.func.isRequired,
   optionComponent: PropTypes.func,
+  optionControlComponent: PropTypes.func,
   selectedIds: PropTypes.array,
   params: PropTypes.object,
   perPage: PropTypes.number,

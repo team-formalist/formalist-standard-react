@@ -205,6 +205,7 @@ class SearchSelectionField extends Component {
       placeholder,
       selector_label,
       render_option_as,
+      render_option_control_as,
       render_selection_as
     } = attributes;
     const { selection, selectorFocus, selectorQuery } = this.state;
@@ -217,6 +218,7 @@ class SearchSelectionField extends Component {
 
     // Determine the selection/selected display components
     let Option = SelectDefault;
+    let OptionControl = null;
     let Selection = SelectDefault;
 
     // Extract them from the passed `config.components` if it exists
@@ -224,6 +226,10 @@ class SearchSelectionField extends Component {
       if (render_option_as) {
         Option =
           extractComponent(config.components, render_option_as) || Option;
+      }
+      if (render_option_control_as) {
+        OptionControl =
+          extractComponent(config.components, render_option_control_as) || OptionControl;
       }
       if (render_selection_as) {
         Selection =
@@ -282,6 +288,7 @@ class SearchSelectionField extends Component {
                   onFocus={this.onSelectorFocus}
                   onQueryChange={this.onSelectorQueryChange}
                   optionComponent={Option}
+                  optionControlComponent={OptionControl}
                   params={attributes.search_params}
                   perPage={attributes.search_per_page}
                   query={selectorQuery}
@@ -325,6 +332,7 @@ SearchSelectionField.propTypes = {
     selector_label: PropTypes.string,
     selection: PropTypes.object,
     render_option_as: PropTypes.string,
+    render_option_control_as: PropTypes.string,
     render_selection_as: PropTypes.string
   }),
   hint: PropTypes.string,
