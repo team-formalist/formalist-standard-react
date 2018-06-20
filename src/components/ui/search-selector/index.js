@@ -135,6 +135,9 @@ class SearchSelector extends Component {
     // Has query?
     const hasQuery = this.query != null && this.query !== "";
 
+    // OptionControl component
+    const OptionControl = optionControlComponent;
+
     // Render each option
     const Option = optionComponent;
     const options = results.map(option => {
@@ -161,8 +164,6 @@ class SearchSelector extends Component {
     const resultClassNames = classNames(styles.results, {
       [`${styles.resultsLoading}`]: loading
     });
-
-    const OptionControl = optionControlComponent;
 
     return (
       <div data-search-selector className={styles.base}>
