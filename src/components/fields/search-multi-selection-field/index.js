@@ -74,6 +74,7 @@ class SearchMultiSelectionField extends Component {
     this.onSelectorBlur = this.onSelectorBlur.bind(this);
     this.onSelectorFocus = this.onSelectorFocus.bind(this);
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this);
+    this.fetchSelectionsData = this.fetchSelectionsData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,7 +87,15 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   componentWillMount() {
-    // Do an XHR request for the additional selection data
+    this.fetchSelectionsData();
+  }
+
+  /**
+   * fetchSelectionsData
+   * Do an XHR request for the additional selections data
+   * @return {Null}
+   */
+  fetchSelectionsData() {
     const { attributes, value } = this.props;
     if (value && value.count() > 0) {
       const { search_url } = attributes;
@@ -238,7 +247,8 @@ class SearchMultiSelectionField extends Component {
       placeholder,
       selector_label,
       render_option_as,
-      render_selection_as
+      render_option_control_as,
+      render_selection_as,
     } = attributes;
     const { selections, selectorFocus, selectorQuery } = this.state;
     const hasErrors = errors.count() > 0;
@@ -250,6 +260,7 @@ class SearchMultiSelectionField extends Component {
 
     // Determine the selection/selected display components
     let Option = SelectDefault;
+    let OptionControl = null;
     let Selection = SelectDefault;
 
     // Extract them from the passed `config.components` if it exists
@@ -257,6 +268,10 @@ class SearchMultiSelectionField extends Component {
       if (render_option_as) {
         Option =
           extractComponent(config.components, render_option_as) || Option;
+      }
+      if (render_option_control_as) {
+        OptionControl =
+          extractComponent(config.components, render_option_control_as) || OptionControl;
       }
       if (render_selection_as) {
         Selection =
@@ -311,6 +326,7 @@ class SearchMultiSelectionField extends Component {
                 onFocus={this.onSelectorFocus}
                 onQueryChange={this.onSelectorQueryChange}
                 optionComponent={Option}
+                optionControlComponent={OptionControl}
                 params={attributes.search_params}
                 perPage={attributes.search_per_page}
                 query={selectorQuery}
@@ -325,7 +341,7 @@ class SearchMultiSelectionField extends Component {
           <div className={styles.selectedItems}>
             <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
               {selections.map((option, index) => (
-                <Selection key={`${index}_${option.id}`} option={option} />
+                <Selection key={`${index}_${option.id}`} option={option} fetchSelectionsData={this.fetchSelectionsData} />
               ))}
             </Sortable>
           </div>
@@ -362,6 +378,7 @@ SearchMultiSelectionField.propTypes = {
     search_threshold: PropTypes.number,
     selector_label: PropTypes.string,
     render_option_as: PropTypes.string,
+    render_option_control_as: PropTypes.string,
     render_selection_as: PropTypes.string
   }),
   hint: PropTypes.string,

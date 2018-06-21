@@ -63,6 +63,7 @@ class SearchSelectionField extends Component {
     this.onSelectorBlur = this.onSelectorBlur.bind(this);
     this.onSelectorFocus = this.onSelectorFocus.bind(this);
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this);
+    this.fetchSelectionData = this.fetchSelectionData.bind(this);
   }
 
   /**
@@ -71,7 +72,15 @@ class SearchSelectionField extends Component {
    * @return {Null}
    */
   componentWillMount() {
-    // Do an XHR request for the additional selection data
+    this.fetchSelectionData();
+  }
+
+  /**
+   * fetchSelectionData
+   * Do an XHR request for the additional selection data
+   * @return {Null}
+   */
+  fetchSelectionData() {
     const { attributes, value } = this.props;
     if (value) {
       const { search_url } = attributes;
@@ -196,6 +205,7 @@ class SearchSelectionField extends Component {
       placeholder,
       selector_label,
       render_option_as,
+      render_option_control_as,
       render_selection_as
     } = attributes;
     const { selection, selectorFocus, selectorQuery } = this.state;
@@ -208,6 +218,7 @@ class SearchSelectionField extends Component {
 
     // Determine the selection/selected display components
     let Option = SelectDefault;
+    let OptionControl = null;
     let Selection = SelectDefault;
 
     // Extract them from the passed `config.components` if it exists
@@ -215,6 +226,10 @@ class SearchSelectionField extends Component {
       if (render_option_as) {
         Option =
           extractComponent(config.components, render_option_as) || Option;
+      }
+      if (render_option_control_as) {
+        OptionControl =
+          extractComponent(config.components, render_option_control_as) || OptionControl;
       }
       if (render_selection_as) {
         Selection =
@@ -235,7 +250,7 @@ class SearchSelectionField extends Component {
           {selection ? (
             <div className={styles.wrapper}>
               <div className={styles.selection}>
-                <Selection option={selection} />
+                <Selection option={selection} fetchSelectionData={this.fetchSelectionData} />
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>
@@ -273,6 +288,7 @@ class SearchSelectionField extends Component {
                   onFocus={this.onSelectorFocus}
                   onQueryChange={this.onSelectorQueryChange}
                   optionComponent={Option}
+                  optionControlComponent={OptionControl}
                   params={attributes.search_params}
                   perPage={attributes.search_per_page}
                   query={selectorQuery}
@@ -316,6 +332,7 @@ SearchSelectionField.propTypes = {
     selector_label: PropTypes.string,
     selection: PropTypes.object,
     render_option_as: PropTypes.string,
+    render_option_control_as: PropTypes.string,
     render_selection_as: PropTypes.string
   }),
   hint: PropTypes.string,
