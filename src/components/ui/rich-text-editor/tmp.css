@@ -9,12 +9,10 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-.DraftEditor-editorContainer,
-.DraftEditor-root,
-.public-DraftEditor-content {
-  height: inherit;
-  text-align: initial;
-  word-break: break-word;
+.DraftEditor-editorContainer, .DraftEditor-root, .public-DraftEditor-content {
+    height: inherit;
+    text-align: initial;
+    word-break: break-word;
 }
 .DraftEditor-root {
   line-height: 1.5;

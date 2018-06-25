@@ -144,14 +144,12 @@ export default function blockToolbarPlugin(options = {}) {
   const editableBlockTypes = getEditableBlockTypesFromGroups(blockItemsGroups);
 
   // Keep track of when an atomic block is selected
-  editorEmitter.on("change", key => {
-    // console.log('Set no atomic selected')
-    selectedAtomicBlockKey = null;
-  });
-  editorEmitter.on("atomic:selected", key => {
-    // console.log('Atomic block is selected: ' + key)
-    selectedAtomicBlockKey = key;
-  });
+  editorEmitter.on('change', (key) => {
+    selectedAtomicBlockKey = null
+  })
+  editorEmitter.on('atomic:selected', (key) => {
+    selectedAtomicBlockKey = key
+  })
 
   return {
     /**
