@@ -1,6 +1,6 @@
 {
   "name": "formalist-standard-react",
-  "version": "3.0.4",
+  "version": "4.0.2",
   "description": "A standard form implementation for Formalist using React",
   "main": "lib/index.js",
   "scripts": {
@@ -9,7 +9,6 @@
     "compile": "npm run build",
     "precompile": "npm run clean",
     "watch": "nodemon --watch src --exec 'npm run build' --ext js,css,mcss",
-    "prepublish": "npm run compile",
     "test": "NODE_ENV=test babel-node test | tap-spec",
     "posttest": "npm run lint",
     "clean": "rm -rf ./lib/*",

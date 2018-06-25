@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.0 2018-06-25
+
+* Breaking changes:
+  * Update to be React 16 compatible
+  * Replace attache uploader with direct to S3 version
+  * Removes CSS Modules in favour of [Emotion](https://github.com/emotion-js/emotion/blob/master/docs/css.md)
+* Remove `react-portal`, adds first-party implementation instead
+* Adds better data-attr hooks for testing
+* Add button to copy URL for uploads
+* Add ability to set an "Option control" for search selection fields. This will be rendered before any options in the search box.
+* Fix issues in rich text fields:
+  * Ensure configuration is passed down to child formalist instances
+  * Make sure events bubble out of child formalist instances to the parent instance (for blocking uploads etc)
+* Fix bug where date/time fields would not be cleared properly
+
 # v3.0.4 2018-03-20
 
 * Fix issue with removing atomic blocks using button
