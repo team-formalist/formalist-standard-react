@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-# v4.0.0 2018-06-25
+# v4.0.2 2018-06-25
 
 * Breaking changes:
   * Update to be React 16 compatible
