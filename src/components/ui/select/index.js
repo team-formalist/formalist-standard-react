@@ -1,7 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import styles from './select.mcss'
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import withoutKeys from "../../../utils/without-keys";
+import * as styles from "./styles";
 
 /**
  * Select
@@ -28,39 +29,39 @@ class Select extends React.Component {
     onBlur: PropTypes.func,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
-    size: PropTypes.oneOf(['xsmall', 'small', 'normal', 'large', 'xlarge']),
+    size: PropTypes.oneOf(["xsmall", "small", "normal", "large", "xlarge"])
   };
 
   static defaultProps = {
     clearable: true,
     error: false,
-    placeholder: 'Select an option',
-    size: 'normal',
+    placeholder: "Select an option",
+    size: "normal"
   };
 
   state = {
-    focus: false,
+    focus: false
   };
 
-  onFocus = (e) => {
-    this.setState({focus: true})
+  onFocus = e => {
+    this.setState({ focus: true });
     if (this.props.onFocus) {
-      this.props.onFocus(e)
+      this.props.onFocus(e);
     }
   };
 
-  onBlur = (e) => {
-    this.setState({focus: false})
+  onBlur = e => {
+    this.setState({ focus: false });
     if (this.props.onBlur) {
-      this.props.onBlur(e)
+      this.props.onBlur(e);
     }
   };
 
-  onChange = (e) => {
-    this.props.onChange(e, e.target.value)
+  onChange = e => {
+    this.props.onChange(e, e.target.value);
   };
 
-  render () {
+  render() {
     const {
       children,
       className,
@@ -68,55 +69,61 @@ class Select extends React.Component {
       defaultValue,
       error,
       placeholder,
-      size,
-    } = this.props
-    const {focus} = this.state
+      size
+    } = this.props;
+    const { focus } = this.state;
 
-    let labelClassNames = classNames(
-      styles.label,
-      {
-        [`${styles.labelError}`]: error,
-        [`${styles.labelFocus}`]: focus,
-      }
-    )
+    let labelClassNames = classNames(styles.label, {
+      [`${styles.labelError}`]: error,
+      [`${styles.labelFocus}`]: focus
+    });
     let inputClassNames = classNames(
       className,
       styles.select,
       {
         [`${styles.error}`]: error,
-        [`${styles.focus}`]: focus,
+        [`${styles.focus}`]: focus
       },
       `${styles[size]}`
-    )
+    );
 
     // Generate a placeholder with a fake value seed to trick our <select>
     // into appearing to show it correctly
-    let placeholderOption = <option
-      value=''
-      hidden={!clearable}
-      disabled={!clearable}
-    >
-      {placeholder}
-    </option>
+    let placeholderOption = (
+      <option value="" hidden={!clearable} disabled={!clearable}>
+        {placeholder}
+      </option>
+    );
 
     // Extract any other props
-    const {id} = this.props
+    const propsToPass = withoutKeys(this.props, [
+      "children",
+      "className",
+      "error",
+      "clearable",
+      "onFocus",
+      "onBlur",
+      "onChange",
+      "placeholder",
+      "size"
+    ]);
 
     return (
       <label className={labelClassNames}>
         <select
-          id={id}
-          defaultValue={defaultValue || ''}
+          {...propsToPass}
+          defaultValue={defaultValue || ""}
           className={inputClassNames}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
-          onChange={this.onChange}>
+          onChange={this.onChange}
+        >
           {placeholderOption}
           {children}
         </select>
       </label>
-    )
+    );
   }
 }
 
-export default Select
+export default Select;

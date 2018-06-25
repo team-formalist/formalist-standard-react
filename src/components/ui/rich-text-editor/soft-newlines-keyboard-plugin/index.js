@@ -1,14 +1,12 @@
-import {
-  RichUtils,
-} from 'draft-js'
+import { RichUtils } from "draft-js";
 
-const SOFT_NEWLINE_COMMAND = 'insert-soft-newline'
+const SOFT_NEWLINE_COMMAND = "insert-soft-newline";
 
 /**
  * Plugin for the allowing soft newlines to be added using the keyboard
  * @return {Object} draft-js-editor-plugin compatible object
  */
-export default function softNewlinesKeyboardPlugin () {
+export default function softNewlinesKeyboardPlugin() {
   return {
     /**
      * Check if the current key combination is `Shift + Enter`
@@ -16,10 +14,10 @@ export default function softNewlinesKeyboardPlugin () {
      * @param  {KeyboardEvent} e Synthetic keyboard event from draft-js
      * @return {Command} String command based on the keyboard event
      */
-    keyBindingFn (e) {
+    keyBindingFn(e) {
       // ENTER
       if (e.keyCode === 13 && e.shiftKey) {
-        return SOFT_NEWLINE_COMMAND
+        return SOFT_NEWLINE_COMMAND;
       }
     },
 
@@ -32,14 +30,16 @@ export default function softNewlinesKeyboardPlugin () {
      * @param  {EditorState} editorState The current editorState
      * @return {Boolean} Handled or not?
      */
-    handleKeyCommand: function handleKeyCommand (command, editorState, {setEditorState}) {
+    handleKeyCommand: function handleKeyCommand(
+      command,
+      editorState,
+      { setEditorState }
+    ) {
       if (command === SOFT_NEWLINE_COMMAND) {
-        setEditorState(
-          RichUtils.insertSoftNewline(editorState)
-        )
-        return 'handled'
+        setEditorState(RichUtils.insertSoftNewline(editorState));
+        return "handled";
       }
-      return 'not-handled'
-    },
-  }
+      return "not-handled";
+    }
+  };
 }

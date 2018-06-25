@@ -1,23 +1,9 @@
 {
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "sourceType": "module"
-  },
-  "rules": {
-    "comma-dangle": [2, "always-multiline"],
-    "camelcase": [0, {"properties": "never"}],
-    "react/jsx-no-bind": [2, {"ignoreRefs": true}]
-  },
-  "extends": [
-    "standard",
-    "standard-react"
-  ],
+  "extends": "react-app",
   "plugins": [
-    "standard",
-    "react"
-  ]
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error"
+  }
 }

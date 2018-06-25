@@ -1,16 +1,13 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import triggerEvent from 'trigger-event'
-
-// import classNames from 'classnames'
-// import styles from './index.mcss'
+import React from "react";
+import PropTypes from "prop-types";
+import triggerEvent from "trigger-event";
 
 export default class extends React.Component {
   /**
    * displayName
    */
 
-  static displayName = 'FileInput';
+  static displayName = "FileInput";
 
   /**
    * propTypes
@@ -19,7 +16,7 @@ export default class extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   /**
@@ -27,7 +24,7 @@ export default class extends React.Component {
    */
 
   static defaultProps = {
-    resetInput: false,
+    resetInput: false
   };
 
   /**
@@ -36,7 +33,7 @@ export default class extends React.Component {
    */
 
   onClearInput = () => {
-    this.refs.fileInput.value = ''
+    this._fileInput.value = "";
   };
 
   /**
@@ -45,7 +42,7 @@ export default class extends React.Component {
    */
 
   triggerClickEvent = () => {
-    triggerEvent(this.refs.fileInput, 'click')
+    triggerEvent(this._fileInput, "click");
   };
 
   /**
@@ -53,13 +50,13 @@ export default class extends React.Component {
    * Check if we need to reset the file input
    */
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.clearInput) {
-      this.onClearInput()
+      this.onClearInput();
     }
 
     if (nextProps.triggerClick) {
-      this.triggerClickEvent()
+      this.triggerClickEvent();
     }
   }
 
@@ -68,19 +65,20 @@ export default class extends React.Component {
    * @return {vnode}
    */
 
-  render () {
-    const {name, onChange, className} = this.props
+  render() {
+    const { name, onChange, className } = this.props;
 
     return (
       <div className={className}>
         <input
-          ref='fileInput'
-          type='file'
+          ref={r => (this._fileInput = r)}
+          type="file"
           className={className}
           name={name}
           id={name}
-          onChange={onChange} />
+          onChange={onChange}
+        />
       </div>
-    )
+    );
   }
 }

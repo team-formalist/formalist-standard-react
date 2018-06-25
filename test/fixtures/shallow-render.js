@@ -1,8 +1,8 @@
-import React from 'react'
-import ReactTestUtils from 'react-addons-test-utils'
+import React from "react";
+import { createRenderer } from "react-test-renderer/shallow";
 
-export default function shallowRenderComponent (Component, props) {
-  const renderer = ReactTestUtils.createRenderer()
-  renderer.render(<Component {...props} />)
-  return renderer.getRenderOutput()
+export default function shallowRenderComponent(Component, props) {
+  const renderer = createRenderer();
+  renderer.render(<Component {...props} />);
+  return renderer.getRenderOutput();
 }

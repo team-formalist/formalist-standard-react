@@ -1,8 +1,0 @@
-@value styles: 'formalist-theme/theme/index.mcss';
-
-.popover {
-  composes: whiteBackground greyLightBorder from styles;
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 0 5px 10px rgba(0,0,0,.12), inset 0px 2px 0px 0px rgba(20,15,10,0.06);
-}

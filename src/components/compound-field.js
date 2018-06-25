@@ -1,19 +1,22 @@
-import React from 'react'
-import ImmutablePropTypes from 'react-immutable-proptypes'
+import React from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import uid from "uid";
 
-import styles from './compound-field.mcss'
+const styles = {
+  base: uid(10) // Empty placeholder class
+};
 
-const CompoundField = ({children}) => {
+const CompoundField = ({ children }) => {
   return (
-    <div className={styles.base}>
+    <div className={styles.base} data-compound-field>
       {children}
     </div>
-  )
-}
+  );
+};
 
 CompoundField.propTypes = {
-  children: ImmutablePropTypes.list,
-}
+  children: ImmutablePropTypes.list
+};
 
-export default CompoundField
-export let CompoundFieldFactory = React.createFactory(CompoundField)
+export default CompoundField;
+export let CompoundFieldFactory = React.createFactory(CompoundField);

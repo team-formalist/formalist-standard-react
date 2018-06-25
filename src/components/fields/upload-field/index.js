@@ -1,5 +1,5 @@
-import React from 'react'
-import MultiUploadField from '../multi-upload-field'
+import React from "react";
+import MultiUploadField from "../multi-upload-field";
 
 /**
  * UploadField
@@ -8,9 +8,9 @@ import MultiUploadField from '../multi-upload-field'
  */
 
 class UploadField extends React.Component {
-  render () {
-    return <MultiUploadField {...this.props} multiple={false} />
+  render() {
+    return <MultiUploadField {...this.props} multiple={false} />;
   }
 }
 
-export default UploadField
+export default UploadField;

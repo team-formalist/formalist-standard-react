@@ -1,46 +1,45 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import {List} from 'immutable'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
-import keyCodes from '../../../utils/key-codes'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { List } from "immutable";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
+import keyCodes from "../../../utils/key-codes";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
-import Popunder from '../../ui/popunder'
-import Spinner from '../../ui/spinner'
-import SearchList from './search-list'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
+import Popunder from "../../ui/popunder";
+import Spinner from "../../ui/spinner";
+import SearchList from "./search-list";
 
 // Import styles
-import styles from './tags-field.mcss'
+import * as styles from "./styles";
 
 /**
  * Tags field
  */
 class TagsField extends Component {
+  constructor(props) {
+    super(props);
 
-  constructor (props) {
-    super(props)
-
-    const {attributes} = props
-    const {search_url, search_threshold} = attributes
+    const { attributes } = props;
+    const { search_url, search_threshold } = attributes;
 
     // Initial state
     this.state = {
       inputFocus: false,
-      inputQuery: '',
+      inputQuery: "",
       tagsLoading: false,
-      canSearch: (search_url != null),
-      searchThreshold: search_threshold || 1,
-    }
+      canSearch: search_url != null,
+      searchThreshold: search_threshold || 1
+    };
 
     // Bindings
-    this.onChange = this.onChange.bind(this)
-    this.onInputBlur = this.onInputBlur.bind(this)
-    this.onInputChange = this.onInputChange.bind(this)
-    this.onInputFocus = this.onInputFocus.bind(this)
-    this.onInputKeyDown = this.onInputKeyDown.bind(this)
+    this.onChange = this.onChange.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onInputFocus = this.onInputFocus.bind(this);
+    this.onInputKeyDown = this.onInputKeyDown.bind(this);
   }
 
   /**
@@ -48,12 +47,10 @@ class TagsField extends Component {
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (value) {
-    this.props.actions.edit(
-      (val) => {
-        return value
-      }
-    )
+  onChange(value) {
+    this.props.actions.edit(val => {
+      return value;
+    });
   }
 
   /**
@@ -61,13 +58,13 @@ class TagsField extends Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onInputFocus (e) {
-    const {canSearch, inputQuery, searchThreshold} = this.state
+  onInputFocus(e) {
+    const { canSearch, inputQuery, searchThreshold } = this.state;
     this.setState({
-      inputFocus: true,
-    })
+      inputFocus: true
+    });
     if (canSearch && inputQuery.length >= searchThreshold) {
-      this._popunder.openPopunder()
+      this._popunder.openPopunder();
     }
   }
 
@@ -76,33 +73,33 @@ class TagsField extends Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onInputBlur (e) {
+  onInputBlur(e) {
     this.setState({
       inputFocus: false,
-      tagsLoading: false,
-    })
+      tagsLoading: false
+    });
   }
 
   /**
    * Handle change event for inputs
    * @param  {Event} e Change event
    */
-  onInputChange (e) {
-    const {canSearch, searchThreshold} = this.state
-    const inputQuery = e.target.value
+  onInputChange(e) {
+    const { canSearch, searchThreshold } = this.state;
+    const inputQuery = e.target.value;
     this.setState({
-      inputQuery,
-    })
+      inputQuery
+    });
     if (canSearch && inputQuery.length >= searchThreshold) {
-      this._popunder.openPopunder()
+      this._popunder.openPopunder();
     } else {
       if (canSearch) {
-        this._popunder.closePopunder()
+        this._popunder.closePopunder();
       }
       this.setState({
-        inputQuery: '',
-        tagsLoading: false,
-      })
+        inputQuery: "",
+        tagsLoading: false
+      });
     }
   }
 
@@ -110,142 +107,148 @@ class TagsField extends Component {
    * Handle change event for inputs
    * @param  {Event} e Change event
    */
-  onInputKeyDown (e) {
+  onInputKeyDown(e) {
     switch (e.keyCode) {
       case keyCodes.ENTER:
-        e.preventDefault()
-        const added = this.addTag(e.target.value)
+        e.preventDefault();
+        const added = this.addTag(e.target.value);
         if (added) {
-          this.clearInput()
+          this.clearInput();
         }
-        break
+        break;
       case keyCodes.BACKSPACE:
-        if (e.target.value === '') {
-          e.preventDefault()
+        if (e.target.value === "") {
+          e.preventDefault();
           // Remove the last tag
-          this.removeTag(-1)
+          this.removeTag(-1);
         }
-        break
+        break;
+      default:
+      // noop
     }
   }
 
   /**
    * Empty the input field
    */
-  clearInput () {
-    this._input.value = ''
+  clearInput() {
+    this._input.value = "";
     this.setState({
-      inputQuery: '',
-      tagsLoading: false,
-    })
+      inputQuery: "",
+      tagsLoading: false
+    });
   }
 
   /**
    * Remove a tag from the value based on index
    */
-  removeTag (index) {
-    const {value} = this.props
-    this.onChange(value.delete(index))
+  removeTag(index) {
+    const { value } = this.props;
+    this.onChange(value.delete(index));
   }
 
   /**
    * Add tag to end of list
    */
-  addTag (tag) {
-    let {value} = this.props
-    const valid = tag && tag !== ''
+  addTag(tag) {
+    let { value } = this.props;
+    const valid = tag && tag !== "";
     if (valid) {
-      value = value || List()
-      this.onChange(value.push(tag))
-      return true
+      value = value || List();
+      this.onChange(value.push(tag));
+      return true;
     }
-    return false
+    return false;
   }
 
   /**
    * Render existing tags
    * @return {ReactElement}
    */
-  renderTagsList () {
-    const {value} = this.props
+  renderTagsList() {
+    const { value } = this.props;
     if (value) {
-      return (
-        value.map((tag, i) => {
-          const key = `${tag}-${i}`
-          const onClick = (e) => {
-            e.preventDefault()
-            // Remove only if the span is clicked on
-            if (e.target.nodeName === 'SPAN') {
-              this.removeTag(i)
-            }
+      return value.map((tag, i) => {
+        const key = `${tag}-${i}`;
+        const onClick = e => {
+          e.preventDefault();
+          // Remove only if the span is clicked on
+          if (e.target.nodeName === "SPAN") {
+            this.removeTag(i);
           }
-          const onKeyDown = (e) => {
-            if (e.keyCode === keyCodes.DELETE || e.keyCode === keyCodes.BACKSPACE) {
-              this.removeTag(i)
-            }
+        };
+        const onKeyDown = e => {
+          if (
+            e.keyCode === keyCodes.DELETE ||
+            e.keyCode === keyCodes.BACKSPACE
+          ) {
+            this.removeTag(i);
           }
+        };
 
-          return (
-            <button
-              key={key}
-              className={styles.tag}
-              onClick={onClick}
-              onKeyDown={onKeyDown}
-            >
-              {tag}
-              <span className={styles.removeButton}>×</span>
-            </button>
-          )
-        })
-      )
+        return (
+          <button
+            key={key}
+            className={styles.tag}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+          >
+            {tag}
+            <span className={styles.removeButton}>×</span>
+          </button>
+        );
+      });
     } else {
-      return null
+      return null;
     }
   }
 
-  render () {
-    const {attributes, errors, hint, label, name} = this.props
-    let {placeholder, search_url, search_params} = attributes
-    const {canSearch, inputFocus, inputQuery, searchThreshold, tagsLoading} = this.state
-    const hasErrors = (errors.count() > 0)
+  render() {
+    const { attributes, errors, hint, label, name } = this.props;
+    let { placeholder, search_url, search_params } = attributes;
+    const {
+      canSearch,
+      inputFocus,
+      inputQuery,
+      searchThreshold,
+      tagsLoading
+    } = this.state;
+    const hasErrors = errors.count() > 0;
 
-    placeholder = placeholder || 'Enter a tag'
+    placeholder = placeholder || "Enter a tag";
 
     // Set up field classes
-    const fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    const fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
 
-    const displayClassNames = classNames(
-      styles.display,
-      {
-        [`${styles.displayFocus}`]: inputFocus,
-      }
-    )
+    const displayClassNames = classNames(styles.display, {
+      [`${styles.displayFocus}`]: inputFocus
+    });
 
-    const popunderContainerClassName = classNames(
-      styles.popunderContainer,
-      {
-        [`${styles.popunderContainerHidden}`]: tagsLoading,
-      }
-    )
+    const popunderContainerClassName = classNames(styles.popunderContainer, {
+      [`${styles.popunderContainerHidden}`]: tagsLoading
+    });
 
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="tags-field"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={displayClassNames}>
           <div className={styles.tagList}>
             {this.renderTagsList()}
-            {(canSearch)
-              ? <Popunder
-                ref={(r) => { this._popunder = r }}
+            {canSearch ? (
+              <Popunder
+                ref={r => {
+                  this._popunder = r;
+                }}
                 onClose={this.onPopunderClose}
                 onOpen={this.onPopunderOpen}
                 className={styles.popunderWrapper}
@@ -255,7 +258,9 @@ class TagsField extends Component {
               >
                 <div className={styles.tagInputWrapper}>
                   <input
-                    ref={(r) => { this._input = r }}
+                    ref={r => {
+                      this._input = r;
+                    }}
                     className={styles.tagInput}
                     onChange={this.onInputChange}
                     onKeyDown={this.onInputKeyDown}
@@ -263,30 +268,31 @@ class TagsField extends Component {
                     onFocus={this.onInputFocus}
                     placeholder={placeholder}
                   />
-                  {
-                    (tagsLoading) ? <Spinner className={styles.spinner} /> : null
-                  }
+                  {tagsLoading ? <Spinner className={styles.spinner} /> : null}
                 </div>
                 <SearchList
                   query={inputQuery}
                   url={search_url}
                   params={search_params}
                   threshold={searchThreshold}
-                  onSearchStart={() => this.setState({tagsLoading: true})}
-                  onSearchEnd={() => this.setState({tagsLoading: false})}
-                  onSelect={(selection) => {
-                    const added = this.addTag(selection.value)
+                  onSearchStart={() => this.setState({ tagsLoading: true })}
+                  onSearchEnd={() => this.setState({ tagsLoading: false })}
+                  onSelect={selection => {
+                    const added = this.addTag(selection.value);
                     if (added) {
-                      this.clearInput()
-                      this._input.focus()
-                      this._popunder.closePopunder()
+                      this.clearInput();
+                      this._input.focus();
+                      this._popunder.closePopunder();
                     }
                   }}
                 />
               </Popunder>
-              : <div className={styles.tagInputWrapperNoSearch}>
+            ) : (
+              <div className={styles.tagInputWrapperNoSearch}>
                 <input
-                  ref={(r) => { this._input = r }}
+                  ref={r => {
+                    this._input = r;
+                  }}
                   className={styles.tagInput}
                   onChange={this.onInputChange}
                   onKeyDown={this.onInputKeyDown}
@@ -295,12 +301,12 @@ class TagsField extends Component {
                   placeholder={placeholder}
                 />
               </div>
-            }
+            )}
           </div>
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
     /* eslint-enable react/jsx-no-bind */
   }
 }
@@ -309,8 +315,8 @@ class TagsField extends Component {
  * Enable parent to pass context
  */
 TagsField.contextTypes = {
-  globalConfig: PropTypes.object,
-}
+  globalConfig: PropTypes.object
+};
 
 /**
  * PropTypes
@@ -327,12 +333,12 @@ TagsField.propTypes = {
     inline: PropTypes.bool,
     search_url: PropTypes.string,
     search_params: PropTypes.object,
-    search_threshold: PropTypes.number,
+    search_threshold: PropTypes.number
   }),
   hint: PropTypes.string,
   label: PropTypes.string,
   errors: ImmutablePropTypes.list,
-  value: ImmutablePropTypes.list,
-}
+  value: ImmutablePropTypes.list
+};
 
-export default TagsField
+export default TagsField;

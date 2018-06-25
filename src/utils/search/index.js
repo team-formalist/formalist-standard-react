@@ -1,7 +1,7 @@
-import request from 'superagent'
-import uid from 'uid'
+import request from "superagent";
+import uid from "uid";
 
-const reqs = {}
+const reqs = {};
 
 /**
  * customError
@@ -11,12 +11,12 @@ const reqs = {}
  * @return {Object}
  */
 
-function customError (name, error) {
+function customError(name, error) {
   return {
     error,
     message: error.message,
-    name,
-  }
+    name
+  };
 }
 
 /**
@@ -28,13 +28,13 @@ function customError (name, error) {
  * @return {Object}
  */
 
-function responseStatus (res) {
+function responseStatus(res) {
   if (res.status >= 200 && res.status < 300) {
-    return res
+    return res;
   } else {
-    let error = new Error(res.statusText)
-    error.response = res
-    throw customError('responseStatus', error)
+    let error = new Error(res.statusText);
+    error.response = res;
+    throw customError("responseStatus", error);
   }
 }
 
@@ -45,8 +45,8 @@ function responseStatus (res) {
  * @return {Object}
  */
 
-function parseJSON (res) {
-  return JSON.parse(res.text)
+function parseJSON(res) {
+  return JSON.parse(res.text);
 }
 
 /**
@@ -54,47 +54,47 @@ function parseJSON (res) {
  * @return  {Promise}
  */
 
-function searchRequest (url, params, id) {
+function searchRequest(url, params, id) {
   return new Promise((resolve, reject) => {
     reqs[id] = request
       .get(url)
       .query(params)
       .set({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json"
       })
       .end((err, res) => {
-        if (err) return reject(customError('searchRequest', err))
-        resolve(res)
-      })
-  })
+        if (err) return reject(customError("searchRequest", err));
+        resolve(res);
+      });
+  });
 }
 
 /**
  * Abort an existing request
  * @param  {String} id UID for the request
  */
-function abortRequest (id) {
-  const req = reqs[id]
+function abortRequest(id) {
+  const req = reqs[id];
   if (req) {
-    req.abort()
+    req.abort();
   }
 }
 
-export default function search (url, params = {}) {
-  const id = uid(10)
+export default function search(url, params = {}) {
+  const id = uid(10);
   return {
     abort: () => abortRequest(id),
     response: new Promise((resolve, reject) => {
       searchRequest(url, params, id)
         .then(responseStatus)
         .then(parseJSON)
-        .then((res) => {
-          resolve(res)
+        .then(res => {
+          resolve(res);
         })
-        .catch((err) => {
-          reject(err)
-        })
-    }),
-  }
+        .catch(err => {
+          reject(err);
+        });
+    })
+  };
 }

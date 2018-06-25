@@ -1,19 +1,21 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import PluginsEditor from 'draft-js-plugins-editor'
-import Emitter from 'component-emitter'
-import {belongsToAtomicBlock} from './utils'
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import PluginsEditor from "draft-js-plugins-editor";
+import Emitter from "component-emitter";
+import { belongsToAtomicBlockOrPortal } from "./utils";
+import capitalize from "../../../utils/capitalize";
+
 // Plugins
-import createAutoListPlugin from 'draft-js-autolist-plugin'
-import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
-import createSingleLinePlugin from 'draft-js-single-line-plugin'
-import createBlockToolbarPlugin from './block-toolbar-plugin'
-import createInlineToolbarPlugin from './inline-toolbar-plugin'
-import createSoftNewlinesKeyboardPlugin from './soft-newlines-keyboard-plugin'
+import createAutoListPlugin from "draft-js-autolist-plugin";
+import createBlockBreakoutPlugin from "draft-js-block-breakout-plugin";
+import createSingleLinePlugin from "draft-js-single-line-plugin";
+import createBlockToolbarPlugin from "./block-toolbar-plugin";
+import createInlineToolbarPlugin from "./inline-toolbar-plugin";
+import createSoftNewlinesKeyboardPlugin from "./soft-newlines-keyboard-plugin";
 // Styles
-import styles from './rich-text-editor.mcss'
-import './tmp.css'
+import * as styles from "./styles";
+import "./tmp.css";
 
 /**
  * Rich Text Editor
@@ -26,37 +28,39 @@ class RichTextEditor extends React.Component {
     config: PropTypes.object,
     inlineFormatters: PropTypes.array,
     editorState: PropTypes.object.isRequired,
+    fieldBus: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string,
+    webDriverTestID: PropTypes.string
   };
 
   static defaultProps = {
-    placeholder: 'Start writing …',
+    placeholder: "Start writing …"
   };
 
   state = {
     someProp: Date.now(),
-    hasFocus: false,
+    hasFocus: false
   };
 
-  componentWillMount () {
+  componentWillMount() {
     // Create a per-instance event emitter to pass through to the atomic blocks
     // so that we can subscribe to `onChange` events in the editor proper
     // This is not really great, but there’s no way for this to get
     // passed down through props atm
-    this.emitter = new Emitter()
+    this.emitter = new Emitter();
     // Atomic blocks trigger an `atomic:change` event when they update their
     // embedded entity data. We have to listen to it and trigger an `onChange`
     // of the current data to get things to propagate around _immediately_.
-    this.emitter.on('atomic:change', () => {
-      const {editorState} = this.props
-      this.onChange(editorState)
-    })
+    this.emitter.on("atomic:change", () => {
+      const { editorState } = this.props;
+      this.onChange(editorState);
+    });
 
-    const plugins = this.configurePlugins()
+    const plugins = this.configurePlugins();
     this.setState({
-      plugins,
-    })
+      plugins
+    });
   }
 
   /**
@@ -69,14 +73,15 @@ class RichTextEditor extends React.Component {
       boxSize,
       config,
       embeddableForms,
-      inlineFormatters,
-    } = this.props
+      fieldBus,
+      inlineFormatters
+    } = this.props;
 
     // Extract config for each type of toolbar
-    const {block, inline} = config
+    const { block, inline } = config;
 
-    const autoListPlugin = createAutoListPlugin()
-    const singleLinePlugin = createSingleLinePlugin()
+    const autoListPlugin = createAutoListPlugin();
+    const singleLinePlugin = createSingleLinePlugin();
 
     // Configure the blockToolbarPlugin
     // Pass through any
@@ -85,102 +90,108 @@ class RichTextEditor extends React.Component {
       editorEmitter: this.emitter,
       blockFormatters,
       embeddableForms,
-      ...block,
-    })
+      fieldBus,
+      ...block
+    });
     const inlineToolbarPlugin = createInlineToolbarPlugin({
       allowedFormatters: inlineFormatters,
-      ...inline,
-    })
+      ...inline
+    });
     // Build up the list of plugins
     let plugins = [
       inlineToolbarPlugin,
       createBlockBreakoutPlugin(),
-      createSoftNewlinesKeyboardPlugin(),
-    ]
+      createSoftNewlinesKeyboardPlugin()
+    ];
     // Add singleLine plugin if the boxSize matches
-    if (boxSize === 'single') {
-      plugins = plugins.concat([singleLinePlugin])
+    if (boxSize === "single") {
+      plugins = plugins.concat([singleLinePlugin]);
     } else {
-      plugins = plugins.concat([autoListPlugin, this.blockToolbarPlugin])
+      plugins = plugins.concat([autoListPlugin, this.blockToolbarPlugin]);
     }
     // Extract the toolbar component for use in rendering
-    this.BlockToolbar = this.blockToolbarPlugin.BlockToolbar
-    this.blockRenderMap = this.blockToolbarPlugin.blockRenderMap
-    this.InlineToolbar = inlineToolbarPlugin.InlineToolbar
-    return plugins
+    this.BlockToolbar = this.blockToolbarPlugin.BlockToolbar;
+    this.blockRenderMap = this.blockToolbarPlugin.blockRenderMap;
+    this.InlineToolbar = inlineToolbarPlugin.InlineToolbar;
+    return plugins;
   };
 
-  onFocus = (e) => {
-    const {editorState} = this.props
-    this.emitter.emit('focus', editorState)
-    this.setState({hasFocus: true})
+  onFocus = e => {
+    const { editorState } = this.props;
+    this.emitter.emit("focus", editorState);
+    this.setState({ hasFocus: true });
   };
 
-  onBlur = (e) => {
-    const {editorState} = this.props
-    this.emitter.emit('blur', editorState)
-    this.setState({hasFocus: false})
+  onBlur = e => {
+    const { editorState } = this.props;
+    this.emitter.emit("blur", editorState);
+    this.setState({ hasFocus: false });
   };
 
   /**
    * Set the editor to read-only (or not)
    * @param {Boolean} readOnly
    */
-  setReadOnly = (readOnly) => {
-    this.setState({readOnly})
+  setReadOnly = readOnly => {
+    this.setState({ readOnly });
   };
 
   /**
    * Focus the editor when the `contentEl` is clicked
    * @param  {MouseEvent} e
    */
-  onContentClick = (e) => {
-    const atomic = belongsToAtomicBlock(e.target)
+  onContentClick = e => {
+    const atomic = belongsToAtomicBlockOrPortal(e.target);
     if (!atomic && this.state.readOnly === true) {
-      this.setReadOnly(false)
+      this.setReadOnly(false);
     }
     if (e.target === this.contentEl) {
-      this._editor.focus()
+      this._editor.focus();
     }
   };
 
   /**
    * onChange
    */
-  onChange = (editorState) => {
-    const {onChange} = this.props
-    this.emitter.emit('change', editorState)
-    onChange(editorState)
+  onChange = editorState => {
+    const { onChange } = this.props;
+    this.emitter.emit("change", editorState);
+    onChange(editorState);
   };
 
-  render () {
-    const {boxSize, blockFormatters, editorState, placeholder} = this.props
-    const {hasFocus, readOnly} = this.state
+  render() {
     const {
-      BlockToolbar,
-      InlineToolbar,
-    } = this
+      boxSize,
+      blockFormatters,
+      editorState,
+      placeholder,
+      webDriverTestID
+    } = this.props;
+    const { hasFocus, readOnly } = this.state;
+    const { BlockToolbar, InlineToolbar } = this;
 
-    let placeholderBlockType = false
-    const contentState = editorState.getCurrentContent()
+    let placeholderBlockType = false;
+    const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
-      placeholderBlockType = contentState.getBlockMap().first().getType()
+      placeholderBlockType = contentState
+        .getBlockMap()
+        .first()
+        .getType();
     }
 
     // Set up content wrapper classes
-    let contentClassNames = classNames(
-      styles.content,
-      {
-        [`${styles['contentPlaceholder--' + placeholderBlockType]}`]: (placeholderBlockType && styles['contentPlaceholder--' + placeholderBlockType]),
-      }
-    )
+    let contentClassNames = classNames(styles.content, {
+      [`${styles["contentPlaceholder" + capitalize(placeholderBlockType)]}`]:
+        placeholderBlockType &&
+        styles["contentPlaceholder" + capitalize(placeholderBlockType)]
+    });
 
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.base}>
-        {(boxSize !== 'single')
-          ? <div className={styles.gutter}>
+        {boxSize !== "single" ? (
+          <div className={styles.gutter}>
             <BlockToolbar
               blockFormatters={blockFormatters}
               editorHasFocus={hasFocus}
@@ -188,19 +199,23 @@ class RichTextEditor extends React.Component {
               onChange={this.onChange}
             />
           </div>
-          : null
-        }
+        ) : null}
         <div
           className={contentClassNames}
-          ref={(c) => { this.contentEl = c }}
+          ref={c => {
+            this.contentEl = c;
+          }}
           onClick={this.onContentClick}
         >
           <InlineToolbar
             editorHasFocus={hasFocus}
             editorState={editorState}
-            onChange={this.onChange} />
+            onChange={this.onChange}
+          />
           <PluginsEditor
-            ref={(c) => { this._editor = c }}
+            ref={c => {
+              this._editor = c;
+            }}
             blockRenderMap={this.blockRenderMap}
             placeholder={placeholder}
             plugins={this.state.plugins}
@@ -209,12 +224,13 @@ class RichTextEditor extends React.Component {
             onBlur={this.onBlur}
             onChange={this.onChange}
             readOnly={readOnly}
+            webDriverTestID={webDriverTestID}
           />
         </div>
       </div>
-    )
+    );
     /* eslint-enable react/jsx-no-bind */
   }
 }
 
-export default RichTextEditor
+export default RichTextEditor;

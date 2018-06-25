@@ -1,22 +1,141 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import uid from 'uid'
-import classNames from 'classnames'
-import {upload, presign, abortXHRRequest} from 'attache-upload'
-import Immutable from 'immutable'
-import { events } from 'formalist-compose'
+import React from "react";
+import PropTypes from "prop-types";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import uid from "uid";
+import classNames from "classnames";
+import s3Upload from "../../../utils/s3-upload";
+import attacheUpload from "attache-upload";
+import Immutable from "immutable";
+import Clipboard from "clipboard";
+import { events } from "formalist-compose";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
-import Dropzone from '../../ui/dropzone'
-import validate from './validation.js'
-import styles from './index.mcss'
-import Sortable from '../../ui/sortable'
-import {hasImageFormatType, sortArrayByOrder, generateUniqueID, noOp, filterUniqueObjects} from './utils'
-import extractComponent from '../../../utils/extract-component'
-import parseRegexFromString from '../../../utils/parse-regex-from-string'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
+import Dropzone from "../../ui/dropzone";
+import validate from "./validation.js";
+import * as styles from "./styles";
+import Sortable from "../../ui/sortable";
+import {
+  hasImageFormatType,
+  sortArrayByOrder,
+  generateUniqueID,
+  noOp,
+  filterUniqueObjects
+} from "./utils";
+import extractComponent from "../../../utils/extract-component";
+import parseRegexFromString from "../../../utils/parse-regex-from-string";
+
+/**
+ * The default template for uploaded items
+ */
+class DefaultRenderTemplate extends React.Component {
+  static propTypes = {
+    fileName: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
+    originalUrl: PropTypes.string
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      copied: false,
+      copyText: "Copy URL"
+    };
+  }
+
+  componentDidMount() {
+    this.clipboard = new Clipboard(this._button, {
+      target: () => this._input
+    });
+    this.clipboard.on("success", () => {
+      this.setState({ copied: true, copyText: "Copied!" });
+      this.resetCopyText();
+    });
+    this.clipboard.on("error", () => {
+      this.setState({ copyText: "Press Ctrl + C to copy" });
+      this.resetCopyText();
+    });
+  }
+
+  resetCopyText() {
+    window.clearTimeout(this._copyTimeout);
+    this._copyTimeout = window.setTimeout(() => {
+      this.setState({ copied: false, copyText: "Copy URL" });
+    }, 2000);
+  }
+
+  componentWillUnmount() {
+    this.clipboard.destroy();
+  }
+
+  render() {
+    const { fileName, thumbnailUrl, originalUrl } = this.props;
+    const { copied, copyText } = this.state;
+
+    const copyUrlButtonClasses = classNames(styles.copyUrlButton, {
+      [`${styles.copyUrlButtonCopied}`]: copied
+    });
+
+    return (
+      <div className={styles.listItem}>
+        <div className={styles.listItem__body}>
+          <div className={styles.align_middle}>
+            {thumbnailUrl ? (
+              <div className={styles.listItem__img}>
+                <img src={thumbnailUrl} alt={fileName} />
+              </div>
+            ) : null}
+            <div className={styles.listItem__title}>
+              <a target="_blank" href={originalUrl}>
+                {fileName}
+              </a>
+            </div>
+
+            <div className={styles.copyUrl}>
+              <input
+                className={styles.copyUrlField}
+                type="text"
+                ref={r => (this._input = r)}
+                value={originalUrl}
+                readOnly
+              />
+              <button
+                className={copyUrlButtonClasses}
+                ref={r => (this._button = r)}
+                onClick={e => {
+                  e.preventDefault();
+                }}
+              >
+                <span className={styles.copyUrlButtonText}>{copyText}</span>
+                <svg width="15" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <title>Copy</title>
+                  <g fill="none">
+                    <rect
+                      stroke="#000"
+                      x="3.5"
+                      y="3.5"
+                      width="11"
+                      height="12"
+                      className={styles.copyIconPrimary}
+                    />
+                    <polygon
+                      fill="#000"
+                      opacity=".3"
+                      points="0 13 3 13 3 12 1 12 1 1 11 1 11 3 12 3 12 0 0 0"
+                      className={styles.copyIconSecondary}
+                    />
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
 
 /**
  * MultiUploadField
@@ -27,7 +146,7 @@ class MultiUploadField extends React.Component {
    * displayName
    */
 
-  static displayName = 'UploadField';
+  static displayName = "UploadField";
 
   /**
    * propTypes
@@ -42,9 +161,10 @@ class MultiUploadField extends React.Component {
       permitted_file_type_message: PropTypes.string,
       permitted_file_type_regex: PropTypes.string,
       presign_url: PropTypes.string,
+      presign_options: PropTypes.object,
       render_uploaded_as: PropTypes.string,
       upload_action_label: PropTypes.string,
-      upload_prompt: PropTypes.string,
+      upload_prompt: PropTypes.string
     }),
     bus: PropTypes.object,
     config: PropTypes.object,
@@ -53,10 +173,7 @@ class MultiUploadField extends React.Component {
     label: PropTypes.string,
     multiple: PropTypes.bool,
     name: PropTypes.string,
-    value: PropTypes.oneOfType([
-      ImmutablePropTypes.list,
-      PropTypes.object,
-    ]),
+    value: PropTypes.oneOfType([ImmutablePropTypes.list, PropTypes.object])
   };
 
   /**
@@ -64,7 +181,7 @@ class MultiUploadField extends React.Component {
    */
 
   static contextTypes = {
-    globalConfig: PropTypes.object,
+    globalConfig: PropTypes.object
   };
 
   /**
@@ -73,37 +190,48 @@ class MultiUploadField extends React.Component {
    */
 
   static defaultProps = {
-    multiple: true,
+    multiple: true
   };
 
-  constructor (props, context) {
-    super(props, context)
-    let {value} = props
-    const allowMultipleFiles = (props.multiple || props.attributes.multiple)
-    value = (value) ? value.toJS() : value
-    let files = []
+  constructor(props, context) {
+    super(props, context);
+    let { value } = props;
+    const { presign_url, presign_options } = props.attributes;
+    const { csrfToken, uploader } = context.globalConfig || {};
+
+    const allowMultipleFiles = props.multiple || props.attributes.multiple;
+    value = value ? value.toJS() : value;
+    let files = [];
 
     // Set a per instance ID for talking to the bus
-    this.instanceId = uid()
+    this.instanceId = uid();
 
     // check if 'value' exists.
     // if it's an 'object' and put it in array
     if (value != null) {
       if (!allowMultipleFiles && value.length > 1) {
-        value = value.splice(0, 1)
+        value = value.splice(0, 1);
       }
-      if (!Array.isArray(value) && (typeof (value) === 'object')) {
-        files = [ this.populateExistingAttributes(value) ]
+      if (!Array.isArray(value) && typeof value === "object") {
+        files = [this.populateExistingAttributes(value)];
       } else {
-        files = value.map((file) => {
-          return this.populateExistingAttributes(file)
-        })
+        files = value.map(file => {
+          return this.populateExistingAttributes(file);
+        });
       }
     }
 
     this.state = {
       files,
-      uploadQueue: [],
+      uploadQueue: []
+    };
+
+    // Switch uploaders if specified
+    this.uploader = s3Upload;
+    this.uploaderPresignArgs = [presign_url, csrfToken, presign_options];
+    if (uploader === "attache") {
+      this.uploader = attacheUpload;
+      this.uploaderPresignArgs = [presign_url, csrfToken];
     }
   }
 
@@ -115,13 +243,13 @@ class MultiUploadField extends React.Component {
    * @return {obj}
    */
 
-  populateExistingAttributes = (file) => {
-    var obj = {}
-    obj.fileAttributes = {}
+  populateExistingAttributes = file => {
+    var obj = {};
+    obj.fileAttributes = {};
     for (var key in file) {
-      obj.fileAttributes[key] = file[key]
+      obj.fileAttributes[key] = file[key];
     }
-    return obj
+    return obj;
   };
 
   /**
@@ -133,17 +261,18 @@ class MultiUploadField extends React.Component {
    * @param {object} nextProps
    */
 
-  componentWillReceiveProps (nextProps) {
-    if (!nextProps.multple || !nextProps.value || !nextProps.value.length) return
-    let files = this.state.files.slice(0)
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.multple || !nextProps.value || !nextProps.value.length)
+      return;
+    let files = this.state.files.slice(0);
 
-    let newValueProps = filterUniqueObjects(files, nextProps.value)
-    if (!newValueProps.length) return
+    let newValueProps = filterUniqueObjects(files, nextProps.value);
+    if (!newValueProps.length) return;
 
-    files = files.concat(newValueProps)
+    files = files.concat(newValueProps);
     this.setState({
-      files,
-    })
+      files
+    });
   }
 
   /**
@@ -162,36 +291,38 @@ class MultiUploadField extends React.Component {
    * @return {array || object} an array of objects - of just an object
    */
 
-  createFileObjects = (val) => {
+  createFileObjects = val => {
     // format the object
-    function formatObject (file) {
-      const {name, size, type, lastModifiedDate, lastModified} = file
-      const lastModifiedAsString = (lastModifiedDate) ? lastModifiedDate.toString() : lastModified.toString()
+    function formatObject(file) {
+      const { name, size, type, lastModifiedDate, lastModified } = file;
+      const lastModifiedAsString = lastModifiedDate
+        ? lastModifiedDate.toString()
+        : lastModified.toString();
       return {
         file,
         fileAttributes: {
-          file_name: name,
+          file_name: name
         },
         size,
         type,
         lastModifiedDate: lastModifiedAsString,
-        uid: generateUniqueID(name),
-      }
+        uid: generateUniqueID(name)
+      };
     }
 
     // iterate array calling formatObject()
-    function formatObjects (files) {
-      return files.map((file) => {
-        return formatObject(file)
-      })
+    function formatObjects(files) {
+      return files.map(file => {
+        return formatObject(file);
+      });
     }
 
     if (Array.isArray(val) && val.length > 0) {
-      return formatObjects(val)
-    } else if (typeof (val) === 'object') {
-      return formatObject(val)
+      return formatObjects(val);
+    } else if (typeof val === "object") {
+      return formatObject(val);
     } else {
-      return
+      return;
     }
   };
 
@@ -202,9 +333,9 @@ class MultiUploadField extends React.Component {
    * @param {object} file
    */
 
-  abortUploadRequest = (file) => {
-    this.removeFromUploadQueue(file.uid)
-    abortXHRRequest(file.uid)
+  abortUploadRequest = file => {
+    this.removeFromUploadQueue(file.uid);
+    this.uploader.abortXHRRequest(file.uid);
   };
 
   /**
@@ -217,17 +348,17 @@ class MultiUploadField extends React.Component {
    */
 
   onProgress = (e, fileObject) => {
-    let files = this.state.files.slice(0)
+    let files = this.state.files.slice(0);
 
-    files.map((existingFile) => {
+    files.forEach(existingFile => {
       if (existingFile.uid === fileObject.uid) {
-        existingFile.progress = e.percent
+        existingFile.progress = e.percent;
       }
-    })
+    });
 
     this.setState({
-      files,
-    })
+      files
+    });
   };
 
   /**
@@ -242,29 +373,32 @@ class MultiUploadField extends React.Component {
    */
 
   updateUploadedFiles = (fileObject, response, upload_url) => {
-    let copy = Object.assign({}, fileObject)
-    delete copy.file
+    let copy = Object.assign({}, fileObject);
+    delete copy.file;
 
     // apply response key/values to existing `fileAttributes`
     for (var key in response) {
-      copy.fileAttributes[key] = response[key]
+      copy.fileAttributes[key] = response[key];
     }
 
     // apply the 'original_url' to existing `fileAttributes`
-    copy.fileAttributes['original_url'] = this.buildPath(upload_url, response.path)
-    if (hasImageFormatType(copy.fileAttributes['file_name'])) {
-      copy.fileAttributes['thumbnail_url'] = fileObject.file.preview
+    copy.fileAttributes["original_url"] = this.buildPath(
+      upload_url,
+      response.path
+    );
+    if (hasImageFormatType(copy.fileAttributes["file_name"])) {
+      copy.fileAttributes["thumbnail_url"] = fileObject.file.preview;
     }
 
-    let files = this.state.files.slice(0)
-    const indexOfFile = files.findIndex(file => file.uid === fileObject.uid)
-    files.splice(indexOfFile, 1, copy)
+    let files = this.state.files.slice(0);
+    const indexOfFile = files.findIndex(file => file.uid === fileObject.uid);
+    files.splice(indexOfFile, 1, copy);
 
     this.setState({
-      files,
-    })
+      files
+    });
 
-    this.onUpdate(files)
+    this.onUpdate(files);
   };
 
   /**
@@ -275,16 +409,15 @@ class MultiUploadField extends React.Component {
    * @return {array/object}
    */
 
-  onUpdate = (files) => {
-    const uploadedFiles = files.map(this.normaliseFileExport)
+  onUpdate = files => {
+    const uploadedFiles = files.map(this.normaliseFileExport);
 
-    const value = (this.props.attributes.multiple || this.props.multiple)
-      ? uploadedFiles
-      : uploadedFiles[0]
+    const value =
+      this.props.attributes.multiple || this.props.multiple
+        ? uploadedFiles
+        : uploadedFiles[0];
 
-    this.props.actions.edit(
-      (val) => Immutable.fromJS(value)
-    )
+    this.props.actions.edit(val => Immutable.fromJS(value));
   };
 
   /**
@@ -294,15 +427,13 @@ class MultiUploadField extends React.Component {
    * @param {object} obj
    */
 
-  normaliseFileExport = (obj) => {
-    const keysToRemove = [
-      'file_name', 'original_url', 'thumbnail_url',
-    ]
-    let copy = Object.assign({}, obj.fileAttributes)
-    keysToRemove.forEach((key) => {
-      delete copy[key]
-    })
-    return copy
+  normaliseFileExport = obj => {
+    const keysToRemove = ["file_name", "original_url", "thumbnail_url"];
+    let copy = Object.assign({}, obj.fileAttributes);
+    keysToRemove.forEach(key => {
+      delete copy[key];
+    });
+    return copy;
   };
 
   /**
@@ -312,14 +443,14 @@ class MultiUploadField extends React.Component {
    * @param {object} file object
    */
 
-  removeFailedUpload = (fileObject) => {
-    const files = this.state.files.filter((file) => {
-      return file.uid !== fileObject.uid
-    })
+  removeFailedUpload = fileObject => {
+    const files = this.state.files.filter(file => {
+      return file.uid !== fileObject.uid;
+    });
 
     this.setState({
-      files,
-    })
+      files
+    });
   };
 
   /**
@@ -329,19 +460,19 @@ class MultiUploadField extends React.Component {
    * @param {string} message
    */
 
-  storeXHRErrorMessage = (message) => {
+  storeXHRErrorMessage = message => {
     let XHRErrorMessages = this.state.XHRErrorMessages
       ? this.state.XHRErrorMessages.slice(0)
-      : []
+      : [];
 
     XHRErrorMessages.push({
       uid: uid(10),
-      message,
-    })
+      message
+    });
 
     this.setState({
-      XHRErrorMessages,
-    })
+      XHRErrorMessages
+    });
   };
 
   /**
@@ -356,70 +487,73 @@ class MultiUploadField extends React.Component {
    */
 
   uploadFile = (fileObject, onProgress = noOp) => {
-    if (!fileObject) return
-    const {presign_url} = this.props.attributes
-    const {csrfToken} = this.context.globalConfig
-    let upload_url
+    if (!fileObject) return;
+    let upload_url;
 
     // Push into uploadQueue
-    this.addToUploadQueue(fileObject.uid)
+    this.addToUploadQueue(fileObject.uid);
 
-    presign(presign_url, csrfToken)
-      .then((presignResponse) => {
+    this.uploader.presign
+      .apply(this, this.uploaderPresignArgs)
+      .then(presignResponse => {
         // assign the return 'url' to upload_url so
         // we can create paths to the file
-        upload_url = presignResponse.url
-        return upload(presignResponse, fileObject, onProgress)
+        upload_url = presignResponse.url;
+        return this.uploader.upload(presignResponse, fileObject, onProgress);
       })
-      .then((uploadResponse) => {
-        this.removeFromUploadQueue(fileObject.uid)
-        return this.updateUploadedFiles(fileObject, uploadResponse, upload_url)
+      .then(uploadResponse => {
+        this.removeFromUploadQueue(fileObject.uid);
+        return this.updateUploadedFiles(fileObject, uploadResponse, upload_url);
       })
-      .catch((err) => {
-        const { name } = err
-        if (name === 'presignRequest' || name === 'uploadRequest' || name === 'responseStatus') {
-          this.removeFailedUpload(fileObject)
-          this.storeXHRErrorMessage(err.message)
-          this.removeFromUploadQueue(fileObject.uid)
+      .catch(err => {
+        const { name } = err;
+        if (
+          name === "presignRequest" ||
+          name === "uploadRequest" ||
+          name === "responseStatus"
+        ) {
+          this.removeFailedUpload(fileObject);
+          this.storeXHRErrorMessage(err.message);
+          this.removeFromUploadQueue(fileObject.uid);
         } else {
-          console.error(err)
-          throw err
+          console.error(err);
+          throw err;
         }
-      })
+      });
   };
 
   /**
    * Add a file to the upload queue identified by its uid
   */
-  addToUploadQueue = (id) => {
-    const {bus} = this.props
-    let {uploadQueue} = this.state
-    uploadQueue = uploadQueue.concat([id])
+  addToUploadQueue = id => {
+    const { bus } = this.props;
+    let { uploadQueue } = this.state;
+    uploadQueue = uploadQueue.concat([id]);
     this.setState({
-      uploadQueue,
-    })
+      uploadQueue
+    });
     // If the queue is 1, then we have changed from idle to busy
     if (uploadQueue.length === 1) {
-      bus.emit(events.internal.FIELD_BUSY, this.instanceId)
+      bus.emit(events.internal.FIELD_BUSY, this.instanceId);
     }
   };
 
   /**
    * Remove a file to the upload queue identified by its uid
   */
-  removeFromUploadQueue = (id) => {
-    const {bus} = this.props
-    let uploadQueue = this.state.uploadQueue.slice()
-    const index = uploadQueue.indexOf(id)
+  removeFromUploadQueue = id => {
+    const { bus } = this.props;
+    let uploadQueue = this.state.uploadQueue.slice();
+    const index = uploadQueue.indexOf(id);
     if (index > -1) {
-      uploadQueue.splice(index, 1)
+      uploadQueue.splice(index, 1);
       this.setState({
-        uploadQueue,
-      })
+        uploadQueue
+      });
     }
     // If the queue is 0, then we have changed from busy to idle
     if (uploadQueue.length === 0) {
-      bus.emit(events.internal.FIELD_IDLE, this.instanceId)
+      bus.emit(events.internal.FIELD_IDLE, this.instanceId);
     }
   };
 
@@ -432,74 +566,82 @@ class MultiUploadField extends React.Component {
    * @param {array} - dropped/uploaded files
    */
 
-  onChange = (files) => {
-    if (!files.length) return
+  onChange = files => {
+    if (!files.length) return;
 
-    const { attributes } = this.props
-    const isMultiple = (this.props.attributes.multiple || this.props.multiple)
+    const { attributes } = this.props;
+    const isMultiple = this.props.attributes.multiple || this.props.multiple;
 
     if (!isMultiple && this.state.files.length) {
-      this.removeFile(0)
+      this.removeFile(0);
     }
 
     const {
       permitted_file_type_regex,
       permitted_file_type_message,
       max_file_size,
-      max_file_size_message,
-    } = attributes
+      max_file_size_message
+    } = attributes;
 
-    let status
-    let validFiles = []
+    let status;
+    let validFiles = [];
     let invalidFiles = this.state.invalidFiles
       ? this.state.invalidFiles.slice(0)
-      : []
+      : [];
 
-    const permittedFileTypeRegex = parseRegexFromString(permitted_file_type_regex)
+    const permittedFileTypeRegex = parseRegexFromString(
+      permitted_file_type_regex
+    );
 
     // Iterate and validate each file
-    files.map((file) => {
-      status = validate(file, permittedFileTypeRegex, permitted_file_type_message, max_file_size, max_file_size_message)
+    files.forEach(file => {
+      status = validate(
+        file,
+        permittedFileTypeRegex,
+        permitted_file_type_message,
+        max_file_size,
+        max_file_size_message
+      );
 
       if (!status.success) {
         invalidFiles.push({
           file,
           uid: uid(10),
-          message: status.message,
-        })
+          message: status.message
+        });
       } else {
-        validFiles.push(file)
+        validFiles.push(file);
       }
-    })
+    });
 
     // store invalid files to `invalidFiles`
     if (invalidFiles.length) {
       this.setState({
-        invalidFiles,
-      })
+        invalidFiles
+      });
     }
 
-    if (!validFiles.length) return
+    if (!validFiles.length) return;
 
     // Create 'file objects' of valid files and assign to `uploadingFiles`
-    var uploadingFiles = validFiles.map((file) => {
-      return this.createFileObjects(file)
-    })
+    var uploadingFiles = validFiles.map(file => {
+      return this.createFileObjects(file);
+    });
 
     // if `multiple` concat dropped file with existing,
     // otherwise just the dropped file
     const allFiles = isMultiple
       ? this.state.files.concat(uploadingFiles)
-      : uploadingFiles
+      : uploadingFiles;
 
     this.setState({
-      files: allFiles,
-    })
+      files: allFiles
+    });
 
     // upload each valid file and passing in a progress event handler
-    uploadingFiles.map((fileObject) => {
-      this.uploadFile(fileObject, this.onProgress)
-    })
+    uploadingFiles.forEach(fileObject => {
+      this.uploadFile(fileObject, this.onProgress);
+    });
   };
 
   /**
@@ -509,15 +651,15 @@ class MultiUploadField extends React.Component {
    * @param  {Array} newOrder - an array of indexs returned from Sortable
    */
 
-  onDrop = (newOrder) => {
-    const existingFiles = this.state.files.slice(0)
-    const files = sortArrayByOrder(existingFiles, newOrder)
+  onDrop = newOrder => {
+    const existingFiles = this.state.files.slice(0);
+    const files = sortArrayByOrder(existingFiles, newOrder);
 
     this.setState({
-      files,
-    })
+      files
+    });
 
-    this.onUpdate(files)
+    this.onUpdate(files);
   };
 
   /**
@@ -529,12 +671,12 @@ class MultiUploadField extends React.Component {
    */
 
   removeKeyFromState = (array, key) => {
-    let arr = this.state[array].slice(0)
-    if (typeof (key) === 'string') {
-      key = parseInt(key)
+    let arr = this.state[array].slice(0);
+    if (typeof key === "string") {
+      key = parseInt(key, 10);
     }
-    arr.splice(key, 1)
-    return arr
+    arr.splice(key, 1);
+    return arr;
   };
 
   /**
@@ -547,18 +689,18 @@ class MultiUploadField extends React.Component {
    */
 
   removeFile = (index, e) => {
-    if (e) e.preventDefault()
-    const files = this.state.files.slice(0)
+    if (e) e.preventDefault();
+    const files = this.state.files.slice(0);
 
-    const file = files[index]
-    if (file.file) this.abortUploadRequest(file)
+    const file = files[index];
+    if (file.file) this.abortUploadRequest(file);
 
-    files.splice(index, 1)
+    files.splice(index, 1);
     this.setState({
-      files,
-    })
+      files
+    });
 
-    this.onUpdate(files)
+    this.onUpdate(files);
   };
 
   /**
@@ -568,14 +710,14 @@ class MultiUploadField extends React.Component {
    * @param {event} e - click
    */
 
-  removeInvalidFile = (e) => {
-    e.preventDefault()
-    const key = e.target.getAttribute('data-key')
-    const invalidFiles = this.removeKeyFromState('invalidFiles', key)
+  removeInvalidFile = e => {
+    e.preventDefault();
+    const key = e.target.getAttribute("data-key");
+    const invalidFiles = this.removeKeyFromState("invalidFiles", key);
 
     this.setState({
-      invalidFiles,
-    })
+      invalidFiles
+    });
   };
 
   /**
@@ -585,14 +727,14 @@ class MultiUploadField extends React.Component {
    * @param {event} e - click event
    */
 
-  removeXHRErrorMessage = (e) => {
-    e.preventDefault()
-    const key = e.target.getAttribute('data-key')
-    const XHRErrorMessages = this.removeKeyFromState('XHRErrorMessages', key)
+  removeXHRErrorMessage = e => {
+    e.preventDefault();
+    const key = e.target.getAttribute("data-key");
+    const XHRErrorMessages = this.removeKeyFromState("XHRErrorMessages", key);
 
     this.setState({
-      XHRErrorMessages,
-    })
+      XHRErrorMessages
+    });
   };
 
   /**
@@ -604,12 +746,10 @@ class MultiUploadField extends React.Component {
    */
 
   renderXHRErrorMessage = (errorObject, index) => {
-    const {message} = errorObject
+    const { message } = errorObject;
 
     return (
-      <div
-        key={index}
-        className={styles.validationMessage}>
+      <div key={index} className={styles.validationMessage}>
         {message}
         <button className={styles.remove}>
           <span className={styles.removeText}>Remove</span>
@@ -622,7 +762,7 @@ class MultiUploadField extends React.Component {
           </div>
         </button>
       </div>
-    )
+    );
   };
 
   /**
@@ -632,12 +772,12 @@ class MultiUploadField extends React.Component {
    * @return {vnode}
    */
 
-  renderXHRErrorMessages = (XHRErrorMessages) => {
+  renderXHRErrorMessages = XHRErrorMessages => {
     return (
       <div className={styles.validationMessages}>
         {XHRErrorMessages.map(this.renderXHRErrorMessage)}
       </div>
-    )
+    );
   };
 
   /**
@@ -649,23 +789,24 @@ class MultiUploadField extends React.Component {
    */
 
   renderInvalidFile = (errorObject, index) => {
-    const {message, file} = errorObject
-    const {name} = file
+    const { message, file } = errorObject;
+    const { name } = file;
 
     return (
-      <div
-        key={index}
-        className={styles.validationMessage}>
+      <div key={index} className={styles.validationMessage}>
         <strong>{name}</strong>: {message}
         <button className={styles.remove}>
           <span className={styles.removeText}>Remove</span>
           <div
             className={styles.removeX}
             onClick={this.removeInvalidFile}
-            data-key={index}>×</div>
+            data-key={index}
+          >
+            ×
+          </div>
         </button>
       </div>
-    )
+    );
   };
 
   /**
@@ -675,12 +816,12 @@ class MultiUploadField extends React.Component {
    * @return {vnode}
    */
 
-  renderInvalidFiles = (invalidFiles) => {
+  renderInvalidFiles = invalidFiles => {
     return (
       <div className={styles.validationMessages}>
         {invalidFiles.map(this.renderInvalidFile)}
       </div>
-    )
+    );
   };
 
   /**
@@ -692,11 +833,9 @@ class MultiUploadField extends React.Component {
    */
 
   renderThumbnail = (thumbnail_url, file_name) => {
-    if (!thumbnail_url) return
+    if (!thumbnail_url) return;
 
-    return (
-      <img src={thumbnail_url} alt={file_name} />
-    )
+    return <img src={thumbnail_url} alt={file_name} />;
   };
 
   /**
@@ -707,33 +846,27 @@ class MultiUploadField extends React.Component {
    * @return {vnode}
    */
 
-  renderPreviewDetails = (file_name, thumbnailImage, isProgressTitle = false) => {
-    const titleClassNames = classNames(
-      {
-        [`${styles.listItem__title}`]: !isProgressTitle,
-        [`${styles.progress__title}`]: isProgressTitle,
-      }
-    )
+  renderPreviewDetails = (
+    file_name,
+    thumbnailImage,
+    isProgressTitle = false
+  ) => {
+    const titleClassNames = classNames({
+      [`${styles.listItem__title}`]: !isProgressTitle,
+      [`${styles.progress__title}`]: isProgressTitle
+    });
 
     const wrapperClassNames = classNames(
       styles.align_middle,
       styles.previewItem__details
-    )
+    );
 
     return (
       <div className={wrapperClassNames}>
-        <div className={styles.align_middle__content}>
-          <div className={styles.listItem__img}>
-            {thumbnailImage}
-          </div>
-        </div>
-        <div className={styles.align_middle__content}>
-          <div className={titleClassNames}>
-            Uploading: {file_name}
-          </div>
-        </div>
+        <div className={styles.listItem__img}>{thumbnailImage}</div>
+        <div className={titleClassNames}>Uploading: {file_name}</div>
       </div>
-    )
+    );
   };
 
   /**
@@ -745,29 +878,27 @@ class MultiUploadField extends React.Component {
    */
 
   renderPreviewItem = (fileObject, index) => {
-    const {progress, file, fileAttributes} = fileObject
-    const { file_name } = fileAttributes
-    const {preview} = file
-    const hasThumbnail = hasImageFormatType(file_name)
+    const { progress, file, fileAttributes } = fileObject;
+    const { file_name } = fileAttributes;
+    const { preview } = file;
+    const hasThumbnail = hasImageFormatType(file_name);
     const thumbnailImage = hasThumbnail
       ? this.renderThumbnail(preview, file_name)
-      : null
+      : null;
 
     let currentProgress = {
-      width: progress > 0 ? (progress + '%') : '0%',
-    }
+      width: progress > 0 ? progress + "%" : "0%"
+    };
 
     return (
       <div className={styles.previewItem} key={index}>
-        <span
-          className={styles.progress_bar}
-          style={currentProgress}>
+        <span className={styles.progress__bar} style={currentProgress}>
           {this.renderPreviewDetails(file_name, thumbnailImage, true)}
         </span>
 
         {this.renderPreviewDetails(file_name, thumbnailImage)}
       </div>
-    )
+    );
   };
 
   /**
@@ -781,10 +912,22 @@ class MultiUploadField extends React.Component {
    * @return {string}
    */
 
-  buildPath = (url, path, dimension = 'original') => {
-    const pattern = /([^/]*)$/
-    const splitPath = path.split(pattern)
-    return url.replace('/upload', '/view') + '/' + splitPath[0] + dimension + '/' + splitPath[1]
+  buildPath = (url, path, dimension = "original") => {
+    const { uploader } = this.context.globalConfig || {};
+    if (uploader === "attache") {
+      const pattern = /([^/]*)$/;
+      const splitPath = path.split(pattern);
+      return (
+        url.replace("/upload", "/view") +
+        "/" +
+        splitPath[0] +
+        dimension +
+        "/" +
+        splitPath[1]
+      );
+    } else {
+      return `${url}/${path}`;
+    }
   };
 
   /**
@@ -795,45 +938,33 @@ class MultiUploadField extends React.Component {
    * @return {string}
    */
 
-  buildThumbnailPath = (original_url, dimension = '50x') => {
-    return original_url.replace('original', dimension)
+  buildThumbnailPath = (original_url, dimension = "50x") => {
+    const { uploader } = this.context.globalConfig || {};
+    if (uploader === "attache") {
+      return original_url.replace("original", dimension);
+    } else {
+      return original_url;
+    }
   };
 
   /**
    * renderDefaultTemplate
-   * Render an node represeting an uploaded file
-   * @param {object} fileObject
-   * @param {number} index
-   * @return {vnode}
    */
-
-  renderDefaultTemplate = (fileObject, index) => {
-    const { fileAttributes } = fileObject
-    const {file_name, thumbnail_url, original_url} = fileAttributes
-    const hasThumbnail = (thumbnail_url != null) || hasImageFormatType(file_name)
-    const thumbnailImage = hasThumbnail
-      ? this.renderThumbnail(thumbnail_url, file_name)
-      : null
-
+  renderDefaultTemplate(fileObject, index) {
+    const { fileAttributes } = fileObject;
+    let { file_name, thumbnail_url, original_url } = fileAttributes;
+    const hasThumbnail = thumbnail_url != null || hasImageFormatType(file_name);
+    thumbnail_url = hasThumbnail ? thumbnail_url : null;
     return (
-      <div className={styles.listItem} key={index}>
-        <div className={styles.listItem__body}>
-          <div className={styles.align_middle}>
-            <div className={styles.align_middle__content}>
-              <div className={styles.listItem__img}>
-                {thumbnailImage}
-              </div>
-            </div>
-            <div className={styles.align_middle__content}>
-              <div className={styles.listItem__title}>
-                <a target='_blank' href={original_url}>{file_name}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  };
+      <DefaultRenderTemplate
+        key={index}
+        fileName={file_name}
+        originalUrl={original_url}
+        thumbnailUrl={thumbnail_url}
+        index={index}
+      />
+    );
+  }
 
   /**
    * renderCustomTemplate
@@ -869,10 +1000,10 @@ class MultiUploadField extends React.Component {
 
   renderCustomTemplate = (fileObject, index, config, attribute) => {
     try {
-      return extractComponent(config.components, attribute)(fileObject)
+      return extractComponent(config.components, attribute)(fileObject);
     } catch (err) {
-      console.error(err)
-      return null
+      console.error(err);
+      return null;
     }
   };
 
@@ -885,13 +1016,13 @@ class MultiUploadField extends React.Component {
    */
 
   customComponentExists = (config, attribute) => {
-    if (!config || !attribute) return false
+    if (!config || !attribute) return false;
 
-    let result = false
-    config.components.map((component) => {
-      if (component.name === attribute) result = true
-    })
-    return result
+    let result = false;
+    config.components.forEach(component => {
+      if (component.name === attribute) result = true;
+    });
+    return result;
   };
 
   /**
@@ -906,28 +1037,38 @@ class MultiUploadField extends React.Component {
    * @return {vnode}
    */
 
-  renderFiles = (files) => {
-    let isSortable = this.state.uploadQueue.length === 0
-    const {config, attributes} = this.props
-    const {render_uploaded_as} = attributes
+  renderFiles = files => {
+    let isSortable = this.state.uploadQueue.length === 0;
+    const { config, attributes } = this.props;
+    const { render_uploaded_as } = attributes;
 
     var allFiles = files.map((fileObject, index) => {
       if (fileObject.file) {
-        isSortable = false
-        return this.renderPreviewItem(fileObject, index)
+        isSortable = false;
+        return this.renderPreviewItem(fileObject, index);
       } else {
-        const template = (this.customComponentExists(config, render_uploaded_as))
-          ? this.renderCustomTemplate(fileObject, index, config, render_uploaded_as)
-          : this.renderDefaultTemplate(fileObject, index)
-        return template
+        const template = this.customComponentExists(config, render_uploaded_as)
+          ? this.renderCustomTemplate(
+              fileObject,
+              index,
+              config,
+              render_uploaded_as
+            )
+          : this.renderDefaultTemplate(fileObject, index);
+        return template;
       }
-    })
+    });
 
     return (
-      <Sortable canRemove canSort={isSortable} onRemove={this.removeFile} onDrop={this.onDrop}>
+      <Sortable
+        canRemove
+        canSort={isSortable}
+        onRemove={this.removeFile}
+        onDrop={this.onDrop}
+      >
         {allFiles}
       </Sortable>
-    )
+    );
   };
 
   /**
@@ -935,28 +1076,26 @@ class MultiUploadField extends React.Component {
    * @return {vnode}
    */
 
-  render () {
-    const {attributes, hint, label, name, errors} = this.props
-    const {upload_prompt, upload_action_label} = attributes
+  render() {
+    const { attributes, hint, label, name, errors } = this.props;
+    const { upload_prompt, upload_action_label } = attributes;
 
-    let hasErrors = (errors.count() > 0)
+    let hasErrors = errors.count() > 0;
 
-    let {
-      XHRErrorMessages,
-      files,
-      invalidFiles,
-    } = this.state
+    let { XHRErrorMessages, files, invalidFiles } = this.state;
 
     // Set up field classes
-    let fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    let fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
+    const multiple = this.props.attributes.multiple || this.props.multiple;
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type={multiple ? "multi-upload-field" : "upload-field"}
+      >
         <div>
           <div>
             <FieldHeader hint={hint} id={name} label={label} />
@@ -968,20 +1107,19 @@ class MultiUploadField extends React.Component {
             ? this.renderInvalidFiles(invalidFiles)
             : null}
           <Dropzone
-            multiple={this.props.attributes.multiple || this.props.multiple}
+            multiple={multiple}
             onChange={this.onChange}
             label={upload_prompt}
             buttonText={upload_action_label}
-            disableClick={files.length > 0}>
-            {files.length > 0
-              ? this.renderFiles(files)
-              : null}
+            disableClick={files.length > 0}
+          >
+            {files.length > 0 ? this.renderFiles(files) : null}
           </Dropzone>
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default MultiUploadField
+export default MultiUploadField;

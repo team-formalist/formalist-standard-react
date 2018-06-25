@@ -1,17 +1,19 @@
-import PropTypes from 'prop-types'
-import React, {Component} from 'react'
-import ImmutablePropTypes from 'react-immutable-proptypes'
-import classNames from 'classnames'
-import extractComponent from '../../../utils/extract-component'
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import classNames from "classnames";
+import extractComponent from "../../../utils/extract-component";
 
 // Import components
-import FieldErrors from '../common/errors'
-import FieldHeader from '../common/header'
-import Popout from '../../ui/popout'
-import SearchSelector, {searchMethod as search} from '../../ui/search-selector'
+import FieldErrors from "../common/errors";
+import FieldHeader from "../common/header";
+import Popout from "../../ui/popout";
+import SearchSelector, {
+  searchMethod as search
+} from "../../ui/search-selector";
 
 // Import styles
-import styles from './search-selection-field.mcss'
+import * as styles from "./styles";
 
 /**
  * Default component for representing a "selected/selection" item
@@ -25,17 +27,13 @@ import styles from './search-selection-field.mcss'
  *
  * @return {ReactElement}
  */
-const SelectDefault = ({option}) => (
-  <div>
-    {option.label}
-  </div>
-)
+const SelectDefault = ({ option }) => <div>{option.label}</div>;
 
 SelectDefault.propTypes = {
   option: PropTypes.shape({
-    label: PropTypes.string,
-  }),
-}
+    label: PropTypes.string
+  })
+};
 
 /**
  * Search Selection field
@@ -44,28 +42,28 @@ SelectDefault.propTypes = {
  *
  */
 class SearchSelectionField extends Component {
-
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
 
     // Initial state
     this.state = {
       selectorFocus: false,
-      selectorQuery: null,
-    }
+      selectorQuery: null
+    };
 
     // Bindings
-    this.onChange = this.onChange.bind(this)
-    this.onChooseClick = this.onChooseClick.bind(this)
-    this.onRemoveClick = this.onRemoveClick.bind(this)
-    this.onSelection = this.onSelection.bind(this)
-    this.openSelector = this.openSelector.bind(this)
-    this.closeSelector = this.closeSelector.bind(this)
-    this.toggleSelector = this.toggleSelector.bind(this)
-    this.onPopoutOpen = this.onPopoutOpen.bind(this)
-    this.onSelectorBlur = this.onSelectorBlur.bind(this)
-    this.onSelectorFocus = this.onSelectorFocus.bind(this)
-    this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this)
+    this.onChange = this.onChange.bind(this);
+    this.onChooseClick = this.onChooseClick.bind(this);
+    this.onRemoveClick = this.onRemoveClick.bind(this);
+    this.onSelection = this.onSelection.bind(this);
+    this.openSelector = this.openSelector.bind(this);
+    this.closeSelector = this.closeSelector.bind(this);
+    this.toggleSelector = this.toggleSelector.bind(this);
+    this.onPopoutOpen = this.onPopoutOpen.bind(this);
+    this.onSelectorBlur = this.onSelectorBlur.bind(this);
+    this.onSelectorFocus = this.onSelectorFocus.bind(this);
+    this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this);
+    this.fetchSelectionData = this.fetchSelectionData.bind(this);
   }
 
   /**
@@ -73,23 +71,30 @@ class SearchSelectionField extends Component {
    * Do an XHR request for the additional selection data
    * @return {Null}
    */
-  componentWillMount () {
-    // Do an XHR request for the additional selection data
-    const {attributes, value} = this.props
+  componentWillMount() {
+    this.fetchSelectionData();
+  }
+
+  /**
+   * fetchSelectionData
+   * Do an XHR request for the additional selection data
+   * @return {Null}
+   */
+  fetchSelectionData() {
+    const { attributes, value } = this.props;
     if (value) {
-      const {search_url} = attributes
+      const { search_url } = attributes;
       const req = search(search_url, {
-        'ids[]': [value],
-      })
-      req.response
-        .then((rsp) => {
-          if (rsp.results && rsp.results.length > 0) {
-            const selection = rsp.results[0]
-            this.setState({
-              selection,
-            })
-          }
-        })
+        "ids[]": [value]
+      });
+      req.response.then(rsp => {
+        if (rsp.results && rsp.results.length > 0) {
+          const selection = rsp.results[0];
+          this.setState({
+            selection
+          });
+        }
+      });
     }
   }
 
@@ -98,74 +103,72 @@ class SearchSelectionField extends Component {
    *
    * @param  {Event} e Change event from a form input/select
    */
-  onChange (value, selection) {
-    this.props.actions.edit(
-      (val) => {
-        return value
-      }
-    )
+  onChange(value, selection) {
+    this.props.actions.edit(val => {
+      return value;
+    });
     this.setState({
-      selection,
-    })
+      selection
+    });
   }
 
   /**
    * On choose click, open selector
    * @return {Null}
    */
-  onChooseClick (e) {
-    e.preventDefault()
-    this.toggleSelector()
+  onChooseClick(e) {
+    e.preventDefault();
+    this.toggleSelector();
   }
 
   /**
    * When selected item is removed
    * @return {Null}
    */
-  onRemoveClick (e) {
-    e.preventDefault()
-    this.onChange(null, null)
+  onRemoveClick(e) {
+    e.preventDefault();
+    this.onChange(null, null);
   }
 
   /**
    * When a selection is made, trigger change and close the selector
    * @return {Null}
    */
-  onSelection (id, selection) {
-    this.closeSelector()
-    this.onChange(id, selection)
+  onSelection(id, selection) {
+    this.closeSelector();
+    this.onChange(id, selection);
   }
 
   /**
    * Open the selector popout
    * @return {Null}
    */
-  openSelector () {
-    this._popout.openPopout()
+  openSelector() {
+    this._popout.openPopout();
   }
 
   /**
    * Close the selector popout
    * @return {Null}
    */
-  closeSelector () {
-    this._popout.closePopout()
+  closeSelector() {
+    this._popout.closePopout();
   }
 
   /**
    * Toggle the selector popout
    * @return {Null}
    */
-  toggleSelector () {
-    this._popout.togglePopout()
+  toggleSelector() {
+    this._popout.togglePopout();
   }
 
   /**
    * On popout open, focus the search input
    * @return {Null}
    */
-  onPopoutOpen () {
-    this._selector.focusSearch()
+  onPopoutOpen() {
+    this._selector.focusSearch();
   }
 
   /**
@@ -173,10 +176,10 @@ class SearchSelectionField extends Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSelectorFocus (e) {
+  onSelectorFocus(e) {
     this.setState({
-      selectorFocus: true,
-    })
+      selectorFocus: true
+    });
   }
 
   /**
@@ -184,83 +187,108 @@ class SearchSelectionField extends Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSelectorBlur (e) {
+  onSelectorBlur(e) {
     this.setState({
-      selectorFocus: false,
-    })
+      selectorFocus: false
+    });
   }
 
-  onSelectorQueryChange (selectorQuery) {
+  onSelectorQueryChange(selectorQuery) {
     this.setState({
-      selectorQuery,
-    })
+      selectorQuery
+    });
   }
 
-  render () {
-    const {attributes, config, errors, hint, label, name} = this.props
-    const {placeholder, selector_label, render_option_as, render_selection_as} = attributes
-    const {selection, selectorFocus, selectorQuery} = this.state
-    const hasErrors = (errors.count() > 0)
+  render() {
+    const { attributes, config, errors, hint, label, name } = this.props;
+    const {
+      placeholder,
+      selector_label,
+      render_option_as,
+      render_option_control_as,
+      render_selection_as
+    } = attributes;
+    const { selection, selectorFocus, selectorQuery } = this.state;
+    const hasErrors = errors.count() > 0;
 
     // Set up field classes
-    const fieldClassNames = classNames(
-      styles.base,
-      {
-        [`${styles.baseInline}`]: attributes.inline,
-      }
-    )
+    const fieldClassNames = classNames(styles.base, {
+      [`${styles.baseInline}`]: attributes.inline
+    });
 
     // Determine the selection/selected display components
-    let Option = SelectDefault
-    let Selection = SelectDefault
+    let Option = SelectDefault;
+    let OptionControl = null;
+    let Selection = SelectDefault;
 
     // Extract them from the passed `config.components` if it exists
     if (config.components) {
       if (render_option_as) {
-        Option = extractComponent(config.components, render_option_as) || Option
+        Option =
+          extractComponent(config.components, render_option_as) || Option;
+      }
+      if (render_option_control_as) {
+        OptionControl =
+          extractComponent(config.components, render_option_control_as) || OptionControl;
       }
       if (render_selection_as) {
-        Selection = extractComponent(config.components, render_selection_as) || Selection
+        Selection =
+          extractComponent(config.components, render_selection_as) || Selection;
       }
     }
 
     return (
-      <div className={fieldClassNames}>
+      <div
+        className={fieldClassNames}
+        data-field-name={name}
+        data-field-type="search-selection-field"
+      >
         <div className={styles.header}>
           <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
         </div>
         <div className={styles.display}>
-          {(selection)
-            ? <div className={styles.wrapper}>
-              <div id={name} className={styles.selection}>
-                <Selection option={selection} />
+          {selection ? (
+            <div className={styles.wrapper}>
+              <div className={styles.selection}>
+                <Selection option={selection} fetchSelectionData={this.fetchSelectionData} />
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>
                 <div className={styles.removeX}>×</div>
               </button>
             </div>
-            : <button className={styles.wrapper} onClick={this.onChooseClick}>
+          ) : (
+            <button
+              data-open-selector-button
+              className={styles.wrapper}
+              onClick={this.onChooseClick}
+            >
               <div className={styles.selectionPlaceholder}>
-                {placeholder || 'Make a selection'}
+                {placeholder || "Make a selection"}
               </div>
               <Popout
-                ref={(r) => { this._popout = r }}
-                placement='left'
+                ref={r => {
+                  this._popout = r;
+                }}
+                placement="left"
                 onOpen={this.onPopoutOpen}
                 closeOnEsc={!selectorFocus || !selectorQuery}
                 closeOnOutsideClick
+                testId={`search-selection-field:${name}`}
               >
                 <div className={styles.openSelectorButton}>
-                  {selector_label || 'Select'}
+                  {selector_label || "Select"}
                 </div>
                 <SearchSelector
-                  ref={(r) => { this._selector = r }}
+                  ref={r => {
+                    this._selector = r;
+                  }}
                   onSelection={this.onSelection}
                   onBlur={this.onSelectorBlur}
                   onFocus={this.onSelectorFocus}
                   onQueryChange={this.onSelectorQueryChange}
                   optionComponent={Option}
+                  optionControlComponent={OptionControl}
                   params={attributes.search_params}
                   perPage={attributes.search_per_page}
                   query={selectorQuery}
@@ -269,11 +297,11 @@ class SearchSelectionField extends Component {
                 />
               </Popout>
             </button>
-          }
-          {(hasErrors) ? <FieldErrors errors={errors} /> : null}
+          )}
+          {hasErrors ? <FieldErrors errors={errors} /> : null}
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -281,8 +309,8 @@ class SearchSelectionField extends Component {
  * Enable parent to pass context
  */
 SearchSelectionField.contextTypes = {
-  globalConfig: PropTypes.object,
-}
+  globalConfig: PropTypes.object
+};
 
 /**
  * PropTypes
@@ -304,15 +332,13 @@ SearchSelectionField.propTypes = {
     selector_label: PropTypes.string,
     selection: PropTypes.object,
     render_option_as: PropTypes.string,
-    render_selection_as: PropTypes.string,
+    render_option_control_as: PropTypes.string,
+    render_selection_as: PropTypes.string
   }),
   hint: PropTypes.string,
   label: PropTypes.string,
   errors: ImmutablePropTypes.list,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
-}
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+};
 
-export default SearchSelectionField
+export default SearchSelectionField;

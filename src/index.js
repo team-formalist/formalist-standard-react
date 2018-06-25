@@ -1,8 +1,6 @@
-import composeForm, {createFormConfig} from 'formalist-compose'
-import formComponents from './components'
-import { displayVariants } from './components/fields'
-export const components = formComponents
-export const fieldDisplayVariants = displayVariants
+import composeForm, { createFormConfig } from "formalist-compose";
+import formComponents from "./components";
+export const components = formComponents;
 
 /**
  * Template
@@ -12,7 +10,7 @@ export const fieldDisplayVariants = displayVariants
  * @return {Function} A form compose with a set of standard React component
  * (potentially augmented by the `config`)
  */
-export default function template (customComponents = {}, config = {}) {
-  const formConfig = createFormConfig(formComponents(customComponents, config))
-  return composeForm(formConfig)
+export default function template(customComponents = {}, config = {}) {
+  const formConfig = createFormConfig(formComponents(customComponents, config));
+  return composeForm(formConfig);
 }
