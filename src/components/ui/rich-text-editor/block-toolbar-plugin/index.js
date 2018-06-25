@@ -55,7 +55,7 @@ const defaults = {
 };
 
 /**
- * Reduce grouops and return a list of editable types
+ * Reduce groups and return a list of editable types
  * @param  {Array} groups
  * @return {Array}
  */
