@@ -6,7 +6,7 @@ import {
   Entity,
 } from 'draft-js'
 import createDataObjectRenderer from 'formalist-data-object-renderer'
-import styles from './atomic.mcss'
+import styles from './atomic/styles'
 
 const dataObjectRenderer = createDataObjectRenderer()
 let configuredTemplate
