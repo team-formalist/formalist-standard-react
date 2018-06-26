@@ -1,6 +1,6 @@
 {
   "name": "formalist-standard-react",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "description": "A standard form implementation for Formalist using React",
   "main": "lib/index.js",
   "scripts": {
@@ -85,6 +85,7 @@
     "lodash.debounce": "4.0.8",
     "lodash.isequal": "^4.5.0",
     "lodash.partialright": "4.2.1",
+    "lodash.throttle": "^4.1.1",
     "moment": "^2.19.1",
     "number-is-integer": "^1.0.1",
     "postcss": "^6.0.13",
