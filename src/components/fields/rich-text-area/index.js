@@ -71,7 +71,7 @@ class RichTextArea extends React.Component {
    *
    * @param  {EditorState} editorState State from the editor
    */
-  onChange = (editorState, { forceChange = false }) => {
+  onChange = (editorState, forceChange = false) => {
     if (forceChange || editorState !== this.state.editorState) {
       // Check if contentState has changed
       if (

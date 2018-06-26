@@ -54,7 +54,8 @@ class RichTextEditor extends React.Component {
     // of the current data to get things to propagate around _immediately_.
     this.emitter.on("atomic:change", () => {
       const { editorState } = this.props;
-      this.onChange(editorState, { forceChange: true });
+      const forceChange = true;
+      this.onChange(editorState, forceChange);
     });
 
     const plugins = this.configurePlugins();
@@ -153,11 +154,11 @@ class RichTextEditor extends React.Component {
   /**
    * onChange
    */
-  onChange = (editorState, { forceChange = false }) => {
+  onChange = (editorState, forceChange = false) => {
     if (forceChange || editorState !== this.props.editorState) {
       const { onChange } = this.props;
       // eslint-disable-next-line no-unused-expressions
-      onChange(editorState, { forceChange });
+      onChange(editorState, forceChange);
       this.emitter.emit("change", editorState);
     }
   };
