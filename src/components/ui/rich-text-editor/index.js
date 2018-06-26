@@ -172,8 +172,14 @@ class RichTextEditor extends React.Component {
   onChange = editorState => {
     const { onChange } = this.props;
     this.emitter.emit("change", editorState);
+    // eslint-disable-next-line no-unused-expressions
     onChange(editorState);
-    this.onChange = debounce(this.onChange, 1);
+    // Replace this function with a debounced version of itself after the
+    // first invocation. Yes this is silly.
+    if (!this.onChangeDebounced) {
+      this.onChangeDebounced = true;
+      this.onChange = debounce(this.onChange, 1);
+    }
   };
 
   render() {
