@@ -71,35 +71,46 @@ class RichTextArea extends React.Component {
    *
    * @param  {EditorState} editorState State from the editor
    */
-  onChange = editorState => {
-    const { value } = this.props;
-    const exporterOptions = {
-      entityModifiers: {
-        formalist: data => {
-          const copy = Object.assign({}, data);
-          delete copy["label"];
-          delete copy["form"];
-          return copy;
+  onChange = (editorState, { forceChange = false }) => {
+    if (forceChange || editorState !== this.state.editorState) {
+      // Check if contentState has changed
+      if (
+        forceChange ||
+        editorState.getCurrentContent() !==
+          this.state.editorState.getCurrentContent()
+      ) {
+        const { value } = this.props;
+        const exporterOptions = {
+          entityModifiers: {
+            formalist: data => {
+              const copy = Object.assign({}, data);
+              delete copy["label"];
+              delete copy["form"];
+              return copy;
+            }
+          }
+        };
+        const currentContent = editorState.getCurrentContent();
+        const hasText = currentContent.hasText();
+        const newValue = hasText
+          ? exporter(editorState, exporterOptions)
+          : null;
+        const hasChangedToNull = newValue === null && value !== null;
+
+        // Persist the value to the AST, but only if it is:
+        // * Not null
+        // * Has changed to null
+        if (newValue != null || hasChangedToNull) {
+          this.props.actions.edit(val => {
+            return newValue;
+          });
         }
       }
-    };
-    const currentContent = editorState.getCurrentContent();
-    const hasText = currentContent.hasText();
-    const newValue = hasText ? exporter(editorState, exporterOptions) : null;
-    const hasChangedToNull = newValue === null && value !== null;
-
-    // Persist the value to the AST, but only if it is:
-    // * Not null
-    // * Has changed to null
-    if (newValue != null || hasChangedToNull) {
-      this.props.actions.edit(val => {
-        return newValue;
+      // Keep track of the state here
+      this.setState({
+        editorState
       });
     }
-    // Keep track of the state here
-    this.setState({
-      editorState
-    });
   };
 
   render() {
