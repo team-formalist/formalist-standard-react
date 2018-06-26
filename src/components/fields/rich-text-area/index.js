@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import classNames from "classnames";
 import { EditorState } from "draft-js";
+import debounce from "lodash.debounce";
 
 // Import components
 import FieldErrors from "../common/errors";
@@ -67,6 +68,39 @@ class RichTextArea extends React.Component {
   }
 
   /**
+   * Persist data
+   *
+   * This is debounced slightly to avoid thrashing the AST when changes are
+   * occuring in rapid succession
+   */
+  persistData = debounce(editorState => {
+    const { value } = this.props;
+    const exporterOptions = {
+      entityModifiers: {
+        formalist: data => {
+          const copy = Object.assign({}, data);
+          delete copy["label"];
+          delete copy["form"];
+          return copy;
+        }
+      }
+    };
+    const currentContent = editorState.getCurrentContent();
+    const hasText = currentContent.hasText();
+    const newValue = hasText ? exporter(editorState, exporterOptions) : null;
+    const hasChangedToNull = newValue === null && value !== null;
+
+    // Persist the value to the AST, but only if it is:
+    // * Not null
+    // * Has changed to null
+    if (newValue != null || hasChangedToNull) {
+      this.props.actions.edit(val => {
+        return newValue;
+      });
+    }
+  }, 10);
+
+  /**
    * onChange handler
    *
    * @param  {EditorState} editorState State from the editor
@@ -79,32 +113,7 @@ class RichTextArea extends React.Component {
         editorState.getCurrentContent() !==
           this.state.editorState.getCurrentContent()
       ) {
-        const { value } = this.props;
-        const exporterOptions = {
-          entityModifiers: {
-            formalist: data => {
-              const copy = Object.assign({}, data);
-              delete copy["label"];
-              delete copy["form"];
-              return copy;
-            }
-          }
-        };
-        const currentContent = editorState.getCurrentContent();
-        const hasText = currentContent.hasText();
-        const newValue = hasText
-          ? exporter(editorState, exporterOptions)
-          : null;
-        const hasChangedToNull = newValue === null && value !== null;
-
-        // Persist the value to the AST, but only if it is:
-        // * Not null
-        // * Has changed to null
-        if (newValue != null || hasChangedToNull) {
-          this.props.actions.edit(val => {
-            return newValue;
-          });
-        }
+        this.persistData(editorState);
       }
       // Keep track of the state here
       this.setState({
