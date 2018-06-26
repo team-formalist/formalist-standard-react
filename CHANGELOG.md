@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.6 2018-06-27
+
+* Replace debounce behaviour introduced in v4.0.3 with a [*manual* className change to avoid a render cycle](https://github.com/icelab/formalist-standard-react/pull/147).
+
 # v4.0.5 2018-06-26
 
 * Ensure we don’t recursively debounce ourselves
