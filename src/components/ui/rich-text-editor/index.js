@@ -169,11 +169,12 @@ class RichTextEditor extends React.Component {
    * so when the AST is updated and the component is rerendered it renders twice
    * in the same moment: one with the new state and the with the old state.
    */
-  onChange = debounce(editorState => {
+  onChange = editorState => {
     const { onChange } = this.props;
     this.emitter.emit("change", editorState);
     onChange(editorState);
-  }, 1);
+    this.onChange = debounce(this.onChange, 1);
+  };
 
   render() {
     const {
