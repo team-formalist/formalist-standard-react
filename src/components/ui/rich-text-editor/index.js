@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import PluginsEditor from "draft-js-plugins-editor";
 import Emitter from "component-emitter";
+import debounce from "lodash.debounce";
 import { belongsToAtomicBlockOrPortal } from "./utils";
 import capitalize from "../../../utils/capitalize";
 
@@ -152,12 +153,27 @@ class RichTextEditor extends React.Component {
 
   /**
    * onChange
+   * NOTE: This function *must* be debounced for not-quite-known reasons. There
+   * appears to be a timing issue in the editor that results in multiple but
+   * slightly out of sync changes being called when:
+   *
+   * - A formalist atomic block is rendered that has a state change in its
+   *   component, e.g., atomic/index.js -> setState({isSelected})
+   * - User presses enter to create a new block
+   * - User presses up
+   *
+   * The problem goes away when the exported editor state isn’t passed back
+   * to the formalist AST, which makes it _seem_ like it’s tied to rendering
+   * but the `editorState` object doesn’t get re-interpreted and so that seems
+   * odd. At a guess, it’s a timing issue releated to setState being async and
+   * so when the AST is updated and the component is rerendered it renders twice
+   * in the same moment: one with the new state and the with the old state.
    */
-  onChange = editorState => {
+  onChange = debounce(editorState => {
     const { onChange } = this.props;
     this.emitter.emit("change", editorState);
     onChange(editorState);
-  };
+  }, 1);
 
   render() {
     const {
