@@ -38,9 +38,7 @@ class AtomicBlock extends React.Component {
     // Set a per instance ID for talking to the bus
     this.instanceId = uid();
 
-    this.state = {
-      isSelected: false
-    };
+    this.isSelected = false;
   }
 
   componentWillMount() {
@@ -103,6 +101,36 @@ class AtomicBlock extends React.Component {
     editorEmitter.off("blur", this.checkEditorSelection);
   }
 
+  componentDidUpdate() {
+    this.manuallySetSelectedClass();
+  }
+
+  /*
+   * NOTE: This function *must* manually set the className for the selected for
+   * not-quite-known reasons. There appears to be a timing issue in the editor
+   * that results in multiple but slightly out of sync changes being called
+   * when:
+   *
+   * - A formalist atomic block is rendered that has a state change in its
+   *   component
+   * - User presses enter to create a new block
+   * - User presses up
+   *
+   * The problem goes away when the exported editor state isn’t passed back to
+   * the formalist AST, which makes it _seem_ like it’s tied to rendering but
+   * the `editorState` object doesn’t get re-interpreted and so that seems odd.
+   * At a guess, it’s a timing issue releated to setState being async and so
+   * when the AST is updated and the component is rerendered it renders twice in
+   * the same moment: one with the new state and the with the old state.
+   */
+  manuallySetSelectedClass() {
+    if (this._blockContainer) {
+      this.isSelected
+        ? this._blockContainer.classList.add(styles.containerSelected)
+        : this._blockContainer.classList.remove(styles.containerSelected);
+    }
+  }
+
   onEditorChange = editorState => {
     this.checkEditorSelection(editorState);
   };
@@ -125,15 +153,12 @@ class AtomicBlock extends React.Component {
         editorEmitter.emit("atomic:selected", blockKey);
       }
     }
-    this.setState({
-      isSelected
-    });
+    this.isSelected = isSelected;
+    this.manuallySetSelectedClass();
   };
 
   onFocus = e => {
-    this.setState({
-      isSelected: false
-    });
+    this.isSelected = false;
     this.setReadOnly(true);
   };
 
@@ -153,12 +178,9 @@ class AtomicBlock extends React.Component {
   };
 
   render() {
-    const { isSelected } = this.state;
     const { label } = this.entity.getData();
 
-    const containerClassNames = classNames(styles.container, {
-      [`${styles.containerSelected}`]: isSelected
-    });
+    const containerClassNames = classNames(styles.container);
 
     // TODO Assess whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
