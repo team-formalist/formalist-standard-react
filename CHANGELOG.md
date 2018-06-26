@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.3 2018-06-26
+
+* Work around [bug with draft-js updating in certain selection-situations](https://github.com/icelab/formalist-standard-react/pull/146)
+* Bump version of draft-js-editor-plugin
+
 # v4.0.2 2018-06-25
 
 * Breaking changes:
