@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.7 2018-06-27
+
+* [Improve rich text editor performance](https://github.com/icelab/formalist-standard-react/pull/148) by avoiding unnecessary changes
+* [Fix bug that could result in duplicate atomic blocks/entities](https://github.com/icelab/formalist-standard-react/pull/149)
+
 # v4.0.6 2018-06-27
 
 * Replace debounce behaviour introduced in v4.0.3 with a [*manual* className change to avoid a render cycle](https://github.com/icelab/formalist-standard-react/pull/147).
