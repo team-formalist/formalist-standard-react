@@ -235,31 +235,6 @@ export default function blockToolbarPlugin(options = {}) {
     },
 
     /**
-     * Handle return when atomic blocks are selected
-     */
-    handleReturn(e, editorState, { setEditorState }) {
-      if (selectedAtomicBlockKey !== null) {
-        // Move the selection to the block below so that the content pla
-        const selection = editorState.getSelection();
-        let contentState = editorState.getCurrentContent();
-        const nextBlockKey = getNextBlockKey(
-          selectedAtomicBlockKey,
-          editorState
-        );
-        contentState = contentState.merge({
-          selectionBefore: selection,
-          selectionAfter: selection.merge({
-            anchorKey: nextBlockKey,
-            focusKey: nextBlockKey
-          })
-        });
-        setEditorState(EditorState.push(editorState, contentState));
-        return true;
-      }
-      return false;
-    },
-
-    /**
      * Handle our custom command
      * @param  {String} command
      * @param  {EditorState} editorState The current editorState
