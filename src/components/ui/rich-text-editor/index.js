@@ -155,6 +155,7 @@ class RichTextEditor extends React.Component {
    * onChange
    */
   onChange = (editorState, forceChange = false) => {
+    forceChange = forceChange === true ? true : false;
     if (forceChange || editorState !== this.props.editorState) {
       const { onChange } = this.props;
       // eslint-disable-next-line no-unused-expressions
