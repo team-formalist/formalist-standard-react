@@ -29,10 +29,11 @@ function getNextBlockTypeToApply(currentType, types) {
  * @param  {Array} editableBlockTypes List of editable types
  * @return {EditorState} Modified EditorState
  */
-function insertBlockAfterCurrentBlock(
+export function insertBlockAfterCurrentBlock(
   editorState,
   blockType,
-  editableBlockTypes
+  editableBlockTypes,
+  selectInsertedBlock = false
 ) {
   const selection = editorState.getSelection();
   const contentState = editorState.getCurrentContent();
@@ -51,7 +52,7 @@ function insertBlockAfterCurrentBlock(
     .rest();
 
   const newBlockKey = genKey();
-  const emptyBlockKey = genKey();
+  let selectedBlockKey = newBlockKey;
   let newBlocks = [
     [currentBlock.getKey(), currentBlock],
     [
@@ -72,6 +73,8 @@ function insertBlockAfterCurrentBlock(
     nextBlock && editableBlockTypes.indexOf(nextBlock.getType()) > -1;
   const isLastBlock = currentBlock === contentState.getLastBlock();
   if (!nextBlockIsEditable || isLastBlock) {
+    const emptyBlockKey = genKey();
+    selectedBlockKey = emptyBlockKey;
     newBlocks = newBlocks.concat([
       [
         emptyBlockKey,
@@ -88,10 +91,22 @@ function insertBlockAfterCurrentBlock(
   const newBlockMap = blocksBefore
     .concat(newBlocks, blocksAfter)
     .toOrderedMap();
+
+  let selectionAfter = selection;
+  if (selectInsertedBlock === true) {
+    // Set selection to start of empty block
+    selectionAfter = selectionAfter.merge({
+      anchorKey: selectedBlockKey,
+      anchorOffset: 0,
+      focusKey: selectedBlockKey,
+      focusOffset: 0,
+      isBackward: false
+    });
+  }
   const newContentState = contentState.merge({
     blockMap: newBlockMap,
     selectionBefore: selection,
-    selectionAfter: selection
+    selectionAfter: selectionAfter
   });
   return EditorState.push(editorState, newContentState, "insert-fragment");
 }

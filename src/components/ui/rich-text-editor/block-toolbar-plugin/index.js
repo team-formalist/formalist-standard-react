@@ -1,6 +1,7 @@
 import React from "react";
 import { DefaultDraftBlockRenderMap, EditorState } from "draft-js";
 import mergeDefaults from "../../../../utils/merge-defaults";
+import { insertBlockAfterCurrentBlock } from "./block-items";
 
 // Components
 import Toolbar from "./toolbar";
@@ -193,9 +194,27 @@ export default function blockToolbarPlugin(options = {}) {
           return commands.DELETE_BLOCK;
         } else if (e.keyCode === 8) {
           return commands.BACKSPACE_BLOCK;
+        } else if (e.keyCode === 13) {
+          // Special handling for when the enter key is pressed while an
+          // atomic block is selected. This appears to be a draft-js bug. When
+          // this situation occurs the atomic block duplicated (though its
+          // entity does not). There's no way to do this so we just have to
+          // *immediately* reverse its function
+          const editorState = getEditorState();
+          window.requestAnimationFrame(() => {
+            setEditorState(
+              insertBlockAfterCurrentBlock(
+                editorState,
+                "unstyled",
+                editableBlockTypes,
+                true
+              )
+            );
+          });
         } else {
           const editorState = getEditorState();
-          // Move the selection to the block below so that the content pla
+          // Move the selection to the block below so that the content comes
+          // through there instead
           const selection = editorState.getSelection();
           let contentState = editorState.getCurrentContent();
           const nextBlockKey = getNextBlockKey(
