@@ -122,13 +122,14 @@ class ActionHandler extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { entityKey } = this.props;
+    const { onChange, editorState, entityKey } = this.props;
     const { changeData } = this.state;
     Entity.replaceData(entityKey, changeData);
     this.setState({
       editing: false
     });
     this.unpersistPopover();
+    onChange(editorState, true);
   }
 
   render() {
