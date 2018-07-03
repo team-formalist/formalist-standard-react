@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.8 2018-07-04
+
+* Fix bug where link changes to inline entities wouldn’t be recognised until their text was edited
+
 # v4.0.7 2018-06-27
 
 * [Improve rich text editor performance](https://github.com/icelab/formalist-standard-react/pull/148) by avoiding unnecessary changes
