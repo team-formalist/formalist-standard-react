@@ -2,6 +2,12 @@ import uid from "uid";
 import { css } from "emotion";
 import { buttons, colours, typography } from "../styles";
 
+export const dropzoneContainer = css`
+  &:focus {
+    outline: none;
+  }
+`;
+
 /**
  * dropzone
  * this element cannot always be positioned relative.

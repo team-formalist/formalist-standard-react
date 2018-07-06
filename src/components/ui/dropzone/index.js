@@ -101,6 +101,7 @@ export default class extends React.Component {
    */
 
   onDrop = files => {
+    this._focusHack.focus();
     const { onChange } = this.props;
     if (typeof onChange === "function") onChange(files);
     this.setState({
@@ -109,14 +110,24 @@ export default class extends React.Component {
   };
 
   /**
-   * onClick
+   * onButtonClick
    * Open the dropzone
    * @param  {event} e
    */
 
-  onClick = e => {
+  onButtonClick = e => {
     e.preventDefault();
+    this._focusHack.focus();
     this._dropzone.open();
+  };
+
+  /**
+   * onClick
+   * Open the dropzone
+   * @param  {event} e
+   */
+  onClick = e => {
+    this._focusHack.focus();
   };
 
   /**
@@ -148,7 +159,7 @@ export default class extends React.Component {
 
   renderButton = buttonText => {
     return (
-      <button onClick={this.onClick} className={styles.dropzone__button}>
+      <button onClick={this.onButtonClick} className={styles.dropzone__button}>
         {buttonText != null ? buttonText : "Upload file"}
       </button>
     );
@@ -196,7 +207,12 @@ export default class extends React.Component {
 
     return (
       <div>
-        <div className="dropzone__container">
+        <div
+          className={styles.dropzoneContainer}
+          ref={r => {
+            this._focusHack = r;
+          }}
+          tabIndex="0">
           {!hideDropZoneBtn ? this.renderButton(buttonText) : null}
 
           <Dropzone
@@ -209,6 +225,7 @@ export default class extends React.Component {
             multiple={multiple}
             onDragStart={this.onDragStart}
             onDrop={this.onDrop}
+            onClick={this.onClick}
             style={{}}
           >
             {children}
