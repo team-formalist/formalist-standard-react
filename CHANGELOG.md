@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.9 2018-07-06
+
+* Ensure invalid atomic blocks remove themselves
+* [Fix an issue with upload fields in embedded forms](https://github.com/icelab/formalist-standard-react/pull/151)
+
 # v4.0.8 2018-07-04
 
 * Fix bug where link changes to inline entities wouldn’t be recognised until their text was edited
