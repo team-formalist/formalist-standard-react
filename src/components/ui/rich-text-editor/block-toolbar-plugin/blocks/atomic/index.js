@@ -180,7 +180,9 @@ class AtomicBlock extends React.Component {
     this.setReadOnly(false);
   };
 
-  remove = ({ allowUndo = true }) => {
+  remove = (options = {}) => {
+    let { allowUndo } = options
+    allowUndo = allowUndo === null ? true : allowUndo;
     const { block, blockProps } = this.props;
     this.setReadOnly(false);
     blockProps.remove(block.getKey(), { allowUndo });
