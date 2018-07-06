@@ -32,8 +32,6 @@ class AtomicBlock extends React.Component {
 
   constructor(props) {
     super(props);
-    this.entityKey = props.block.getEntityAt(0);
-    this.entity = Entity.get(this.entityKey);
 
     // Set a per instance ID for talking to the bus
     this.instanceId = uid();
@@ -42,7 +40,26 @@ class AtomicBlock extends React.Component {
   }
 
   componentWillMount() {
+    const { block } = this.props;
     const { fieldBus } = this.props.blockProps;
+    // Resolve the entity, atomic blocks _must_ have one
+    this.entityKey = block.getEntityAt(0);
+    // Remove if there's no key
+    if (this.entityKey == null) {
+      this.remove({ allowUndo: false });
+      return;
+    }
+    this.entity = Entity.get(this.entityKey);
+    // Extract the entity
+    const entityData = this.entity.getData();
+    // If the entity is the wrong _type_, we should remove the block too
+    // our editor expects every atomic block to have an attached entity
+    // of "formalist" type
+    if (this.entity.getType() !== "formalist") {
+      this.remove({ allowUndo: false });
+      return;
+    }
+
     document.addEventListener("mouseup", this.handleOutsideMouseClick);
     document.addEventListener("touchstart", this.handleOutsideMouseClick);
 
@@ -59,9 +76,6 @@ class AtomicBlock extends React.Component {
         global: globalConfig,
         fields: this.context.globalConfig._fieldsConfig
       });
-
-    // Extract the entity
-    const entityData = this.entity.getData();
 
     // Create the formalist form with config
     this.form = configuredTemplate(entityData.form);
@@ -166,10 +180,10 @@ class AtomicBlock extends React.Component {
     this.setReadOnly(false);
   };
 
-  remove = () => {
+  remove = ({ allowUndo = true }) => {
     const { block, blockProps } = this.props;
     this.setReadOnly(false);
-    blockProps.remove(block.getKey());
+    blockProps.remove(block.getKey(), { allowUndo });
   };
 
   setReadOnly = readOnly => {
@@ -178,6 +192,11 @@ class AtomicBlock extends React.Component {
   };
 
   render() {
+    // Don't render if we have no entity
+    if (!this.entity || this.entity.getType() !== "formalist") {
+      return null;
+    }
+
     const { label } = this.entity.getData();
 
     const containerClassNames = classNames(styles.container);
