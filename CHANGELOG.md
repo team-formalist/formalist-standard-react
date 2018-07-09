@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.10 2018-07-09
+
+* [Fix up keyboard selection behaviour for tags field](https://github.com/icelab/formalist-standard-react/pull/153)
+
 # v4.0.9 2018-07-06
 
 * Ensure invalid atomic blocks remove themselves
