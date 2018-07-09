@@ -73,6 +73,17 @@ class SearchList extends Component {
     document.removeEventListener("keydown", this.onKeyDown);
   }
 
+  componentDidUpdate() {
+    let { selectedIndex } = this.state;
+    if (selectedIndex > -1) {
+      const buttons = Array.prototype.slice.call(
+        this._list.querySelectorAll("button")
+      );
+      const activeButton = buttons[selectedIndex];
+      activeButton.focus();
+    }
+  }
+
   /**
    * Handle focus and selection of the results list
    * @param  {KeyboardEvent} e
@@ -176,7 +187,11 @@ class SearchList extends Component {
     const hasResults = results.length > 0;
     if (hasResults) {
       return (
-        <div>
+        <div
+          ref={r => {
+            this._list = r;
+          }}
+        >
           {results.map((result, i) => {
             const selected = i === selectedIndex;
             const buttonClassNames = classNames(styles.optionButton, {
