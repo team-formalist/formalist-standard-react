@@ -281,8 +281,8 @@ class TagsField extends Component {
                     const added = this.addTag(selection.value);
                     if (added) {
                       this.clearInput();
-                      this._input.focus();
                       this._popunder.closePopunder();
+                      window.requestAnimationFrame(() => this._input.focus());
                     }
                   }}
                 />

@@ -14,6 +14,9 @@ export const optionButton = css`
   padding: 0.7rem 1rem;
   text-align: left;
   width: 100%;
+  &:focus {
+    outline: none;
+  }
 `;
 export const optionButtonFocus = css`
   text-decoration: underline;
