@@ -22,6 +22,7 @@ class DateTimeField extends React.Component {
       label: PropTypes.string,
       hint: PropTypes.string,
       placeholder: PropTypes.string,
+      time_format: PropTypes.string,
       inline: PropTypes.bool
     }),
     errors: ImmutablePropTypes.list,
@@ -90,6 +91,7 @@ class DateTimeField extends React.Component {
             placeholder={attributes.placeholder}
             value={value}
             onChange={this.onChange}
+            timeFormat={attributes.time_format}
           />
         </div>
         {hasErrors ? <FieldErrors errors={errors} /> : null}

@@ -22,7 +22,8 @@ class DateTimePicker extends React.Component {
     error: PropTypes.bool,
     id: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    timeFormat: PropTypes.string
   };
 
   constructor(props) {
@@ -132,7 +133,7 @@ class DateTimePicker extends React.Component {
   };
 
   render() {
-    let { error, id, placeholder } = this.props;
+    let { error, id, placeholder, timeFormat } = this.props;
 
     let dateValue = this.state.date;
     let timeValue = this.state.time;
@@ -153,6 +154,8 @@ class DateTimePicker extends React.Component {
             error={error}
             value={timeValue}
             onChange={this.onTimeChange}
+            timeFormat={timeFormat}
+            humanTimeFormat={timeFormat}
           />
         </div>
       </div>

@@ -11,30 +11,30 @@ import Input from "../input";
 // Styles
 import * as styles from "./styles";
 
-const dateFormats = {
-  time: "HH:mm:ss",
-  humanTime: "hh:mma"
-};
-
 class TimePicker extends React.Component {
   static propTypes = {
     value: PropTypes.string,
     error: PropTypes.bool,
     onChange: PropTypes.func,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    timeFormat: PropTypes.string,
+    humanTimeFormat: PropTypes.string
   };
 
   static defaultProps = {
-    placeholder: "Select or enter a time"
+    placeholder: "Select or enter a time",
+    timeFormat: "HH:mm:ss",
+    humanTimeFormat: "hh:mma"
   };
 
   constructor(props) {
     super(props);
+
     let inputValue;
-    let parsedTime = moment(props.value, dateFormats.time);
+    let parsedTime = moment(props.value, props.timeFormat);
     if (parsedTime.isValid()) {
       this.time = parsedTime;
-      inputValue = parsedTime.format(dateFormats.humanTime);
+      inputValue = parsedTime.format(props.humanTimeFormat);
     }
 
     this.state = {
@@ -44,20 +44,23 @@ class TimePicker extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value && nextProps.value !== this.props.value) {
-      let parsedTime = moment(nextProps.value, dateFormats.time);
+      let parsedTime = moment(nextProps.value, this.props.timeFormat);
       if (parsedTime.isValid()) {
         this.time = parsedTime;
         this.setState({
-          inputValue: parsedTime.format(dateFormats.humanTime)
+          inputValue: parsedTime.format(this.props.humanTimeFormat)
         });
       }
     }
   }
 
   onInputChange = (e, value) => {
-    let time = moment(value, dateFormats.humanTime);
-    this.time = time;
-    this.props.onChange(time.format(dateFormats.time));
+    let time = moment(value, this.props.humanTimeFormat, true);
+
+    if (time.isValid()) {
+      this.time = time;
+      this.props.onChange(time.format(this.props.timeFormat));
+    }
   };
 
   onInputFocus = () => {
@@ -68,9 +71,9 @@ class TimePicker extends React.Component {
     e.preventDefault();
     this.time = time;
     this.setState({
-      inputValue: time.format(dateFormats.humanTime)
+      inputValue: time.format(this.props.humanTimeFormat)
     });
-    this.props.onChange(time.format(dateFormats.time));
+    this.props.onChange(time.format(this.props.timeFormat));
   };
 
   /**
@@ -118,7 +121,7 @@ class TimePicker extends React.Component {
             className={buttonClassNames}
             onClick={onClick}
           >
-            {date.format(dateFormats.humanTime)}
+            {date.format(this.props.humanTimeFormat)}
           </button>
         </li>
       );
