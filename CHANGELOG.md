@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.11 2018-07-17
+
+* [Allow time formats to be passed to time-related fields](https://github.com/icelab/formalist-standard-react/pull/154)
+
 # v4.0.10 2018-07-09
 
 * [Fix up keyboard selection behaviour for tags field](https://github.com/icelab/formalist-standard-react/pull/153)
