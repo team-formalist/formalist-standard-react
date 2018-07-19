@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.12 2018-07-19
+
+* [Usability improvements for sortable lists](https://github.com/icelab/formalist-standard-react/pull/155)
+
 # v4.0.11 2018-07-17
 
 * [Allow time formats to be passed to time-related fields](https://github.com/icelab/formalist-standard-react/pull/154)
