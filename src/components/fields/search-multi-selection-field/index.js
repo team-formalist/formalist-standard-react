@@ -352,6 +352,7 @@ class SearchMultiSelectionField extends Component {
               canRemove
               onRemove={this.onRemove}
               onDrop={this.onDrop}
+              canSort={attributes.sortable}
               maxHeight={attributes.max_height}
             >
               {selections.map((option, index) => (
@@ -390,6 +391,7 @@ SearchMultiSelectionField.propTypes = {
     hint: PropTypes.string,
     placeholder: PropTypes.string,
     inline: PropTypes.bool,
+    sortable: PropTypes.bool,
     max_height: PropTypes.string,
     search_url: PropTypes.string,
     search_per_page: PropTypes.number,

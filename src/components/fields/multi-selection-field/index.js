@@ -50,6 +50,7 @@ class SelectionField extends React.Component {
       hint: PropTypes.string,
       inline: PropTypes.bool,
       label: PropTypes.string,
+      sortable: PropTypes.bool,
       max_height: PropTypes.string,
       options: PropTypes.array,
       placeholder: PropTypes.string,
@@ -213,6 +214,7 @@ class SelectionField extends React.Component {
     const { attributes, config, errors, hint, label, name, value } = this.props;
     const { search, searchFocus } = this.state;
     const {
+      sortable,
       max_height,
       options,
       placeholder,
@@ -347,6 +349,7 @@ class SelectionField extends React.Component {
                 canRemove
                 onRemove={this.onRemove}
                 onDrop={this.onDrop}
+                canSort={sortable}
                 maxHeight={max_height}
               >
                 {selections.map((option, index) => (
