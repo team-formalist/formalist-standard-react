@@ -42,7 +42,8 @@ class Many extends React.Component {
     attributes: ImmutablePropTypes.mapContains({
       label: PropTypes.string,
       placeholder: PropTypes.string,
-      action_label: PropTypes.string
+      action_label: PropTypes.string,
+      max_height: PropTypes.string
     }),
     template: PropTypes.object,
     children: ImmutablePropTypes.list
@@ -167,6 +168,7 @@ class Many extends React.Component {
             canRemove
             onRemove={this.onRemove}
             onDrop={this.onDrop}
+            maxHeight={attributes.max_height}
             verticalControls
           >
             {children.map((setChildren, i) => (

@@ -47,14 +47,15 @@ class SelectionField extends React.Component {
     name: PropTypes.string,
     config: PropTypes.object,
     attributes: PropTypes.shape({
-      label: PropTypes.string,
       hint: PropTypes.string,
-      placeholder: PropTypes.string,
-      options: PropTypes.array,
       inline: PropTypes.bool,
-      selector_label: PropTypes.string,
+      label: PropTypes.string,
+      max_height: PropTypes.string,
+      options: PropTypes.array,
+      placeholder: PropTypes.string,
       render_option_as: PropTypes.string,
-      render_selection_as: PropTypes.string
+      render_selection_as: PropTypes.string,
+      selector_label: PropTypes.string
     }),
     hint: PropTypes.string,
     label: PropTypes.string,
@@ -212,6 +213,7 @@ class SelectionField extends React.Component {
     const { attributes, config, errors, hint, label, name, value } = this.props;
     const { search, searchFocus } = this.state;
     const {
+      max_height,
       options,
       placeholder,
       selector_label,
@@ -341,7 +343,12 @@ class SelectionField extends React.Component {
           </div>
           {numberOfSelections > 0 ? (
             <div className={styles.selectedItems}>
-              <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
+              <Sortable
+                canRemove
+                onRemove={this.onRemove}
+                onDrop={this.onDrop}
+                maxHeight={max_height}
+              >
                 {selections.map((option, index) => (
                   <Selection key={`${index}_${option.id}`} option={option} />
                 ))}
