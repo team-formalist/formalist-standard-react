@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import uid from "uid";
 import update from "react-addons-update";
 import { DragDropContext } from "react-dnd";
@@ -25,7 +26,19 @@ class Sortable extends React.Component {
      * @type {Boolean}
      */
     canRemove: PropTypes.bool,
+    /**
+     * canSort
+     * Indicates whether list is sortable
+     * @type {Boolean}
+     */
+    canSort: PropTypes.bool,
     children: PropTypes.node,
+    /**
+     * maxHeight
+     * CSS max-height value to limit the size of the sortable
+     * @type {String}
+     */
+    maxHeight: PropTypes.string,
     /**
      * onDrop
      * Callback. Fired _after_ the sort is effected
@@ -45,7 +58,11 @@ class Sortable extends React.Component {
      * @type {Function}
      */
     onSort: PropTypes.func,
-    canSort: PropTypes.bool,
+    /**
+     * verticalControls
+     * Stack sort controls vertically
+     * @type {Boolean}
+     */
     verticalControls: PropTypes.bool
   };
 
@@ -112,11 +129,21 @@ class Sortable extends React.Component {
 
   render() {
     const { instanceKey, items } = this.state;
-    const { canRemove, onRemove, verticalControls, canSort } = this.props;
+    const {
+      canRemove,
+      onRemove,
+      verticalControls,
+      canSort,
+      maxHeight
+    } = this.props;
     let isSortable = !(canSort === false || items.length <= 1);
 
+    let baseClassNames = classNames(styles.base, {
+      [`${styles.maxHeight(maxHeight)}`]: maxHeight != null
+    });
+
     return (
-      <div className={styles.base} data-name="sortable-item">
+      <div className={baseClassNames} data-name="sortable-item">
         {items.map((item, index) => (
           <Item
             key={`${instanceKey}_${item.originalIndex}`}
