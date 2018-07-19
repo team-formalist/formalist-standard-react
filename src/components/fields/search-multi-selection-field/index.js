@@ -242,13 +242,21 @@ class SearchMultiSelectionField extends Component {
   }
 
   render() {
-    const { attributes, config, errors, hint, label, name, value } = this.props;
+    const {
+      attributes,
+      config,
+      errors,
+      hint,
+      label,
+      name,
+      value
+    } = this.props;
     const {
       placeholder,
       selector_label,
       render_option_as,
       render_option_control_as,
-      render_selection_as,
+      render_selection_as
     } = attributes;
     const { selections, selectorFocus, selectorQuery } = this.state;
     const hasErrors = errors.count() > 0;
@@ -271,7 +279,8 @@ class SearchMultiSelectionField extends Component {
       }
       if (render_option_control_as) {
         OptionControl =
-          extractComponent(config.components, render_option_control_as) || OptionControl;
+          extractComponent(config.components, render_option_control_as) ||
+          OptionControl;
       }
       if (render_selection_as) {
         Selection =
@@ -339,9 +348,18 @@ class SearchMultiSelectionField extends Component {
         </div>
         {numberOfSelections > 0 ? (
           <div className={styles.selectedItems}>
-            <Sortable canRemove onRemove={this.onRemove} onDrop={this.onDrop}>
+            <Sortable
+              canRemove
+              onRemove={this.onRemove}
+              onDrop={this.onDrop}
+              maxHeight={attributes.max_height}
+            >
               {selections.map((option, index) => (
-                <Selection key={`${index}_${option.id}`} option={option} fetchSelectionsData={this.fetchSelectionsData} />
+                <Selection
+                  key={`${index}_${option.id}`}
+                  option={option}
+                  fetchSelectionsData={this.fetchSelectionsData}
+                />
               ))}
             </Sortable>
           </div>
@@ -372,6 +390,7 @@ SearchMultiSelectionField.propTypes = {
     hint: PropTypes.string,
     placeholder: PropTypes.string,
     inline: PropTypes.bool,
+    max_height: PropTypes.string,
     search_url: PropTypes.string,
     search_per_page: PropTypes.number,
     search_params: PropTypes.object,
