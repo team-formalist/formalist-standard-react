@@ -143,28 +143,34 @@ class Sortable extends React.Component {
     } = this.props;
     let isSortable = !(canSort === false || items.length <= 1);
 
+    let wrapperClassNames = classNames({
+      [`${styles.maxHeightWrapper}`]: maxHeight != null
+    });
+
     let baseClassNames = classNames(styles.base, {
-      [`${styles.maxHeight(maxHeight)}`]: maxHeight != null
+      [`${styles.maxHeightBase(maxHeight)}`]: maxHeight != null
     });
 
     return (
-      <div className={baseClassNames} data-name="sortable-item">
-        {items.map((item, index) => (
-          <Item
-            key={`${instanceKey}_${item.originalIndex}`}
-            instanceKey={instanceKey}
-            moveItem={this.moveItem}
-            onDrop={this.onDrop}
-            index={index}
-            originalIndex={item.originalIndex}
-            canSort={isSortable}
-            canRemove={canRemove}
-            onRemove={onRemove}
-            verticalControls={verticalControls}
-          >
-            {item.component}
-          </Item>
-        ))}
+      <div className={wrapperClassNames}>
+        <div className={baseClassNames} data-name="sortable-item">
+          {items.map((item, index) => (
+            <Item
+              key={`${instanceKey}_${item.originalIndex}`}
+              instanceKey={instanceKey}
+              moveItem={this.moveItem}
+              onDrop={this.onDrop}
+              index={index}
+              originalIndex={item.originalIndex}
+              canSort={isSortable}
+              canRemove={canRemove}
+              onRemove={onRemove}
+              verticalControls={verticalControls}
+            >
+              {item.component}
+            </Item>
+          ))}
+        </div>
       </div>
     );
   }
