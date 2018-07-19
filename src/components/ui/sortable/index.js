@@ -66,6 +66,11 @@ class Sortable extends React.Component {
     verticalControls: PropTypes.bool
   };
 
+  static defaultProps = {
+    canSort: true,
+    verticalControls: false
+  };
+
   state = {
     instanceKey: uid(),
     items: React.Children.map(this.props.children, (child, index) => ({

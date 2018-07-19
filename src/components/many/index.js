@@ -43,6 +43,7 @@ class Many extends React.Component {
       label: PropTypes.string,
       placeholder: PropTypes.string,
       action_label: PropTypes.string,
+      sortable: PropTypes.bool,
       max_height: PropTypes.string
     }),
     template: PropTypes.object,
@@ -168,6 +169,7 @@ class Many extends React.Component {
             canRemove
             onRemove={this.onRemove}
             onDrop={this.onDrop}
+            canSort={attributes.sortable}
             maxHeight={attributes.max_height}
             verticalControls
           >

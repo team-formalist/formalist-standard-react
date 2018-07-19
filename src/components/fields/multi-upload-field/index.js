@@ -155,6 +155,7 @@ class MultiUploadField extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
     attributes: PropTypes.shape({
+      sortable: PropTypes.bool,
       max_file_size: PropTypes.number,
       max_file_size_message: PropTypes.string,
       max_height: PropTypes.string,
@@ -1066,6 +1067,7 @@ class MultiUploadField extends React.Component {
         canSort={isSortable}
         onRemove={this.removeFile}
         onDrop={this.onDrop}
+        canSort={attributes.sortable}
         maxHeight={attributes.max_height}
       >
         {allFiles}
