@@ -185,7 +185,11 @@ class Item extends React.Component {
           <div className={styles.inner}>{children}</div>
           <div className={controlsClasses}>
             {canRemove ? (
-              <button className={styles.remove} onClick={this.onRemoveClick}>
+              <button
+                className={styles.remove}
+                onClick={this.onRemoveClick}
+                title="Remove"
+              >
                 <span className={styles.removeText}>Remove</span>
                 <div className={styles.removeX}>×</div>
               </button>
@@ -195,6 +199,7 @@ class Item extends React.Component {
                   <button
                     className={styles.handle}
                     onClick={this.onHandleClick}
+                    title="Drag to reorder"
                   >
                     <span className={styles.handleText}>Drag to reorder</span>
                     <div className={styles.handleLine} />
