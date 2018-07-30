@@ -116,7 +116,7 @@ function parseJSON(res) {
  * @return {Object} FormData
  */
 
-function formData(as, file, fields) {
+function formData(as, file, fields, fileAttributes = {}) {
   var data = new FormData();
 
   if (fields) {
@@ -124,8 +124,8 @@ function formData(as, file, fields) {
       data.append(key, fields[key]);
     });
   }
-
-  data.append(as, file, file.name);
+  const name = fileAttributes.file_name || file.name;
+  data.append(as, file, name);
   return data;
 }
 
@@ -330,7 +330,7 @@ function correctImageMetadata(file, metadata) {
 
 /**
  * Assemble output data into persistable format
- * @param {FileObjet} fileObject File object from uploader
+ * @param {FileObject} fileObject File object from uploader
  * @param {Object} metadata Extracted metadata
  */
 function assembleOutputData(res, fileObject, metadata) {
@@ -356,8 +356,8 @@ function assembleOutputData(res, fileObject, metadata) {
 
 function uploadRequest(res, fileObject, showProgress) {
   const { url, fields } = res;
-  const { file, uid } = fileObject;
-  const data = formData("file", file, fields);
+  const { file, uid, fileAttributes } = fileObject;
+  const data = formData("file", file, fields, fileAttributes);
 
   return new Promise((resolve, reject) => {
     reqs[uid] = request

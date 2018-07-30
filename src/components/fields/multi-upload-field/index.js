@@ -21,10 +21,12 @@ import {
   sortArrayByOrder,
   generateUniqueID,
   noOp,
-  filterUniqueObjects
+  filterUniqueObjects,
+  sanitiseFileName
 } from "./utils";
 import extractComponent from "../../../utils/extract-component";
 import parseRegexFromString from "../../../utils/parse-regex-from-string";
+
 
 /**
  * The default template for uploaded items
@@ -303,7 +305,7 @@ class MultiUploadField extends React.Component {
       return {
         file,
         fileAttributes: {
-          file_name: name
+          file_name: sanitiseFileName(name)
         },
         size,
         type,
