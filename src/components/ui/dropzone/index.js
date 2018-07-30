@@ -212,7 +212,8 @@ export default class extends React.Component {
           ref={r => {
             this._focusHack = r;
           }}
-          tabIndex="0">
+          tabIndex="0"
+        >
           {!hideDropZoneBtn ? this.renderButton(buttonText) : null}
 
           <Dropzone

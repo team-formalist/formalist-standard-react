@@ -79,7 +79,7 @@ function filterUniqueObjects(primary, secondary) {
 function sanitiseFileName(fileName) {
   return fileName
     .trim()
-    .replace(/[^\w\s-\.\+]/g, "") // Remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
+    .replace(/[^\w\s-.+]/g, "") // Remove non-word [a-z0-9_], non-whitespace, non-hyphen characters
     .replace(/[\s_-]+|\++/g, "-") // Swap any length of whitespace, underscore, hyphen characters with a single -
     .replace(/^-+|-+$/g, "");
 }

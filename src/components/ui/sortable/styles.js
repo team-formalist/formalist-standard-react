@@ -24,6 +24,6 @@ export const maxHeightBase = maxHeight => {
     max-height: ${maxHeight};
     overflow-y: scroll;
     overflow-x: hidden;
-    overflow-scrolling: touch
+    overflow-scrolling: touch;
   `;
 };
