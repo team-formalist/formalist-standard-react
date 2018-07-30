@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.13 2018-07-30
+
+* [Santise file names for uploads](https://github.com/icelab/formalist-standard-react/pull/156) to avoid issues with escaping (particularly on S3)
+
 # v4.0.12 2018-07-19
 
 * [Usability improvements for sortable lists](https://github.com/icelab/formalist-standard-react/pull/155)
