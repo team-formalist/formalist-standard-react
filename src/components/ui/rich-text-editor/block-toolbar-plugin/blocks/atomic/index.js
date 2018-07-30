@@ -181,7 +181,7 @@ class AtomicBlock extends React.Component {
   };
 
   remove = (options = {}) => {
-    let { allowUndo } = options
+    let { allowUndo } = options;
     allowUndo = allowUndo === null ? true : allowUndo;
     const { block, blockProps } = this.props;
     this.setReadOnly(false);

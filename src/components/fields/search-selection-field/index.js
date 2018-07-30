@@ -229,7 +229,8 @@ class SearchSelectionField extends Component {
       }
       if (render_option_control_as) {
         OptionControl =
-          extractComponent(config.components, render_option_control_as) || OptionControl;
+          extractComponent(config.components, render_option_control_as) ||
+          OptionControl;
       }
       if (render_selection_as) {
         Selection =
@@ -250,7 +251,10 @@ class SearchSelectionField extends Component {
           {selection ? (
             <div className={styles.wrapper}>
               <div className={styles.selection}>
-                <Selection option={selection} fetchSelectionData={this.fetchSelectionData} />
+                <Selection
+                  option={selection}
+                  fetchSelectionData={this.fetchSelectionData}
+                />
               </div>
               <button className={styles.remove} onClick={this.onRemoveClick}>
                 <span className={styles.removeText}>Remove</span>

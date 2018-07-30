@@ -27,7 +27,6 @@ import {
 import extractComponent from "../../../utils/extract-component";
 import parseRegexFromString from "../../../utils/parse-regex-from-string";
 
-
 /**
  * The default template for uploaded items
  */
@@ -1042,7 +1041,7 @@ class MultiUploadField extends React.Component {
    */
 
   renderFiles = files => {
-    let isSortable = this.state.uploadQueue.length === 0;
+    let isSortable = this.state.uploadQueue.length === 0 && attributes.sortable;
     const { config, attributes } = this.props;
     const { render_uploaded_as } = attributes;
 
@@ -1069,7 +1068,6 @@ class MultiUploadField extends React.Component {
         canSort={isSortable}
         onRemove={this.removeFile}
         onDrop={this.onDrop}
-        canSort={attributes.sortable}
         maxHeight={attributes.max_height}
       >
         {allFiles}

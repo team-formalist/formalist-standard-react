@@ -223,7 +223,7 @@ function parseVideoMetadata(file) {
     reader.addEventListener("load", function onReaderLoad(f) {
       // Build object URL from file blob
       var blob = new Blob([f.target.result], { type: file.type });
-      const url = (URL || webkitURL).createObjectURL(blob);
+      const url = (window.URL || window.webkitURL).createObjectURL(blob);
       const video = document.createElement("video");
       video.preload = "metadata";
 

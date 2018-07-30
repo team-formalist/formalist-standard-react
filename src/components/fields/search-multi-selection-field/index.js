@@ -242,15 +242,7 @@ class SearchMultiSelectionField extends Component {
   }
 
   render() {
-    const {
-      attributes,
-      config,
-      errors,
-      hint,
-      label,
-      name,
-      value
-    } = this.props;
+    const { attributes, config, errors, hint, label, name, value } = this.props;
     const {
       placeholder,
       selector_label,
