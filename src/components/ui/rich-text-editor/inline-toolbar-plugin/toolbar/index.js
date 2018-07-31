@@ -113,10 +113,14 @@ class Toolbar extends React.Component {
     if (selectedEntityKey) {
       selectedEntity = Entity.get(selectedEntityKey);
       const selectedEntityType = selectedEntity.getType();
-      const { handler } = entities.find(
+      const matchingEntity = entities.find(
         entity => entity.type.toLowerCase() === selectedEntityType.toLowerCase()
       );
-      SelectedEntityHandler = handler;
+      if (matchingEntity) {
+        SelectedEntityHandler = matchingEntity.handler;
+      } else {
+        return null;
+      }
     }
 
     // Only display if we have some `formatters` configured
