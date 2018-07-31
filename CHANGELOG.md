@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.14 2018-07-31
+
+* [Fix bug in Firefox](https://github.com/icelab/formalist-standard-react/pull/157) when trying to find inline entities to render.
+
 # v4.0.13 2018-07-30
 
 * [Santise file names for uploads](https://github.com/icelab/formalist-standard-react/pull/156) to avoid issues with escaping (particularly on S3)
