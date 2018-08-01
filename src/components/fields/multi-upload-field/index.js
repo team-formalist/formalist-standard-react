@@ -1041,9 +1041,9 @@ class MultiUploadField extends React.Component {
    */
 
   renderFiles = files => {
-    let isSortable = this.state.uploadQueue.length === 0 && attributes.sortable;
     const { config, attributes } = this.props;
     const { render_uploaded_as } = attributes;
+    let isSortable = this.state.uploadQueue.length === 0 && attributes.sortable;
 
     var allFiles = files.map((fileObject, index) => {
       if (fileObject.file) {
