@@ -53,6 +53,7 @@ class SearchMultiSelectionField extends Component {
     // Keep value as a cached property
     this.cachedSelections = List();
     this.cachedValue = value;
+    this.clearQueryOnSelection = true;
 
     // Initial state
     this.state = {
@@ -178,6 +179,11 @@ class SearchMultiSelectionField extends Component {
       this.onRemove(index);
     } else {
       this.onChange(value.push(id), this.cachedSelections.push(selection));
+    }
+    if (this.clearQueryOnSelection) {
+      this.setState({
+        selectorQuery: null
+      });
     }
   }
 
