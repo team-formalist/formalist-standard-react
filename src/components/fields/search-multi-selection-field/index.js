@@ -53,7 +53,6 @@ class SearchMultiSelectionField extends Component {
     // Keep value as a cached property
     this.cachedSelections = List();
     this.cachedValue = value;
-    this.clearQueryOnSelection = true;
 
     // Initial state
     this.state = {
@@ -171,6 +170,7 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   onSelection(id, selection) {
+    const { attributes } = this.props;
     let value = this.cachedValue;
     value = value || List();
     // Exists already? Remove it
@@ -180,7 +180,7 @@ class SearchMultiSelectionField extends Component {
     } else {
       this.onChange(value.push(id), this.cachedSelections.push(selection));
     }
-    if (this.clearQueryOnSelection) {
+    if (attributes.clear_query_on_selection) {
       this.setState({
         selectorQuery: null
       });
@@ -385,6 +385,7 @@ SearchMultiSelectionField.propTypes = {
   name: PropTypes.string,
   config: PropTypes.object,
   attributes: PropTypes.shape({
+    clear_query_on_selection: PropTypes.bool,
     label: PropTypes.string,
     hint: PropTypes.string,
     placeholder: PropTypes.string,
