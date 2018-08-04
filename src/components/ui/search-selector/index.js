@@ -53,6 +53,14 @@ class SearchSelector extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // If query updated through props to null
+    if (this.query && nextProps.query == null) {
+      this._search.value = "";
+      this.focusSearch();
+    }
+  }
+
   componentWillUnmount() {
     abortCurrentSearch(this.currentRequest);
   }
