@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.16 2018-08-01
+
+* [Adds support for clearing search selection queries](https://github.com/icelab/formalist-standard-react/pull/159) when selection occurs (via a clear_query_on_selection attribute)
+
 # v4.0.15 2018-08-01
 
 * Fix breaking error in 4.0.14
