@@ -4,7 +4,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import uid from "uid";
 import classNames from "classnames";
 import s3Upload from "../../../utils/s3-upload";
-import attacheUpload from "attache-upload";
+import * as attacheUpload from "attache-upload";
 import Immutable from "immutable";
 import Clipboard from "clipboard";
 import { events } from "formalist-compose";
