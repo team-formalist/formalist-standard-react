@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.19 2018-09-24
+
+* Allow `total_pages` to be missing from pagination hash. Fallback to rendering only next/prev buttons for pagination.
+
 # v4.0.18 2018-09-12
 
 * Fix broken `attache-upload` import reference
