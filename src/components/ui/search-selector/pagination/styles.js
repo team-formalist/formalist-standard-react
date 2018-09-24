@@ -6,15 +6,16 @@ export const base = css`
   padding: 0.7rem 1rem;
 `;
 
-export const info = css`
+export const left = css`
   margin-left: 0;
   margin-right: auto;
 `;
 
-export const buttons = css`
+export const right = css`
   margin-left: auto;
   margin-right: 0;
 `;
+
 export const prevButton = css`
   margin-right: 1rem;
   &:hover {

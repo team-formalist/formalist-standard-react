@@ -5,7 +5,7 @@ import * as styles from "./styles";
 class Pagination extends Component {
   nextPage() {
     const { currentPage, goToPage, totalPages } = this.props;
-    if (currentPage < totalPages) {
+    if (totalPages && currentPage < totalPages) {
       goToPage(currentPage + 1);
     }
   }
@@ -43,16 +43,17 @@ class Pagination extends Component {
   render() {
     const { currentPage, goToPage, totalPages } = this.props;
 
-    const jumpSelect = this.renderJumpSelect(currentPage, totalPages, goToPage);
-
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
       <div className={styles.base}>
-        <div className={styles.info}>
-          Page {jumpSelect} of {totalPages}
-        </div>
-        <div className={styles.buttons}>
+        {totalPages != null ? (
+          <div className={styles.left}>
+            Page {this.renderJumpSelect(currentPage, totalPages, goToPage)} of{" "}
+            {totalPages}
+          </div>
+        ) : null}
+        <div className={totalPages == null ? styles.left : styles.right}>
           <button
             data-search-selector-pagination="prev"
             className={styles.prevButton}
