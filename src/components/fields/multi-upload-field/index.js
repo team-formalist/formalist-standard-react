@@ -26,6 +26,7 @@ import {
 } from "./utils";
 import extractComponent from "../../../utils/extract-component";
 import parseRegexFromString from "../../../utils/parse-regex-from-string";
+import request from "superagent";
 
 /**
  * The default template for uploaded items
@@ -165,8 +166,8 @@ class MultiUploadField extends React.Component {
       permitted_file_type_regex: PropTypes.string,
       presign_url: PropTypes.string,
       presign_options: PropTypes.object,
+      initial_attributes_url: PropTypes.string,
       render_uploaded_as: PropTypes.string,
-      path_builder: PropTypes.string,
       upload_action_label: PropTypes.string,
       upload_prompt: PropTypes.string
     }),
@@ -385,15 +386,18 @@ class MultiUploadField extends React.Component {
       copy.fileAttributes[key] = response[key];
     }
 
-    // Build the path. We use a promise so that applications
-    // can provide their own path builder.
-    this.buildPath(upload_url, response.path).then((path) => {
-      // apply the 'original_url' to existing `fileAttributes`
-      copy.fileAttributes["original_url"] = path;
+    // apply the 'original_url' to existing `fileAttributes`
+    copy.fileAttributes["original_url"] = this.buildPath(
+      upload_url,
+      response.path
+    );
 
-      if (hasImageFormatType(copy.fileAttributes["file_name"])) {
-        copy.fileAttributes["thumbnail_url"] = fileObject.file.preview;
-      }
+    if (hasImageFormatType(copy.fileAttributes["file_name"])) {
+      copy.fileAttributes["thumbnail_url"] = fileObject.file.preview;
+    }
+
+    this.fetchInitialUploadAttributes(copy.fileAttributes).then((initialFileAttributes) => {
+      copy.fileAttributes = initialFileAttributes;
 
       let files = this.state.files.slice(0);
       const indexOfFile = files.findIndex(file => file.uid === fileObject.uid);
@@ -405,8 +409,44 @@ class MultiUploadField extends React.Component {
 
       this.onUpdate(files);
     }).catch((error) => {
-      console.log(error);
+      console.error(error);
     })
+  };
+
+  /**
+   * fetchInitialUploadAttributes
+   *
+   * Allows client applications to provide an endpoint for applying
+   * transformations on the file attributes. For example to change
+   * hosts or use CDN-backed assets.
+   *
+   * @param  {object} a file attributes object
+   * @return {promise}
+   */
+
+  fetchInitialUploadAttributes = (originalFileAttributes) => {
+    const { config, attributes } = this.props;
+    const { initial_attributes_url } = attributes;
+    const { csrfToken } = this.context.globalConfig || {};
+
+    // Either send the file attributes to the custom endpoint,
+    // or return the attributes unaltered.
+    if (initial_attributes_url) {
+      return new Promise(function (resolve, reject) {
+        request.post(initial_attributes_url).send(originalFileAttributes).set({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken
+        }).end(function (err, res) {
+          if (err) return reject({error: err, message: err.message});
+          resolve(res.body);
+        });
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        resolve(originalFileAttributes);
+      });
+    }
   };
 
   /**
@@ -915,10 +955,6 @@ class MultiUploadField extends React.Component {
    * Split the path before it's file name.
    * Replace 'upload' with 'view' in the url amd return the string
    *
-   * Checks for a custom configured path builder and returns that
-   * path builder's output when present. The custom builder must
-   * return a promise.
-   *
    * @param {string} url
    * @param {string} path
    * @param {string} dimension: 'original', '50x', '100x100', '400x100', etc
@@ -926,31 +962,21 @@ class MultiUploadField extends React.Component {
    */
 
   buildPath = (url, path, dimension = "original") => {
-    const { config, attributes } = this.props;
-    const { path_builder } = attributes;
-
-    // Any custom path builder must return a promise
-    if (this.customComponentExists(config, path_builder)) {
-      return extractComponent(config.components, path_builder)(url, path, dimension);
+    const { uploader } = this.context.globalConfig || {};
+    if (uploader === "attache") {
+      const pattern = /([^/]*)$/;
+      const splitPath = path.split(pattern);
+      return (
+        url.replace("/upload", "/view") +
+        "/" +
+        splitPath[0] +
+        dimension +
+        "/" +
+        splitPath[1]
+      );
+    } else {
+      return `${url}/${path}`;
     }
-
-    return new Promise((resolve, reject) => {
-      const { uploader } = this.context.globalConfig || {};
-      if (uploader === "attache") {
-        const pattern = /([^/]*)$/;
-        const splitPath = path.split(pattern);
-        resolve (
-          url.replace("/upload", "/view") +
-          "/" +
-          splitPath[0] +
-          dimension +
-          "/" +
-          splitPath[1]
-        );
-      } else {
-        resolve(`${url}/${path}`);
-      }
-    })
   };
 
   /**
