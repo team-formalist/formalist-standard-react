@@ -954,7 +954,6 @@ class MultiUploadField extends React.Component {
    * Take a url, path and and optional size (defaults to 'original')
    * Split the path before it's file name.
    * Replace 'upload' with 'view' in the url amd return the string
-   *
    * @param {string} url
    * @param {string} path
    * @param {string} dimension: 'original', '50x', '100x100', '400x100', etc
