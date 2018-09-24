@@ -166,6 +166,7 @@ class MultiUploadField extends React.Component {
       presign_url: PropTypes.string,
       presign_options: PropTypes.object,
       render_uploaded_as: PropTypes.string,
+      path_builder: PropTypes.string,
       upload_action_label: PropTypes.string,
       upload_prompt: PropTypes.string
     }),
@@ -384,24 +385,28 @@ class MultiUploadField extends React.Component {
       copy.fileAttributes[key] = response[key];
     }
 
-    // apply the 'original_url' to existing `fileAttributes`
-    copy.fileAttributes["original_url"] = this.buildPath(
-      upload_url,
-      response.path
-    );
-    if (hasImageFormatType(copy.fileAttributes["file_name"])) {
-      copy.fileAttributes["thumbnail_url"] = fileObject.file.preview;
-    }
+    // Build the path. We use a promise so that applications
+    // can provide their own path builder.
+    this.buildPath(upload_url, response.path).then((path) => {
+      // apply the 'original_url' to existing `fileAttributes`
+      copy.fileAttributes["original_url"] = path;
 
-    let files = this.state.files.slice(0);
-    const indexOfFile = files.findIndex(file => file.uid === fileObject.uid);
-    files.splice(indexOfFile, 1, copy);
+      if (hasImageFormatType(copy.fileAttributes["file_name"])) {
+        copy.fileAttributes["thumbnail_url"] = fileObject.file.preview;
+      }
 
-    this.setState({
-      files
-    });
+      let files = this.state.files.slice(0);
+      const indexOfFile = files.findIndex(file => file.uid === fileObject.uid);
+      files.splice(indexOfFile, 1, copy);
 
-    this.onUpdate(files);
+      this.setState({
+        files
+      });
+
+      this.onUpdate(files);
+    }).catch((error) => {
+      console.log(error);
+    })
   };
 
   /**
@@ -909,6 +914,11 @@ class MultiUploadField extends React.Component {
    * Take a url, path and and optional size (defaults to 'original')
    * Split the path before it's file name.
    * Replace 'upload' with 'view' in the url amd return the string
+   *
+   * Checks for a custom configured path builder and returns that
+   * path builder's output when present. The custom builder must
+   * return a promise.
+   *
    * @param {string} url
    * @param {string} path
    * @param {string} dimension: 'original', '50x', '100x100', '400x100', etc
@@ -916,21 +926,31 @@ class MultiUploadField extends React.Component {
    */
 
   buildPath = (url, path, dimension = "original") => {
-    const { uploader } = this.context.globalConfig || {};
-    if (uploader === "attache") {
-      const pattern = /([^/]*)$/;
-      const splitPath = path.split(pattern);
-      return (
-        url.replace("/upload", "/view") +
-        "/" +
-        splitPath[0] +
-        dimension +
-        "/" +
-        splitPath[1]
-      );
-    } else {
-      return `${url}/${path}`;
+    const { config, attributes } = this.props;
+    const { path_builder } = attributes;
+
+    // Any custom path builder must return a promise
+    if (this.customComponentExists(config, path_builder)) {
+      return extractComponent(config.components, path_builder)(url, path, dimension);
     }
+
+    return new Promise((resolve, reject) => {
+      const { uploader } = this.context.globalConfig || {};
+      if (uploader === "attache") {
+        const pattern = /([^/]*)$/;
+        const splitPath = path.split(pattern);
+        resolve (
+          url.replace("/upload", "/view") +
+          "/" +
+          splitPath[0] +
+          dimension +
+          "/" +
+          splitPath[1]
+        );
+      } else {
+        resolve(`${url}/${path}`);
+      }
+    })
   };
 
   /**
