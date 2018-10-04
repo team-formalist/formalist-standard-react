@@ -72,8 +72,9 @@ class FieldContainer extends React.Component {
     return store.dispatch(deleteField(path));
   };
 
-  editField = (val, { emit }) => {
+  editField = (val, opts = {}) => {
     let { attributes, bus, namePath, path, store } = this.props;
+    const { emit } = opts;
     // Turn the attributes from an Immutable.Map into a POJO
     attributes = attributes.toJS();
 
@@ -87,7 +88,7 @@ class FieldContainer extends React.Component {
       editedValue = editedValue.toJS();
     }
 
-    if (emit === true) {
+    if (emit !== false) {
       bus.emit(events.internal.FIELD_CHANGE, { namePath, value: editedValue });
     }
 
@@ -117,7 +118,6 @@ class FieldContainer extends React.Component {
       errors,
       field,
       name,
-      namePath,
       rules,
       value
     } = this.props;
