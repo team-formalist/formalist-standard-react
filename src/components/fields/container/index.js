@@ -5,7 +5,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 import classNames from "classnames";
 import validation from "formalist-validation";
 import * as styles from "./styles";
-import { actions } from "formalist-compose";
+import { actions, events } from "formalist-compose";
 const { deleteField, editField, validateField } = actions;
 
 /**
@@ -25,6 +25,7 @@ class FieldContainer extends React.Component {
     hashCode: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     path: ImmutablePropTypes.list.isRequired,
+    namePath: PropTypes.string.isRequired,
     rules: ImmutablePropTypes.list,
     store: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
@@ -45,6 +46,18 @@ class FieldContainer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { bus } = this.props;
+    bus.on(events.internal.FIELD_DELETE, this.handleDeleteFieldEvent);
+    bus.on(events.internal.FIELD_EDIT, this.handleEditFieldEvent);
+  }
+
+  componentWillUnmount() {
+    const { bus } = this.props;
+    bus.off(events.internal.FIELD_DELETE, this.handleDeleteFieldEvent);
+    bus.off(events.internal.FIELD_EDIT, this.handleEditFieldEvent);
+  }
+
   shouldComponentUpdate(nextProps) {
     // Use the path hash-code to determine whether or not to rerender this
     // field. This should take account of any change to the AST.
@@ -52,6 +65,49 @@ class FieldContainer extends React.Component {
     // should not change after runtime anyway)
     return this.props.hashCode !== nextProps.hashCode;
   }
+
+  deleteField = () => {
+    const { bus, namePath, path, store } = this.props;
+    bus.emit(events.internal.FIELD_DELETED, { namePath });
+    return store.dispatch(deleteField(path));
+  };
+
+  editField = (val, { emit }) => {
+    let { attributes, bus, namePath, path, store } = this.props;
+    // Turn the attributes from an Immutable.Map into a POJO
+    attributes = attributes.toJS();
+
+    // Curry with the form validation schema
+    let validate = validation(attributes.validation);
+
+    let editedValue = val();
+    // Ensure we're not passing Immutable stuff through
+    // to the validator
+    if (List.isList(editedValue)) {
+      editedValue = editedValue.toJS();
+    }
+
+    if (emit === true) {
+      bus.emit(events.internal.FIELD_CHANGE, { namePath, value: editedValue });
+    }
+
+    return store.batchDispatch([
+      editField(path, val),
+      validateField(path, validate(editedValue))
+    ]);
+  };
+
+  handleDeleteFieldEvent = ({ namePath }) => {
+    if (namePath === this.props.namePath) {
+      this.deleteField();
+    }
+  };
+
+  handleEditFieldEvent = ({ namePath, value }) => {
+    if (namePath === this.props.namePath) {
+      this.editField(value, { emit: false });
+    }
+  };
 
   render() {
     let {
@@ -61,9 +117,8 @@ class FieldContainer extends React.Component {
       errors,
       field,
       name,
-      path,
+      namePath,
       rules,
-      store,
       value
     } = this.props;
     let Field = field;
@@ -75,27 +130,11 @@ class FieldContainer extends React.Component {
     let label = attributes.label || this.props.name.replace(/_/g, " ");
     let { hint } = attributes;
 
-    // Curry with the form validation schema
-    let validate = validation(attributes.validation);
-
     // Abstract the actions so that each field doesn't have to worry about
     // the action implementation
     let fieldActions = {
-      delete: () => {
-        return store.dispatch(deleteField(path));
-      },
-      edit: val => {
-        let editedValue = val();
-        // Ensure we're not passing Immutable stuff through
-        // to the validator
-        if (List.isList(editedValue)) {
-          editedValue = editedValue.toJS();
-        }
-        return store.batchDispatch([
-          editField(path, val),
-          validateField(path, validate(editedValue))
-        ]);
-      }
+      delete: this.deleteField,
+      edit: this.editField
     };
 
     // Set up standard classNames
