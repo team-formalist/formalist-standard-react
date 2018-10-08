@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import classNames from "classnames";
-import { actions } from "formalist-compose";
-import validation from "formalist-validation";
 
 // Components
 import FieldErrors from "../fields/common/errors";
@@ -11,13 +9,6 @@ import Sortable from "../ui/sortable";
 
 // Styles
 import * as styles from "./styles";
-
-const {
-  addManyContent,
-  deleteManyContent,
-  reorderManyContents,
-  validateMany
-} = actions;
 
 class ManySet extends React.Component {
   static propTypes = {
@@ -35,7 +26,6 @@ class Many extends React.Component {
     name: PropTypes.string,
     path: ImmutablePropTypes.list.isRequired,
     contentsPath: ImmutablePropTypes.list.isRequired,
-    store: PropTypes.object.isRequired,
     type: PropTypes.string,
     rules: ImmutablePropTypes.list,
     errors: ImmutablePropTypes.list,
@@ -47,7 +37,11 @@ class Many extends React.Component {
       max_height: PropTypes.string
     }),
     template: PropTypes.object,
-    children: ImmutablePropTypes.list
+    children: ImmutablePropTypes.list,
+    addChild: PropTypes.func.isRequired,
+    removeChild: PropTypes.func.isRequired,
+    reorderChildren: PropTypes.func.isRequired,
+    editChildren: PropTypes.func.isRequired
   };
 
   /**
@@ -87,20 +81,13 @@ class Many extends React.Component {
   };
 
   /**
-   * Tell the store to inject a new content/child from the template
+   * Inject a new content/child from the template
    * @param {Event} e Mouse/KeyboardEvent
    */
   addChild = e => {
     e.preventDefault();
-    let { attributes, store, path } = this.props;
-    const validationRules = attributes.get("validation")
-      ? attributes.get("validation").toJS()
-      : null;
-
-    store.batchDispatch([
-      addManyContent(path),
-      validateMany(path, validation(validationRules))
-    ]);
+    const { addChild } = this.props;
+    addChild();
     this.updateContentsKey();
   };
 
@@ -110,16 +97,8 @@ class Many extends React.Component {
    * @return {Null}
    */
   onRemove = index => {
-    let { attributes, store, contentsPath, path } = this.props;
-    let childPath = contentsPath.push(index);
-    const validationRules = attributes.get("validation")
-      ? attributes.get("validation").toJS()
-      : null;
-
-    store.batchDispatch([
-      deleteManyContent(childPath),
-      validateMany(path, validation(validationRules))
-    ]);
+    const { removeChild } = this.props;
+    removeChild(index);
     this.updateContentsKey();
   };
 
@@ -128,15 +107,8 @@ class Many extends React.Component {
    * @return {Null}
    */
   onDrop = newOrder => {
-    const { attributes, store, path } = this.props;
-    const validationRules = attributes.get("validation")
-      ? attributes.get("validation").toJS()
-      : null;
-
-    store.batchDispatch([
-      reorderManyContents(path, newOrder),
-      validateMany(path, validation(validationRules))
-    ]);
+    const { reorderChildren } = this.props;
+    reorderChildren(newOrder);
     this.updateContentsKey();
   };
 
