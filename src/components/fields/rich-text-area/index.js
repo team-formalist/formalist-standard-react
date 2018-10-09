@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import classNames from "classnames";
+import { List } from "immutable";
 import { EditorState } from "draft-js";
 import debounce from "lodash.debounce";
 
@@ -59,12 +60,26 @@ class RichTextArea extends React.Component {
     value = value && value.toJS ? value.toJS() : value;
     // Convert from a string?
     value = typeof value === "string" ? JSON.parse(value) : value;
+    this._lastInputValue = value;
 
     this.state = {
       editorState: value
         ? EditorState.createWithContent(importer(value))
         : EditorState.createEmpty()
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const lastValue = List(this._lastInputValue);
+    const currentValue = List(nextProps.value);
+    // Ensure editor state is overridden if it changes externally
+    if (!lastValue.equals(currentValue)) {
+      this.setState({
+        editorState: nextProps.value
+          ? EditorState.createWithContent(importer(nextProps.value))
+          : EditorState.createEmpty()
+      });
+    }
   }
 
   /**
@@ -94,6 +109,7 @@ class RichTextArea extends React.Component {
     // * Not null
     // * Has changed to null
     if (newValue != null || hasChangedToNull) {
+      this._lastInputValue = newValue;
       this.props.actions.edit(val => {
         return newValue;
       });
