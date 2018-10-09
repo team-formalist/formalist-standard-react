@@ -22,7 +22,7 @@ class Select extends React.Component {
     className: PropTypes.string,
     children: PropTypes.node,
     error: PropTypes.bool,
-    defaultValue: PropTypes.string,
+    value: PropTypes.string,
     id: PropTypes.string,
     clearable: PropTypes.bool,
     onFocus: PropTypes.func,
@@ -62,11 +62,11 @@ class Select extends React.Component {
   };
 
   render() {
-    const {
+    let {
       children,
       className,
       clearable,
-      defaultValue,
+      value,
       error,
       placeholder,
       size
@@ -105,14 +105,18 @@ class Select extends React.Component {
       "onBlur",
       "onChange",
       "placeholder",
-      "size"
+      "size",
+      "value"
     ]);
+
+    // Ensure value is a string
+    value = value || "";
 
     return (
       <label className={labelClassNames}>
         <select
           {...propsToPass}
-          defaultValue={defaultValue || ""}
+          value={value}
           className={inputClassNames}
           onBlur={this.onBlur}
           onFocus={this.onFocus}

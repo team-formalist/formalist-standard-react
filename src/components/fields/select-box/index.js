@@ -73,6 +73,9 @@ class SelectBox extends React.Component {
       return false;
     }
 
+    // Ensure value is a string
+    value = value != null && value.toString ? value.toString() : value;
+
     return (
       <div
         className={fieldClassNames}
@@ -85,9 +88,7 @@ class SelectBox extends React.Component {
         <div className={styles.display}>
           <Select
             data-field-input
-            defaultValue={
-              value != null && value.toString ? value.toString() : value
-            }
+            value={value}
             placeholder={attributes.placeholder}
             error={hasErrors}
             onChange={this.onChange}
