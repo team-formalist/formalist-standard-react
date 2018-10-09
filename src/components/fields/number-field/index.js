@@ -99,7 +99,7 @@ class NumberField extends React.Component {
             error={hasErrors}
             className={inputClassNames}
             placeholder={attributes.placeholder}
-            defaultValue={value}
+            value={value}
             onChange={this.onChange}
             {...numberProps}
           />

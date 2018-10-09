@@ -95,7 +95,7 @@ class TextArea extends React.Component {
             error={hasErrors}
             className={inputClassNames}
             placeholder={attributes.placeholder}
-            defaultValue={value}
+            value={value}
             onChange={this.onChange}
             boxSize={attributes.box_size}
             textSize={attributes.text_size}

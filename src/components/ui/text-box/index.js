@@ -92,14 +92,18 @@ class TextBox extends React.Component {
       "boxSize",
       "className",
       "onBlur",
-      "onFocus"
+      "onFocus",
+      "value"
     ]);
+
+    const value = this.props.value || "";
 
     return (
       <Textarea
         {...propsToPass}
         {...boxSize(this.props.boxSize)}
         className={textBoxClassNames}
+        value={value}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
       />
