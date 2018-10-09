@@ -89,7 +89,7 @@ class Pagination extends Component {
  */
 Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
+  totalPages: PropTypes.number,
   goToPage: PropTypes.func.isRequired
 };
 
