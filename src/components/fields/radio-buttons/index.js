@@ -97,7 +97,7 @@ class RadioButtons extends React.Component {
               optionValue = option;
               optionLabel = option;
             }
-            let defaultChecked = value && optionValue === value;
+            let checked = value != null && optionValue === value;
             return (
               <RadioButton
                 key={i}
@@ -105,7 +105,7 @@ class RadioButtons extends React.Component {
                 label={optionLabel}
                 error={hasErrors}
                 value={optionValue}
-                defaultChecked={defaultChecked}
+                checked={checked}
                 onChange={this.onChange}
               />
             );

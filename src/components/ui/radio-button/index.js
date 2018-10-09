@@ -21,7 +21,7 @@ class RadioButton extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
-    defaultChecked: PropTypes.bool,
+    checked: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     label: PropTypes.string.isRequired,
@@ -55,7 +55,7 @@ class RadioButton extends React.Component {
   };
 
   render() {
-    let { defaultChecked, label, name, onChange, value } = this.props;
+    let { checked, label, name, onChange, value } = this.props;
     let labelClassNames = classNames(styles.label, {
       [`${styles.error}`]: this.props.error,
       [`${styles.focus}`]: this.state.focus
@@ -85,7 +85,7 @@ class RadioButton extends React.Component {
             type="radio"
             name={name}
             value={value}
-            checked={defaultChecked}
+            checked={checked}
             tabIndex={-1}
             onChange={e => {}}
           />
