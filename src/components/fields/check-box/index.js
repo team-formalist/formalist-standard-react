@@ -79,7 +79,7 @@ class CheckBox extends React.Component {
             label={checkboxLabel}
             error={hasErrors}
             value={value}
-            defaultChecked={value}
+            checked={value}
             onChange={this.onChange}
           />
           {hasErrors ? <FieldErrors errors={errors} /> : null}

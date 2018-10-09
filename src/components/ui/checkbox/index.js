@@ -55,7 +55,7 @@ class Checkbox extends React.Component {
   };
 
   render() {
-    let { defaultChecked, label, value } = this.props;
+    let { checked, label, value } = this.props;
     let labelClassNames = classNames(styles.label, {
       [`${styles.error}`]: this.props.error,
       [`${styles.focus}`]: this.state.focus
@@ -79,7 +79,7 @@ class Checkbox extends React.Component {
           id={this.state.id}
           type="checkbox"
           value={value}
-          defaultChecked={defaultChecked}
+          checked={checked}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
           onChange={this.onChange}
