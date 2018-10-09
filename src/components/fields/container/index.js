@@ -59,6 +59,7 @@ class FieldContainer extends React.Component {
       errors,
       field,
       name,
+      namePath,
       remove,
       rules,
       value
@@ -80,7 +81,7 @@ class FieldContainer extends React.Component {
     return (
       // *Explicitly* pass all the props we care about down to the field
       // rather than dumping everything through
-      <div className={containerClassNames} data-field-container>
+      <div className={containerClassNames} data-field-container={namePath}>
         <Field
           actions={{ edit, remove }}
           bus={bus}
