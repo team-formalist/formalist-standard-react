@@ -79,6 +79,11 @@ class SearchMultiSelectionField extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.cachedValue = nextProps.value;
+    const selectionIDs = this.cachedSelections.map(selection => selection.id);
+    // Fetch new selection data if the existing data doesn't match the stored value
+    if (!selectionIDs.equals(nextProps.value)) {
+      this.fetchSelectionsData(nextProps.value);
+    }
   }
 
   /**
@@ -87,7 +92,8 @@ class SearchMultiSelectionField extends Component {
    * @return {Null}
    */
   componentWillMount() {
-    this.fetchSelectionsData();
+    const { value } = this.props;
+    this.fetchSelectionsData(value);
   }
 
   /**
@@ -95,12 +101,12 @@ class SearchMultiSelectionField extends Component {
    * Do an XHR request for the additional selections data
    * @return {Null}
    */
-  fetchSelectionsData() {
-    const { attributes, value } = this.props;
-    if (value && value.count() > 0) {
+  fetchSelectionsData(ids) {
+    const { attributes } = this.props;
+    if (ids && ids.count() > 0) {
       const { search_url } = attributes;
       const req = search(search_url, {
-        "ids[]": value.toJS()
+        "ids[]": ids.toJS()
       });
       req.response.then(rsp => {
         if (rsp.results && rsp.results.length > 0) {
@@ -112,6 +118,12 @@ class SearchMultiSelectionField extends Component {
             selections
           });
         }
+      });
+    } else {
+      const selections = List();
+      this.cachedSelections = selections;
+      this.setState({
+        selections
       });
     }
   }
