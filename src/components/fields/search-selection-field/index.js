@@ -72,7 +72,20 @@ class SearchSelectionField extends Component {
    * @return {Null}
    */
   componentWillMount() {
-    this.fetchSelectionData();
+    const { value } = this.props;
+    this.fetchSelectionData(value);
+  }
+
+  /**
+   * componentWillReceiveProps
+   * Ensure selection data is set if value changes externally
+   * @param {Object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    const selectionID = this.state.selection ? this.state.selection.id : null;
+    if (nextProps.value !== selectionID) {
+      this.fetchSelectionData(nextProps.value);
+    }
   }
 
   /**
@@ -80,12 +93,12 @@ class SearchSelectionField extends Component {
    * Do an XHR request for the additional selection data
    * @return {Null}
    */
-  fetchSelectionData() {
-    const { attributes, value } = this.props;
-    if (value) {
+  fetchSelectionData(id) {
+    const { attributes } = this.props;
+    if (id) {
       const { search_url } = attributes;
       const req = search(search_url, {
-        "ids[]": [value]
+        "ids[]": [id]
       });
       req.response.then(rsp => {
         if (rsp.results && rsp.results.length > 0) {
@@ -94,6 +107,10 @@ class SearchSelectionField extends Component {
             selection
           });
         }
+      });
+    } else {
+      this.setState({
+        selection: null
       });
     }
   }
