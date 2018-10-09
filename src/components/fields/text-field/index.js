@@ -53,7 +53,7 @@ class TextField extends React.Component {
   };
 
   render() {
-    let { attributes, errors, hint, label, name, value } = this.props;
+    let { attributes, errors, hint, label, name, namePath, value } = this.props;
     let hasErrors = errors.count() > 0;
     let type = attributes.password ? "password" : "text";
 
@@ -71,10 +71,16 @@ class TextField extends React.Component {
       <div
         className={fieldClassNames}
         data-field-name={name}
+        data-field-name-path={namePath}
         data-field-type="text-field"
       >
         <div className={styles.header}>
-          <FieldHeader id={name} label={label} hint={hint} error={hasErrors} />
+          <FieldHeader
+            id={namePath}
+            label={label}
+            hint={hint}
+            error={hasErrors}
+          />
         </div>
         <div className={styles.display}>
           <Input
@@ -83,7 +89,7 @@ class TextField extends React.Component {
             error={hasErrors}
             className={inputClassNames}
             placeholder={attributes.placeholder}
-            defaultValue={value}
+            value={value}
             onChange={this.onChange}
           />
           {hasErrors ? <FieldErrors errors={errors} /> : null}

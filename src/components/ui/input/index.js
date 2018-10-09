@@ -78,8 +78,11 @@ class Input extends React.Component {
       "className",
       "onBlur",
       "onChange",
-      "onFocus"
+      "onFocus",
+      "value"
     ]);
+
+    const value = this.props.value || "";
 
     return (
       <input
@@ -87,8 +90,9 @@ class Input extends React.Component {
           this._input = r;
         }}
         {...propsToPass}
-        onChange={this.onChange}
         className={inputClassNames}
+        value={value}
+        onChange={this.onChange}
         onBlur={this.onBlur}
         onFocus={this.onFocus}
       />
