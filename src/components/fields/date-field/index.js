@@ -28,6 +28,7 @@ class DateField extends React.Component {
     hint: PropTypes.string,
     label: PropTypes.string,
     name: PropTypes.string,
+    namePath: PropTypes.string,
     config: PropTypes.object,
     value: PropTypes.string
   };

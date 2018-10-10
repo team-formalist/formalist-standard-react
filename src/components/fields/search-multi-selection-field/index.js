@@ -395,6 +395,7 @@ SearchMultiSelectionField.contextTypes = {
 SearchMultiSelectionField.propTypes = {
   actions: PropTypes.object,
   name: PropTypes.string,
+  namePath: PropTypes.string,
   config: PropTypes.object,
   attributes: PropTypes.shape({
     clear_query_on_selection: PropTypes.bool,

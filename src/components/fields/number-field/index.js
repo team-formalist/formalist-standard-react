@@ -28,6 +28,7 @@ class NumberField extends React.Component {
       max: PropTypes.number
     }),
     name: PropTypes.string,
+    namePath: PropTypes.string,
     config: PropTypes.object,
     value: PropTypes.number,
     hint: PropTypes.string,

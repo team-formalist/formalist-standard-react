@@ -177,6 +177,7 @@ class MultiUploadField extends React.Component {
     label: PropTypes.string,
     multiple: PropTypes.bool,
     name: PropTypes.string,
+    namePath: PropTypes.string,
     value: PropTypes.oneOfType([ImmutablePropTypes.list, PropTypes.object])
   };
 
