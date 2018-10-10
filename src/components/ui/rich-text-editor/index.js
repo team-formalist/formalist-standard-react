@@ -23,6 +23,7 @@ import "./tmp.css";
 class RichTextEditor extends React.Component {
   static propTypes = {
     embeddableForms: PropTypes.object,
+    embeddableFormsPrefix: PropTypes.string,
     blockFormatters: PropTypes.array,
     boxSize: PropTypes.string,
     config: PropTypes.object,
@@ -74,6 +75,7 @@ class RichTextEditor extends React.Component {
       boxSize,
       config,
       embeddableForms,
+      embeddableFormsPrefix,
       fieldBus,
       inlineFormatters
     } = this.props;
@@ -91,6 +93,7 @@ class RichTextEditor extends React.Component {
       editorEmitter: this.emitter,
       blockFormatters,
       embeddableForms,
+      embeddableFormsPrefix,
       fieldBus,
       ...block
     });

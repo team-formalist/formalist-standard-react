@@ -140,7 +140,16 @@ class RichTextArea extends React.Component {
   };
 
   render() {
-    const { attributes, config, errors, hint, label, name, bus } = this.props;
+    const {
+      attributes,
+      bus,
+      config,
+      errors,
+      hint,
+      label,
+      name,
+      namePath
+    } = this.props;
     const { editorState } = this.state;
     let hasErrors = errors.count() > 0;
 
@@ -166,6 +175,7 @@ class RichTextArea extends React.Component {
             inlineFormatters={attributes.inline_formatters}
             blockFormatters={attributes.block_formatters}
             embeddableForms={attributes.embeddable_forms}
+            embeddableFormsPrefix={namePath}
             boxSize={attributes.box_size}
             textSize={attributes.text_size}
             placeholder={attributes.placeholder}

@@ -120,6 +120,7 @@ export default function blockToolbarPlugin(options = {}) {
     fieldBus,
     editorEmitter,
     embeddableForms,
+    embeddableFormsPrefix,
     setReadOnly
   } = options;
 
@@ -154,7 +155,7 @@ export default function blockToolbarPlugin(options = {}) {
 
   return {
     /**
-     * Customer block renderer resolver
+     * Custom block renderer resolver
      * @param  {ContentBlock} contentBlock The draft `ContentBlock` object to
      * render
      * @return {Object} A compatible renderer object definition
@@ -168,7 +169,7 @@ export default function blockToolbarPlugin(options = {}) {
           const atomicProps = mergeDefaults(
             {
               editorEmitter,
-              embeddableForms,
+              embeddableFormsPrefix,
               fieldBus,
               setReadOnly,
               remove: function(key) {
