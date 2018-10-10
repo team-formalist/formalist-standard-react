@@ -2013,31 +2013,32 @@ entities@^1.1.1, entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
   integrity sha1-blwtClYhtdra7O+AuQ7ftc13cvA=
 
-enzyme-adapter-react-16@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.0.2.tgz#8c6f431f17c69e1e9eeb25ca4bd92f31971eb2dd"
-  integrity sha512-ePlf3ikzau4NatDCzBP1Y/rFgLhR6MnS1YQVrxD2KXFI31nE1HtL+6ciqALF8kHe5q7Y7lFAd1MYOLIriRqgcw==
+enzyme-adapter-react-16@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-react-16/-/enzyme-adapter-react-16-1.6.0.tgz#3fca28d3c32f3ff427495380fe2dd51494689073"
+  integrity sha512-ay9eGFpChyUDnjTFMMJHzrb681LF3hPWJLEA7RoLFG9jSWAdAm2V50pGmFV9dYGJgh5HfdiqM+MNvle41Yf/PA==
   dependencies:
-    enzyme-adapter-utils "^1.0.0"
-    lodash "^4.17.4"
-    object.assign "^4.0.4"
+    enzyme-adapter-utils "^1.8.0"
+    function.prototype.name "^1.1.0"
+    object.assign "^4.1.0"
     object.values "^1.0.4"
-    prop-types "^15.5.10"
+    prop-types "^15.6.2"
+    react-is "^16.5.2"
     react-test-renderer "^16.0.0-0"
 
-enzyme-adapter-utils@^1.0.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.8.0.tgz#ee9f07250663a985f1f2caaf297720787da559f1"
-  integrity sha512-K9U2RGr1pvWPGEAIRQRVH4UdlqzpfLsKonuHyAK6lxu46yfGsMDVlO3+YvQwQpVjVw8eviEVIOmlFAnMbIhv/w==
+enzyme-adapter-utils@^1.8.0:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/enzyme-adapter-utils/-/enzyme-adapter-utils-1.8.1.tgz#a927d840ce2c14b42892a533aec836809d4e022b"
+  integrity sha512-s3QB3xQAowaDS2sHhmEqrT13GJC4+n5bG015ZkLv60n9k5vhxxHTQRIneZmQ4hmdCZEBrvUJ89PG6fRI5OEeuQ==
   dependencies:
     function.prototype.name "^1.1.0"
     object.assign "^4.1.0"
     prop-types "^15.6.2"
 
-enzyme@^3.1.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-3.6.0.tgz#d213f280a258f61e901bc663d4cc2d6fd9a9dec8"
-  integrity sha512-onsINzVLGqKIapTVfWkkw6bYvm1o4CyJ9s8POExtQhAkVa4qFDW6DGCQGRy/5bfZYk+gmUbMNyayXiWDzTkHFQ==
+enzyme@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-3.7.0.tgz#9b499e8ca155df44fef64d9f1558961ba1385a46"
+  integrity sha512-QLWx+krGK6iDNyR1KlH5YPZqxZCQaVF6ike1eDJAOg0HvSkSCVImPsdWaNw6v+VrnK92Kg8jIOYhuOSS9sBpyg==
   dependencies:
     array.prototype.flat "^1.2.1"
     cheerio "^1.0.0-rc.2"
@@ -2597,12 +2598,23 @@ form-data@^2.3.1, form-data@~2.3.2:
     combined-stream "1.0.6"
     mime-types "^2.1.12"
 
-formalist-compose@^2.0.1, formalist-compose@^2.0.2:
+formalist-compose@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/formalist-compose/-/formalist-compose-2.0.2.tgz#f5b7e2070df4b51fc016d1a1e503be6f63007f53"
   integrity sha1-9bfiBw30tR/AFtGh5QO+b2MAf1M=
   dependencies:
     component-emitter "1.2.1"
+    immutable "^3.7.6"
+    redux "^3.3.1"
+    redux-batched-actions "^0.1.2"
+
+formalist-compose@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/formalist-compose/-/formalist-compose-3.0.0.tgz#a1cf0e8dde9c9681c725810e51d0406a8b154b92"
+  integrity sha512-rmf/0UMyM2HM4UW4l1e6ToZ7b3QrE7OSMUeLluyl1YGCl8ascE4392tOUrJpgvVqScu5/nFvYsGtTm2fL2ESoA==
+  dependencies:
+    component-emitter "1.2.1"
+    formalist-validation "^1.0.0"
     immutable "^3.7.6"
     redux "^3.3.1"
     redux-batched-actions "^0.1.2"
@@ -2613,6 +2625,11 @@ formalist-data-object-renderer@^1.0.1:
   integrity sha1-xBhUl75/2zboz2PplYaFM1ndqO4=
   dependencies:
     formalist-compose "^2.0.1"
+
+formalist-validation@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/formalist-validation/-/formalist-validation-1.0.0.tgz#e33711c9e0e3e7dd75ee132ae74a506eb61c368c"
+  integrity sha1-4zcRyeDj59117hMq50pQbrYcNow=
 
 formidable@^1.2.0:
   version "1.2.1"
@@ -4076,7 +4093,7 @@ object-visit@^1.0.0:
   dependencies:
     isobject "^3.0.0"
 
-object.assign@^4.0.4, object.assign@^4.1.0:
+object.assign@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.0.tgz#968bf1100d7956bb3ca086f006f846b3bc4008da"
   integrity sha512-exHJeq6kBKj58mqGyTQ9DFvrZC/eR6OwxzoM9YRoGBqrXYonaFyGiFMuc9VZrXf7DarreEwMpurG3dd+CNyW5w==
