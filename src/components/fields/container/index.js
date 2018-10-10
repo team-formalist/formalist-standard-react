@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import ImmutablePropTypes from "react-immutable-proptypes";
 import classNames from "classnames";
 import * as styles from "./styles";
-import { events } from "formalist-compose";
 
 /**
  * Container class for fields.
