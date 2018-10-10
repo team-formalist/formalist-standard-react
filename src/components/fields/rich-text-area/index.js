@@ -25,6 +25,7 @@ class RichTextArea extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
     name: PropTypes.string,
+    namePath: PropTypes.string,
     config: PropTypes.object,
     attributes: PropTypes.shape({
       label: PropTypes.string,

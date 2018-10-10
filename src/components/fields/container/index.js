@@ -87,6 +87,7 @@ class FieldContainer extends React.Component {
           bus={bus}
           config={config}
           name={name}
+          namePath={namePath}
           value={value}
           rules={rules}
           errors={errors}

@@ -45,6 +45,7 @@ class SelectionField extends React.Component {
   static propTypes = {
     actions: PropTypes.object,
     name: PropTypes.string,
+    namePath: PropTypes.string,
     config: PropTypes.object,
     attributes: PropTypes.shape({
       hint: PropTypes.string,

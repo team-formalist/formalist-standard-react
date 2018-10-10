@@ -24,6 +24,7 @@ class Many extends React.Component {
   static propTypes = {
     hashCode: PropTypes.number.isRequired,
     name: PropTypes.string,
+    namePath: PropTypes.string,
     path: ImmutablePropTypes.list.isRequired,
     contentsPath: ImmutablePropTypes.list.isRequired,
     type: PropTypes.string,
