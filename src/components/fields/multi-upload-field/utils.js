@@ -1,5 +1,4 @@
 import uid from "uid";
-import isEqual from "lodash.isequal";
 
 /**
  * hasImageFormatType
