@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.0.20 2018-10-10
+
+* [Add support for fetching initial attributes for an upload from a specified endpoint](https://github.com/icelab/formalist-standard-react/pull/162)
+
 # v4.0.19 2018-09-24
 
 * Allow `total_pages` to be missing from pagination hash. Fallback to rendering only next/prev buttons for pagination.
