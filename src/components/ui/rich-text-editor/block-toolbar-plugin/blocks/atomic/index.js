@@ -16,6 +16,7 @@ class AtomicBlock extends React.Component {
     block: PropTypes.object.isRequired,
     blockProps: PropTypes.shape({
       editorEmitter: PropTypes.object.isRequired,
+      embeddableFormsPrefix: PropTypes.string,
       fieldBus: PropTypes.object.isRequired,
       remove: PropTypes.func.isRequired,
       setReadOnly: PropTypes.func.isRequired
@@ -41,7 +42,7 @@ class AtomicBlock extends React.Component {
 
   componentWillMount() {
     const { block } = this.props;
-    const { fieldBus } = this.props.blockProps;
+    const { fieldBus, embeddableFormsPrefix } = this.props.blockProps;
     // Resolve the entity, atomic blocks _must_ have one
     this.entityKey = block.getEntityAt(0);
     // Remove if there's no key
@@ -65,7 +66,9 @@ class AtomicBlock extends React.Component {
 
     // Atomic blocks are passed the original config and an extra _fieldsConfig
     // key so they can pass any configuration down to children
-    const globalConfig = { ...this.context.globalConfig };
+    const globalConfig = {
+      ...this.context.globalConfig
+    };
     delete globalConfig["_fieldsConfig"];
     // Memoize the configured template the first time this runs
     // We need to invoke this at execution time so that the circular
@@ -79,6 +82,12 @@ class AtomicBlock extends React.Component {
 
     // Create the formalist form with config
     this.form = configuredTemplate(entityData.form);
+
+    // Emit initialise event
+    fieldBus.emit(events.internal.FORM_INITIALISED, {
+      namespace: `${embeddableFormsPrefix}:${entityData.name}`,
+      form: this.form
+    });
 
     this.form.on("change", getState => {
       const formTemplate = getState();
@@ -109,10 +118,20 @@ class AtomicBlock extends React.Component {
   }
 
   componentWillUnmount() {
-    const { editorEmitter } = this.props.blockProps;
+    const {
+      fieldBus,
+      editorEmitter,
+      embeddableFormsPrefix
+    } = this.props.blockProps;
     editorEmitter.off("change", this.onEditorChange);
     editorEmitter.off("focus", this.checkEditorSelection);
     editorEmitter.off("blur", this.checkEditorSelection);
+    // Emit removed event
+    const entityData = this.entity.getData();
+    fieldBus.emit(events.internal.FORM_REMOVED, {
+      namespace: `${embeddableFormsPrefix}:${entityData.name}`,
+      form: this.form
+    });
   }
 
   componentDidUpdate() {
