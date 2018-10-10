@@ -21,7 +21,6 @@ import {
   sortArrayByOrder,
   generateUniqueID,
   noOp,
-  filterUniqueObjects,
   sanitiseFileName
 } from "./utils";
 import extractComponent from "../../../utils/extract-component";
@@ -204,13 +203,36 @@ class MultiUploadField extends React.Component {
     const { presign_url, presign_options } = props.attributes;
     const { csrfToken, uploader } = context.globalConfig || {};
 
-    const allowMultipleFiles = props.multiple || props.attributes.multiple;
     value = value ? value.toJS() : value;
-    let files = [];
 
     // Set a per instance ID for talking to the bus
     this.instanceId = uid();
 
+    // Initialise display attributes from raw value
+    const files = this.initialiseAttributesFromValue(value);
+
+    this._cachedFiles = files;
+    this.state = {
+      files,
+      uploadQueue: []
+    };
+
+    // Switch uploaders if specified
+    this.uploader = s3Upload;
+    this.uploaderPresignArgs = [presign_url, csrfToken, presign_options];
+    if (uploader === "attache") {
+      this.uploader = attacheUpload;
+      this.uploaderPresignArgs = [presign_url, csrfToken];
+    }
+  }
+
+  /**
+   * Initialise attributes
+   */
+  initialiseAttributesFromValue = value => {
+    let files = [];
+    const allowMultipleFiles =
+      this.props.multiple || this.props.attributes.multiple;
     // check if 'value' exists.
     // if it's an 'object' and put it in array
     if (value != null) {
@@ -225,20 +247,8 @@ class MultiUploadField extends React.Component {
         });
       }
     }
-
-    this.state = {
-      files,
-      uploadQueue: []
-    };
-
-    // Switch uploaders if specified
-    this.uploader = s3Upload;
-    this.uploaderPresignArgs = [presign_url, csrfToken, presign_options];
-    if (uploader === "attache") {
-      this.uploader = attacheUpload;
-      this.uploaderPresignArgs = [presign_url, csrfToken];
-    }
-  }
+    return files;
+  };
 
   /**
    * populateExistingAttributes
@@ -259,22 +269,39 @@ class MultiUploadField extends React.Component {
 
   /**
    * componentWillReceiveProps
-   * Check for new uploadedFiles passed in via 'value'.
-   * Also ignore this lifecycle step for a single upload field.
-   * First check the props exist and filter out any unique objects passed in.
-   * If there are unique objects, add them to 'files' and update state
    * @param {object} nextProps
    */
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.multple || !nextProps.value || !nextProps.value.length)
-      return;
-    let files = this.state.files.slice(0);
+    let { value } = nextProps;
+    value = value ? value.toJS() : value;
+    // Ensure value is an array (unless null)
+    if (!Array.isArray(value)) {
+      value = value ? [value] : [];
+    }
 
-    let newValueProps = filterUniqueObjects(files, nextProps.value);
-    if (!newValueProps.length) return;
+    // Extract existing paths
+    const newPaths = value.map(u => u.path);
+    const existingPaths = this.state.files.map(u => u.fileAttributes.path);
 
-    files = files.concat(newValueProps);
+    // Compare the true value against the existing files and use the upload
+    // from files if it exists. This ensure that values from uploads that
+    // have occurred since initialisation are retains appropriately (rather
+    // than losing their thumbnails et al)
+    let files = this.initialiseAttributesFromValue(value).map(upload => {
+      const existingIndex = existingPaths.indexOf(upload.fileAttributes.path);
+      return existingIndex > -1 ? this.state.files[existingIndex] : upload;
+    });
+
+    // Then add any files that are uploading
+    files = files.concat(
+      this._cachedFiles.filter(upload => {
+        const addedAsValue = newPaths.indexOf(upload.fileAttributes.path) > -1;
+        return !addedAsValue && upload.file != null;
+      })
+    );
+
+    this._cachedFiles = files;
     this.setState({
       files
     });
@@ -361,6 +388,7 @@ class MultiUploadField extends React.Component {
       }
     });
 
+    this._cachedFiles = files;
     this.setState({
       files
     });
@@ -396,21 +424,25 @@ class MultiUploadField extends React.Component {
       copy.fileAttributes["thumbnail_url"] = fileObject.file.preview;
     }
 
-    this.fetchInitialUploadAttributes(copy.fileAttributes).then((initialFileAttributes) => {
-      copy.fileAttributes = initialFileAttributes;
+    this.fetchInitialUploadAttributes(copy.fileAttributes)
+      .then(initialFileAttributes => {
+        copy.fileAttributes = initialFileAttributes;
 
-      let files = this.state.files.slice(0);
-      const indexOfFile = files.findIndex(file => file.uid === fileObject.uid);
-      files.splice(indexOfFile, 1, copy);
+        let files = this.state.files.slice(0);
+        const indexOfFile = files.findIndex(
+          file => file.uid === fileObject.uid
+        );
+        files.splice(indexOfFile, 1, copy);
 
-      this.setState({
-        files
+        this.setState({
+          files
+        });
+
+        this.onUpdate(files);
+      })
+      .catch(error => {
+        console.error(error);
       });
-
-      this.onUpdate(files);
-    }).catch((error) => {
-      console.error(error);
-    })
   };
 
   /**
@@ -424,23 +456,27 @@ class MultiUploadField extends React.Component {
    * @return {promise}
    */
 
-  fetchInitialUploadAttributes = (originalFileAttributes) => {
-    const { config, attributes } = this.props;
+  fetchInitialUploadAttributes = originalFileAttributes => {
+    const { attributes } = this.props;
     const { initial_attributes_url } = attributes;
     const { csrfToken } = this.context.globalConfig || {};
 
     // Either send the file attributes to the custom endpoint,
     // or return the attributes unaltered.
     if (initial_attributes_url) {
-      return new Promise(function (resolve, reject) {
-        request.post(initial_attributes_url).send(originalFileAttributes).set({
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "X-CSRF-Token": csrfToken
-        }).end(function (err, res) {
-          if (err) return reject({error: err, message: err.message});
-          resolve(res.body);
-        });
+      return new Promise(function(resolve, reject) {
+        request
+          .post(initial_attributes_url)
+          .send(originalFileAttributes)
+          .set({
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "X-CSRF-Token": csrfToken
+          })
+          .end(function(err, res) {
+            if (err) return reject({ error: err, message: err.message });
+            resolve(res.body);
+          });
       });
     } else {
       return new Promise((resolve, reject) => {
@@ -458,7 +494,12 @@ class MultiUploadField extends React.Component {
    */
 
   onUpdate = files => {
-    const uploadedFiles = files.map(this.normaliseFileExport);
+    // Ensure only fully-realised files are exported to the AST
+    const uploadedFiles = files
+      .filter(u => {
+        return u.fileAttributes.path != null;
+      })
+      .map(this.normaliseFileExport);
 
     const value =
       this.props.attributes.multiple || this.props.multiple
@@ -496,6 +537,7 @@ class MultiUploadField extends React.Component {
       return file.uid !== fileObject.uid;
     });
 
+    this._cachedFiles = files;
     this.setState({
       files
     });
@@ -682,6 +724,7 @@ class MultiUploadField extends React.Component {
       ? this.state.files.concat(uploadingFiles)
       : uploadingFiles;
 
+    this._cachedFiles = allFiles;
     this.setState({
       files: allFiles
     });
@@ -703,6 +746,7 @@ class MultiUploadField extends React.Component {
     const existingFiles = this.state.files.slice(0);
     const files = sortArrayByOrder(existingFiles, newOrder);
 
+    this._cachedFiles = files;
     this.setState({
       files
     });
@@ -744,6 +788,7 @@ class MultiUploadField extends React.Component {
     if (file.file) this.abortUploadRequest(file);
 
     files.splice(index, 1);
+    this._cachedFiles = files;
     this.setState({
       files
     });
