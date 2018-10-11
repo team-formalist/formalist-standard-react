@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.1.0 2018-10-11
+
+* [Make all fields controlled and support `namePath`s](https://github.com/icelab/formalist-standard-react/pull/164)
+
 # v4.0.20 2018-10-10
 
 * [Add support for fetching initial attributes for an upload from a specified endpoint](https://github.com/icelab/formalist-standard-react/pull/162)
