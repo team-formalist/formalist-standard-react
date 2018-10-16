@@ -209,8 +209,8 @@ class MultiUploadField extends React.Component {
     // Set a per instance ID for talking to the bus
     this.instanceId = uid();
 
-    // Initialise display attributes from raw value
-    const files = this.initialiseAttributesFromValue(value);
+    // Initialize display attributes from raw value
+    const files = this.initializeAttributesFromValue(value);
 
     this._cachedFiles = files;
     this.state = {
@@ -228,9 +228,9 @@ class MultiUploadField extends React.Component {
   }
 
   /**
-   * Initialise attributes
+   * Initialize attributes
    */
-  initialiseAttributesFromValue = value => {
+  initializeAttributesFromValue = value => {
     let files = [];
     const allowMultipleFiles =
       this.props.multiple || this.props.attributes.multiple;
@@ -289,7 +289,7 @@ class MultiUploadField extends React.Component {
     // from files if it exists. This ensure that values from uploads that
     // have occurred since initialisation are retains appropriately (rather
     // than losing their thumbnails et al)
-    let files = this.initialiseAttributesFromValue(value).map(upload => {
+    let files = this.initializeAttributesFromValue(value).map(upload => {
       const existingIndex = existingPaths.indexOf(upload.fileAttributes.path);
       return existingIndex > -1 ? this.state.files[existingIndex] : upload;
     });

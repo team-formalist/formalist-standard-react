@@ -4,7 +4,7 @@ import { AtomicBlockUtils, Entity } from "draft-js";
 import createDataObjectRenderer from "formalist-data-object-renderer";
 import * as styles from "./styles";
 
-// Initialise the dataObjectRenderer
+// Initialize the dataObjectRenderer
 const dataObjectRenderer = createDataObjectRenderer();
 
 class FormItems extends React.Component {

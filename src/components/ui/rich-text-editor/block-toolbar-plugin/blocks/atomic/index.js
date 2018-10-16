@@ -83,8 +83,8 @@ class AtomicBlock extends React.Component {
     // Create the formalist form with config
     this.form = configuredTemplate(entityData.form);
 
-    // Emit initialise event
-    fieldBus.emit(events.internal.FORM_INITIALISED, {
+    // Emit initialize event
+    fieldBus.emit(events.internal.FORM_INITIALIZED, {
       namespace: `${embeddableFormsPrefix}:${entityData.name}`,
       form: this.form
     });
