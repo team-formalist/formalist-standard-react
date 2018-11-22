@@ -60,6 +60,10 @@ class TimePicker extends React.Component {
     if (time.isValid()) {
       this.time = time;
       this.props.onChange(time.format(this.props.timeFormat));
+    } else {
+      this.setState({
+        inputValue: value
+      });
     }
   };
 
@@ -156,8 +160,7 @@ class TimePicker extends React.Component {
           onOpen={this.onPopunderOpen}
         >
           <Input
-            key={inputValue}
-            defaultValue={inputValue}
+            value={inputValue}
             error={error}
             placeholder={placeholder}
             onFocus={this.onInputFocus}
