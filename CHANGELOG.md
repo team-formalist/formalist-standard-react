@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.1.3 2018-11-23
+
+* Fix bug in rich text link editor (from mismatch with controlled status)
+
 # v4.1.2 2018-11-22
 
 * [Fix bug setting timepicker values](https://github.com/icelab/formalist-standard-react/pull/165)
