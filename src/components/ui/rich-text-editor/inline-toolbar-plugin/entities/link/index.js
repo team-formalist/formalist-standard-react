@@ -106,12 +106,6 @@ class ActionHandler extends Component {
   onChange(key, e, value) {
     const { changeData } = this.state;
 
-    // Ensure URLs are well-formed
-    // I.e., must start with `.`, `/`, `#`
-    if (key === "url" && !/^(\.|\/|#|https?:\/\/|mailto:|ftp:)/.test(value)) {
-      value = `http://${value}`;
-    }
-
     const newChangeData = Object.assign({}, changeData, {
       [`${key}`]: value
     });
@@ -134,9 +128,8 @@ class ActionHandler extends Component {
 
   render() {
     const { entityKey, remove } = this.props;
-    const { editing, id } = this.state;
+    const { changeData, editing, id } = this.state;
     const entity = Entity.get(entityKey);
-    const entityData = entity.getData();
     // TODO Asses whether to remove this binding
     /* eslint-disable react/jsx-no-bind */
     return (
@@ -152,7 +145,7 @@ class ActionHandler extends Component {
                 Link
               </Label>
               <Input
-                defaultValue={entityData.url}
+                value={changeData.url}
                 name={`url-${id}`}
                 onChange={this.onChange.bind(this, "url")}
                 placeholder="http://"
@@ -168,7 +161,7 @@ class ActionHandler extends Component {
                 Title
               </Label>
               <Input
-                defaultValue={entityData.title}
+                value={changeData.title}
                 name={`title-${id}`}
                 onChange={this.onChange.bind(this, "title")}
                 placeholder="Description of link"
@@ -178,7 +171,7 @@ class ActionHandler extends Component {
             </div>
             <div className={styles.fieldCheckbox}>
               <Checkbox
-                defaultChecked={entityData.newWindow === true}
+                defaultChecked={changeData.newWindow === true}
                 label="Open in new window?"
                 name={`newWindow-${id}`}
                 onChange={this.onChange.bind(this, "newWindow")}
@@ -191,11 +184,11 @@ class ActionHandler extends Component {
         ) : (
           <div className={styles.displayWrapper}>
             <a
-              href={entityData.url}
+              href={changeData.url}
               target="_blank"
               className={styles.handlerUrl}
             >
-              {entityData.url}
+              {changeData.url}
             </a>
             <button
               className={styles.editButton}
