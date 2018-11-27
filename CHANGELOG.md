@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.1.4 2018-11-27
+
+* Upgrade `nodemon` to avoid `event-stream` and `flatmap-stream` security issue.
+
 # v4.1.3 2018-11-23
 
 * Fix bug in rich text link editor (from mismatch with controlled status)
