@@ -65,6 +65,7 @@ class SearchMultiSelectionField extends Component {
     this.onChange = this.onChange.bind(this);
     this.onChooseClick = this.onChooseClick.bind(this);
     this.onSelection = this.onSelection.bind(this);
+    this.updateSelection = this.updateSelection.bind(this);
     this.onRemove = this.onRemove.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.openSelector = this.openSelector.bind(this);
@@ -195,6 +196,26 @@ class SearchMultiSelectionField extends Component {
     if (attributes.clear_query_on_selection) {
       this.setState({
         selectorQuery: null
+      });
+    }
+  }
+
+  /**
+   * Update a particular selection by id.
+   * @return {Null}
+   */
+  updateSelection(id, selection) {
+    let value = this.cachedValue;
+    value = value || List();
+
+    // Find the selection's index
+    const index = value.indexOf(id);
+
+    if (index > -1) {
+      const selections = this.cachedSelections.set(index, selection);
+      this.cachedSelections = selections;
+      this.setState({
+        selections
       });
     }
   }
@@ -341,6 +362,7 @@ class SearchMultiSelectionField extends Component {
                   this._selector = r;
                 }}
                 onSelection={this.onSelection}
+                updateSelection={this.updateSelection}
                 onBlur={this.onSelectorBlur}
                 onFocus={this.onSelectorFocus}
                 onQueryChange={this.onSelectorQueryChange}
@@ -370,6 +392,7 @@ class SearchMultiSelectionField extends Component {
                   key={`${index}_${option.id}`}
                   option={option}
                   fetchSelectionsData={this.fetchSelectionsData}
+                  updateSelection={this.updateSelection}
                 />
               ))}
             </Sortable>
