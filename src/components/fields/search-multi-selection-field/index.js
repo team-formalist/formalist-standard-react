@@ -362,7 +362,6 @@ class SearchMultiSelectionField extends Component {
                   this._selector = r;
                 }}
                 onSelection={this.onSelection}
-                updateSelection={this.updateSelection}
                 onBlur={this.onSelectorBlur}
                 onFocus={this.onSelectorFocus}
                 onQueryChange={this.onSelectorQueryChange}
