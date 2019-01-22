@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.1.5 2019-01-22
+
+* [Add method for updating individual selection within search selection field](https://github.com/icelab/formalist-standard-react/pull/168)
+* Expose `refetchSelections` method for search selection field
+
 # v4.1.4 2018-11-27
 
 * Upgrade `nodemon` to avoid `event-stream` and `flatmap-stream` security issue.
