@@ -76,6 +76,7 @@ class SearchMultiSelectionField extends Component {
     this.onSelectorFocus = this.onSelectorFocus.bind(this);
     this.onSelectorQueryChange = this.onSelectorQueryChange.bind(this);
     this.fetchSelectionsData = this.fetchSelectionsData.bind(this);
+    this.refetchSelectionsData = this.refetchSelectionsData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -127,6 +128,16 @@ class SearchMultiSelectionField extends Component {
         selections
       });
     }
+  }
+
+  /**
+   * refetchSelectionsData
+   * Do an XHR request for the selections data, using the current value
+   * @return {Null}
+   */
+  refetchSelectionsData() {
+    const { value } = this.props;
+    this.fetchSelectionsData(value);
   }
 
   /**
@@ -391,6 +402,7 @@ class SearchMultiSelectionField extends Component {
                   key={`${index}_${option.id}`}
                   option={option}
                   fetchSelectionsData={this.fetchSelectionsData}
+                  refetchSelectionsData={this.refetchSelectionsData}
                   updateSelection={this.updateSelection}
                 />
               ))}
