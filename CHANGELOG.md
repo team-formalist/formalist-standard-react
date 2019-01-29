@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.1.6 2019-01-30
+
+* [Fix IE compatibility bugs and issue with date picker styles not applying sometimes](https://github.com/icelab/formalist-standard-react/pull/169)
+
 # v4.1.5 2019-01-22
 
 * [Add method for updating individual selection within search selection field](https://github.com/icelab/formalist-standard-react/pull/168)
