@@ -128,20 +128,19 @@ class DatePicker extends React.Component {
             onFocus={this.onInputFocus}
             data-field-input="date"
           />
-          <div className={styles.daypickerContainer}>
-            <DayPicker
-              ref={c => {
-                this._daypicker = c;
-              }}
-              locale="en-AU"
-              localeUtils={localeUtils}
-              initialMonth={month}
-              modifiers={{
-                selected: day => DateUtils.isSameDay(selectedDay, day)
-              }}
-              onDayClick={this.onDayClick}
-            />
-          </div>
+          <DayPicker
+            ref={c => {
+              this._daypicker = c;
+            }}
+            classNames={styles}
+            locale="en-AU"
+            localeUtils={localeUtils}
+            initialMonth={month}
+            modifiers={{
+              [`${styles.selected}`]: day => DateUtils.isSameDay(selectedDay, day)
+            }}
+            onDayClick={this.onDayClick}
+          />
         </Popunder>
       </div>
     );
