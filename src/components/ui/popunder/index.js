@@ -92,8 +92,8 @@ class Popunder extends React.Component {
       return;
     }
     const referencePosition = this._reference.getBoundingClientRect();
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
+    const scrollX = window.pageXOffset;
+    const scrollY = window.pageYOffset;
     let position = {
       left: referencePosition.left + scrollX + this.props.offset.left,
       top:
