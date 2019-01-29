@@ -7,6 +7,7 @@ export const container = css`
   border-right-width: 1px;
   margin-right: -1px;
   flex: 1;
+  flex-basis: auto;
 `;
 
 export const list = css`
