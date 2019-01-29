@@ -109,8 +109,8 @@ class Popout extends React.Component {
     let position;
     const { placement } = this.props;
     const referencePosition = referenceEl.getBoundingClientRect();
-    const scrollX = window.scrollX;
-    const scrollY = window.scrollY;
+    const scrollX = window.pageXOffset;
+    const scrollY = window.pageYOffset;
     let horzOffset = this.props.offset.horz;
     let vertOffset = this.props.offset.vert;
     if (placement === "left") {
