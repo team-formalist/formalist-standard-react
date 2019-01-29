@@ -6,6 +6,7 @@ export const container = css`
   border-style: solid;
   border-left-width: 1px;
   flex: 1;
+  flex-basis: auto;
 `;
 
 export const list = css`
