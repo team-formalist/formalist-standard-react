@@ -87,7 +87,9 @@ class DatePicker extends React.Component {
   };
 
   showCurrentDate = () => {
-    this._daypicker.showMonth(this.state.month);
+    if (this._daypicker) {
+      this._daypicker.showMonth(this.state.month);
+    }
   };
 
   onInputFocus = e => {
