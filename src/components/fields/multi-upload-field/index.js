@@ -584,8 +584,12 @@ class MultiUploadField extends React.Component {
     // Push into uploadQueue
     this.addToUploadQueue(fileObject.uid);
 
+    var [path, csrfToken, params] = this.uploaderPresignArgs;
+    params = Object.assign({}, params);
+    params.content_type = fileObject.type;
+
     this.uploader.presign
-      .apply(this, this.uploaderPresignArgs)
+      .apply(this, [path, csrfToken, params])
       .then(presignResponse => {
         // assign the return 'url' to upload_url so
         // we can create paths to the file
