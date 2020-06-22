@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.1.8 2020-06-23
+
+* Pass `content_type` with params for presigned requests
+
 # v4.1.7 2019-04-01
 
 * [Handle datepicks bug when refs are occasionally null](https://github.com/icelab/formalist-standard-react/pull/170).
