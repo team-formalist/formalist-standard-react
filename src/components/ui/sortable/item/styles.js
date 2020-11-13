@@ -85,3 +85,27 @@ export const removeX = css`
     color: ${colours.values.error};
   }
 `;
+
+export const move = css`
+  ${colours.primaryColor};
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding-top: 1rem;
+  transition-property: color;
+  transition-duration: 100ms;
+  position: relative;
+  &:focus {
+    outline: none;
+  }
+  &:hover,
+  &:focus {
+    color: ${colours.values.error};
+  }
+`;
+
+export const moveControl = css`
+  ${typography.fallback};
+  ${typography.large};
+`;
