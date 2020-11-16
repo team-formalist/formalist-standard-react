@@ -123,7 +123,7 @@ class Many extends React.Component {
     const { reorderChildren } = this.props;
     reorderChildren(newOrder);
     this.updateContentsKey();
-  }
+  };
 
   render() {
     const { attributes, children, errors, name } = this.props;
