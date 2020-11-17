@@ -6,6 +6,7 @@ import { ManyFactory } from "./many";
 import { ChildFormFactory } from "./child-form";
 import { ManyChildFormsFactory } from "./many-child-forms";
 import { SectionFactory } from "./section";
+import { FormFieldFactory } from "./child-form-field";
 
 export default function components(customComponents = {}, config = {}) {
   const base = {
@@ -16,7 +17,8 @@ export default function components(customComponents = {}, config = {}) {
     many: ManyFactory,
     childForm: ChildFormFactory,
     manyChildForms: ManyChildFormsFactory,
-    section: SectionFactory
+    section: SectionFactory,
+    formField: FormFieldFactory,
   };
   return Object.assign(base, customComponents);
 }
