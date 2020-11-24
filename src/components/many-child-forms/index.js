@@ -26,7 +26,7 @@ class ManyChildForms extends React.Component {
     name: PropTypes.string,
     namePath: PropTypes.string,
     path: ImmutablePropTypes.list.isRequired,
-    // contentsPath: ImmutablePropTypes.list.isRequired,
+    contentsPath: ImmutablePropTypes.list.isRequired,
     type: PropTypes.string,
     rules: ImmutablePropTypes.list,
     errors: ImmutablePropTypes.list,
@@ -140,11 +140,11 @@ class ManyChildForms extends React.Component {
     });
 
     return (
-      <div className={styles.base} data-many={name}>
+      <div className={styles.base} data-many-child-forms={name}>
         <div className={styles.header}>
           <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>
-            <button className={styles.addButton} onClick={(e) => this.addChild}>
+            <button className={styles.addButton} onClick={this.addChild}>
               {action_label || "Add item"}
             </button>
           </div>
@@ -160,8 +160,8 @@ class ManyChildForms extends React.Component {
             maxHeight={attributes.max_height}
             verticalControls
           >
-            {children.map((setChildren, i) => (
-              <ManyChildFormsSet key={`${contentsKey}_${i}`}>{setChildren}</ManyChildFormsSet>
+            {children.map((childForm, i) => (
+              <ManyChildFormsSet key={`${contentsKey}_${i}`}>{childForm}</ManyChildFormsSet>
             ))}
           </Sortable>
         ) : (
@@ -171,7 +171,7 @@ class ManyChildForms extends React.Component {
             </span>
             <button
               className={styles.placeholderButton}
-              onClick={(e) => this.addChild("cta", e)}
+              onClick={this.addChild}
             >
               Add the first?
             </button>
