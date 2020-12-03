@@ -22,10 +22,14 @@ class ChildForm extends React.Component {
     let { attributes, children } = this.props;
 
     let label = attributes.get("label");
+    let previewImageUrl = attributes.get("preview_image_url");
 
     return (
       <div className={styles.base} data-child-form>
-        {label ? <h2 className={styles.label}>{label}</h2> : null}
+        <div className={styles.wrapper}>
+          {label ? <h2 className={styles.label}>{label}</h2> : null}
+          {previewImageUrl ? (<img className={styles.previewImage} src={previewImageUrl} alt={label} />) : null}
+        </div>
         <div className={styles.children}>{children}</div>
       </div>
     );
