@@ -176,6 +176,7 @@ class ManyChildForms extends React.Component {
     const { attributes, addChild } = this.props;
     const form = attributes.get("embeddable_forms").get(formName)
     addChild(formName, form);
+    this.closeSelector();
     this.updateContentsKey();
   };
 
@@ -314,6 +315,7 @@ class ManyChildForms extends React.Component {
       /* eslint-disable react/jsx-no-bind */
       let onClick = function(e) {
         e.preventDefault();
+        e.stopPropagation();
         this.onFormSelection(option.id);
       }.bind(this);
       /* eslint-enable react/jsx-no-bind */
@@ -335,12 +337,11 @@ class ManyChildForms extends React.Component {
         <div className={styles.header}>
           <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>
+
             <button
               data-open-selector-button
-              className={styles.addButton}
               onClick={this.onChooseClick}
             >
-
               <Popout
                 ref={r => {
                   this._selector = r;
@@ -350,7 +351,7 @@ class ManyChildForms extends React.Component {
                 onOpen={this.onPopoutOpen}
                 closeOnEsc={!searchFocus || !search}
                 closeOnOutsideClick
-                testId={`selection-field:${name}`}
+                testId={`many-child-forms-field:${name}`}
               >
                 <div className={styles.openSelectorButton}>
                   {action_label || "Add item"}
