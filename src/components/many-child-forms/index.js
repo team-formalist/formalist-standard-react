@@ -330,8 +330,6 @@ class ManyChildForms extends React.Component {
       );
     });
 
-    // TODO : clean up popup button - it's weirdly nested
-
     return (
       <div className={styles.base} data-many-child-forms={name}>
         <div className={styles.header}>
