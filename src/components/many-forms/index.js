@@ -27,14 +27,15 @@ import * as styles from "./styles";
 const SelectDefault = ({ option }) => (
   <div className="fba-center" style={{ width: "100%" }}>
     <div style={{ width: "calc(100% - 65px)" }}>
-      <p className="mb-xsmall">
-        {option.label}
-      </p>
-
+      <p className="mb-xsmall">{option.label}</p>
     </div>
     <div style={{ width: "220px", marginLeft: "15px" }}>
       {option.preview_image_url ? (
-        <img alt="" style={{ maxWidth: "100%" }} src={option.preview_image_url} />
+        <img
+          alt=""
+          style={{ maxWidth: "100%" }}
+          src={option.preview_image_url}
+        />
       ) : (
         ""
       )}
@@ -45,13 +46,13 @@ const SelectDefault = ({ option }) => (
 SelectDefault.propTypes = {
   option: PropTypes.shape({
     label: PropTypes.string,
-    preview_image_url: PropTypes.string
-  })
+    preview_image_url: PropTypes.string,
+  }),
 };
 
-class ManyChildFormsSet extends React.Component {
+class ManyFormsSet extends React.Component {
   static propTypes = {
-    children: PropTypes.object
+    children: PropTypes.object,
   };
 
   render() {
@@ -59,7 +60,7 @@ class ManyChildFormsSet extends React.Component {
   }
 }
 
-class ManyChildForms extends React.Component {
+class ManyForms extends React.Component {
   static propTypes = {
     hashCode: PropTypes.number.isRequired,
     name: PropTypes.string,
@@ -76,13 +77,13 @@ class ManyChildForms extends React.Component {
       sortable: PropTypes.bool,
       moveable: PropTypes.bool,
       max_height: PropTypes.string,
-      embeddable_forms: PropTypes.object
+      embeddable_forms: PropTypes.object,
     }),
     children: ImmutablePropTypes.list,
     addChild: PropTypes.func.isRequired,
     removeChild: PropTypes.func.isRequired,
     reorderChildren: PropTypes.func.isRequired,
-    editChildren: PropTypes.func.isRequired
+    editChildren: PropTypes.func.isRequired,
   };
 
   /**
@@ -93,7 +94,7 @@ class ManyChildForms extends React.Component {
   state = {
     contentsKey: Date.now(),
     search: null,
-    searchFocus: false
+    searchFocus: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -121,7 +122,7 @@ class ManyChildForms extends React.Component {
 
   updateContentsKey = () => {
     this.setState({
-      contentsKey: Date.now()
+      contentsKey: Date.now(),
     });
   };
 
@@ -129,7 +130,7 @@ class ManyChildForms extends React.Component {
    * Inject a new content/child from the template
    * @param {Event} e Mouse/KeyboardEvent
    */
-  addChild = e => {
+  addChild = (e) => {
     e.preventDefault();
     const { addChild } = this.props;
     addChild();
@@ -141,7 +142,7 @@ class ManyChildForms extends React.Component {
    * @param {Number} index Index of the item to remove
    * @return {Null}
    */
-  onRemove = index => {
+  onRemove = (index) => {
     const { removeChild } = this.props;
     removeChild(index);
     this.updateContentsKey();
@@ -151,7 +152,7 @@ class ManyChildForms extends React.Component {
    * When selected item is removed
    * @return {Null}
    */
-  onDrop = newOrder => {
+  onDrop = (newOrder) => {
     const { reorderChildren } = this.props;
     reorderChildren(newOrder);
     this.updateContentsKey();
@@ -162,7 +163,7 @@ class ManyChildForms extends React.Component {
    * @param {Array} the new order for the children
    * @return {Null}
    */
-  onMove = newOrder => {
+  onMove = (newOrder) => {
     const { reorderChildren } = this.props;
     reorderChildren(newOrder);
     this.updateContentsKey();
@@ -172,9 +173,9 @@ class ManyChildForms extends React.Component {
    * When a selection is made, trigger change and close the selector
    * @return {Null}
    */
-  onFormSelection = formName => {
+  onFormSelection = (formName) => {
     const { attributes, addChild } = this.props;
-    const form = attributes.get("embeddable_forms").get(formName)
+    const form = attributes.get("embeddable_forms").get(formName);
     addChild(formName, form);
     this.closeSelector();
     this.updateContentsKey();
@@ -200,7 +201,7 @@ class ManyChildForms extends React.Component {
    * On choose click, open selector
    * @return {Null}
    */
-  onChooseClick = e => {
+  onChooseClick = (e) => {
     e.preventDefault();
     this.toggleSelector();
   };
@@ -226,9 +227,9 @@ class ManyChildForms extends React.Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSearchFocus = e => {
+  onSearchFocus = (e) => {
     this.setState({
-      searchFocus: true
+      searchFocus: true,
     });
   };
 
@@ -237,9 +238,9 @@ class ManyChildForms extends React.Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSearchBlur = e => {
+  onSearchBlur = (e) => {
     this.setState({
-      searchFocus: false
+      searchFocus: false,
     });
   };
 
@@ -249,10 +250,10 @@ class ManyChildForms extends React.Component {
    * @param  {Event} e Keyboard event
    * @return {Null}
    */
-  onSearchChange = e => {
+  onSearchChange = (e) => {
     const search = e.target.value;
     this.setState({
-      search: search
+      search: search,
     });
   };
 
@@ -262,7 +263,7 @@ class ManyChildForms extends React.Component {
    */
   onPopoutClose = () => {
     this.setState({
-      search: null
+      search: null,
     });
   };
 
@@ -281,28 +282,34 @@ class ManyChildForms extends React.Component {
     const { contentsKey } = this.state;
 
     // Extract attributes from Immutable.Map
-    let { label, action_label, placeholder, moveable, embeddable_forms } = attributes.toJS();
+    let {
+      label,
+      action_label,
+      placeholder,
+      moveable,
+      embeddable_forms,
+    } = attributes.toJS();
     label = label || name.replace(/_/, " ");
 
     // Set up label classes
     let labelClassNames = classNames(styles.label, {
-      [`${styles.labelErrors}`]: hasErrors
+      [`${styles.labelErrors}`]: hasErrors,
     });
 
     let Option = SelectDefault;
 
-    const options = Object.keys(embeddable_forms).map(key => {
+    const options = Object.keys(embeddable_forms).map((key) => {
       return {
         id: key,
         label: embeddable_forms[key].label,
-        preview_image_url: embeddable_forms[key].preview_image_url
-      }
+        preview_image_url: embeddable_forms[key].preview_image_url,
+      };
     });
 
     // Filter options
     let filteredOptions = options;
     if (search) {
-      filteredOptions = options.filter(option => {
+      filteredOptions = options.filter((option) => {
         const values = [String(option["label"])];
         const results = fuzzy.filter(search, values);
         return results && results.length > 0;
@@ -310,10 +317,10 @@ class ManyChildForms extends React.Component {
     }
 
     // Build the set of options
-    const renderedOptions = filteredOptions.map(option => {
+    const renderedOptions = filteredOptions.map((option) => {
       // TODO Asses whether to remove this binding
       /* eslint-disable react/jsx-no-bind */
-      let onClick = function(e) {
+      let onClick = function (e) {
         e.preventDefault();
         e.stopPropagation();
         this.onFormSelection(option.id);
@@ -335,13 +342,9 @@ class ManyChildForms extends React.Component {
         <div className={styles.header}>
           <h3 className={labelClassNames}>{label}</h3>
           <div className={styles.controls}>
-
-            <button
-              data-open-selector-button
-              onClick={this.onChooseClick}
-            >
+            <button data-open-selector-button onClick={this.onChooseClick}>
               <Popout
-                ref={r => {
+                ref={(r) => {
                   this._selector = r;
                 }}
                 placement="left"
@@ -356,7 +359,7 @@ class ManyChildForms extends React.Component {
                 </div>
                 <div className={styles.options}>
                   <input
-                    ref={r => {
+                    ref={(r) => {
                       this._search = r;
                     }}
                     type="search"
@@ -390,7 +393,9 @@ class ManyChildForms extends React.Component {
             verticalControls
           >
             {children.map((childForm, i) => (
-              <ManyChildFormsSet key={`${contentsKey}_${i}`}>{childForm}</ManyChildFormsSet>
+              <ManyFormsSet key={`${contentsKey}_${i}`}>
+                {childForm}
+              </ManyFormsSet>
             ))}
           </Sortable>
         ) : (
@@ -406,5 +411,5 @@ class ManyChildForms extends React.Component {
   }
 }
 
-export default ManyChildForms;
-export let ManyChildFormsFactory = React.createFactory(ManyChildForms);
+export default ManyForms;
+export let ManyFormsFactory = React.createFactory(ManyForms);
