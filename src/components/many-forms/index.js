@@ -390,6 +390,7 @@ class ManyForms extends React.Component {
             onMove={this.onMove}
             canSort={attributes.sortable}
             maxHeight={attributes.max_height}
+            itemDisplayMode="large"
             verticalControls
           >
             {children.map((childForm, i) => (

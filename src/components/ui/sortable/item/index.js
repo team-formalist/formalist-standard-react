@@ -167,7 +167,14 @@ class Item extends React.Component {
      * @type {ReactElement}
      */
     children: PropTypes.node.isRequired,
-    verticalControls: PropTypes.bool
+    verticalControls: PropTypes.bool,
+
+    /**
+     * displayMode - affects margins, useful for large items like forms
+     * supported options: large
+     * @type {String}
+     */
+    displayMode: PropTypes.string
   };
 
   /**
@@ -228,11 +235,16 @@ class Item extends React.Component {
       connectDragSource,
       connectDropTarget,
       isDragging,
-      verticalControls
+      verticalControls,
+      displayMode
     } = this.props;
     const inline = {
       opacity: isDragging ? 0 : 1
     };
+
+    const baseClasses = classNames(styles.base, {
+      [`${styles.large}`]: displayMode === "large"
+    });
 
     const controlsClasses = classNames(styles.controls, {
       [`${styles.controlsVertical}`]: verticalControls
@@ -240,7 +252,7 @@ class Item extends React.Component {
 
     return connectDropTarget(
       connectDragPreview(
-        <div className={styles.base} style={inline} data-name="sortable-item">
+        <div className={baseClasses} style={inline} data-name="sortable-item">
           <div className={styles.inner}>{children}</div>
           <div className={controlsClasses}>
             {canRemove ? (

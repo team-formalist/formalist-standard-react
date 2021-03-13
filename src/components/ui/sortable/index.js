@@ -76,7 +76,14 @@ class Sortable extends React.Component {
      * Stack sort controls vertically
      * @type {Boolean}
      */
-    verticalControls: PropTypes.bool
+    verticalControls: PropTypes.bool,
+    /**
+     * itemDisplayMode
+     * The display mode for items.
+     * Supported values: "large".
+     * @type {String}
+     */
+     itemDisplayMode: PropTypes.string,
   };
 
   static defaultProps = {
@@ -192,7 +199,8 @@ class Sortable extends React.Component {
       verticalControls,
       canSort,
       canMove,
-      maxHeight
+      maxHeight,
+      itemDisplayMode
     } = this.props;
     let isSortable = !(canSort === false || items.length <= 1);
     let isMovable = !(canMove === false || items.length <= 1);
@@ -225,6 +233,7 @@ class Sortable extends React.Component {
               canRemove={canRemove}
               onRemove={onRemove}
               verticalControls={verticalControls}
+              displayMode={itemDisplayMode}
             >
               {item.component}
             </Item>
