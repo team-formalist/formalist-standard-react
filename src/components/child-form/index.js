@@ -25,7 +25,7 @@ class ChildForm extends React.Component {
     let previewImageUrl = attributes.get("preview_image_url");
 
     return (
-      <div className={styles.base} data-child-form>
+      <div data-child-form>
         <div className={styles.wrapper}>
           {label ? <h2 className={styles.label}>{label}</h2> : null}
           {previewImageUrl ? (<img className={styles.previewImage} src={previewImageUrl} alt={label} />) : null}
