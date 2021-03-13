@@ -99,7 +99,7 @@ class BlockToolbar extends Component {
     // Suck out our forms into a slightly friendly format
     let embeddableFormsButtons = [];
     if (embeddableForms) {
-      embeddableFormsButtons = Object.keys(embeddableForms).map(identifier => {
+      embeddableFormsButtons = Object.keys(embeddableForms).sort().map(identifier => {
         const form = embeddableForms[identifier];
         return Object.assign({}, form, { name: identifier });
       });

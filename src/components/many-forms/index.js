@@ -298,7 +298,7 @@ class ManyForms extends React.Component {
 
     let Option = SelectDefault;
 
-    const options = Object.keys(embeddable_forms).map((key) => {
+    const options = Object.keys(embeddable_forms).sort().map((key) => {
       return {
         id: key,
         label: embeddable_forms[key].label,
