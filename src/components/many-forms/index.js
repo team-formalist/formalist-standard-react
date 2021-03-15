@@ -329,6 +329,7 @@ class ManyForms extends React.Component {
       return (
         <button
           key={option.id}
+          data-testid={"many-forms-form-button:" + option.id}
           className={styles.optionButton}
           onClick={onClick}
         >
