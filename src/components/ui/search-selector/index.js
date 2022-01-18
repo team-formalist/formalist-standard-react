@@ -139,6 +139,7 @@ class SearchSelector extends Component {
   render() {
     const {
       onSelection,
+      closeSelector,
       optionComponent,
       optionControlComponent,
       selectedIds
@@ -199,6 +200,7 @@ class SearchSelector extends Component {
             hasQuery={hasQuery}
             options={options}
             onSelection={onSelection}
+            closeSelector={closeSelector}
           />
         ) : null}
         {options.length > 0 ? (
