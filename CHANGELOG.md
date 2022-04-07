@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.3.0 2022-04-07
+
+* [Add support for closing a custom optionControl component](https://github.com/team-formalist/formalist-standard-react/pull/190)
+
 # v4.2.0 2022-04-07
 
 * [Add support for fields containing an arbitrary list of forms](https://github.com/team-formalist/formalist-standard-react/pull/178)
