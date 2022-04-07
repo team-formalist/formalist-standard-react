@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.2.0 2022-04-07
+
+* [Add support for fields containing an arbitrary list of forms](https://github.com/team-formalist/formalist-standard-react/pull/178)
+
 # v4.1.8 2020-06-23
 
 * Pass `content_type` with params for presigned requests
