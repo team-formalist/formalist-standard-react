@@ -112,7 +112,7 @@ export default function blockToolbarPlugin(options = {}) {
   let selectedAtomicBlockKey = null;
 
   // Pull out the options
-  options = mergeDefaults({}, defaults, options);
+  options = mergeDefaults({}, options, defaults);
   let {
     blockFormatters,
     blockRenderMap,
