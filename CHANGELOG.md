@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v4.3.1 2024-05-21
+
+* [Fix mergeDefaults in block-toolbar-plugin/index.js](https://github.com/team-formalist/formalist-standard-react/pull/199)
+
 # v4.3.0 2022-04-07
 
 * [Add support for closing a custom optionControl component](https://github.com/team-formalist/formalist-standard-react/pull/190)
